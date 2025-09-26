@@ -1,4 +1,8 @@
-export const articles = [
+const parseDate = (dateStr) => {
+  return new Date(dateStr);
+};
+
+const articles = [
   {
     id: 1,
     title: 'DSI wins student organization of the year',
@@ -110,4 +114,12 @@ export const articles = [
     link: 'https://rc.ufl.edu/highlight-articles/ufit-collaboration-feature.html',
     description: `DSI and UFIT Research Computing are breaking barriers for accessible, hands-on AI and data science learning at UF. With HiPerGator's supercomputing power, DSI students tackle advanced projects like reimplementing Google's Titans architecture, early fire detection, and quantum-level simulations for space materials. The partnership allows students to utilize the University of Florida's supercomputer to tackle advanced projects.\n\nPictured: UFIT Research Computing training manager Matt Gitzendanner with DSI president Matheus Maldaner and Internal Vice President Ishan Kumthekar.`,
   },
-]; 
+];
+
+//sort it 
+export const sortedArticles = [...articles]
+  .sort((a, b) => parseDate(b.date) - parseDate(a.date))
+  .map((article, index) => ({
+    ...article,
+    id: index + 1,
+  }));
