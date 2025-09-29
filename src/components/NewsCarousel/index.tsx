@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // Import the articles data from the newsletter page
-import { articles } from '@/app/newsletter/data';
+import { sortedArticles as articles } from '@/app/newsletter/data';
 
 interface NewsCarouselProps {
   articleIds?: number[];
