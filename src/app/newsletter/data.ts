@@ -1,5 +1,5 @@
 const parseDate = (dateStr) => {
-  return new Date(dateStr);
+  return new Date(dateStr).getTime();
 };
 
 const articles = [
@@ -114,12 +114,48 @@ const articles = [
     link: 'https://rc.ufl.edu/highlight-articles/ufit-collaboration-feature.html',
     description: `DSI and UFIT Research Computing are breaking barriers for accessible, hands-on AI and data science learning at UF. With HiPerGator's supercomputing power, DSI students tackle advanced projects like reimplementing Google's Titans architecture, early fire detection, and quantum-level simulations for space materials. The partnership allows students to utilize the University of Florida's supercomputer to tackle advanced projects.\n\nPictured: UFIT Research Computing training manager Matt Gitzendanner with DSI president Matheus Maldaner and Internal Vice President Ishan Kumthekar.`,
   },
+  {
+    id: 12,
+    title: "DSI Hosts First General Board Meeting of the 2025-2026 Academic Year",
+    image: '/images/newsletter/gbm1-25/1.png',
+    articleImage: '/images/newsletter/gbm1-25/1.png',
+    date: 'August 2025',
+    category: 'Articles',
+    featured: false,
+    description: `DSI successfully hosted its first General Board Meeting of the 2025-2026 academic year, bringing together executive board members and students to discuss projects, J-board applications, upcoming HiperGator tours, and more to come.\n\nWe were privileged to host Scott Saponas, Senior Director at Microsoft Research and head of Microsoft's Undergraduate Research Internship program, who shared valuable insights about his daily work, professional journey, and answered student questions about careers in technology and research.`,
+  },
+  {
+    id: 13,
+    title: "DSI members win 2nd Place Overall at OSC MiniHack 2025",
+    image: '/images/newsletter/osc-minihack25/1.png',
+    articleImage: '/images/newsletter/osc-minihack25/1.png',
+    date: 'September 2025',
+    category: 'Competition',
+    featured: false,
+    description: `Join us in congratulating Will Parkin, Alex Hart, Ethan Ahmed and Felix Chang for winning 2nd place overall at this year's OSC MiniHack with their project PosturePal!\n\nPosturePal uses a machine learning model to place nodes on your body (ears, neck and shoulders) with your camera. From those points, it performs calculations to know when you're slouching and provides live feedback to the user, as well as an overall posture score for the session.`,
+  },
+    {
+      id: 14,
+      title: "DSI Hosts Second General Board Meeting with Bryan Brandow",
+      image: '/images/newsletter/gbm2-25/1.png',
+      articleImage: '/images/newsletter/gbm2-25/1.png',
+      date: 'September 2025',
+      category: 'Articles',
+      featured: false,
+      description: `DSI hosted its second General Board Meeting of the 2025-2026 academic year, featuring exciting updates on future opportunities and a special guest speaker presentation.\n\nWe discussed upcoming workshops that DSI has been working on, a new newsletter initiative, and project proposals for the upcoming semester.\n\nWe were honored to host Bryan Brandow, a Data Engineer at OpenAI and previously at Meta, who shared insights about his day-to-day work, career journey, and answered questions from the audience about the tech industry and data engineering.`,
+    },
+  {
+    id: 15,
+    title: "Exploring UF's Supercomputing Power: HiperGator Tour",
+    image: '/images/newsletter/hipergator25/1.jpg',
+    articleImage: '/images/newsletter/hipergator25/1.jpg',
+    date: 'September 2025',
+    category: 'Articles',
+    featured: false,
+    description: `DSI members had the incredible opportunity to explore UF's HiperGator supercomputing facility through a series of three exclusive tours.\n\nThese tours provided students with access to one of the most powerful computing systems in academia, showcasing technology that powers innovative research across multiple disciplines.\n\nParticipants gained valuable insights into high-performance computing, learned about the facility's capabilities, and discovered how HiperGator supports research projects at UF.`,
+  },
 ];
 
 //sort it 
 export const sortedArticles = [...articles]
-  .sort((a, b) => parseDate(b.date) - parseDate(a.date))
-  .map((article, index) => ({
-    ...article,
-    id: index + 1,
-  }));
+  .sort((a, b) => parseDate(b.date) - parseDate(a.date));

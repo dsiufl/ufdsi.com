@@ -35,7 +35,7 @@ const Hero = () => {
     const interval = setInterval(switchPhrase, 3000);
     
     return () => clearInterval(interval);
-  }, [phrases]);
+  }, []); 
 
   const highlights = [
     "UF Student Organization of the Year Winner",
