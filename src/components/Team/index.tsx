@@ -98,14 +98,14 @@ const juniorRoles2025: JuniorRole[] = [
       { name: "Jaime Breitkreutz", linkedin: "https://www.linkedin.com/in/jaimebreitkreutz/", image: "/images/people/2025-2026/2025JaimeBreitkreutz_TechnologyCoordinator.jpg" },
       { name: "John Courtney", linkedin: "https://www.linkedin.com/in/john-courtney-abc123/", image: "/images/people/2025-2026/2025JohnCourtney_TechnologyCoordinator.jpg" },
       { name: "Noah Pham", linkedin: "https://www.linkedin.com/in/khoi-n-pham/", image: "/images/people/2025-2026/2025NoahPham_TechnologyCoordinator.jpeg" },
-      { name: "Jossaya Camille", linkedin: "https://www.linkedin.com/in/jossayacamille/", image: "/images/people/2025-2026/2025JossayaCamille_TechnologyCoordinator.jpg" }
+      { name: "Jossaya Camille", linkedin: "https://www.linkedin.com/in/jossayacamille/", image: "/images/people/2025-2026/2025JossayaCamille_TechnologyCoordinator.JPG" }
     ]
   },
   {
     title: "Workshop Coordinators",
     members: [
       { name: "Anjali Tomerlin", image: "/images/people/2025-2026/2025AnjaliTomerlin_WorkshopCoordinator.jpeg" },
-      { name: "Rachel Minh Anh Do", linkedin: "https://www.linkedin.com/in/rachel-minhanh-doo/", image: "/images/people/2025-2026/2025RachelMinhAnhDo_WorkshopCoordinator.jpg" },
+      { name: "Rachel Minh Anh Do", linkedin: "https://www.linkedin.com/in/rachel-minhanh-doo/", image: "/images/people/2025-2026/2025RachelMinhAnhDo_WorkshopCoordinator.JPG" },
       { name: "Patrick King", linkedin: "https://www.linkedin.com/in/patrickking0/", image: "/images/people/2025-2026/2025PatrickKing_WorkshopCoordinator.png" },
       { name: "Ragul Thiyagarajan", linkedin: "https://www.linkedin.com/in/ragul-thiyagarajan/", image: "/images/people/2025-2026/2025RagulThiyagarajan_WorkshopCoordinator.jpg" },
       { name: "Anh Mai", linkedin: "https://www.linkedin.com/in/anh-hoang-mai-540a80322/", image: "/images/people/2025-2026/2025AnhMai_WorkshopCoordinator.jpg" }
@@ -143,9 +143,9 @@ const juniorRoles2025: JuniorRole[] = [
   {
     title: "Event Coordinators",
     members: [
-      { name: "Pryanna Pradhan", image: "/images/people/2025-2026/2025PryannaPradhan_EventCoordinator.jpg" },
+      { name: "Pryanna Pradhan", linkedin: "https://www.linkedin.com/in/pryanna-pradhan-178138346/", image: "/images/people/2025-2026/2025PryannaPradhan_EventCoordinator.jpg" },
       { name: "Emily Salambash", linkedin: "https://www.linkedin.com/in/emily-salambash-2a00b931b/", image: "/images/people/2025-2026/2025EmilySalambash_EventCoordinator.jpg" },
-      { name: "Anna Groudas", linkedin: "https://www.linkedin.com/in/anna-groudas/", image: "/images/people/2025-2026/2025AnnaGroudas_EventCoordinator.jpg" }
+      { name: "Anna Groudas", linkedin: "https://www.linkedin.com/in/anna-groudas/", image: "/images/people/2025-2026/2025AnnaGroudas_EventCoordinator.JPG" }
     ]
   },
 ];
