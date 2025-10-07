@@ -109,7 +109,7 @@ const Hero = () => {
                     
                   </div>
                   <h2 className="mb-1 sm:mb-2 text-lg font-medium italic text-white md:text-2xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.6)' }}>
-                    &ldquo;Knowledge should be accessible to all&rdquo;
+                    &ldquo;Making Knowledge Accessible to All&rdquo;
                   </h2>
                 </div>
                 
