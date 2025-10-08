@@ -97,7 +97,7 @@ const juniorRoles2025: JuniorRole[] = [
     members: [
       { name: "Jaime Breitkreutz", linkedin: "https://www.linkedin.com/in/jaimebreitkreutz/", image: "/images/people/2025-2026/2025JaimeBreitkreutz_TechnologyCoordinator.jpg" },
       { name: "John Courtney", linkedin: "https://www.linkedin.com/in/john-courtney-abc123/", image: "/images/people/2025-2026/2025JohnCourtney_TechnologyCoordinator.jpg" },
-      { name: "Noah Pham", linkedin: "https://www.linkedin.com/in/khoi-n-pham/", image: "/images/people/2025-2026/2025NoahPham_TechnologyCoordinator.jpeg" },
+      { name: "Noah Pham", linkedin: "https://www.linkedin.com/in/noah-n-pham/", image: "/images/people/2025-2026/2025NoahPham_TechnologyCoordinator.jpeg" },
       { name: "Jossaya Camille", linkedin: "https://www.linkedin.com/in/jossayacamille/", image: "/images/people/2025-2026/2025JossayaCamille_TechnologyCoordinator.JPG" }
     ]
   },
