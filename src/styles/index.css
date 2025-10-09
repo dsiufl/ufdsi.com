@@ -26,11 +26,30 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 @layer components {
   input[type="checkbox"]:checked ~ label span svg {
     @apply inline-flex;
   }
 
+  h1 {
+    @apply mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]
+  }
+  h2 {
+    @apply text-2xl md:text-3xl font-bold leading-tight text-gray-900 dark:text-white sm:text-4xl sm:leading-tight md:leading-tight
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl text-gray-700 dark:text-gray-300 font-semibold 
+  }
   /* Line clamp utilities */
   .line-clamp-2 {
     display: -webkit-box;

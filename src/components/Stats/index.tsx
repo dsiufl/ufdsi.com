@@ -51,7 +51,7 @@ const Stats = () => {
   ];
 
   return (
-    <section className="bg-gray-50 dark:bg-gray-900 py-16 md:py-20 lg:py-24">
+    <section className="bg-gray-50 dark:bg-gray-900 md:py-20 lg:py-24">
       <div className="container">
         <div className="mx-auto max-w-5xl">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">

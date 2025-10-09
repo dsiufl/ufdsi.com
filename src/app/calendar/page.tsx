@@ -11,15 +11,9 @@ export const metadata: Metadata = {
 const CalendarPage = () => {
   return (
     <>
-      <section
-        id="calendar"
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark"
-      >
-        <div className="container mx-auto">
+        <div className="container mx-auto pt-4">
           <div className="mx-auto max-w-[800px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
-              Events Calendar
-            </h1>
+            <h1>Events Calendar</h1>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4 mb-6">
               View all upcoming DSI workshops, events, and activities. Add our calendar to your own to never miss an event!
             </p>
@@ -32,15 +26,15 @@ const CalendarPage = () => {
               + Add to Google Calendar
             </a>
           </div>
-        </div>
-        <div className="bg-gray-50 dark:bg-gray-900 pt-10 pb-12 md:pt-16 md:pb-16 flex justify-center">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <div className="backdrop-blur-lg bg-white/60 dark:bg-gray-800/60 rounded-2xl shadow-xl p-6 md:p-10 border border-white/30 dark:border-gray-700/50 transition-all duration-300">
-              <Calendar />
+        
+          <div className="bg-gray-50 dark:bg-gray-900 pt-10 pb-12 md:pt-16 md:pb-16 flex justify-center">
+            <div className="container mx-auto px-4 max-w-4xl">
+              <div className="backdrop-blur-lg bg-white/60 dark:bg-gray-800/60 rounded-2xl shadow-xl p-6 md:p-10 border border-white/30 dark:border-gray-700/50 transition-all duration-300">
+                <Calendar />
+              </div>
             </div>
           </div>
         </div>
-      </section>
       <ScrollUp />
     </>
   );

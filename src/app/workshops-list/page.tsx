@@ -148,15 +148,9 @@ export default function WorkshopsPage() {
 
   return (
     <>
-      <section
-        id="workshops"
-        className="relative z-10 overflow-hidden bg-white pb-16 pt-[120px] dark:bg-gray-dark"
-      >
-        <div className="container mx-auto">
+        <div className="container p-4 mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
-              Workshops & Training
-            </h1>
+            <h1>Workshops & Training</h1>
             <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4">
               Expand your skills with our specialized workshops in data science, machine learning, 
               and related fields. Browse our upcoming and past workshops below.
@@ -315,7 +309,6 @@ export default function WorkshopsPage() {
             </div>
           </div>
         </div>
-      </section>
       <ScrollUp />
     </>
   );

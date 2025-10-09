@@ -48,6 +48,12 @@ const menuData: Menu[] = [
     title: "HOME",
     path: "/",
     newTab: false,
+  },
+  {
+    id: 9,
+    title: "PROJECTS",
+    path: "/projects",
+    newTab: false,
   }
 ];
 export default menuData;

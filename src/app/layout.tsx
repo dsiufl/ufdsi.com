@@ -24,10 +24,10 @@ export default function RootLayout({
       */}
       <head />
 
-      <body className={`bg-gray-50 dark:bg-gray-900 ${inter.className}`}>
+      <body className={` overflow-x-hidden dark:bg-gray-900 ${inter.className}`}>
         <Providers>
           <Header />
-          <main>{children}</main>
+          {children}
           <Footer />
           <ScrollToTop />
         </Providers>

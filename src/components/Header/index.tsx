@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import menuData from "./menuData";
 
+
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
@@ -45,10 +46,10 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header left-0 top-0 z-40 flex w-full items-center ${
+        className={`${usePathName == '/' ? 'fixed' : 'sticky'} left-0 top-0 z-40 flex w-full items-center ${
           sticky
-            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-transparent"
+            ? "dark:bg-gray-dark dark:shadow-sticky-dark z-[9999] text-black bg-white !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
+            : `bg-transparent ${usePathName == '/' ? 'text-white' : 'text-gray-900 dark:text-white'}`
         }`}
       >
         <div className="container">
@@ -56,8 +57,7 @@ const Header = () => {
             <div className="w-32 xs:w-36 sm:w-40 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-3 sm:py-4 lg:py-2" : "py-4 lg:py-8"
+                className={`header-logo block w-full py-4 lg:py-8
                 }`}
               >
                 <Image
@@ -80,10 +80,10 @@ const Header = () => {
                             href={menuItem.path}
                             className={`flex text-base font-medium ${
                               menuItem.title === "HOME"
-                                ? "rounded-full border-2 border-gray-800 px-6 py-0.5 text-gray-800 hover:bg-gray-800 hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-gray-900"
+                                ? "rounded-full border-2 border-gray-800 px-6 py-0.5 hover:bg-gray-800 hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-gray-900"
                                 : usePathName === menuItem.path
                                 ? "text-primary dark:text-white"
-                                : "text-gray-800 hover:text-primary dark:text-white dark:hover:text-gray-200"
+                                : "hover:text-primary dark:text-white dark:hover:text-gray-200"
                             }`}
                           >
                             {menuItem.title}
@@ -92,7 +92,7 @@ const Header = () => {
                           <>
                             <p
                               onClick={() => handleSubmenu(index)}
-                              className="flex cursor-pointer items-center justify-between text-base text-gray-800 hover:text-primary dark:text-white dark:hover:text-gray-200"
+                              className="flex cursor-pointer items-center justify-between text-base text-white hover:text-primary dark:text-white dark:hover:text-gray-200"
                             >
                               {menuItem.title}
                               <span className="pl-3">
@@ -107,7 +107,7 @@ const Header = () => {
                               </span>
                             </p>
                             <div
-                              className={`submenu relative left-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              className={`submenu relative left-0 top-full rounded-sm transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
                                 openIndex === index ? "block" : "hidden"
                               }`}
                             >
@@ -115,7 +115,7 @@ const Header = () => {
                                 <Link
                                   href={submenuItem.path}
                                   key={index}
-                                  className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
+                                  className="block rounded py-2.5 text-sm hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
                                 >
                                   {submenuItem.title}
                                 </Link>
@@ -203,7 +203,7 @@ const Header = () => {
         
         {/* Mobile Menu Dropdown */}
         <div
-          className={`mobile-menu fixed left-0 right-0 top-[66px] z-30 bg-white py-2 px-4 shadow-lg dark:bg-gray-900 lg:hidden ${
+          className={`mobile-menu absolute top-[100%]  animate-[fadeIn_0.2s_ease-in_forwards]  left-0 right-0 z-30 bg-white py-2 px-4 shadow-lg dark:bg-gray-900 lg:hidden ${
             navbarOpen ? "block" : "hidden"
           }`}
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}

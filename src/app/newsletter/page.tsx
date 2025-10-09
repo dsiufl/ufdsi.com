@@ -42,7 +42,7 @@ const ArticleCard = ({ article, onClick, isSelected }: { article: any; onClick: 
           <time className="text-sm text-gray-500 dark:text-gray-400">{article.date}</time>
         </div>
         
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
+        <h3 className="mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
           {article.title}
         </h3>
         
@@ -75,7 +75,7 @@ const FeaturedArticle = ({ article, onClick }: { article: any; onClick: () => vo
         </div>
         <div className="absolute bottom-6 left-6 right-6">
           <time className="text-white/90 text-sm mb-2 block">{article.date}</time>
-          <h2 className="text-white text-2xl md:text-3xl font-bold mb-3 line-clamp-2">
+          <h2 className="text-white line-clamp-2">
             {article.title}
           </h2>
         </div>
@@ -108,28 +108,20 @@ export default function NewsletterPage() {
   }, [selectedArticle]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen dark:bg-gray-900">
       {/* Header Section */}
-      <section
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark"
-      >
-        <div className="container mx-auto">
-          <div className="mx-auto max-w-[800px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
-              DSI News
-            </h1>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4">
-              Stay updated with the latest achievements, events, and news from the University of Florida Data Science and Informatics community.
-            </p>
-          </div>
+        <div className="container mx-auto max-w-[800px] text-center mb-12 p-4">
+          <h1>DSI News</h1>
+          <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4">
+            Stay updated with the latest achievements, events, and news from the University of Florida Data Science and Informatics community.
+          </p>
         </div>
-      </section>
 
       {/* Featured Articles */}
       {featuredArticles.length > 0 && (
         <section className="pt-10 md:pt-8 pb-6 md:pb-8 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
+            <h2 className="mb-8">
               Featured Stories
             </h2>
             <div className="grid md:grid-cols-2 gap-8">
@@ -149,7 +141,7 @@ export default function NewsletterPage() {
       <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gray-50 dark:bg-gray-900">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">
+            <h2 className="mb-4 md:mb-0">
               All Stories
             </h2>
             
@@ -226,7 +218,7 @@ export default function NewsletterPage() {
                   </time>
                 </div>
 
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+                <h1>
                   {selectedArticle.title}
                   {selectedArticle.link && selectedArticle.link.length > 0 && (
                     <a

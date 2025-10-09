@@ -62,10 +62,6 @@ const Hero = () => {
 
   return (
     <>
-      <section
-        id="home"
-        className="relative z-10 flex min-h-screen w-full items-start justify-center overflow-hidden bg-white dark:bg-black pt-44 md:pt-52"
-      >
         {/* Background Image with Overlay */}
         <div className="absolute inset-0 z-0 overflow-hidden">
           <Image
@@ -83,7 +79,7 @@ const Hero = () => {
           <div className="absolute inset-0 bg-black/40 dark:bg-black/70"></div>
         </div>
 
-        <div className="container relative z-10">
+        <div className="container relative z-10 w-[100vw] h-[100vh] flex items-center justify-center">
           <div className="flex flex-wrap">
             <div className="w-full">
               <div className="mx-auto max-w-[900px] text-center px-4 flex flex-col h-auto justify-center">
@@ -212,7 +208,6 @@ const Hero = () => {
             </div>
           </div>
         </div>
-      </section>
     </>
   );
 };

@@ -594,18 +594,8 @@ const TeamPage = () => {
 
   return (
     <>
-      <section
-        id="team"
-        className="relative z-10 overflow-hidden bg-white pt-[120px] pb-[80px] dark:bg-gray-dark"
-      >
-        <div className="container mx-auto">
+        <div className="container mx-auto bg-white pb-[80px] z-10 p-4 overflow-hidden">
           {/* Enhanced header with decorative elements */}
-          <div className="mb-16 text-center relative">
-            <div className="absolute left-1/2 -translate-x-1/2 top-0 -mt-6 w-24 h-1 bg-gradient-to-r from-teal-500 to-blue-500 rounded-full"></div>
-           
-            
-          </div>
-
 
 
           {/* Improved board selection with cards */}
@@ -762,7 +752,6 @@ const TeamPage = () => {
             )}
           </div>
         </div>
-      </section>
       <ScrollUp />
     </>
   );

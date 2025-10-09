@@ -387,7 +387,7 @@ const SymposiumSchedule = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 pt-24 sm:pt-28 pb-8">
       <div className="mb-6 text-center">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-2 mt-10 text-gray-900 dark:text-white">DSI Spring Symposium 2025</h1>
+        <h1>DSI Spring Symposium 2025</h1>
         <p className="text-base sm:text-lg mb-4 text-gray-700 dark:text-gray-300">Join us for a day of learning, networking, and innovation</p>
       </div>
 
@@ -406,7 +406,7 @@ const SymposiumSchedule = () => {
         </div>
 
         <div className="border rounded-lg shadow-sm bg-white dark:bg-gray-800 p-3 sm:p-4 border-gray-200 dark:border-gray-700">
-          <h2 className="text-lg sm:text-xl text-gray-700 dark:text-gray-300 font-semibold mb-2">Event Details</h2>
+          <h3 className="mb-2">Event Details</h3>
           <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
             <div>
               <div className="flex items-center gap-2 mb-1">
