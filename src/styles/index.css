@@ -5,9 +5,56 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --background: 254 243 226;
+    --foreground: 18 23 35;
+    --card: 255 255 255;
+    --card-foreground: 18 23 35;
+    --popover: 255 255 255;
+    --popover-foreground: 18 23 35;
+    --primary: 250 129 47;
+    --primary-foreground: 255 255 255;
+    --secondary: 221 3 3;
+    --secondary-foreground: 255 255 255;
+    --muted: 250 177 47;
+    --muted-foreground: 100 116 139;
+    --accent: 250 177 47;
+    --accent-foreground: 18 23 35;
+    --destructive: 221 3 3;
+    --destructive-foreground: 255 255 255;
+    --border: 250 177 47;
+    --input: 250 177 47;
+    --ring: 250 129 47;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 18 23 35;
+    --foreground: 255 255 255;
+    --card: 29 36 48;
+    --card-foreground: 255 255 255;
+    --popover: 29 36 48;
+    --popover-foreground: 255 255 255;
+    --primary: 250 129 47;
+    --primary-foreground: 255 255 255;
+    --secondary: 221 3 3;
+    --secondary-foreground: 255 255 255;
+    --muted: 250 177 47;
+    --muted-foreground: 100 116 139;
+    --accent: 250 177 47;
+    --accent-foreground: 18 23 35;
+    --destructive: 221 3 3;
+    --destructive-foreground: 255 255 255;
+    --border: 250 177 47;
+    --input: 250 177 47;
+    --ring: 250 129 47;
+  }
+
   body {
     font-family: "Inter", sans-serif;
     -webkit-tap-highlight-color: transparent;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
   }
   
   /* Better text rendering on mobile */

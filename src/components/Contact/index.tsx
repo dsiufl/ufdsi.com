@@ -1,13 +1,19 @@
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Mail, Instagram, MessageCircle, Linkedin } from "lucide-react";
+
 const Contact = () => {
   return (
     <section id="contact" className="overflow-hidden py-16 md:py-20 lg:py-28">
       <div className="container">
         <div className="-mx-4 flex flex-wrap">
           <div className="w-full px-4 lg:w-7/12 xl:w-8/12">
-            <div
-              className="mb-12 rounded-lg bg-white px-8 py-11 shadow-lg transition-all duration-300 hover:shadow-xl sm:p-[55px] lg:mb-5 lg:px-8 xl:p-[55px]"
-              data-wow-delay=".15s"
-            >
+            <Card className="mb-12 shadow-lg transition-all duration-300 hover:shadow-xl lg:mb-5">
+              <CardHeader className="px-8 py-6 sm:px-14 sm:py-8 lg:px-8 xl:px-14">
+                <CardTitle className="text-2xl font-bold text-black sm:text-3xl lg:text-2xl xl:text-3xl">
+                  Get in Touch
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="px-8 pb-8 sm:px-14 sm:pb-14 lg:px-8 xl:px-14 xl:pb-14">
               <h2 className="mb-6 text-2xl font-bold text-black sm:text-3xl lg:text-2xl xl:text-3xl">
                 Get in Touch
               </h2>

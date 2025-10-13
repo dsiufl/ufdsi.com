@@ -43,11 +43,5 @@ const menuData: Menu[] = [
     path: "/newsletter",
     newTab: false,
   },
-  {
-    id: 8,
-    title: "HOME",
-    path: "/",
-    newTab: false,
-  }
 ];
 export default menuData;
