@@ -124,13 +124,13 @@ const articles = [
   },
   {
     id: 12,
-    title: "DSI Hosts First General Board Meeting of the 2025-2026 Academic Year",
+    title: "DSI Hosts First General Body Meeting with Scott Saponas",
     image: '/images/newsletter/gbm1-25/1.png',
     articleImage: '/images/newsletter/gbm1-25/1.png',
     date: 'August 2025',
     category: 'Articles',
     featured: false,
-    description: `DSI successfully hosted its first General Board Meeting of the 2025-2026 academic year, bringing together executive board members and students to discuss projects, J-board applications, upcoming HiperGator tours, and more to come.\n\nWe were privileged to host Scott Saponas, Senior Director at Microsoft Research and head of Microsoft's Undergraduate Research Internship program, who shared valuable insights about his daily work, professional journey, and answered student questions about careers in technology and research.`,
+    description: `DSI successfully hosted its first General Body Meeting of the 2025-2026 academic year, bringing together executive board members and students to discuss projects, J-board applications, upcoming HiperGator tours, and more to come.\n\nWe were privileged to host Scott Saponas, Senior Director at Microsoft Research and head of Microsoft's Undergraduate Research Internship program, who shared valuable insights about his daily work, professional journey, and answered student questions about careers in technology and research.`,
   },
   {
     id: 13,
@@ -144,13 +144,13 @@ const articles = [
   },
     {
       id: 14,
-      title: "DSI Hosts Second General Board Meeting with Bryan Brandow",
+      title: "DSI Hosts Second General Body Meeting with Bryan Brandow",
       image: '/images/newsletter/gbm2-25/1.png',
       articleImage: '/images/newsletter/gbm2-25/1.png',
       date: 'September 2025',
       category: 'Articles',
       featured: false,
-      description: `DSI hosted its second General Board Meeting of the 2025-2026 academic year, featuring exciting updates on future opportunities and a special guest speaker presentation.\n\nWe discussed upcoming workshops that DSI has been working on, a new newsletter initiative, and project proposals for the upcoming semester.\n\nWe were honored to host Bryan Brandow, a Data Engineer at OpenAI and previously at Meta, who shared insights about his day-to-day work, career journey, and answered questions from the audience about the tech industry and data engineering.`,
+      description: `DSI hosted its second General Body Meeting of the 2025-2026 academic year, featuring exciting updates on future opportunities and a special guest speaker presentation.\n\nWe discussed upcoming workshops that DSI has been working on, a new newsletter initiative, and project proposals for the upcoming semester.\n\nWe were honored to host Bryan Brandow, a Data Engineer at OpenAI and previously at Meta, who shared insights about his day-to-day work, career journey, and answered questions from the audience about the tech industry and data engineering.`,
     },
   {
     id: 15,
@@ -161,6 +161,26 @@ const articles = [
     category: 'Articles',
     featured: false,
     description: `DSI members had the incredible opportunity to explore UF's HiperGator supercomputing facility through a series of three exclusive tours.\n\nThese tours provided students with access to one of the most powerful computing systems in academia, showcasing technology that powers innovative research across multiple disciplines.\n\nParticipants gained valuable insights into high-performance computing, learned about the facility's capabilities, and discovered how HiperGator supports research projects at UF.`,
+  },
+  {
+    id: 16,
+    title: "Michael Vega Sanz from Gail Presents to DSI Members",
+    image: '/images/newsletter/speakers/gail2025.jpg',
+    articleImage: '/images/newsletter/speakers/gail2025.jpg',
+    date: 'October 2025',
+    category: 'Articles',
+    featured: false,
+    description: `DSI was honored to host Michael Vega Sanz from Gail, who presented to our members about his work and career journey.\n\nMichael shared valuable insights about his experience in the tech industry and provided guidance to students interested in pursuing careers in technology and data science.`,
+  },
+  {
+    id: 17,
+    title: "DSI Takes on Florida's Largest Hackathon",
+    image: '/images/newsletter/shellhacks25/1.jpg',
+    articleImage: '/images/newsletter/shellhacks25/1.jpg',
+    date: 'September 2025',
+    category: 'Competition',
+    featured: false,
+    description: `DSI members participated in ShellHacks 2025, Florida's largest hackathon, showcasing their skills and creativity in a competitive environment.\n\nThis event provided our members with valuable experience in rapid prototyping, teamwork, and presenting their projects to industry professionals.`,
   },
 ];
 
