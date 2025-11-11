@@ -190,26 +190,26 @@ const SponsorsPage = () => {
               </div>
 
               {/* Sponsorship Table */}
-              <div className="overflow-x-auto">
-                <div className="min-w-full rounded-xl border-2 border-primary/20 shadow-xl bg-white dark:bg-gray-dark ring-1 ring-primary/10">
+              <div className="overflow-x-auto -mx-4 px-4">
+                <div className="min-w-[800px] rounded-xl border-2 border-primary/20 shadow-xl bg-white dark:bg-gray-dark ring-1 ring-primary/10">
                   {/* Table Header */}
                   <div className="grid grid-cols-4 gap-0">
-                    <div className="bg-primary/10 p-4 text-left rounded-tl-xl border-r border-gray-300 dark:border-gray-600">
-                      <p className="text-sm font-semibold text-primary">
+                    <div className="bg-primary/10 p-3 md:p-4 text-left rounded-tl-xl border-r border-gray-300 dark:border-gray-600 min-w-[200px]">
+                      <p className="text-xs md:text-sm font-semibold text-primary">
                         Logo visibility is much more prominent with higher tiers.
                       </p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-300 to-gray-600 p-4 text-center border-r border-gray-400">
-                      <h3 className="text-lg font-bold text-white">SILVER</h3>
-                      <p className="text-sm text-white">$500</p>
+                    <div className="bg-gradient-to-br from-gray-300 to-gray-600 p-3 md:p-4 text-center border-r border-gray-400 min-w-[120px]">
+                      <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">SILVER</h3>
+                      <p className="text-xs md:text-sm text-white">$500</p>
                     </div>
-                    <div className="bg-gradient-to-br from-amber-400 to-orange-600 p-4 text-center border-r border-orange-400">
-                      <h3 className="text-lg font-bold text-white">GOLD</h3>
-                      <p className="text-sm text-white">$1000</p>
+                    <div className="bg-gradient-to-br from-amber-400 to-orange-600 p-3 md:p-4 text-center border-r border-orange-400 min-w-[120px]">
+                      <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">GOLD</h3>
+                      <p className="text-xs md:text-sm text-white">$1000</p>
                     </div>
-                    <div className="bg-gradient-to-br from-blue-300 to-blue-600 p-4 text-center rounded-tr-xl">
-                      <h3 className="text-lg font-bold text-white">DIAMOND</h3>
-                      <p className="text-sm text-white">$2000</p>
+                    <div className="bg-gradient-to-br from-blue-300 to-blue-600 p-3 md:p-4 text-center rounded-tr-xl min-w-[120px]">
+                      <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">DIAMOND</h3>
+                      <p className="text-xs md:text-sm text-white">$2000</p>
                     </div>
                   </div>
 
@@ -236,8 +236,8 @@ const SponsorsPage = () => {
                       
                       return (
                         <div key={index} className="grid grid-cols-4 gap-0">
-                          <div className="p-4 text-left border-r border-gray-300 dark:border-gray-600">
-                            <p className="text-sm text-body-color dark:text-body-color-dark">
+                          <div className="p-3 md:p-4 text-left border-r border-gray-300 dark:border-gray-600 min-w-[200px]">
+                            <p className="text-xs md:text-sm text-body-color dark:text-body-color-dark break-words">
                               {benefit.split('DSI').map((part, i) => (
                                 <span key={i}>
                                   {part}
@@ -248,28 +248,28 @@ const SponsorsPage = () => {
                               ))}
                             </p>
                           </div>
-                          <div className="p-4 border-r border-gray-300 dark:border-gray-600">
+                          <div className="p-3 md:p-4 border-r border-gray-300 dark:border-gray-600 min-w-[120px]">
                             <div className="flex items-center justify-center h-full">
                               {silverIncludes && (
-                                <svg className="h-7 w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="h-5 w-5 md:h-7 md:w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                 </svg>
                               )}
                             </div>
                           </div>
-                          <div className="p-4 border-r border-gray-300 dark:border-gray-600">
+                          <div className="p-3 md:p-4 border-r border-gray-300 dark:border-gray-600 min-w-[120px]">
                             <div className="flex items-center justify-center h-full">
                               {goldIncludes && (
-                                <svg className="h-7 w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="h-5 w-5 md:h-7 md:w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                 </svg>
                               )}
                             </div>
                           </div>
-                          <div className="p-4">
+                          <div className="p-3 md:p-4 min-w-[120px]">
                             <div className="flex items-center justify-center h-full">
                               {diamondIncludes && (
-                                <svg className="h-7 w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <svg className="h-5 w-5 md:h-7 md:w-7 text-green-500" fill="currentColor" viewBox="0 0 20 20">
                                   <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                 </svg>
                               )}
