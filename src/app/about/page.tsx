@@ -10,7 +10,7 @@ const AboutPage = () => {
 
   return (
     <>
-      <section className="pt-[150px] pb-[120px]">
+      <section className="pt-10 pb-[120px]">
         <div className="container">
           <div className="border-b border-gray-200 pb-16 dark:border-gray-700 md:pb-20 lg:pb-28">
             <div className="-mx-4 flex flex-wrap items-center">

@@ -152,7 +152,7 @@ const juniorRoles2025: JuniorRole[] = [
 
 const Team = () => {
   return (
-    <div className="bg-white dark:bg-gray-dark">
+    <div className="bg-white dark:bg-gray-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
        
 

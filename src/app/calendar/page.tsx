@@ -13,7 +13,7 @@ const CalendarPage = () => {
     <>
       <section
         id="calendar"
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark"
+        className="relative z-10 overflow-hidden pb-0 dark:bg-gray-900"
       >
         <div className="container mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">

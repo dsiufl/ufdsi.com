@@ -477,7 +477,7 @@ const SymposiumNew = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header Section */}
-      <section className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark">
+      <section className="relative z-10 overflow-hidden bg-white pb-0 pt-10 dark:bg-gray-900">
         <div className="container mx-auto">
           <div className="mx-auto max-w-[900px] text-center mb-12">
             <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">

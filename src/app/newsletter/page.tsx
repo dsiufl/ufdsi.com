@@ -111,7 +111,7 @@ export default function NewsletterPage() {
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header Section */}
       <section
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark"
+        className="relative z-10 overflow-hidden bg-white pb-0 pt-10 dark:bg-gray-900"
       >
         <div className="container mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">

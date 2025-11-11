@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const SponsorsPage = () => {
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-dark">
+    <div className="min-h-screen bg-white dark:bg-gray-900">
       {/* Hero Section */}
       <section className="pt-32 pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-28">
         <div className="container">
@@ -104,7 +104,7 @@ const SponsorsPage = () => {
       </section>
 
       {/* Collaborators Section */}
-      <section className="py-16 bg-white dark:bg-gray-dark">
+      <section className="py-16 bg-white dark:bg-gray-900">
         <div className="container">
           <div className="w-full px-4">
             <div className="mx-auto max-w-4xl text-center">
@@ -191,7 +191,7 @@ const SponsorsPage = () => {
 
               {/* Sponsorship Table */}
               <div className="overflow-x-auto -mx-4 px-4">
-                <div className="min-w-[800px] rounded-xl border-2 border-primary/20 shadow-xl bg-white dark:bg-gray-dark ring-1 ring-primary/10">
+                <div className="min-w-[800px] rounded-xl border-2 border-primary/20 shadow-xl bg-white dark:bg-gray-900 ring-1 ring-primary/10">
                   {/* Table Header */}
                   <div className="grid grid-cols-4 gap-0">
                     <div className="bg-primary/10 p-3 md:p-4 text-left rounded-tl-xl border-r border-gray-300 dark:border-gray-600 min-w-[200px]">
