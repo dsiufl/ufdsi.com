@@ -82,7 +82,7 @@ const Footer = () => {
                 </div>
 
                 {/* Contact Email */}
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="p-4  dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                   <h3 className="text-sm font-semibold text-black dark:text-white mb-2">Contact Us</h3>
                   <a 
                     href="mailto:dsiufl@gmail.com"

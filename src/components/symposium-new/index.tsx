@@ -475,9 +475,9 @@ const SymposiumNew = () => {
   const regularSpeakers = sortedSpeakers.filter(s => s.category !== 'keynote');
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen  ">
       {/* Header Section */}
-      <section className="relative z-10 overflow-hidden bg-white pb-0 pt-10 dark:bg-gray-900">
+      <section className="relative z-10 overflow-hidden pb-0 pt-10 ">
         <div className="container mx-auto">
           <div className="mx-auto max-w-[900px] text-center mb-12">
             <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
@@ -508,7 +508,7 @@ const SymposiumNew = () => {
 
       {/* Keynote Speaker Section */}
       {keynoteSpeaker && (
-        <section className="pt-8 pb-6 md:pb-8 bg-gray-50 dark:bg-gray-900">
+        <section className="pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
               Keynote Speaker
@@ -522,7 +522,7 @@ const SymposiumNew = () => {
       )}
 
       {/* Speakers Grid */}
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gray-50 dark:bg-gray-900">
+      <section className="pt-6 md:pt-8 pb-12 md:pb-16  ">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">
@@ -569,7 +569,7 @@ const SymposiumNew = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Speaker Affiliations</h3>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+              <div className=" dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
                 <Image
                   src="/images/symposium-25/collaborators/speaker-affiliations.png"
                   alt="Speaker Affiliations"
@@ -582,7 +582,7 @@ const SymposiumNew = () => {
             
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Workshop Organizations</h3>
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
+              <div className=" dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
                 <Image
                   src="/images/symposium-25/collaborators/workshop-orgs.png"
                   alt="Workshop Organizations"
@@ -597,7 +597,7 @@ const SymposiumNew = () => {
           {/* Sponsors */}
           <div className="text-center">
             <h3 className="text-lg font-semibold mb-6 text-gray-700 dark:text-gray-300">Our Sponsors</h3>
-            <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-8 border border-gray-200 dark:border-gray-600">
+            <div className=" dark:bg-gray-700 rounded-xl p-8 border border-gray-200 dark:border-gray-600">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
                 <Image src="/images/symposium-25/sponsors/AIIRI.png" alt="AIIRI" width={120} height={60} className="opacity-70 hover:opacity-100 transition-opacity" />
                 <Image src="/images/symposium-25/sponsors/CISE.png" alt="CISE" width={120} height={60} className="opacity-70 hover:opacity-100 transition-opacity" />

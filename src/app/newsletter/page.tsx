@@ -108,10 +108,10 @@ export default function NewsletterPage() {
   }, [selectedArticle]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen  ">
       {/* Header Section */}
       <section
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-10 dark:bg-gray-900"
+        className="relative z-10 overflow-hidden pb-0 pt-10 "
       >
         <div className="container mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">
@@ -127,7 +127,7 @@ export default function NewsletterPage() {
 
       {/* Featured Articles */}
       {featuredArticles.length > 0 && (
-        <section className="pt-10 md:pt-8 pb-6 md:pb-8 bg-gray-50 dark:bg-gray-900">
+        <section className="pt-10 md:pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
               Featured Stories
@@ -146,7 +146,7 @@ export default function NewsletterPage() {
       )}
 
       {/* Article Grid */}
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gray-50 dark:bg-gray-900">
+      <section className="pt-6 md:pt-8 pb-12 md:pb-16  ">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">

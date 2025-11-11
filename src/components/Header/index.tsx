@@ -45,7 +45,7 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900' : "text-white"}` : 'sticky'} 
+        className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
                     left-0 top-0 z-40 flex w-full items-center p-4
                     ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
       >
@@ -199,7 +199,7 @@ const Header = () => {
         
         {/* Mobile Menu Dropdown */}
         <div
-          className={`mobile-menu fixed top-24 left-0 right-0 z-30 bg-white py-2 px-4 shadow-lg dark:bg-gray-900 lg:hidden ${
+          className={`mobile-menu fixed top-24 left-0 right-0 z-30 bg-white py-2 px-4 shadow-lg  lg:hidden ${
             navbarOpen ? "block" : "hidden"
           }`}
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}

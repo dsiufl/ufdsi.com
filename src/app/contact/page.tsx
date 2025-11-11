@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 const ContactPage = () => {
   return (
     <>
-      <div className="relative z-10 overflow-hidden bg-white dark:bg-gray-900">
+      <div className="relative z-10 overflow-hidden bg-white ">
         <div className="container relative py-16 md:py-20 lg:py-28">
           <Contact />
         </div>
