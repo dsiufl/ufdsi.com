@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/calendar",
     "/contact",
     "/newsletter",
+    "/projects",
     "/symposium",
     "/team",
     "/workshops-list",
