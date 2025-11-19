@@ -111,7 +111,7 @@ export default function NewsletterPage() {
     <div className="min-h-screen  ">
       {/* Header Section */}
       <section
-        className="relative z-10 overflow-hidden pb-0 sm:pt-4 md:pt-8"
+        className="relative z-10 overflow-hidden pb-0"
       >
         <div className="relative mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">
