@@ -3,7 +3,7 @@ import ScrollUp from "@/components/Common/ScrollUp";
 
 export default function UnsubscribePage() {
     return (
-        <section className="">
+        <section>
             <h1 className="flex justify-center">Unsubscribe</h1>
             <div className="flex justify-center">
                 <div className="flex flex-col py-5 text-center gap-5">

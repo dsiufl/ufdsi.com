@@ -47,7 +47,7 @@ const Header = () => {
     <>
       <header
         className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
-                    flex flex-col left-0 top-0 z-40 w-full items-center p-4
+                    flex flex-col left-0 top-0 z-40 w-full items-center p-4 mb-10
                     ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
       >
         <div className="container">

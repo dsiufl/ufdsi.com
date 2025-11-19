@@ -252,7 +252,7 @@ export default function WorkshopsPage() {
 
       <section
         id="workshops"
-        className="relative z-10 overflow-hidden   pb-16 pt-10"
+        className="relative z-10 overflow-hidden pb-16"
       >
         <div className="container mx-auto px-4 max-w-7xl">
           {/* Hero Section */}

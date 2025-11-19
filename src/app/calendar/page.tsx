@@ -16,7 +16,7 @@ const CalendarPage = () => {
         className="relative z-10 overflow-hidden pb-0 "
       >
         <div className="container mx-auto">
-          <div className="mx-auto max-w-[800px] text-center mt-4">
+          <div className="mx-auto max-w-[800px] text-center">
             <h1>
               Events Calendar
             </h1>
