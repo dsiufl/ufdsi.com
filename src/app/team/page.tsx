@@ -596,7 +596,7 @@ const TeamPage = () => {
     <>
       <section
         id="team"
-        className="relative z-10 overflow-hidden bg-white pt-[120px] pb-[80px] dark:bg-gray-dark"
+        className="relative z-10 overflow-hidden pb-[80px] "
       >
         <div className="container mx-auto">
           {/* Enhanced header with decorative elements */}

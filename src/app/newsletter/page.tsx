@@ -108,27 +108,28 @@ export default function NewsletterPage() {
   }, [selectedArticle]);
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen  ">
       {/* Header Section */}
       <section
-        className="relative z-10 overflow-hidden bg-white pb-0 pt-[120px] dark:bg-gray-dark"
+        className="relative z-10 overflow-hidden pb-0"
       >
-        <div className="container mx-auto">
+        <div className="relative mx-auto">
           <div className="mx-auto max-w-[800px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
+            <h1 className="text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
               DSI News
             </h1>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4">
+            <p className="text-lg text-gray-700 dark:text-gray-300 px-4">
               Stay updated with the latest achievements, events, and news from the University of Florida Data Science and Informatics community.
             </p>
+            <a className='button mt-3' href='https://discord.com/channels/972919518852698263/1418668711396643007/1437529973253607535'>Subscribe to the newsletter</a>
           </div>
         </div>
       </section>
 
       {/* Featured Articles */}
       {featuredArticles.length > 0 && (
-        <section className="pt-10 md:pt-8 pb-6 md:pb-8 bg-gray-50 dark:bg-gray-900">
-          <div className="container mx-auto px-4">
+        <section className="pt-10 md:pt-8 pb-6 md:pb-8 bg-gray-100 dark:bg-black">
+          <div className="container px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
               Featured Stories
             </h2>
@@ -146,7 +147,7 @@ export default function NewsletterPage() {
       )}
 
       {/* Article Grid */}
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gray-50 dark:bg-gray-900">
+      <section className="pt-6 md:pt-8 pb-12 md:pb-16 bg-gray-100 dark:bg-black">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">

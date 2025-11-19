@@ -9,15 +9,16 @@ import menuData from "./menuData";
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
+  const [sticky, setSticky] = useState(false);
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
+    setSticky(true);
   };
 
   // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
+  
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -45,20 +46,16 @@ const Header = () => {
   return (
     <>
       <header
-        className={`header left-0 top-0 z-40 flex w-full items-center ${
-          sticky
-            ? "dark:bg-gray-dark dark:shadow-sticky-dark fixed z-[9999] bg-white !bg-opacity-90 shadow-sticky backdrop-blur-sm transition"
-            : "absolute bg-transparent"
-        }`}
+        className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
+                    flex flex-col left-0 top-0 z-40 w-full items-center p-4 mb-10
+                    ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
             <div className="w-32 xs:w-36 sm:w-40 max-w-full px-4 xl:mr-12">
               <Link
                 href="/"
-                className={`header-logo block w-full ${
-                  sticky ? "py-3 sm:py-4 lg:py-2" : "py-4 lg:py-8"
-                }`}
+                className={`header-logo block w-full "py-4 lg:py-8"`}
               >
                 <Image
                   src="/images/logo/hd-transparent-dsi-logo.png"
@@ -80,10 +77,10 @@ const Header = () => {
                             href={menuItem.path}
                             className={`flex text-base font-medium ${
                               menuItem.title === "HOME"
-                                ? "rounded-full border-2 border-gray-800 px-6 py-0.5 text-gray-800 hover:bg-gray-800 hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-gray-900"
+                                ? "rounded-full border-2 border-gray-800 px-6 py-0.5 hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-gray-900"
                                 : usePathName === menuItem.path
                                 ? "text-primary dark:text-white"
-                                : "text-gray-800 hover:text-primary dark:text-white dark:hover:text-gray-200"
+                                : "hover:text-primary dark:text-white dark:hover:text-primary"
                             }`}
                           >
                             {menuItem.title}
@@ -134,7 +131,7 @@ const Header = () => {
                 {/* Theme Toggle Button */}
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 dark:bg-black text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
                   aria-label="Toggle Theme"
                 >
                   {mounted && (
@@ -155,7 +152,7 @@ const Header = () => {
                   onClick={navbarToggleHandler}
                   id="navbarToggler"
                   aria-label="Mobile Menu"
-                  className="relative flex h-8 w-8 items-center justify-center text-gray-800 dark:text-white"
+                  className="relative flex h-8 w-8 items-center justify-center dark:text-white"
                 >
                   <div className="flex flex-col justify-center items-center w-full h-full">
                     <span
@@ -203,7 +200,7 @@ const Header = () => {
         
         {/* Mobile Menu Dropdown */}
         <div
-          className={`mobile-menu fixed left-0 right-0 top-[66px] z-30 bg-white py-2 px-4 shadow-lg dark:bg-gray-900 lg:hidden ${
+          className={`mobile-menu absolute top-[100%] left-0 right-0 z-30 bg-white dark:bg-gray-900 py-2 px-4 shadow-lg  lg:hidden ${
             navbarOpen ? "block" : "hidden"
           }`}
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}

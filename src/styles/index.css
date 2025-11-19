@@ -129,3 +129,27 @@
     }
   }
 }
+
+
+h1 {
+  @apply mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]
+}
+
+h2 {
+  @apply text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 flex gap-2
+}
+
+h3 {
+  @apply text-lg font-bold text-gray-900 dark:text-white mb-2 ;
+}
+p {
+  @apply mb-4 text-lg text-gray-700 dark:text-gray-300;
+}
+
+a.button {
+  @apply bg-primary text-white font-semibold py-3 px-6 rounded-md transition hover:-translate-y-0.5 hover:cursor-pointer;
+}
+
+a.link {
+  @apply text-primary font-medium underline hover:opacity-80 transition;
+}
