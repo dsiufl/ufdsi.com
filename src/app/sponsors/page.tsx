@@ -5,7 +5,7 @@ const SponsorsPage = () => {
   return (
     <div className="min-h-screen ">
       {/* Hero Section */}
-      <section className="pt-32 pb-20 md:pt-36 md:pb-24 lg:pt-40 lg:pb-28">
+      <section className="pt-20 pb-20 md:pb-24 lg:pb-28">
         <div className="container">
           <div className="w-full px-4">
             <div className="flex flex-wrap items-center justify-between">

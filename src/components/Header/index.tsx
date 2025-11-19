@@ -9,15 +9,16 @@ import menuData from "./menuData";
 const Header = () => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-
+  const [sticky, setSticky] = useState(false);
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
+    setSticky(true);
   };
 
   // Sticky Navbar
-  const [sticky, setSticky] = useState(false);
+  
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
       setSticky(true);
@@ -46,7 +47,7 @@ const Header = () => {
     <>
       <header
         className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
-                    left-0 top-0 z-40 flex w-full items-center p-4
+                    flex flex-col left-0 top-0 z-40 w-full items-center p-4
                     ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
       >
         <div className="container">
@@ -130,7 +131,7 @@ const Header = () => {
                 {/* Theme Toggle Button */}
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 dark:bg-black text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
                   aria-label="Toggle Theme"
                 >
                   {mounted && (
@@ -199,7 +200,7 @@ const Header = () => {
         
         {/* Mobile Menu Dropdown */}
         <div
-          className={`mobile-menu fixed top-24 left-0 right-0 z-30 bg-white py-2 px-4 shadow-lg  lg:hidden ${
+          className={`mobile-menu absolute top-[100%] left-0 right-0 z-30 bg-white dark:bg-gray-900 py-2 px-4 shadow-lg  lg:hidden ${
             navbarOpen ? "block" : "hidden"
           }`}
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}
