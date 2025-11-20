@@ -121,7 +121,7 @@ export default function NewsletterPage() {
             <p className="text-lg text-gray-700 dark:text-gray-300 px-4">
               Stay updated with the latest achievements, events, and news from the University of Florida Data Science and Informatics community.
             </p>
-            <a className='button mt-3' href='https://discord.com/channels/972919518852698263/1418668711396643007/1437529973253607535'>Subscribe to the newsletter</a>
+            <a className='button mt-3' href='https://docs.google.com/forms/d/e/1FAIpQLSdCp0aDNGllhmKSC9HuCJ5qcTHSiEwG1ONPtqNiNDVPf6gZLw/viewform'>Subscribe to the newsletter</a>
           </div>
         </div>
       </section>
