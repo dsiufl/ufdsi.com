@@ -88,7 +88,7 @@ const Hero = () => {
             <div className="w-full">
               <div className="mx-auto max-w-[900px] text-center px-4 flex flex-col h-auto justify-center">
                 <div className="mb-4 md:mb-6">
-                  <h2 className="mb-1 sm:mb-2 text-lg font-medium text-white md:text-2xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.6)' }}>
+                  <h2 className="mb-1 sm:mb-2 text-lg font-medium text-white md:text-2xl justify-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.6)' }}>
                     <b>Data Science and Informatics</b>
                   </h2>
                   <h1 className="mb-0 text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white whitespace-nowrap" style={{ textShadow: '3px 3px 6px rgba(0,0,0,0.9), -1px -1px 2px rgba(0,0,0,0.7)' }}>
@@ -108,7 +108,7 @@ const Hero = () => {
                     </div>
                     
                   </div>
-                  <h2 className="mb-1 sm:mb-2 text-lg font-medium italic text-white md:text-2xl" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.6)' }}>
+                  <h2 className="mb-1 sm:mb-2 text-lg font-medium italic text-white md:text-2xl justify-center" style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.8), -1px -1px 2px rgba(0,0,0,0.6)' }}>
                     &ldquo;Making Knowledge Accessible to All&rdquo;
                   </h2>
                 </div>

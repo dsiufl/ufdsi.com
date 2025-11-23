@@ -5,7 +5,7 @@ import Link from "next/link";
 const Footer = () => {
   return (
     <>
-      <footer className="relative z-10 bg-white pt-16 dark:bg-gray-dark md:pt-20 lg:pt-24">
+      <footer className="relative z-10 bg-white pt-16 dark:bg-black md:pt-20 lg:pt-24">
         <div className="container">
           <div className="w-full px-4 flex flex-wrap md:flex-nowrap justify-between items-start" >
             <div className="w-full px-4 md:w-1/2 lg:w-4/12 xl:w-5/12">
@@ -82,7 +82,7 @@ const Footer = () => {
                 </div>
 
                 {/* Contact Email */}
-                <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+                <div className="p-4  dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
                   <h3 className="text-sm font-semibold text-black dark:text-white mb-2">Contact Us</h3>
                   <a 
                     href="mailto:dsiufl@gmail.com"
