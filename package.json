@@ -17,8 +17,7 @@
     "next-themes": "^0.2.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-modal-video": "^2.0.1",
-    "use-scramble": "^2.2.15"
+    "react-modal-video": "^2.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
