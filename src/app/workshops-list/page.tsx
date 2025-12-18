@@ -5,19 +5,16 @@ import Image from "next/image";
 import ScrollUp from "@/components/Common/ScrollUp";
 
 // Sample workshop data - You can replace this with actual data from your API/DB
-const upcomingWorkshops = [
-  {
-    id: 1,
-    title: "Intro to Tabular Data",
-    date: "November 12th, 5pm",
-    location: "AIIRI",
-    description: "Learn how to work with tabular data for data analysis.",
-    image: "/images/workshop/pyth.png",
-    url: "#"
-  }
-];
+const upcomingWorkshops = [];
 
 const pastWorkshops = [
+  {
+    id: 19,
+    title: "Intro to Tabular Data",
+    description: "Learn how to work with tabular data for data analysis.",
+    presenters: "Anh",
+    image: "/images/workshop/pyth.png"
+  },
   {
     id: 1,
     title: "Intro to AI Agents",
@@ -182,6 +179,7 @@ export default function WorkshopsPage() {
                 {pastWorkshops.map((workshop, index) => {
                   // Special links for each workshop
                   const links = {
+                    "Intro to AI Agents": "https://github.com/dsiufl/WorkshopArchive/blob/main/Workshops/Intro%20to%20AI%20Agents/Build%20a%20Research%20Bot.ipynb",
                     "Intro to R": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20R/DSI_Intro_to_R_Workshop.ipynb",
                     "Intro to Web Scraping": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20Web%20Scraping/intro_to_webscraping.ipynb",
                     "Introduction to C": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro_C/IntroToC.ipynb",
@@ -305,6 +303,7 @@ export default function WorkshopsPage() {
                 {pastWorkshops.slice(0, 6).map((workshop, index) => {
                   // Special links for each workshop
                   const links = {
+                    "Intro to AI Agents": "https://github.com/dsiufl/WorkshopArchive/blob/main/Workshops/Intro%20to%20AI%20Agents/Build%20a%20Research%20Bot.ipynb",
                     "Intro to R": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20R/DSI_Intro_to_R_Workshop.ipynb",
                     "Intro to Web Scraping": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20Web%20Scraping/intro_to_webscraping.ipynb",
                     "Introduction to C": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro_C/IntroToC.ipynb",

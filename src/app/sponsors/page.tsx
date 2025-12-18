@@ -144,21 +144,41 @@ const SponsorsPage = () => {
                     We also appreciate support from:
                   </div>
                   <div className="flex flex-wrap justify-center items-center gap-6 text-sm">
-                    <div className="font-semibold text-body-color dark:text-body-color-dark">
+                    <a
+                      href="https://stat.ufl.edu/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                    >
                       Statistics Department
-                    </div>
+                    </a>
                     <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <div className="font-semibold text-body-color dark:text-body-color-dark">
+                    <a
+                      href="https://uflib.ufl.edu/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                    >
                       UF Smathers Libraries
-                    </div>
+                    </a>
                     <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <div className="font-semibold text-body-color dark:text-body-color-dark">
+                    <a
+                      href="https://cise.ufl.edu/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                    >
                       CISE Department
-                    </div>
+                    </a>
                     <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <div className="font-semibold text-body-color dark:text-body-color-dark">
+                    <a
+                      href="https://ai.ufl.edu/about/the-ai-center/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                    >
                       UF AI2 Center
-                    </div>
+                    </a>
                   </div>
                 </div>
               </div>
