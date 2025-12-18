@@ -154,23 +154,6 @@ const Team = () => {
   return (
     <div className="">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-       
-
-        {/* Apply Button Section */}
-        <div className="text-center mb-12">
-          <a
-            href="https://docs.google.com/forms/d/14uJf3UNJi9ZuthZEqEbviMXknrCUhTcz0QYPPFlynUc/preview"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-teal-500 to-blue-500 rounded-lg shadow-lg hover:shadow-xl transform transition-all duration-300 hover:scale-105 hover:from-teal-600 hover:to-blue-600"
-          >
-            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-            </svg>
-            Interested in Applying?
-          </a>
-        </div>
-
         {/* Section for Executives */}
         <div className="mb-12">
           <div className="text-center mb-12">
