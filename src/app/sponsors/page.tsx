@@ -104,82 +104,106 @@ const SponsorsPage = () => {
       </section>
 
       {/* Collaborators Section */}
-      <section className="py-16 ">
+      <section className="py-16 md:py-20">
         <div className="container">
           <div className="w-full px-4">
-            <div className="mx-auto max-w-4xl text-center">
-              <h3 className="mb-6 text-2xl font-bold text-black dark:text-white">
-                Our Collaborators
-              </h3>
-              <div className="mx-auto mb-8 h-1 w-16 bg-primary"></div>
-              <p className="mb-8 text-base text-body-color dark:text-body-color-dark leading-relaxed">
-                We are grateful for the ongoing support and collaboration from various departments and organizations.
-              </p>
-              
-              <div className="space-y-8">
-                {/* UFIT - Featured */}
-                <div className="text-center border-b border-gray-200 dark:border-gray-700 pb-8">
-                  <div className="text-xl font-bold text-black dark:text-white mb-2">
-                    UF Information Technology (UFIT)
+            <div className="mx-auto max-w-5xl">
+              <div className="text-center mb-12">
+                <h3 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-3xl">
+                  Our Collaborators
+                </h3>
+                <div className="mx-auto mb-4 h-1 w-16 bg-primary rounded-full"></div>
+                <p className="text-base text-body-color dark:text-body-color-dark leading-relaxed max-w-2xl mx-auto">
+                  We are grateful for the ongoing support and collaboration from various departments and organizations.
+                </p>
+              </div>
+
+              {/* Tier 1: Featured Collaborator (UFIT) - Enhanced with Accent */}
+              <div className="mb-8">
+                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group hover:border-primary/50">
+                  {/* Top Accent Bar */}
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/60 to-primary"></div>
+                  
+                  <div className="p-8 md:p-10 text-center">
+                    <h4 className="text-xl md:text-2xl font-bold text-black dark:text-white mb-3 group-hover:text-primary transition-colors">
+                      UF Information Technology (UFIT)
+                    </h4>
+                    <p className="text-base text-body-color dark:text-body-color-dark mb-6 max-w-lg mx-auto">
+                      HiPerGator supercomputing infrastructure & technical workshops
+                    </p>
+                    <a 
+                      href="https://it.ufl.edu" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center rounded-lg bg-white dark:bg-gray-700 px-8 py-3 text-sm font-semibold text-black dark:text-white border border-gray-200 dark:border-gray-600 transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary shadow-sm group-hover:shadow-md"
+                    >
+                      Visit Website
+                      <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </a>
                   </div>
-                  <div className="text-sm text-body-color dark:text-body-color-dark mb-4">
-                    HiPerGator supercomputing infrastructure & technical workshops
-                  </div>
-                  <a 
-                    href="https://it.ufl.edu" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-sm font-medium text-white transition duration-300 ease-in-out hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                  >
-                    Visit UFIT Website
-                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
+                </div>
+              </div>
+
+              {/* Tier 2: Partner Departments Grid - Visual & Colorful */}
+              <div>
+                <div className="text-sm font-medium text-center text-body-color dark:text-body-color-dark mb-6">
+                  We also appreciate support from:
                 </div>
                 
-                {/* Other Collaborators */}
-                <div className="text-center">
-                  <div className="text-sm font-medium text-body-color dark:text-body-color-dark mb-4">
-                    We also appreciate support from:
-                  </div>
-                  <div className="flex flex-wrap justify-center items-center gap-6 text-sm">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+                  {[
+                    { 
+                      name: "Statistics Department", 
+                      url: "https://stat.ufl.edu/",
+                      icon: (
+                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                      )
+                    },
+                    { 
+                      name: "UF Smathers Libraries", 
+                      url: "https://uflib.ufl.edu/",
+                      icon: (
+                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                      )
+                    },
+                    { 
+                      name: "CISE Department", 
+                      url: "https://cise.ufl.edu/",
+                      icon: (
+                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                        </svg>
+                      )
+                    },
+                    { 
+                      name: "UF AI2 Center", 
+                      url: "https://ai.ufl.edu/about/the-ai-center/",
+                      icon: (
+                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                        </svg>
+                      )
+                    }
+                  ].map((partner, index) => (
                     <a
-                      href="https://stat.ufl.edu/"
+                      key={index}
+                      href={partner.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                      className="group flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
                     >
-                      Statistics Department
+                      {partner.icon}
+                      <span className="text-center font-semibold text-black dark:text-white group-hover:text-primary transition-colors duration-200">
+                        {partner.name}
+                      </span>
                     </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://uflib.ufl.edu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      UF Smathers Libraries
-                    </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://cise.ufl.edu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      CISE Department
-                    </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://ai.ufl.edu/about/the-ai-center/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      UF AI2 Center
-                    </a>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
