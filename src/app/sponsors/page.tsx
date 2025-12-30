@@ -118,16 +118,26 @@ const SponsorsPage = () => {
                 </p>
               </div>
 
-              {/* Tier 1: Featured Collaborator (UFIT) - Enhanced with Accent */}
+              {/* Tier 1: Featured Collaborator (UFIT) - Aligned with Main Sponsor Style */}
               <div className="mb-8">
                 <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group hover:border-primary/50">
                   {/* Top Accent Bar */}
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/60 to-primary"></div>
                   
                   <div className="p-8 md:p-10 text-center">
-                    <h4 className="text-xl md:text-2xl font-bold text-black dark:text-white mb-3 group-hover:text-primary transition-colors">
-                      UF Information Technology (UFIT)
-                    </h4>
+                    {/* Logo Container */}
+                    <div className="mb-6 flex justify-center">
+                      <div className="relative h-24 w-full max-w-[300px] flex items-center justify-center p-2">
+                        <Image
+                          src="/images/sponsors/UFIT.png" 
+                          alt="UF Information Technology"
+                          width={300}
+                          height={120}
+                          className="object-contain max-h-24 w-auto dark:brightness-0 dark:invert"
+                        />
+                      </div>
+                    </div>
+
                     <p className="text-base text-body-color dark:text-body-color-dark mb-6 max-w-lg mx-auto">
                       HiPerGator supercomputing infrastructure & technical workshops
                     </p>
@@ -157,38 +167,22 @@ const SponsorsPage = () => {
                     { 
                       name: "Statistics Department", 
                       url: "https://stat.ufl.edu/",
-                      icon: (
-                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                      )
+                      logo: "/images/sponsors/Statistics.png"
                     },
                     { 
                       name: "UF Smathers Libraries", 
                       url: "https://uflib.ufl.edu/",
-                      icon: (
-                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                      )
+                      logo: "/images/symposium-25/sponsors/smathers.png"
                     },
                     { 
                       name: "CISE Department", 
                       url: "https://cise.ufl.edu/",
-                      icon: (
-                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                        </svg>
-                      )
+                      logo: "/images/symposium-25/sponsors/CISE.png"
                     },
                     { 
                       name: "UF AI2 Center", 
                       url: "https://ai.ufl.edu/about/the-ai-center/",
-                      icon: (
-                        <svg className="w-8 h-8 text-primary/80 mb-3 group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-                        </svg>
-                      )
+                      logo: "/images/symposium-25/sponsors/AI2.png"
                     }
                   ].map((partner, index) => (
                     <a
@@ -198,10 +192,14 @@ const SponsorsPage = () => {
                       rel="noopener noreferrer"
                       className="group flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
                     >
-                      {partner.icon}
-                      <span className="text-center font-semibold text-black dark:text-white group-hover:text-primary transition-colors duration-200">
-                        {partner.name}
-                      </span>
+                      <div className="relative h-20 w-full flex items-center justify-center">
+                        <Image
+                          src={partner.logo}
+                          alt={`${partner.name} Logo`}
+                          fill
+                          className="object-contain p-1 dark:brightness-0 dark:invert"
+                        />
+                      </div>
                     </a>
                   ))}
                 </div>
