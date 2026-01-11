@@ -18,7 +18,8 @@ export default function UnsubscribePage() {
                             <p className="mb-0">If the link does not work, compose an email to <a className="link" href="mailto:listserv@lists.ufl.edu">listserv@lists.ufl.edu</a> with the only message being “UNSUBSCRIBE AIIRIDSI”. No subject line or reason to unsubscribe is required.</p>
                         </div>
                         <a className="button" href="mailto:listserv@lists.ufl.edu?body=UNSUBSCRIBE AIIRIDSI">Unsubscribe via Email</a>
-                        <p>If you have any continued difficulties, please email <a className="link" href="mailto:dsiufl@gmail.com">dsiufl@gmail.com</a> with the subject line “UNSUBSCRIBE” and we will manually unsubscribe you from the DSI Newsletter. You are not required to provide a reason for unsubscribing.</p>
+                        <div className="w-full h-[1px] bg-gray-400 m-4"> </div>
+                        <p className="text-gray-400 dark:text-gray-700">If you have any continued difficulties, please email <a className="link" href="mailto:dsiufl@gmail.com">dsiufl@gmail.com</a> with the subject line “UNSUBSCRIBE” and we will manually unsubscribe you from the DSI Newsletter. You are not required to provide a reason for unsubscribing.</p>
                     </div>
                     
                     
