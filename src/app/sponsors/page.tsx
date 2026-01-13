@@ -118,52 +118,15 @@ const SponsorsPage = () => {
                 </p>
               </div>
 
-              {/* Tier 1: Featured Collaborator (UFIT) - Aligned with Main Sponsor Style */}
-              <div className="mb-8">
-                <div className="relative overflow-hidden rounded-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-lg transition-all duration-300 group hover:border-primary/50">
-                  {/* Top Accent Bar */}
-                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary/60 to-primary"></div>
-                  
-                  <div className="p-8 md:p-10 text-center">
-                    {/* Logo Container */}
-                    <div className="mb-6 flex justify-center">
-                      <div className="relative h-24 w-full max-w-[300px] flex items-center justify-center p-2">
-                        <Image
-                          src="/images/sponsors/UFIT.png" 
-                          alt="UF Information Technology"
-                          width={300}
-                          height={120}
-                          className="object-contain max-h-24 w-auto dark:brightness-0 dark:invert"
-                        />
-                      </div>
-                    </div>
-
-                    <p className="text-base text-body-color dark:text-body-color-dark mb-6 max-w-lg mx-auto">
-                      HiPerGator supercomputing infrastructure & technical workshops
-                    </p>
-                    <a 
-                      href="https://it.ufl.edu" 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center rounded-lg bg-white dark:bg-gray-700 px-8 py-3 text-sm font-semibold text-black dark:text-white border border-gray-200 dark:border-gray-600 transition-all duration-300 hover:bg-primary hover:text-white hover:border-primary shadow-sm group-hover:shadow-md"
-                    >
-                      Visit Website
-                      <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* Tier 2: Partner Departments Grid - Visual & Colorful */}
-              <div>
-                <div className="text-sm font-medium text-center text-body-color dark:text-body-color-dark mb-6">
-                  We also appreciate support from:
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+              {/* Collaborative Partners Grid */}
+              <div className="mt-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 items-stretch">
                   {[
+                    { 
+                      name: "UF Information Technology", 
+                      url: "https://it.ufl.edu",
+                      logo: "/images/sponsors/UFIT.png"
+                    },
                     { 
                       name: "Statistics Department", 
                       url: "https://stat.ufl.edu/",
@@ -182,7 +145,7 @@ const SponsorsPage = () => {
                     { 
                       name: "UF AI2 Center", 
                       url: "https://ai.ufl.edu/about/the-ai-center/",
-                      logo: "/images/symposium-25/sponsors/AI2.png"
+                      logo: "/images/sponsors/UF-AI-Center-logo.png"
                     }
                   ].map((partner, index) => (
                     <a
@@ -190,14 +153,21 @@ const SponsorsPage = () => {
                       href={partner.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="group flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
+                      className="group relative flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
                     >
-                      <div className="relative h-20 w-full flex items-center justify-center">
+                      {/* External Link Icon */}
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg className="w-4 h-4 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+
+                      <div className="relative w-full aspect-square flex items-center justify-center">
                         <Image
                           src={partner.logo}
                           alt={`${partner.name} Logo`}
                           fill
-                          className="object-contain p-1 dark:brightness-0 dark:invert"
+                          className="object-contain p-2 dark:brightness-0 dark:invert"
                         />
                       </div>
                     </a>
