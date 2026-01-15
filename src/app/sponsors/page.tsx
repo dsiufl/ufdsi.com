@@ -104,82 +104,74 @@ const SponsorsPage = () => {
       </section>
 
       {/* Collaborators Section */}
-      <section className="py-16 ">
+      <section className="py-16 md:py-20">
         <div className="container">
           <div className="w-full px-4">
-            <div className="mx-auto max-w-4xl text-center">
-              <h3 className="mb-6 text-2xl font-bold text-black dark:text-white">
-                Our Collaborators
-              </h3>
-              <div className="mx-auto mb-8 h-1 w-16 bg-primary"></div>
-              <p className="mb-8 text-base text-body-color dark:text-body-color-dark leading-relaxed">
-                We are grateful for the ongoing support and collaboration from various departments and organizations.
-              </p>
-              
-              <div className="space-y-8">
-                {/* UFIT - Featured */}
-                <div className="text-center border-b border-gray-200 dark:border-gray-700 pb-8">
-                  <div className="text-xl font-bold text-black dark:text-white mb-2">
-                    UF Information Technology (UFIT)
-                  </div>
-                  <div className="text-sm text-body-color dark:text-body-color-dark mb-4">
-                    HiPerGator supercomputing infrastructure & technical workshops
-                  </div>
-                  <a 
-                    href="https://it.ufl.edu" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-md bg-primary px-5 py-2 text-sm font-medium text-white transition duration-300 ease-in-out hover:bg-primary/90 dark:bg-primary dark:hover:bg-primary/90 shadow-md hover:shadow-lg transform hover:-translate-y-0.5"
-                  >
-                    Visit UFIT Website
-                    <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </a>
-                </div>
-                
-                {/* Other Collaborators */}
-                <div className="text-center">
-                  <div className="text-sm font-medium text-body-color dark:text-body-color-dark mb-4">
-                    We also appreciate support from:
-                  </div>
-                  <div className="flex flex-wrap justify-center items-center gap-6 text-sm">
+            <div className="mx-auto max-w-5xl">
+              <div className="text-center mb-12">
+                <h3 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-3xl">
+                  Our Collaborators
+                </h3>
+                <div className="mx-auto mb-4 h-1 w-16 bg-primary rounded-full"></div>
+                <p className="text-base text-body-color dark:text-body-color-dark leading-relaxed max-w-2xl mx-auto">
+                  We are grateful for the ongoing support and collaboration from various departments and organizations.
+                </p>
+              </div>
+
+              {/* Collaborative Partners Grid */}
+              <div className="mt-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 items-stretch">
+                  {[
+                    { 
+                      name: "UF Information Technology", 
+                      url: "https://it.ufl.edu",
+                      logo: "/images/sponsors/UFIT.png"
+                    },
+                    { 
+                      name: "Statistics Department", 
+                      url: "https://stat.ufl.edu/",
+                      logo: "/images/sponsors/Statistics.png"
+                    },
+                    { 
+                      name: "UF Smathers Libraries", 
+                      url: "https://uflib.ufl.edu/",
+                      logo: "/images/symposium-25/sponsors/smathers.png"
+                    },
+                    { 
+                      name: "CISE Department", 
+                      url: "https://cise.ufl.edu/",
+                      logo: "/images/symposium-25/sponsors/CISE.png"
+                    },
+                    { 
+                      name: "UF AI2 Center", 
+                      url: "https://ai.ufl.edu/about/the-ai-center/",
+                      logo: "/images/sponsors/UF-AI-Center-logo.png"
+                    }
+                  ].map((partner, index) => (
                     <a
-                      href="https://stat.ufl.edu/"
+                      key={index}
+                      href={partner.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
+                      className="group relative flex flex-col items-center justify-center p-6 bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 rounded-2xl border border-gray-200 dark:border-gray-700 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 hover:border-primary/50"
                     >
-                      Statistics Department
+                      {/* External Link Icon */}
+                      <div className="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <svg className="w-4 h-4 text-primary/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </div>
+
+                      <div className="relative w-full aspect-square flex items-center justify-center">
+                        <Image
+                          src={partner.logo}
+                          alt={`${partner.name} Logo`}
+                          fill
+                          className="object-contain p-2 dark:brightness-0 dark:invert"
+                        />
+                      </div>
                     </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://uflib.ufl.edu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      UF Smathers Libraries
-                    </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://cise.ufl.edu/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      CISE Department
-                    </a>
-                    <div className="w-px h-4 bg-gray-300 dark:bg-gray-600"></div>
-                    <a
-                      href="https://ai.ufl.edu/about/the-ai-center/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="font-semibold text-body-color dark:text-body-color-dark hover:underline decoration-1 underline-offset-2 transition-all duration-200 cursor-pointer"
-                    >
-                      UF AI2 Center
-                    </a>
-                  </div>
+                  ))}
                 </div>
               </div>
             </div>
