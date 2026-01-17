@@ -167,7 +167,7 @@ const SponsorsPage = () => {
                           src={partner.logo}
                           alt={`${partner.name} Logo`}
                           fill
-                          className="object-contain p-2 dark:brightness-0 dark:invert"
+                          className="object-contain p-2"
                         />
                       </div>
                     </a>
