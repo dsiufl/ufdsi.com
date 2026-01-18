@@ -4,17 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // Import the articles data from the newsletter page
-import { sortedArticles as articles } from '@/app/newsletter/data';
 
-interface NewsCarouselProps {
-  articleIds?: number[];
-}
 
-const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
+export default function NewsCarousel({ displayArticles }: any) {
   // Get the specified articles or default to 3 most recent
-  const displayArticles = articleIds 
-    ? articleIds.map(id => articles.find(article => article.id === id)).filter(Boolean)
-    : articles.slice(0, 3);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -79,7 +72,7 @@ const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
           >
             <div className="relative h-full w-full">
               <Image
-                src={article.image}
+                src={article.cover}
                 alt={article.title}
                 fill
                 className="object-cover"
@@ -145,4 +138,3 @@ const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
   );
 };
 
-export default NewsCarousel;

@@ -28,7 +28,7 @@ const menuData: Menu[] = [
   {
     id: 5,
     title: "SYMPOSIUM",
-    path: "/symposium-new",
+    path: "/symposium/2025",
     newTab: false,
   },
   {

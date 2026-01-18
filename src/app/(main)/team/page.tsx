@@ -1,8 +1,6 @@
-'use client';
 import { Metadata } from "next";
 import Team from "@/components/Team";
 import ScrollUp from "@/components/Common/ScrollUp";
-import { useState } from "react";
 import { Tab } from '@headlessui/react';
 
 function classNames(...classes: string[]) {
@@ -583,7 +581,7 @@ const tabOptions = [
 
 const TeamPage = () => {
   // Default to the "Current Board" tab (index 0)
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const selectedIndex = 0
 
   // Function to get the correct board index when using reversed array
   const getBoardIndex = (selectedIndex) => {
@@ -624,7 +622,7 @@ const TeamPage = () => {
                 <select
                   id="board-select"
                   value={selectedIndex}
-                  onChange={(e) => setSelectedIndex(parseInt(e.target.value))}
+                  // onChange={(e) => setSelectedIndex(parseInt(e.target.value))}
                   className="block w-full rounded-lg border-0 py-4 pl-5 pr-10 text-base focus:ring-2 focus:ring-teal-500 focus:outline-none dark:bg-gray-800 dark:text-white appearance-none bg-transparent"
                   style={{ backgroundImage: 'none' }}
                 >

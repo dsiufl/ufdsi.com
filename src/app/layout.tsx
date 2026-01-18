@@ -1,4 +1,4 @@
-"use client";
+
 
 import "node_modules/react-modal-video/css/modal-video.css";
 import "@/styles/index.css";
@@ -26,10 +26,7 @@ export default function RootLayout({
 
       <body className={`bg-gray-50 dark:bg-gray-900 ${inter.className}`}>
         <Providers>
-          <Header />
-          <main>{children}</main>
-          <Footer />
-          <ScrollToTop />
+          {children}
         </Providers>
       </body>
     </html>

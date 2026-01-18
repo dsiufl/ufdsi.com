@@ -1,12 +1,11 @@
-'use client';
-import dynamic from "next/dynamic";
-
+import { supabase } from "@/lib/main";
+import NewsCarousel from "@/components/NewsCarousel";
 // Use dynamic import with no SSR for the carousel component to avoid hydration issues
-const NewsCarousel = dynamic(() => import("@/components/NewsCarousel"), { ssr: false });
 
-const AboutPage = () => {
+const AboutPage = async () => {
   // Article IDs for "org of year", "Ccc award", and "nvidia workshop"
   const featuredArticleIds = [1, 10, 7];
+  const articles = await supabase.from("news").select().in("id",featuredArticleIds)
 
   return (
     <>
@@ -34,7 +33,7 @@ const AboutPage = () => {
               <div className="w-full px-4 lg:w-1/2">
                 <div className="text-center">
                   <div className="relative z-10 inline-block w-full max-w-[500px]">
-                    <NewsCarousel articleIds={featuredArticleIds} />
+                    <NewsCarousel displayArticles={articles.data} />
                   </div>
                 </div>
               </div>

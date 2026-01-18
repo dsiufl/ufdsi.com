@@ -2,11 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { RefObject, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import menuData from "./menuData";
 
-const Header = () => {
+const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [sticky, setSticky] = useState(false);
@@ -49,6 +49,7 @@ const Header = () => {
         className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
                     flex flex-col left-0 top-0 z-40 w-full items-center p-4 mb-10
                     ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
+        ref={ref}
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">

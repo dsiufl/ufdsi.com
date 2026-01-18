@@ -2,7 +2,9 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { sortedArticles as articles } from './data';
+import { supabase } from '@/lib/main';
+import { article } from 'framer-motion/client';
+import { Spinner } from '@/components/ui/spinner';
 
 const CategoryBadge = ({ category }: { category: string }) => {
   const categoryColors = {
@@ -39,7 +41,10 @@ const ArticleCard = ({ article, onClick, isSelected }: { article: any; onClick: 
       
       <div className="p-6">
         <div className="flex items-center justify-between mb-3">
-          <time className="text-sm text-gray-500 dark:text-gray-400">{article.date}</time>
+          <time className="text-sm text-gray-500 dark:text-gray-400">{new Date(article.date).toLocaleDateString('en-US', {
+            year: 'numeric',
+            month: 'long'
+          })}</time>
         </div>
         
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
@@ -87,11 +92,19 @@ const FeaturedArticle = ({ article, onClick }: { article: any; onClick: () => vo
 export default function NewsletterPage() {
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [filter, setFilter] = useState('All');
+  const [articles, setArticles] = useState<any>(null);
+  const [loaded, setLoaded] = useState<boolean>(false);
+  useEffect(() => {
+    supabase.from('news').select().range(0,50).then((data) => {
+      setArticles(data.data.sort((a,b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
+      setLoaded(true);
+    })
+  }, [])
+
+  const featuredArticles = articles && articles.filter(article => article.featured);
+  const regularArticles = articles && articles.filter(article => !article.featured);
   
-  const featuredArticles = articles.filter(article => article.featured);
-  const regularArticles = articles.filter(article => !article.featured);
-  
-  const categories = ['All', ...Array.from(new Set(articles.map(a => a.category)))];
+  const categories = articles && ['All', ...Array.from(new Set(articles.map(a => a.category)))];
   
   const filteredArticles = filter === 'All' 
     ? regularArticles 
@@ -107,7 +120,7 @@ export default function NewsletterPage() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedArticle]);
 
-  return (
+  return !loaded ? <div className='w-full flex justify-center'><Spinner className='size-24'/></div>: (
     <div className="min-h-screen  ">
       {/* Header Section */}
       <section
@@ -127,7 +140,7 @@ export default function NewsletterPage() {
       </section>
 
       {/* Featured Articles */}
-      {featuredArticles.length > 0 && (
+      {featuredArticles && featuredArticles.length > 0 && (
         <section className="pt-10 md:pt-8 pb-6 md:pb-8 bg-gray-100 dark:bg-black">
           <div className="container px-4">
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8">
@@ -156,7 +169,7 @@ export default function NewsletterPage() {
             
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
+              {categories && categories.map((category: string) => (
                 <button
                   key={category}
                   onClick={() => setFilter(category)}
@@ -173,11 +186,23 @@ export default function NewsletterPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredArticles.map((article) => (
+            {articles && articles.filter(s => filter === 'All' || filter === s.category).map((article) => (
               <ArticleCard
                 key={article.id}
-                article={article}
-                onClick={() => setSelectedArticle(article)}
+                article={{
+                  image: article.cover,
+                  title: article.title,
+                  category: article.category,
+                  date: new Date(article.created_at).toLocaleDateString(),
+                  description: article.summary
+                }}
+                onClick={() => setSelectedArticle({
+                  image: article.cover,
+                  title: article.title,
+                  category: article.category,
+                  date: new Date(article.created_at).toLocaleDateString(),
+                  description: article.summary
+                })}
                 isSelected={selectedArticle?.id === article.id}
               />
             ))}
@@ -259,3 +284,5 @@ export default function NewsletterPage() {
     </div>
   );
 } 
+
+//https://nljfmwgzmavnjzmiqgbp.supabase.co/storage/v1/object/public/
