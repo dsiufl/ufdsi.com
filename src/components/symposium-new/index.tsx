@@ -20,11 +20,19 @@ interface Speaker {
 }
 
 const SymposiumNew = () => {
+  const [selectedYear, setSelectedYear] = useState<'2025' | '2026'>('2026');
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   const [filter, setFilter] = useState('All');
+  const [showPastSymposiums, setShowPastSymposiums] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
 
-  // Speaker data
-  const speakers: Speaker[] = [
+  // Speaker data for 2025
+  const speakers2025: Speaker[] = [
     {
       id: 'jack-kendall',
       name: 'Jack Kendall',
@@ -318,6 +326,12 @@ const SymposiumNew = () => {
     }
   ];
 
+  // Placeholder data for 2026
+  const speakers2026: Speaker[] = [];
+
+  // Select speakers based on selected year
+  const speakers = selectedYear === '2025' ? speakers2025 : speakers2026;
+
   const categories = ['All', 'Keynote', 'General Track', 'Industry Track', 'Research Track', 'Workshop Track'];
   
   // Helper function to convert time to minutes for sorting
@@ -471,45 +485,304 @@ const SymposiumNew = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedSpeaker]);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!showPastSymposiums) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-other-symposiums]')) {
+        setShowPastSymposiums(false);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [showPastSymposiums]);
+
+  // Close other symposiums dropdown when clicking outside
+  useEffect(() => {
+    if (!showPastSymposiums) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-other-symposiums]')) {
+        setShowPastSymposiums(false);
+      }
+    };
+    // Use a small delay to ensure click events on the button fire first
+    setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+    }, 0);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showPastSymposiums]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (selectedYear !== '2026') return;
+
+    const targetDate = new Date('2026-03-28T09:00:00').getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [selectedYear]);
+
   const keynoteSpeaker = sortedSpeakers.find(s => s.category === 'keynote');
   const regularSpeakers = sortedSpeakers.filter(s => s.category !== 'keynote');
 
   return (
     <div className="min-h-screen  ">
       {/* Header Section */}
-      <section className="relative z-10 overflow-hidden pb-0">
-        <div className="container mx-auto">
-          <div className="mx-auto max-w-[900px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
-              DSI Spring Symposium 2025
-            </h1>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4 mb-8">
-              Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
-            </p>
-            
-            {/* Quick Info Cards */}
-            <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-                <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">📅 Date</div>
-                <div className="text-gray-900 dark:text-white font-semibold">April 5, 2025</div>
+      {selectedYear === '2026' ? (
+        // 2026 - New Fancy Layout
+        <section className="relative z-10 overflow-visible pb-0 bg-gray-50 dark:bg-gray-900">
+          <div className="container mx-auto px-4 pt-0 pb-0">
+            {/* Main Header Content - Esper Bionics Style */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-7xl mx-auto">
+              {/* Left Side - Image */}
+              <div className="relative w-full h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
+                <Image
+                  src="/images/symposium-26/filler/3.jpg"
+                  alt="Symposium 2026"
+                  fill
+                  className="object-cover rounded-2xl"
+                />
               </div>
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
-                <div className="text-green-600 dark:text-green-400 text-sm font-medium">📍 Location</div>
-                <div className="text-gray-900 dark:text-white font-semibold">Reitz Union, UF</div>
-              </div>
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
-                <div className="text-purple-600 dark:text-purple-400 text-sm font-medium">👥 Speakers</div>
-                <div className="text-gray-900 dark:text-white font-semibold">{speakers.length} Experts</div>
+              
+              {/* Right Side - Text Content */}
+              <div className="space-y-6 order-1 md:order-2">
+                {/* Subtitle */}
+                <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                  expanding abilities.
+                </p>
+                
+                {/* Main Title */}
+                <div className="space-y-2">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    DSI
+                  </h1>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    SYMPOSIUM
+                  </h1>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400 mt-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    2026
+                  </h2>
+                </div>
+                
+                {/* Description */}
+                <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
+                  Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+                </p>
+                
+                {/* Info Section */}
+                <div className="space-y-3 pt-4">
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📅 Date:</span>
+                    <span>March 28, 2026</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📍 Location:</span>
+                    <span>Reitz Union, UF</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">👥 Speakers:</span>
+                    <span>TBD</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        // 2025 - Original Simple Layout
+        <section className="relative z-10 overflow-hidden pb-0">
+          <div className="container mx-auto">
+            <div className="mx-auto max-w-[900px] text-center mb-12">
+              <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
+                DSI Spring Symposium 2025
+              </h1>
+              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4 mb-8">
+                Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+              </p>
+              
+              {/* Quick Info Cards */}
+              <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                  <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">📅 Date</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">April 5, 2025</div>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                  <div className="text-green-600 dark:text-green-400 text-sm font-medium">📍 Location</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">Reitz Union, UF</div>
+                </div>
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
+                  <div className="text-purple-600 dark:text-purple-400 text-sm font-medium">👥 Speakers</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">{speakers.length} Experts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Countdown Timer for 2026 */}
+      {selectedYear === '2026' && (
+              <div className="max-w-4xl mx-auto mb-0 px-4 -mt-8 md:-mt-10 pt-10 md:pt-12">
+                <div className="p-6 md:p-8">
+                  <div className="grid grid-cols-4 gap-4 md:gap-8">
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.days.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Days
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.hours.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Hours
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.minutes.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Minutes
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.seconds.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Seconds
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      )}
+
+      {/* 2026 Photo Gallery */}
+      {selectedYear === '2026' && (
+        <section className="pt-0 pb-12 relative">
+          {/* Other Symposiums Button - Above Gallery on Right */}
+          <div className="flex justify-end mb-4 px-4" data-other-symposiums>
+            <div className="relative z-50">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowPastSymposiums(!showPastSymposiums);
+                }}
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
+              >
+                Other Symposiums
+              </button>
+              
+              {/* Other Symposiums Dropdown */}
+              {showPastSymposiums && (
+                <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
+                  <div className="py-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedYear('2025');
+                        setShowPastSymposiums(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                    >
+                      2025
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="w-full">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-0">
+              {[6, 2, 1, 4, 5].map((num) => (
+                <div key={num} className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={`/images/symposium-26/filler/${num}.jpg`}
+                    alt={`Symposium 2026 Photo ${num}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 20vw"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Keynote Speaker Section */}
-      {keynoteSpeaker && (
+      {keynoteSpeaker && selectedYear === '2025' && (
         <section className="pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
+            {/* Other Symposiums Button - Above Keynote on Right */}
+            <div className="flex justify-end mb-4" data-other-symposiums>
+              <div className="relative z-50">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowPastSymposiums(!showPastSymposiums);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
+                >
+                  Other Symposiums
+                </button>
+                
+                {/* Other Symposiums Dropdown */}
+                {showPastSymposiums && (
+                  <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
+                    <div className="py-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedYear('2026');
+                          setShowPastSymposiums(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                      >
+                        2026
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
               Keynote Speaker
             </h2>
@@ -547,26 +820,32 @@ const SymposiumNew = () => {
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredSpeakers.map((speaker) => (
-              <SpeakerCard
-                key={speaker.id}
-                speaker={speaker}
-                onClick={() => setSelectedSpeaker(speaker)}
-              />
-            ))}
-          </div>
+          {filteredSpeakers.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredSpeakers.map((speaker) => (
+                <SpeakerCard
+                  key={speaker.id}
+                  speaker={speaker}
+                  onClick={() => setSelectedSpeaker(speaker)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                {selectedYear === '2026' ? '2026 symposium information coming soon!' : 'No speakers found for the selected filter.'}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Collaborators Section */}
       <section className="py-12 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            Collaborators & Sponsors
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {selectedYear === '2025' ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Speaker Affiliations</h3>
               <div className=" dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
@@ -605,7 +884,97 @@ const SymposiumNew = () => {
                 <Image src="/images/symposium-25/sponsors/smathers.png" alt="Smathers" width={120} height={60} className="opacity-70 hover:opacity-100 transition-opacity" />
               </div>
             </div>
-          </div>
+              </div>
+            </>
+          ) : (
+            /* 2026 - Sponsors and Collaborators */
+            <>
+              {/* Sponsors */}
+              <div className="mb-12">
+                <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-2 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+                  SPONSORS
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-8" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Interested in being a sponsor? Check the sponsors page!
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                  {/* NVIDIA */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="bg-white aspect-square relative p-4">
+                      <Image
+                        src="/images/symposium-26/sponsors/nvidia.png"
+                        alt="NVIDIA"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>NVIDIA</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Leader in GPU-driven AI</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mark III */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="bg-white aspect-square relative p-4">
+                      <Image
+                        src="/images/symposium-26/sponsors/mark-iii.png"
+                        alt="Mark III"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Mark III</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Full-stack IT and AI solutions provider</p>
+                    </div>
+                  </div>
+                  
+                  {/* NLP Logix */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="aspect-square relative p-4" style={{ backgroundColor: '#79bc46' }}>
+                      <Image
+                        src="/images/symposium-26/sponsors/nlp-logix.png"
+                        alt="NLP Logix"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>NLP Logix</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">AI consulting firm delivering automation</p>
+                    </div>
+                  </div>
+                  
+                  {/* AIIRI */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="aspect-square relative p-2" style={{ backgroundColor: '#0b2d81' }}>
+                      <Image
+                        src="/images/symposium-26/sponsors/aiiri.png"
+                        alt="AIIRI"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>AIIRI</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">UF hub advancing campus-wide AI research</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Speaker/Workshop Affiliations */}
+              <div className="text-center">
+                <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-8" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+                  SPEAKER/WORKSHOP AFFILIATIONS
+                </h3>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-12 border border-gray-200 dark:border-gray-600">
+                  <p className="text-gray-500 dark:text-gray-400 text-lg">Coming Soon!</p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
