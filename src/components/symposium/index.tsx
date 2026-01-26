@@ -13,6 +13,19 @@ interface EventDetail {
   speaker_sup_2?: string;  // Optional second supplementary info
 }
 
+interface ScheduleItem {
+  time: string;
+  event: string;
+  type: string;
+  color: string;
+  tracks?: {
+    regular: string;
+    industry: string;
+    speaker: string;
+    workshop: string;
+  };
+}
+
 const SymposiumSchedule = () => {
   const [selectedYear, setSelectedYear] = useState('2025');
   const [selectedType, setSelectedType] = useState('all');
@@ -226,7 +239,7 @@ const SymposiumSchedule = () => {
     setSelectedEvent(null);
   };
 
-  const schedule = [
+  const schedule: ScheduleItem[] = [
     {
       time: "7:30 - 8:00",
       event: "Registration and Refreshments",
@@ -338,7 +351,7 @@ const SymposiumSchedule = () => {
   ];
 
   // Placeholder data for 2026
-  const schedule2026 = [
+  const schedule2026: ScheduleItem[] = [
     {
       time: "TBA",
       event: "Schedule Coming Soon",
