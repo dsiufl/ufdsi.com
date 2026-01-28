@@ -1,15 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { RefObject, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import menuData from "./menuData";
+import { createClient } from "@supabase/supabase-js";
+import { Button } from "../ui/button";
+import { createUserClient } from "@/lib/supabase/client";
 
 const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [sticky, setSticky] = useState(false);
+  const supabase = createUserClient();
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -42,6 +46,11 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
   };
 
   const usePathName = usePathname();
+  const data = usePathName.includes("/admin") ? [{
+    id: 100,
+    title: "Sign out",
+    newTab: false,
+  },] : menuData
 
   return (
     <>
@@ -55,7 +64,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
           <div className="relative -mx-4 flex items-center justify-between">
             <div className="w-32 xs:w-36 sm:w-40 max-w-full px-4 xl:mr-12">
               <Link
-                href="/"
+                href={usePathName.includes('/admin') ? '/admin/dashboard' : '/'}
                 className={`header-logo block w-full "py-4 lg:py-8"`}
               >
                 <Image
@@ -71,7 +80,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
               <div className="hidden lg:block">
                 <nav id="navbarCollapse">
                   <ul className="flex items-center space-x-6">
-                    {menuData.map((menuItem, index) => (
+                    {data.map((menuItem, index) => (
                       <li key={index} className="group relative">
                         {menuItem.path ? (
                           <Link
@@ -86,7 +95,21 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                           >
                             {menuItem.title}
                           </Link>
-                        ) : (
+                        ) : menuItem.title === 'Sign out' ? (
+                            <Button
+                            onClick={() => {
+                              supabase.auth.signOut();
+                              redirect('/admin/login');
+                            }}
+                            className={`flex text-base font-medium ${
+                                    usePathName === menuItem.path
+                                ? "text-primary dark:text-white"
+                                : "hover:text-primary dark:text-white dark:hover:text-primary"
+                            }`}
+                          >
+                            {menuItem.title}
+                          </Button>
+                        ) :(
                           <>
                             <p
                               onClick={() => handleSubmenu(index)}
@@ -207,7 +230,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}
         >
           <ul className="block space-y-2">
-            {menuData.map((menuItem, index) => (
+            {data.map((menuItem, index) => (
               <li key={index} className="group relative border-b border-gray-100 dark:border-gray-800 py-2">
                 {menuItem.path ? (
                   <Link

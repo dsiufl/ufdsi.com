@@ -2,28 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import type { Symposium, Speaker } from '@/types/db';
 
-interface Speaker {
-  id: number;
-  created_at: Date;
-  name: string;
-  affiliation: string;
-  title: string;
-  time: string;
-  location: string;
-  cover: string;
-  symposium: number;
-  description: string;
-  affiliated_logo?: string;
-  youtube?: string;
-  track: string;
-  category: 'keynote' | 'general' | 'industry' | 'research' | 'workshop';
-}
-interface Symposium {
-  id: number;
-  keynote: number;
-  date: Date;
-}
+
 
 const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Symposium}) => {
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
@@ -353,6 +334,7 @@ const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Sy
                   src={selectedSpeaker.cover}
                   alt={selectedSpeaker.name}
                   fill
+
                   className="object-cover"
                   priority
                 />
