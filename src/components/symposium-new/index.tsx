@@ -5,13 +5,318 @@ import Image from 'next/image';
 import type { Symposium, Speaker } from '@/types/db';
 
 
-
-const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Symposium}) => {
+const SymposiumNew = () => {
+  const [selectedYear, setSelectedYear] = useState<'2025' | '2026'>('2026');
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   const [filter, setFilter] = useState('All');
+  const [showPastSymposiums, setShowPastSymposiums] = useState(false);
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  });
 
-  // Speaker data
-  
+  // Speaker data for 2025
+  const speakers2025: Speaker[] = [
+    {
+      id: 'jack-kendall',
+      name: 'Jack Kendall',
+      title: 'Keynote: Building Next-Generation Brain-Inspired Processors',
+      company: 'RainAI',
+      image: '/images/symposium-25/speakers/2025_JackKendall.jpg',
+      companyLogo: '/images/symposium-25/speakers/jack_sup.png',
+      description: 'Jack Kendall is the Co-Founder and current CTO of Rain AI, a company building next-generation brain-inspired processors for artificial intelligence. Jack\'s mission is to build a brain — bridging neuroscience, physics, and computing to reimagine how machines learn. His research includes highly cited papers on analog neural networks and neuromorphic architectures. Rain is backed by leading figures in AI, including Sam Altman, the CEO of OpenAI. Jack is a University of Florida alum and one of the original founders and the second President of DSI, making his keynote today a full-circle moment for the community he helped shape.',
+      time: '8:00AM - 9:00AM',
+      room: 'Auditorium',
+      track: 'Keynote',
+      category: 'keynote',
+      youtubeUrl: 'https://www.youtube.com/watch?v=w5gG1SM9omM&feature=youtu.be'
+    },
+    {
+      id: 'norman-bukingolts',
+      name: 'Norman Bukingolts',
+      title: 'Transforming our Humanity into Job Security',
+      company: 'Association of Computing Machinery',
+      image: '/images/symposium-25/speakers/norman.png',
+      companyLogo: '/images/symposium-25/speakers/norman_sup.png',
+      description: 'What happens when what we know isn\'t enough to be employable anymore? Amid rising layoffs in the tech industry and beyond due to the automation of labor with AI systems, stress about job security is thriving -- but hope for a meaningful, stable career is not yet lost. Attend this workshop to explore how analytical, generative, and agentic AI systems are being implemented in the modern workplace and understand their strengths and limitations. Learn about not just philosophical but technical arguments describing what exactly an AI system can and cannot provably do -- and why what makes us human is not only "marketable" but essential to the current and future workforce.',
+      time: '10:30AM - 11:30AM',
+      room: 'Room 2325',
+      track: 'Workshop Track',
+      category: 'workshop',
+      youtubeUrl: 'https://www.youtube.com/watch?v=_B0peKlTk3k'
+    },
+    {
+      id: 'hubert-wagner',
+      name: 'Dr. Hubert Wagner',
+      title: 'Trojan horses, Pavlov\'s dogs and self-driving cars',
+      company: 'University of Florida',
+      image: '/images/symposium-25/speakers/hubert.png',
+      companyLogo: '/images/symposium-25/speakers/hubert_sup.png',
+      description: 'While deep neural networks are powerful tools, they are known to have security issues. One particular threat is the so-called Trojan attack, which can be used to compromise, for instance, self-driving cars. I will describe our approach for detecting such attacks on vision models presented at NeurIPS\' 21. This approach is motivated by basic neuroscientific principles and uses methods of topological data analysis (TDA), which I will introduce along the way. (No previous background in topology is necessary.)',
+      time: '10:30AM - 11:30AM',
+      room: 'Room 2330',
+      track: 'Research Track',
+      category: 'research',
+      youtubeUrl: 'https://www.youtube.com/watch?v=zeSrfe8ATCE'
+    },
+    {
+      id: 'raul-valle',
+      name: 'Raul Valle',
+      title: 'Introduction to Signal Processing',
+      company: 'IEEE Signal Processing Society',
+      image: '/images/symposium-25/speakers/raul.png',
+      companyLogo: '/images/symposium-25/speakers/raul_sup.png',
+      description: 'Signals are how computers (and people) interpret the world. With the LLM hype calming down, we get a chance to revisit the mathematical roots of black-box machine learning in time-series problems, and learn how filters gave humanity access to computational foresight. Attend this workshop to attain mathematical insight into the complex world of signal processing from the perspective of its innovators, and learn what the future of AI beholds.',
+      time: '12:45PM - 1:45PM',
+      room: 'Room 2325',
+      track: 'Workshop Track',
+      category: 'workshop',
+      youtubeUrl: 'https://www.youtube.com/watch?v=yuJaMaA18js'
+    },
+    {
+      id: 'jacques-fleischer',
+      name: 'Jacques Fleischer',
+      title: 'Computer Vision and Data Annotation Workshop',
+      company: 'AI Club',
+      image: '/images/symposium-25/speakers/jacques.png',
+      companyLogo: '/images/symposium-25/speakers/jacques_sup.png',
+      description: 'Learn how to properly configure a CV model using sophisticated annotation platforms and a live demo of YOLO training. Hands-on participation where the audience can help train a gator detector model.',
+      time: '3:15PM - 4:15PM',
+      room: 'Room 2325',
+      track: 'Workshop Track',
+      category: 'workshop',
+      youtubeUrl: 'https://www.youtube.com/watch?v=cSPVHXKlNFg'
+    },
+    {
+      id: 'tony-barr',
+      name: 'Tony Barr',
+      title: 'Developing a Model of Reality',
+      company: 'SAS Institute, AMOR',
+      image: '/images/symposium-25/speakers/anthony.png',
+      companyLogo: '/images/symposium-25/speakers/anthony_sup.png',
+      companyLogo2: '/images/symposium-25/speakers/anthony_sup2.png',
+      description: 'Tony Barr will discuss the early history of the SAS system for data analytics and his current work, A Model Of Reality (AMOR). AMOR aims to create a world where young children and adults can understand and flourish in programming, databases, mathematics, and data analytics. AMOR uses diagrams and flowcharts to make reading and writing programs easy and intuitive for learners and seasoned users. The mission is to enable users to navigate through knowledge space naturally, as they navigate the real world.',
+      time: '10:30AM - 11:30AM',
+      room: 'Auditorium',
+      track: 'General Track',
+      category: 'general',
+      youtubeUrl: 'https://www.youtube.com/watch?v=HNkhqaDkPfA&feature=youtu.be'
+    },
+    {
+      id: 'aapo-hyvarinen',
+      name: 'Dr. Aapo Hyvarinen',
+      title: 'Painful Intelligence: What AI Can Tell Us About Human Suffering',
+      company: 'University of Helsinki',
+      image: '/images/symposium-25/speakers/aapo.png',
+      companyLogo: '/images/symposium-25/speakers/aapo_sup.png',
+      description: 'This talk introduces my recent e-book with the same title, freely available on arxiv. The book uses the modern theory of artificial intelligence (AI) to understand human suffering or mental pain. Both humans and sophisticated AI agents process information about the world in order to achieve goals and obtain rewards, which is why AI can be used as a model of the human brain and mind. The book starts with the assumption that suffering is mainly caused by frustration. Frustration means the failure of an agent (whether AI or human) to achieve a goal or a reward it wanted or expected. Frustration is inevitable because of the overwhelming complexity of the world, limited computational resources, and scarcity of good data. In particular, such limitations imply that an agent acting in the real world must cope with uncontrollability, unpredictability, and uncertainty, which all lead to frustration. Such computational theory is finally used to derive various interventions or training methods that will reduce suffering in humans. The ensuing interventions are very similar to those proposed by Buddhist and Stoic philosophy, and include mindfulness meditation.',
+      time: '9:15AM - 10:15AM',
+      room: 'Room 2330',
+      track: 'Research Track',
+      category: 'research',
+      youtubeUrl: 'https://www.youtube.com/watch?v=Ms95e1M3ajs'
+    },
+    {
+      id: 'megan-higgs',
+      name: 'Dr. Megan Higgs',
+      title: 'Pausing to Take a Deeper Look at Assumptions',
+      company: 'Critical Inference',
+      image: '/images/symposium-25/speakers/megan.png',
+      companyLogo: '/images/symposium-25/speakers/megan_sup.png',
+      description: 'Assumptions are a necessary part of making conclusions and inferences from data. Formal training in Statistics and data science tends to encourage a mathematical and automatic treatment of assumptions, with relatively low expectations for justifying assumptions in the context of the problem or conveying the extent to which conclusions are conditional on assumptions. With so much focus on methods and computing, it is important to also take time to step back and more deeply consider the layers of assumptions that make up the foundation of any data analysis. I believe statisticians and data scientists have a responsibility to better convey the conditional nature of results, and to work with subject matter experts to translate and interrogate assumptions within a particular scientific context. While this is challenging in most problems, it is a necessary step toward better justifying the use of, and trust in, statistical results. The goal of this high-level talk is to increase, or re-highlight, awareness and spur discussion about related challenges and strategies.',
+      time: '3:15PM - 4:15PM',
+      room: 'Auditorium',
+      track: 'General Track',
+      category: 'general',
+      youtubeUrl: 'https://www.youtube.com/watch?v=TBwZKeyi3JY'
+    },
+    {
+      id: 'jim-hoover',
+      name: 'Dr. Jim Hoover',
+      title: 'The Latest Developments in the Implementation of AI in Business',
+      company: 'University of Florida',
+      image: '/images/symposium-25/speakers/jim.png',
+      companyLogo: '/images/symposium-25/speakers/jim_sup.png',
+      description: 'Ever since November 2022 when ChatGPT was released commercially, businesses have been pursuing the best approaches to implement AI into their processes. There has been a great deal of Fear of Missing Out (FOMO) related to this quest for value out of AI capabilities. In this talk, we will discuss what is working and what is not. And, we will explore how students can best position themselves for roles in AI as the technology continues to evolve in business.',
+      time: '12:45PM - 1:45PM',
+      room: 'Auditorium',
+      track: 'General Track',
+      category: 'general',
+      youtubeUrl: 'https://www.youtube.com/watch?v=MFD3K_zR6NM'
+    },
+    {
+      id: 'andrew-gelman',
+      name: 'Dr. Andrew Gelman',
+      title: 'Principles of Bayesian Workflow',
+      company: 'Columbia University',
+      image: '/images/symposium-25/speakers/andrew.png',
+      companyLogo: '/images/symposium-25/speakers/andrew_sup.png',
+      description: 'The Bayesian approach to data analysis provides a powerful way to handle uncertainty in all observations, model parameters, and model structure using probability theory. Probabilistic programming languages make it easier to specify and fit Bayesian models, but this still leaves us with many options regarding constructing, evaluating, and using these models, along with many remaining challenges in computation. Using Bayesian inference to solve real-world problems requires not only statistical skills, subject matter knowledge, and programming, but also awareness of the decisions made in the process of data analysis. All of these aspects can be understood as part of a tangled workflow of applied Bayesian statistics. Beyond inference, the workflow also includes iterative model building, model checking, validation and troubleshooting of computational problems, model understanding, and model comparison. We review all these aspects of workflow in the context of several examples, keeping in mind that in practice we will be fitting many models for any given problem, even if only a subset of them will ultimately be relevant for our conclusions.',
+      time: '12:45PM - 1:45PM',
+      room: 'Room 2330',
+      track: 'Research Track',
+      category: 'research',
+      youtubeUrl: 'https://www.youtube.com/watch?v=slFGYV5BUVA'
+    },
+    {
+      id: 'jhonathan-herrera',
+      name: 'Jhonathan Herrera',
+      title: 'Intro to State Space Models and MAMBA',
+      company: 'Colorstack',
+      image: '/images/symposium-25/speakers/jhonathan.png',
+      companyLogo: '/images/symposium-25/speakers/jhonathan_sup.png',
+      description: 'This introduction workshop will provide you a foundational understanding of State Space Models (SSMs) and their applications in time-series modeling.',
+      time: '9:15AM - 10:15AM',
+      room: 'Room 2325',
+      track: 'Workshop Track',
+      category: 'workshop',
+      youtubeUrl: 'https://www.youtube.com/watch?v=o6ArpL4QTPo'
+    },
+    {
+      id: 'kausthubh-konuru',
+      name: 'Kausthubh Konuru',
+      title: 'Introduction to NLP: Embedding Techniques for Healthcare Applications',
+      company: 'American Statistical Association',
+      image: '/images/symposium-25/speakers/kausthubh.png',
+      companyLogo: '/images/symposium-25/speakers/kausthubh_sup.png',
+      description: 'This workshop introduces fundamental Natural Language Processing concepts through the lens of medical text embeddings. Participants will learn how to transform unstructured clinical text into meaningful vector representations. We cover text preprocessing techniques, tokenization, normalization, and various embedding methods from statistical approaches to neural representations.',
+      time: '2:00PM - 3:00PM',
+      room: 'Room 2325',
+      track: 'Workshop Track',
+      category: 'workshop',
+      youtubeUrl: 'https://www.youtube.com/watch?v=XuEAsw302hs&feature=youtu.be'
+    },
+    {
+      id: 'carlos-bastos',
+      name: 'Carlos Bastos Neto',
+      title: 'Living a Life within Big Tech',
+      company: 'Google Cloud',
+      image: '/images/symposium-25/speakers/carlos.png',
+      companyLogo: '/images/symposium-25/speakers/carlos_sup.png',
+      description: 'With over two decades at Microsoft and Google, Carlos offers an inside look at building a career across the world\'s top tech companies. He\'ll share lessons on leadership, navigating industry shifts, and what it truly means to drive innovation and transformation at scale.',
+      time: '9:15AM - 10:15AM',
+      room: 'Room 2335',
+      track: 'Industry Track',
+      category: 'industry',
+      youtubeUrl: 'https://www.youtube.com/watch?v=zIQfTEIub5o'
+    },
+    {
+      id: 'luciane-galuppo',
+      name: 'Luciane Galuppo',
+      title: 'Lessons from 30 years at Microsoft',
+      company: 'Microsoft',
+      image: '/images/symposium-25/speakers/luciane.png',
+      companyLogo: '/images/symposium-25/speakers/luciane_sup.png',
+      description: 'In this reflective talk, Luciane shares key lessons from her three-decade journey at Microsoft—from career milestones to daily life in tech. She\'ll touch on the evolution of the IT industry, her core values, and practical advice for navigating a successful and fulfilling career in tech.',
+      time: '10:30AM - 11:30AM',
+      room: 'Room 2335',
+      track: 'Industry Track',
+      category: 'industry',
+      youtubeUrl: 'https://www.youtube.com/watch?v=IwLmN4V-DkQ'
+    },
+    {
+      id: 'tyler-richards',
+      name: 'Tyler Richards',
+      title: 'Overcoming Rejection as an Aspiring Data Scientist',
+      company: 'Snowflake, Ex-Meta',
+      image: '/images/symposium-25/speakers/tyler.png',
+      companyLogo: '/images/symposium-25/speakers/tyler_sup.png',
+      description: 'In this talk, Tyler shares lessons learned from his journey breaking into data science—from early rejections to landing roles at Facebook, Streamlit, and Snowflake. He\'ll offer practical tips for staying resilient, building projects that stand out, and navigating an unpredictable career path with curiosity and creativity.',
+      time: '2:00PM - 3:00PM',
+      room: 'Room 2335',
+      track: 'Industry Track',
+      category: 'industry',
+      youtubeUrl: 'https://www.youtube.com/watch?v=OeU40fcfOis'
+    },
+    {
+      id: 'michael-vega',
+      name: 'Michael Vega-Sanz',
+      title: 'You Can Just Do Things',
+      company: 'Gail',
+      image: '/images/symposium-25/speakers/michael.png',
+      companyLogo: '/images/symposium-25/speakers/michael_sup.png',
+      description: 'Michael shares the story of how he launched two high-growth startups—first LULA, then Gail—starting from his college dorm room. Through candid reflections on risk-taking, building in regulated industries, and lessons from the journey, he\'ll inspire you to stop waiting for permission and start building.',
+      time: '9:15AM - 10:15AM',
+      room: 'Auditorium',
+      track: 'General Track',
+      category: 'general',
+      youtubeUrl: 'https://www.youtube.com/watch?v=i6DQyGf_g9A&feature=youtu.be'
+    },
+    {
+      id: 'wesley-deng',
+      name: 'Wesley Deng',
+      title: 'Supporting Responsible AI on the ground',
+      company: 'Carnegie Mellon University',
+      image: '/images/symposium-25/speakers/wesley.png',
+      companyLogo: '/images/symposium-25/speakers/wesley_sup.png',
+      description: 'As artificial intelligence (AI) becomes increasingly integrated into products and services across industries, ensuring its responsible development and deployment has become a critical challenge. Several tools, processes, and principles have been developed to support responsible AI (RAI) in industry practice. However, research has shown a persistent gap between the aspirational goals of these RAI interventions and the practical realities faced by practitioners tasked with designing and building responsible AI systems. In this talk, I will first present a set of insights gained from empirical studies with industry RAI practitioners. I will then share a series of tools and processes designed to better support RAI practices in real-world industry settings—particularly in the contexts of AI auditing, red-teaming, and impact assessment. Finally, I will briefly discuss future directions for research, practice, and policy in building safe and responsible AI within industry.',
+      time: '2:00PM - 3:00PM',
+      room: 'Room 2330',
+      track: 'Research Track',
+      category: 'research'
+    },
+    {
+      id: 'sarah-luger',
+      name: 'Dr. Sarah K Luger',
+      title: 'AI: trends, data, and low-resource languages',
+      company: 'ML Commons',
+      image: '/images/symposium-25/speakers/sarah.png',
+      companyLogo: '/images/symposium-25/speakers/sarah_sup.png',
+      description: 'Drawing from over 20 years in AI and NLP, Sarah explores emerging trends in generative AI, the challenges of building inclusive datasets, and the importance of supporting low-resource languages. With insights from both industry and research—including her work on IBM Watson\'s Jeopardy! Challenge—she highlights how responsible AI depends on diverse data, ethical practices, and a balance between scientific rigor and creativity.',
+      time: '2:00PM - 3:00PM',
+      room: 'Auditorium',
+      track: 'General Track',
+      category: 'general'
+    },
+    {
+      id: 'antonio-knez',
+      name: 'Antonio Knez',
+      title: 'Open and Loyal AGI for Everyone',
+      company: 'Sentient Foundation',
+      image: '/images/symposium-25/speakers/antonio.png',
+      companyLogo: '/images/symposium-25/speakers/antonio_sup.png',
+      description: 'The presentation will talk about Sentient\'s general mission and goal while presenting what we have done so far. It will also mention the builder grant program that we recently launched, which might be interesting to student developers.',
+      time: '12:45PM - 1:45PM',
+      room: 'Room 2335',
+      track: 'Industry Track',
+      category: 'industry',
+      youtubeUrl: 'https://www.youtube.com/watch?v=m-QS8uFNYcY'
+    },
+    {
+      id: 'olivia-dizon',
+      name: 'Dr. Olivia Dizon-Paradis',
+      title: 'Intro to AI Research',
+      company: 'University of Florida',
+      image: '/images/symposium-25/speakers/olivia.png',
+      companyLogo: '/images/symposium-25/speakers/olivia_sup.png',
+      description: 'This talk will go over an AI crash course, AI research in practice, and tools and resources for getting started with AI research.',
+      time: '3:15PM - 4:15PM',
+      room: 'Room 2335',
+      track: 'Industry Track',
+      category: 'industry'
+    },
+    {
+      id: 'stephen-wormald',
+      name: 'Stephen Wormald',
+      title: 'RAPID-XAI - Toward Explainable Models with Single-Cycle Inference',
+      company: 'University of Florida',
+      image: '/images/symposium-25/speakers/stephen.png',
+      companyLogo: '/images/symposium-25/speakers/stephen_sup.png',
+      description: 'This talk explores how we can make AI systems faster and easier to understand by bridging explainability and performance. It introduces a new framework that integrates logic-based neural models with custom hardware acceleration to enable single-cycle inference. Through this approach, the talk demonstrates how we can build AI systems that are not only highly interpretable but also capable of operating in real-time environments.',
+      time: '3:15PM - 4:15PM',
+      room: 'Room 2330',
+      track: 'Research Track',
+      category: 'research'
+    }
+  ];
+
+  // Placeholder data for 2026
+  const speakers2026: Speaker[] = [];
+
+  // Select speakers based on selected year
+  const speakers = selectedYear === '2025' ? speakers2025 : speakers2026;
 
   const categories = ['All', 'Keynote', 'General Track', 'Industry Track', 'Research Track', 'Workshop Track'];
   
@@ -166,48 +471,303 @@ const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Sy
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedSpeaker]);
 
-  const keynoteSpeaker = sortedSpeakers.find(s => s.id === symposium.keynote);
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!showPastSymposiums) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-other-symposiums]')) {
+        setShowPastSymposiums(false);
+      }
+    };
+    window.addEventListener('click', handleClickOutside);
+    return () => window.removeEventListener('click', handleClickOutside);
+  }, [showPastSymposiums]);
+
+  // Close other symposiums dropdown when clicking outside
+  useEffect(() => {
+    if (!showPastSymposiums) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('[data-other-symposiums]')) {
+        setShowPastSymposiums(false);
+      }
+    };
+    // Use a small delay to ensure click events on the button fire first
+    setTimeout(() => {
+      document.addEventListener('click', handleClickOutside);
+    }, 0);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, [showPastSymposiums]);
+
+  // Countdown timer effect
+  useEffect(() => {
+    if (selectedYear !== '2026') return;
+
+    const targetDate = new Date('2026-03-28T09:00:00').getTime();
+
+    const updateCountdown = () => {
+      const now = new Date().getTime();
+      const difference = targetDate - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    updateCountdown();
+    const interval = setInterval(updateCountdown, 1000);
+
+    return () => clearInterval(interval);
+  }, [selectedYear]);
+
+  const keynoteSpeaker = sortedSpeakers.find(s => s.category === 'keynote');
   const regularSpeakers = sortedSpeakers.filter(s => s.category !== 'keynote');
   return (
     <div className="min-h-screen  ">
       {/* Header Section */}
-      <section className="relative z-10 overflow-hidden pb-0">
-        <div className="container mx-auto">
-          <div className="mx-auto max-w-[900px] text-center mb-12">
-            <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
-              DSI Spring Symposium {new Date(symposium.date).getFullYear()}
-            </h1>
-            <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4 mb-8">
-              Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
-            </p>
-            
-            {/* Quick Info Cards */}
-            <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
-                <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">📅 Date</div>
-                <div className="text-gray-900 dark:text-white font-semibold">{new Date(symposium.date).toLocaleDateString('en-us', {
-                  month: 'long',
-                  day: 'numeric',
-                  year: 'numeric'
-                })}</div>
+      {selectedYear === '2026' ? (
+        // 2026 - New Fancy Layout
+        <section className="relative z-10 overflow-visible pb-0 bg-gray-50 dark:bg-gray-900">
+          <div className="container mx-auto px-4 pt-0 pb-0">
+            {/* Main Header Content - Esper Bionics Style */}
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-7xl mx-auto">
+              {/* Left Side - Image */}
+              <div className="relative w-full h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
+                <Image
+                  src="/images/symposium-26/filler/3.jpg"
+                  alt="Symposium 2026"
+                  fill
+                  className="object-cover rounded-2xl"
+                />
               </div>
-              <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
-                <div className="text-green-600 dark:text-green-400 text-sm font-medium">📍 Location</div>
-                <div className="text-gray-900 dark:text-white font-semibold">Reitz Union, UF</div>
-              </div>
-              <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
-                <div className="text-purple-600 dark:text-purple-400 text-sm font-medium">👥 Speakers</div>
-                <div className="text-gray-900 dark:text-white font-semibold">{speakers.length} Experts</div>
+              
+              {/* Right Side - Text Content */}
+              <div className="space-y-6 order-1 md:order-2">
+                {/* Subtitle */}
+                <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 uppercase tracking-wide">
+                  expanding abilities.
+                </p>
+                
+                {/* Main Title */}
+                <div className="space-y-2">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    DSI
+                  </h1>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    SYMPOSIUM
+                  </h1>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400 mt-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                    2026
+                  </h2>
+                </div>
+                
+                {/* Description */}
+                <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
+                  Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+                </p>
+                
+                {/* Info Section */}
+                <div className="space-y-3 pt-4">
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📅 Date:</span>
+                    <span>March 28, 2026</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📍 Location:</span>
+                    <span>Reitz Union, UF</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">👥 Speakers:</span>
+                    <span>TBD</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      ) : (
+        // 2025 - Original Simple Layout
+        <section className="relative z-10 overflow-hidden pb-0">
+          <div className="container mx-auto">
+            <div className="mx-auto max-w-[900px] text-center mb-12">
+              <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
+                DSI Spring Symposium 2025
+              </h1>
+              <p className="text-lg leading-relaxed text-gray-700 dark:text-gray-300 px-4 mb-8">
+                Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+              </p>
+              
+              {/* Quick Info Cards */}
+              <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
+                  <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">📅 Date</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">April 5, 2025</div>
+                </div>
+                <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
+                  <div className="text-green-600 dark:text-green-400 text-sm font-medium">📍 Location</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">Reitz Union, UF</div>
+                </div>
+                <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
+                  <div className="text-purple-600 dark:text-purple-400 text-sm font-medium">👥 Speakers</div>
+                  <div className="text-gray-900 dark:text-white font-semibold">{speakers.length} Experts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Countdown Timer for 2026 */}
+      {selectedYear === '2026' && (
+              <div className="max-w-4xl mx-auto mb-0 px-4 -mt-8 md:-mt-10 pt-10 md:pt-12">
+                <div className="p-6 md:p-8">
+                  <div className="grid grid-cols-4 gap-4 md:gap-8">
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.days.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Days
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.hours.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Hours
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.minutes.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Minutes
+                      </div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-2" style={{ fontFamily: 'var(--font-titan-one), sans-serif' }}>
+                        {timeLeft.seconds.toString().padStart(2, '0')}
+                      </div>
+                      <div className="text-sm md:text-base font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
+                        Seconds
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+      )}
+
+      {/* 2026 Photo Gallery */}
+      {selectedYear === '2026' && (
+        <section className="pt-0 pb-12 relative">
+          {/* Other Symposiums Button - Above Gallery on Right */}
+          <div className="flex justify-end mb-4 px-4" data-other-symposiums>
+            <div className="relative z-50">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowPastSymposiums(!showPastSymposiums);
+                }}
+                className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
+              >
+                Other Symposiums
+              </button>
+              
+              {/* Other Symposiums Dropdown */}
+              {showPastSymposiums && (
+                <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
+                  <div className="py-2">
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedYear('2025');
+                        setShowPastSymposiums(false);
+                      }}
+                      className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                    >
+                      2025
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+          
+          <div className="w-full">
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-0">
+              {[6, 2, 1, 4, 5].map((num) => (
+                <div key={num} className="relative aspect-[4/3] overflow-hidden">
+                  <Image
+                    src={`/images/symposium-26/filler/${num}.jpg`}
+                    alt={`Symposium 2026 Photo ${num}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 50vw, 20vw"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* Keynote Speaker Section */}
-      {keynoteSpeaker && (
+      {keynoteSpeaker && selectedYear === '2025' && (
         <section className="pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
+            {/* Other Symposiums Button - Above Keynote on Right */}
+            <div className="flex justify-end mb-4" data-other-symposiums>
+              <div className="relative z-50">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowPastSymposiums(!showPastSymposiums);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
+                >
+                  Other Symposiums
+                </button>
+                
+                {/* Other Symposiums Dropdown */}
+                {showPastSymposiums && (
+                  <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
+                    <div className="py-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedYear('2026');
+                          setShowPastSymposiums(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                      >
+                        2026
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+            
             <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
               Keynote Speaker
             </h2>
@@ -245,26 +805,32 @@ const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Sy
             </div>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredSpeakers.map((speaker) => (
-              <SpeakerCard
-                key={speaker.id}
-                speaker={speaker}
-                onClick={() => setSelectedSpeaker(speaker)}
-              />
-            ))}
-          </div>
+          {filteredSpeakers.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {filteredSpeakers.map((speaker) => (
+                <SpeakerCard
+                  key={speaker.id}
+                  speaker={speaker}
+                  onClick={() => setSelectedSpeaker(speaker)}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12">
+              <p className="text-lg text-gray-600 dark:text-gray-400">
+                {selectedYear === '2026' ? '2026 symposium information coming soon!' : 'No speakers found for the selected filter.'}
+              </p>
+            </div>
+          )}
         </div>
       </section>
 
       {/* Collaborators Section */}
       <section className="py-12 bg-white dark:bg-gray-800">
         <div className="container mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-            Collaborators & Sponsors
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+          {selectedYear === '2025' ? (
+            <>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             <div className="text-center">
               <h3 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-300">Speaker Affiliations</h3>
               <div className=" dark:bg-gray-700 rounded-xl p-6 border border-gray-200 dark:border-gray-600">
@@ -303,7 +869,97 @@ const SymposiumNew = ({speakers, symposium}: {speakers: Speaker[], symposium: Sy
                 <Image src="/images/symposium-25/sponsors/smathers.png" alt="Smathers" width={120} height={60} className="opacity-70 hover:opacity-100 transition-opacity" />
               </div>
             </div>
-          </div>
+              </div>
+            </>
+          ) : (
+            /* 2026 - Sponsors and Collaborators */
+            <>
+              {/* Sponsors */}
+              <div className="mb-12">
+                <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-2 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+                  SPONSORS
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-8" style={{ fontFamily: 'Inter, sans-serif' }}>
+                  Interested in being a sponsor? Check the sponsors page!
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                  {/* NVIDIA */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="bg-white aspect-square relative p-4">
+                      <Image
+                        src="/images/symposium-26/sponsors/nvidia.png"
+                        alt="NVIDIA"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>NVIDIA</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Leader in GPU-driven AI</p>
+                    </div>
+                  </div>
+                  
+                  {/* Mark III */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="bg-white aspect-square relative p-4">
+                      <Image
+                        src="/images/symposium-26/sponsors/mark-iii.png"
+                        alt="Mark III"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Mark III</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">Full-stack IT and AI solutions provider</p>
+                    </div>
+                  </div>
+                  
+                  {/* NLP Logix */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="aspect-square relative p-4" style={{ backgroundColor: '#79bc46' }}>
+                      <Image
+                        src="/images/symposium-26/sponsors/nlp-logix.png"
+                        alt="NLP Logix"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>NLP Logix</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">AI consulting firm delivering automation</p>
+                    </div>
+                  </div>
+                  
+                  {/* AIIRI */}
+                  <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                    <div className="aspect-square relative p-2" style={{ backgroundColor: '#0b2d81' }}>
+                      <Image
+                        src="/images/symposium-26/sponsors/aiiri.png"
+                        alt="AIIRI"
+                        fill
+                        className="object-contain"
+                      />
+                    </div>
+                    <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                      <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>AIIRI</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">UF hub advancing campus-wide AI research</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Speaker/Workshop Affiliations */}
+              <div className="text-center">
+                <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-8" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+                  SPEAKER/WORKSHOP AFFILIATIONS
+                </h3>
+                <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-12 border border-gray-200 dark:border-gray-600">
+                  <p className="text-gray-500 dark:text-gray-400 text-lg">Coming Soon!</p>
+                </div>
+              </div>
+            </>
+          )}
         </div>
       </section>
 
