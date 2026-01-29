@@ -21,6 +21,7 @@ export default function Login() {
     const router = useRouter()
     const supabase = createUserClient();
     const [ submitted, setSubmitted ] = useState<boolean>(false);
+    const [ error, setError ] = useState<string | null>(null);
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         setSubmitted(true);
         supabase.auth.signInWithPassword(data).then((result) => {
@@ -51,7 +52,9 @@ export default function Login() {
         }).then(async (res) => {
             if (res.status === 200) {
                 // Authorized
-                window.location.href = '/admin/dashboard';
+                supabase.auth.setSession({ access_token, refresh_token }).then(() => {
+                    router.push('/admin/dashboard');
+                });
             } else if (res.status === 202) {
                 // Need to setup password
                 console.log('need to setup password');
@@ -61,13 +64,14 @@ export default function Login() {
                 
             } else {
                 // Unauthorized
-                console.log('unauthorized');
+                setError('Your login link is invalid or has expired. Please request a new one.');
             }
         })
-    }, [window.location.hash]);
+    }, []);
     const form = useForm<Inputs>();
     return (
         <div className=" w-full lg:w-[50%] p-10 h-full  bg-white dark:bg-black border rounded-xl border-white/10 flex flex-col items-center justify-center">
+                {error && <p className="text-red-500">{error}</p>}
                 <div className="sticky top-0 left-0 flex flex-col items-center">
                     <Image
                         src="/images/logo/hd-transparent-dsi-logo.png"
@@ -86,6 +90,7 @@ export default function Login() {
                         
                         <Controller
                             name="email"
+                            defaultValue=""
                             control={form.control}
                             rules={{
                                 required: true,
@@ -111,6 +116,7 @@ export default function Login() {
                         <Controller
                             name="password"
                             control={form.control}
+                            defaultValue=""
                             rules={{
                                 required: true
                             }}
@@ -133,8 +139,8 @@ export default function Login() {
                                 </Field>
                             )}
                         />
-                        <Field>
-                            <Button type="submit">{submitted ? <Spinner /> : "Sign in"}</Button>
+                        <Field className="w-full flex justify-center items-center">
+                            <Button type="submit" className="!w-fit !px-10">{submitted ? <Spinner /> : "Sign in"}</Button>
                         </Field>
                         
                     </FieldGroup>

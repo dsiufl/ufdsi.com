@@ -9,9 +9,32 @@ export interface AdminInfo {
     email: string;
 }
 export interface Symposium {
-    id: number,
-    keynote: number,
-    date: Date,
+    id: number;
+    keynote: number;
+    date: Date;
+}
+
+export interface Article {
+    id: number;
+    title: string;
+    created_at: Date;
+    content: string;
+    summary: string;
+    category: string;
+    cover: string;
+    featured: boolean
+}
+
+export interface Workshop {
+  id: number;
+  created_at: Date;
+  title: string;
+  speaker: string;
+  datetime: Date;
+  location: string;
+  cover: string;
+  link?: string;
+  description?: string;
 }
 
 export interface Speaker {

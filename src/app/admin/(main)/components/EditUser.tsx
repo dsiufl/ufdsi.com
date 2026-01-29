@@ -29,7 +29,7 @@ export default function EditUser({data, onSubmit, admin}: {data: Profile, onSubm
             <FieldGroup>
                 <Controller
                     name="pictureURL"
-                    defaultValue={data.pictureURL ?? undefined}
+                    defaultValue={data.pictureURL ?? ""}
                     control={form.control}
                     rules={{required: admin ? false : true}}
                     render={({field, fieldState}) => {

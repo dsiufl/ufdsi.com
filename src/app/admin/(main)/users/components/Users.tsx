@@ -152,7 +152,7 @@ export default function Users({data}: {data: Profile[]}) {
                     setDeleteOverlay(undefined);
                 }} />
             }
-            <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
+            <Table className="w-full text-center bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
                 <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
                     <TableRow>
                         <TableCell>First Name</TableCell>

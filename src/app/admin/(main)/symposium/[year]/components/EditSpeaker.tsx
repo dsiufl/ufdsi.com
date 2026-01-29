@@ -39,7 +39,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
             <FieldGroup>
                 <Controller
                     name="cover"
-                    defaultValue={speakerRef.current.cover ?? undefined}
+                    defaultValue={speakerRef.current.cover ?? ""}
                     control={form.control}
                     rules={{required: true}}
                     render={({field, fieldState}) => {
@@ -52,7 +52,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                                 <div className="h-[30rem] rounded-xl overflow-clip">
                                     <Image
                                         fill
-                                        src={field.value ? field.value : "/images/logo/logo.svg"}
+                                        src={field.value.length > 0 ? field.value : "/images/logo/logo.svg"}
                                         unoptimized
                                         alt="Headshot"
                                         className="!relative"
@@ -67,7 +67,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                             <Input
                                 type="file"
                                 accept="image/*"
-                                value={undefined}
+                                value={""}
                                 aria-invalid={fieldState.invalid}
                                 onChange={(e) => {
                                     field.onChange(URL.createObjectURL(e.target.files[0]))
@@ -90,7 +90,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="name"
                     control={form.control}
-                    defaultValue={speakerRef.current.name ?? undefined}
+                    defaultValue={speakerRef.current.name ?? ""}
                     rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
@@ -112,7 +112,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="affiliation"
                     control={form.control}
-                    defaultValue={speakerRef.current.affiliation ?? undefined}
+                    defaultValue={speakerRef.current.affiliation ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
@@ -133,7 +133,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 />
                 <Controller
                     name="affiliated_logo"
-                    defaultValue={speakerRef.current.affiliated_logo ?? undefined}
+                    defaultValue={speakerRef.current.affiliated_logo ?? ""}
                     control={form.control}
                     render={({field, fieldState}) => {
                         return (
@@ -183,7 +183,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="title"
                     control={form.control}
-                    defaultValue={speakerRef.current.title ?? undefined}
+                    defaultValue={speakerRef.current.title ?? ""}
                     rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
@@ -205,7 +205,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="description"
                     control={form.control}
-                    defaultValue={speakerRef.current.description ?? undefined}
+                    defaultValue={speakerRef.current.description ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
@@ -225,7 +225,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="time"
                     control={form.control}
-                    defaultValue={speakerRef.current.time ?? undefined}
+                    defaultValue={speakerRef.current.time ?? ""}
                     rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
@@ -247,7 +247,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="location"
                     control={form.control}
-                    defaultValue={speakerRef.current.location ?? undefined}
+                    defaultValue={speakerRef.current.location ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
@@ -269,7 +269,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="youtube"
                     control={form.control}
-                    defaultValue={speakerRef.current.youtube ?? undefined}
+                    defaultValue={speakerRef.current.youtube ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
@@ -289,7 +289,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                 <Controller
                     name="track"
                     control={form.control}
-                    defaultValue={speakerRef.current.track ?? undefined}
+                    defaultValue={speakerRef.current.track ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">

@@ -270,7 +270,7 @@ export default function Editor({symposium, speakers}: {
                                         console.log(urlData);
                                         speaker.cover = urlData.publicUrl;
                                     }
-                                    if (speaker.affiliated_logo.startsWith('blob:')) {
+                                    if (speaker.affiliated_logo && speaker.affiliated_logo.startsWith('blob:')) {
                                         const response = await fetch(speaker.affiliated_logo);
                                         const blob = await response.blob();
                                         const { data, error } = await supabase
@@ -301,7 +301,8 @@ export default function Editor({symposium, speakers}: {
                                             description: speaker.description,
                                             cover: speaker.cover,
                                             time: speaker.time,
-                                            location: speaker.location
+                                            location: speaker.location,
+                                            symposium: symposium.id,
                                         })
                                         .eq('id', speaker.id).then((data) => {
                                             if (data.error) {

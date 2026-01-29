@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import sendEmail from "../email/lib";
 
 export async function POST(req: NextRequest) {
 
@@ -43,36 +44,7 @@ export async function POST(req: NextRequest) {
     }
     
     await supabase.schema('admin').from('people').insert({...user, id: newUser?.id});
-    const {data: { properties: { action_link } } } = await supabase.auth.admin.generateLink({
-        email: user.email,
-        type: "magiclink"
-    })
-
-    const res = await fetch("https://api.brevo.com/v3/smtp/email", {
-        headers: {
-            'accept': 'application/json',
-            'content-type': 'application/json',
-            'api-key': process.env.BREVO_API_KEY!
-        },
-        method: 'POST',
-        body: JSON.stringify({
-            sender: {
-                name: "DSI Admin",
-                email: "jossayacamille@gmail.com"
-            },
-            to: [{ email: user.email, name: user.first_name + ' ' + user.last_name }],
-            subject: "Your DSI Admin Account has been created",
-            templateId: 1,
-            params: {
-                first_name: user.first_name,
-                role: user.role,
-                action_link
-            }
-           
-        }) 
-    }).catch((err) => {
-        console.log("Error sending email:", err);
-    })
+    const res = await sendEmail(user, access_token);
 
     if (res && res.status >= 400) {
         console.log("Error sending email:", await res.text());

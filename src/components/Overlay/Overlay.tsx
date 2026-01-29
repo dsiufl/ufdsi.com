@@ -7,6 +7,9 @@ export default function Overlay({children, title, close}: {children: React.React
     const exit = () => {
         setOpen(false);
         close();
+        setTimeout(() => {
+            document.body.style.pointerEvents = "";
+        }, 300);
     }
     if (window.innerWidth < 768) return (
         <Drawer open={open} onOpenChange={exit}>
@@ -19,8 +22,7 @@ export default function Overlay({children, title, close}: {children: React.React
         </Drawer>
     )
     return (
-        <Sheet open={open} onOpenChange={exit}>
-            
+        <Sheet open={open} modal={true} onOpenChange={exit}>
             <SheetContent className="!max-w-[40vw] overflow-y-scroll ">
                 <SheetHeader>
                     <SheetTitle>{title}</SheetTitle>
