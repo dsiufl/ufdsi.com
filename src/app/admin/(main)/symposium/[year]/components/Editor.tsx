@@ -393,7 +393,7 @@ export default function Editor({symposium, speakers}: {
                                     }
                                     speakers = [...diffs,...newSpeakers];
                                     symposium.keynote = keynote.id ?? null;
-                                    symposium.date = newDate.toISOString();
+                                    symposium.date = newDate.toISOString() as unknown as Date;
                                     setSaveState("saved");
                                 })
                         }

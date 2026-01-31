@@ -10,7 +10,6 @@ import { Info } from "lucide-react";
 import { Spinner } from "@/components/ui/spinner";
 import Image from "next/image";
 import { useState } from "react";
-import { Combobox, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxList } from "@/components/ui/combobox";
 import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { InputGroup } from "@/components/ui/input-group";
