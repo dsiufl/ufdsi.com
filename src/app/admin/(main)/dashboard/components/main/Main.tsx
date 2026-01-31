@@ -10,20 +10,20 @@ import Settings from "../pages/Settings";
 export default function Main({data}: {data: AdminInfo}) {
     const [page, setPage] = useState<"Actions" | "Settings">("Actions");
     return (
-        <div className="relative w-[90%] h-[70%] max-w-7xl p-5 bg-white dark:bg-black border box-content border-white/10 rounded-xl">
+        <div className="absolute md:relative bottom-0 w-full md:w-[90%] h-full flex flex-col md:h-1/2 overflow-y-scroll lg:h-[65%] max-w-7xl lg:p-5 bg-white dark:bg-black border box-content border-white/10 rounded-xl">
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
-                        <Button>{page} <ArrowDown /></Button>
+                        <Button className="w-fit">{page} <ArrowDown /></Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="max-h-[200px]">
                         <DropdownMenuItem 
-                            className={`${page == "Actions" ? "bg-gray-700" : ""}`}
+                            className={`${page == "Actions" ? "dark:bg-gray-700" : ""}`}
                             onClick={() => setPage("Actions")}
                         >
                             Actions
                         </DropdownMenuItem>
                         <DropdownMenuItem 
-                            className={`${page == "Settings" ? "bg-gray-700" : ""}`}
+                            className={`${page == "Settings" ? "dark:bg-gray-700" : ""}`}
                             onClick={() => setPage("Settings")}
                         >
                             Settings

@@ -15,7 +15,7 @@ export default async function page() {
     return (
         <div className="w-full h-screen flex flex-col text-center items-center justify-center">
             <h2>DSI Workshops</h2>
-            <div className="w-full h-full py-4 px-10 bg-[#000000]/30 flex flex-col items-start">
+            <div className="w-full h-full py-4 px-10 bg-gray-400/20 dark:bg-[#000000]/30 flex flex-col items-start">
                 <Editor workshops={workshops.data} />
                 <div className="w-full flex flex-col items-center">
                     <h3 className="mt-10 mb-4 font-bold">Upcoming Workshops</h3>

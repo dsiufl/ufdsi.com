@@ -23,12 +23,12 @@ export default async function Page() {
     }   
     return (
         <div className="relative md:absolute md:top-0 flex flex-col h-screen w-full items-center justify-center">
-            <div className="relative w-[90%] max-w-7xl flex justify-between mb-2">
-                <div className="h-[50px] flex flex-row justify-center items-center">
+            <div className="relative w-[90%] max-w-7xl flex flex-col justify-start md:flex-row md:justify-between mb-2">
+                <div className="h-[50px] flex flex-row lg:justify-center items-center">
                     <p className="font-bold">{data?.first_name} {data?.last_name}</p>
                 </div>
                 <div className="flex flex-row gap-2 justify-center">
-                    <p>{data?.role} | Data Science and Informatics</p>
+                    <p className="!text-xl lg:!text-md">{data?.role} | Data Science and Informatics</p>
                 </div>
             </div>
             <Main data={data} />   

@@ -13,7 +13,7 @@ export default function Overlay({children, title, close}: {children: React.React
     }
     if (window.innerWidth < 768) return (
         <Drawer open={open} onOpenChange={exit}>
-            <DrawerContent>
+            <DrawerContent className="p-10">
                 <DrawerHeader>
                     <DrawerTitle>{title}</DrawerTitle>
                 </DrawerHeader>

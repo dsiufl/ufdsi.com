@@ -1,12 +1,20 @@
-'use client';
+import { createClient } from "@/lib/supabase/server";
 import dynamic from "next/dynamic";
+import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 
 // Use dynamic import with no SSR for the carousel component to avoid hydration issues
-const NewsCarousel = dynamic(() => import("@/components/NewsCarousel"), { ssr: false });
+import NewsCarousel from "@/components/NewsCarousel";
 
-const AboutPage = () => {
+const AboutPage = async () => {
   // Article IDs for "org of year", "Ccc award", and "nvidia workshop"
-  const featuredArticleIds = [1, 10, 7];
+  const cookieStore = await cookies();
+  const supabase = await createClient(cookieStore);
+  const { data: featuredArticles, error } = await supabase
+    .from('news')
+    .select('*')
+    .in('id', [1,4,7]);
+  if (error) notFound();
 
   return (
     <>
@@ -34,7 +42,7 @@ const AboutPage = () => {
               <div className="w-full px-4 lg:w-1/2">
                 <div className="text-center">
                   <div className="relative z-10 inline-block w-full max-w-[500px]">
-                    <NewsCarousel articleIds={featuredArticleIds} />
+                    <NewsCarousel displayArticles={featuredArticles} />
                   </div>
                 </div>
               </div>

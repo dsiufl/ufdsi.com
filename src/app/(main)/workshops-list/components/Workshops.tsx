@@ -6,6 +6,7 @@ import Image from "next/image";
 import ScrollUp from "@/components/Common/ScrollUp";
 import { Workshop } from "@/types/db";
 import { link } from "fs/promises";
+import { Calendar, CircleUserRound, LocateIcon, LocationEdit, MapPin, PersonStanding } from "lucide-react";
 export default function Workshops({ workshops }: { workshops: Workshop[] }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const pastWorkshops = workshops.filter(workshop => new Date(workshop.datetime).getTime() < new Date().getTime());
@@ -259,15 +260,21 @@ export default function Workshops({ workshops }: { workshops: Workshop[] }) {
                           </h3>
                           
                           {/* Date/Time */}
-                          <p className="text-xs text-gray-600 dark:text-gray-400">
-                            {new Date(workshop.datetime).toLocaleDateString()}
-                          </p>
+                          <p className="flex items-center text-xs text-gray-600 dark:text-gray-400 mb-2 gap-1">
+                            <CircleUserRound className="size-5"/>{workshop.speaker}
+                            </p>
+                            <p className="flex items-center text-xs text-gray-600 dark:text-gray-400 mb-2 gap-1">
+                            <MapPin className="size-6 lg:size-5"/>{workshop.location}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 flex gap-1 items-center">
+                            <Calendar className="size-5"/>{new Date(workshop.datetime).toLocaleDateString('en-US', { hour: '2-digit', minute: '2-digit' } )}
+                            </p>
                         </div>
                       </div>
                     );
                   })}
                 </div>
-              ) : (
+              ) : ( 
                 <div className="text-center py-8">
                   <p className="text-sm text-gray-600 dark:text-gray-400">No upcoming workshops scheduled.</p>
                 </div>

@@ -9,10 +9,13 @@ import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Overlay from "@/components/Overlay/Overlay";
 import EditSpeakerOverlay from "./EditSpeakerOverlay";
-import { EllipsisIcon } from "lucide-react";
+import { Calendar, EllipsisIcon } from "lucide-react";
+import { Calendar as CalendarElement } from "@/components/ui/calendar";
 import { Spinner } from "@/components/ui/spinner";
 import { createUserClient } from "@/lib/supabase/client";
 import NewSpeakerOverlay from "./NewSpeakerOverlay";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
 
 
 const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick?: () => void }) => (
@@ -65,6 +68,7 @@ export default function Editor({symposium, speakers}: {
 }) {
     const [keynote, setKeynote] = useState<Speaker | undefined>(speakers.find(s => s.id === symposium.keynote))
     const [newSpeakers, setNewSpeakers] = useState<Speaker[]>(speakers);
+    const [newDate, setNewDate] = useState<Date>(new Date(symposium.date));
     const [diffs, setDiffs] = useState<Speaker[]>([]);
     const [changed, setChanged] = useState<boolean>(false);
     const [editSpeakerOverlay, setEditSpeakerOverlay] = useState<Speaker | undefined>(undefined);
@@ -137,8 +141,42 @@ export default function Editor({symposium, speakers}: {
             )
         }
         <div className="relative w-full h-fit min-h-screen lg:h-[80%] rounded-xl px-[10%] py-10 bg-gray-200 dark:bg-[#000000]/70">
-           <h2>Keynote</h2>
-           {keynote ? (
+            <div className="w-full flex justify-center">
+                <DropdownMenu modal={true}>
+                    <DropdownMenuTrigger asChild>
+                        <div className="hover:cursor-pointer hover:underline">
+                            <p>
+                                {newDate.toLocaleDateString('en-US', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: '2-digit',
+                                })}
+                            </p>
+                        </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        <CalendarElement
+                            mode="single"
+                            defaultMonth={newDate}
+                            className="!text-black"
+                            selected={newDate}
+                            
+                            onSelect={(e) => {
+                                console.log(e);
+                                if (e) {
+                                    setNewDate(e);
+                                    setChanged(true);
+                                    setSaveState("unsaved");
+                                }
+                            }}
+                        />
+                        
+                    </DropdownMenuContent>
+                </DropdownMenu>
+                
+            </div>
+            <h2>Keynote</h2>
+            {keynote ? (
             <div className="flex flex-col items-center justify-center">
                 <KeynoteSpeaker speaker={keynote} />
                 <DropdownMenu modal={false} dir="ltr" >
@@ -159,7 +197,7 @@ export default function Editor({symposium, speakers}: {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-           ) : 
+            ) : 
             <div className="w-full flex flex-col place-items-center">
                 <p>No keynote speaker selected.</p>
                 { newSpeakers.length > 0 && <Button>Select a keynote speaker</Button>}
@@ -252,7 +290,7 @@ export default function Editor({symposium, speakers}: {
                                     if (speaker.cover.startsWith('blob:')) {
                                         const response = await fetch(speaker.cover);
                                         const blob = await response.blob();
-                                        const { data, error } = await supabase
+                                        const { data,  error } = await supabase
                                             .storage
                                             .from('images')
                                             .upload(`speakers/${symposium.id}/cover_${Math.random().toString(36).slice(2, 9)}.jpg`, blob, {
@@ -336,13 +374,14 @@ export default function Editor({symposium, speakers}: {
                                 setSaveState("unsaved");
                             });
                         }
-                        const ogKeynote = speakers.find(s => s.id === symposium.keynote)
-                        if (keynote !== ogKeynote) {
+                        const ogKeynote = speakers.find(s => s.id === (symposium.keynote ?? ''));
+                        if (keynote !== ogKeynote || newDate.getTime() !== new Date(symposium.date).getTime()) {
                             console.log("Keynote", keynote)
                             supabase
                                 .from('symposiums')
                                 .update({
-                                    keynote: keynote ? keynote.id : null
+                                    keynote: keynote ? keynote.id : null,
+                                    date: newDate.toISOString(),
                                 })
                                 .eq('id', symposium.id)
                                 .then((data) => {
@@ -352,7 +391,8 @@ export default function Editor({symposium, speakers}: {
                                         return;
                                     }
                                     speakers = [...diffs,...newSpeakers];
-                                    symposium.keynote = keynote.id
+                                    symposium.keynote = keynote.id ?? null;
+                                    symposium.date = newDate.toISOString();
                                     setSaveState("saved");
                                 })
                         }
@@ -364,6 +404,10 @@ export default function Editor({symposium, speakers}: {
                         const ogKeynote = speakers.find(s => s.id === symposium.keynote)
                         if (keynote !== ogKeynote) setKeynote(ogKeynote);
                         if (newSpeakers !== speakers) setNewSpeakers(speakers);
+                        if (newDate.getTime() !== new Date(symposium.date).getTime()) {
+                            setNewDate(new Date(symposium.date));
+                            setChanged(false);
+                        }
                     }}>Revert</Button>
                     </>
                     :
