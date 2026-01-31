@@ -106,7 +106,7 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                 <Controller
                     name="description"
                     control={form.control}
-                    defaultValue={workshop.description ?? ""}
+                    defaultValue={workshop.description ?? " "}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">Description</FieldLabel>
