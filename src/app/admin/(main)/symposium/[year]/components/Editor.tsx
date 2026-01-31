@@ -144,7 +144,8 @@ export default function Editor({symposium, speakers}: {
             <div className="w-full flex justify-center">
                 <DropdownMenu modal={true}>
                     <DropdownMenuTrigger asChild>
-                        <div className="hover:cursor-pointer hover:underline">
+                        <div className="hover:cursor-pointer hover:underline flex gap-1">
+                            <Calendar />
                             <p>
                                 {newDate.toLocaleDateString('en-US', {
                                     year: 'numeric',
