@@ -20,13 +20,15 @@ type Inputs = {
 export default function Login() {
     const router = useRouter()
     const supabase = createUserClient();
+    const form = useForm<Inputs>();
     const [ submitted, setSubmitted ] = useState<boolean>(false);
     const [ error, setError ] = useState<string | null>(null);
+    const [ linkSent, setLinkSent ] = useState<boolean>(false);
     const onSubmit: SubmitHandler<Inputs> = (data) => {
         setSubmitted(true);
         supabase.auth.signInWithPassword(data).then((result) => {
             if (result.error) {
-                // idk
+                form.setError("password", { type: "manual", message: "Invalid email or password" });
                 setSubmitted(false);
             } else {
                 console.log("redirecting..")
@@ -41,6 +43,7 @@ export default function Login() {
         const params = new URLSearchParams(hash);
         const access_token = params.get('access_token');
         const refresh_token = params.get('refresh_token');
+        setLinkSent(true);
         fetch('/api/auth/confirm', {
             method: 'POST',
             body: JSON.stringify({
@@ -64,11 +67,13 @@ export default function Login() {
                 
             } else {
                 // Unauthorized
+                setLinkSent(false);
                 setError('Your login link is invalid or has expired. Please request a new one.');
             }
         })
     }, []);
-    const form = useForm<Inputs>();
+    
+    
     return (
         <div className=" w-full lg:w-[50%] p-10 h-full  bg-white dark:bg-black border rounded-xl border-white/10 flex flex-col items-center justify-center">
                 {error && <p className="text-red-500">{error}</p>}
@@ -85,9 +90,8 @@ export default function Login() {
                 <div className="w-[75%] h-0.5 m-2 bg-gray-700 dark:bg-amber-50/30"></div>
                 <h2 className="">Sign in</h2>
                 
-                <form className="w-[75%]" onSubmit={form.handleSubmit(onSubmit)}>
+                {!linkSent ? <form className="w-[75%]" onSubmit={form.handleSubmit(onSubmit)}>
                     <FieldGroup>
-                        
                         <Controller
                             name="email"
                             defaultValue=""
@@ -147,6 +151,7 @@ export default function Login() {
                     <p style={{color: 'gray'}}>Need an account? Contact one of the Technology Coordinators. </p>
 
                 </form>
+                : <Spinner size={24} />}
 
                 
             </div>

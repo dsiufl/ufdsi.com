@@ -160,13 +160,13 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 dark:bg-black text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
                   aria-label="Toggle Theme"
                 >
-                  {mounted && (
+                  {
                     theme === 'dark' ? (
                       <SunIcon className="text-black" />
                     ) : (
                       <MoonIcon  className="text-black"/>
                     )
-                  )}
+                  }
                 </button>
                 
                 {/* Mobile Menu Button */}
@@ -196,24 +196,19 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                 </button>
               </div>
               
+              
               {/* Desktop Theme Toggle */}
-              <div className="lg:flex items-center justify-end ml-4">
-                <button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex h-10 w-10 items-center justify-center rounded-full !text-black bg-white/10 shadow-md backdrop-blur-md transition-all hover:bg-white/20 dark:text-white"
-                  aria-label="Toggle Theme"
-                >
-                    
-                   {mounted && (
+              <div className="lg:flex items-center ml-4">
+                <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="!bg-slate-100/30 w-fit h-fit !p-2 rounded-full">
+                  {
                     theme === 'dark' ? (
-                      <SunIcon className=""/>
+                      <SunIcon className="" style={{width: "24px !important", height: "24px"}} />
                     ) : (
-                      <> 
-                        <MoonIcon className="" color="black"/>
-                      </>
+                      <MoonIcon  style={{width: "24px", height: "24px"}} />
                     )
-                  )}
+                  }
                 </button>
+                
               </div>
             </div>
           </div>

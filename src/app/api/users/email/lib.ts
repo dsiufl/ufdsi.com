@@ -22,11 +22,16 @@ export default async function sendEmail(user: Profile, access_token: string) {
         console.log(profile.role)
         return new Response('Forbidden', { status: 403 });
     }
-    
+    console.log(`${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`)
     const {data: { properties: { hashed_token, action_link } } } = await supabase.auth.admin.generateLink({
         email: user.email,
-        type: "magiclink"
+        type: "magiclink",
+        options: {
+            redirectTo: `${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
+        }
+        
     })
+    console.log("Action link:", action_link);
     const token = action_link.match(/token=([^&]+)/)?.[1];
     return await fetch("https://api.brevo.com/v3/smtp/email", {
         headers: {

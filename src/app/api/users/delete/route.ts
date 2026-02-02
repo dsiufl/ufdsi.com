@@ -30,7 +30,14 @@ export async function POST(req: NextRequest) {
         console.log(profile.role)
         return new Response('Forbidden', { status: 403 });
     }
-    await supabase.auth.admin.deleteUser(user_id);
+    if (user.id === user_id) {
+        return new Response('Cannot delete own user account', { status: 400 });
+    }
+    const { data, error: deleteError } = await supabase.auth.admin.deleteUser(user_id);
+    if (deleteError) {
+        console.log("Error deleting user:", deleteError);
+        return new Response('Error deleting user', { status: 500 });
+    }
     return new Response('User deleted', { status: 200 });
 
 }
