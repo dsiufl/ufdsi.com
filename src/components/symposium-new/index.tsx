@@ -275,21 +275,35 @@ const SymposiumNew = () => {
               </div>
               
               {/* Right Side - Text Content */}
-              <div className="space-y-6 order-1 md:order-2">
-                {/* Subtitle */}
-                <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 uppercase tracking-wide">
-                  expanding abilities.
-                </p>
-                
-                {/* Main Title */}
-                <div className="space-y-2">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+              <div className="h-[400px] flex flex-col justify-between order-1 md:order-2">
+                {/* Top Section - Main Title */}
+                <div className="space-y-4 relative">
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight relative" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                     DSI
+                    <a
+                      href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=DSI+Symposium+2026&dates=20260328T090000/20260328T170000&details=DSI+Spring+Symposium+2026&location=Reitz+Union,+University+of+Florida"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute left-[calc(100%-26rem)] md:left-[calc(100%-31rem)] top-2 md:top-3 flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 border border-red-500 hover:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group whitespace-nowrap"
+                      title="Add to Calendar"
+                    >
+                      <svg 
+                        className="w-4 h-4 md:w-5 md:h-5 text-red-500 group-hover:text-red-600 transition-colors" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        viewBox="0 0 24 24"
+                      >
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      <span className="text-xs md:text-sm font-medium text-red-500 group-hover:text-red-600 transition-colors hidden sm:inline">
+                        Add to Calendar
+                      </span>
+                    </a>
                   </h1>
                   <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                     SYMPOSIUM
                   </h1>
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400 mt-4" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                  <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                     2026
                   </h2>
                 </div>
@@ -311,7 +325,7 @@ const SymposiumNew = () => {
                   </div>
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">📍 Location:</span>
-                    <span>Reitz Union, UF</span>
+                    <span>University of Florida, 655 Reitz Union Drive</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">👥 Speakers:</span>
@@ -338,11 +352,25 @@ const SymposiumNew = () => {
               <div className="grid md:grid-cols-3 gap-4 max-w-2xl mx-auto">
                 <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 border border-blue-200 dark:border-blue-800">
                   <div className="text-blue-600 dark:text-blue-400 text-sm font-medium">📅 Date</div>
-                  <div className="text-gray-900 dark:text-white font-semibold">April 5, 2025</div>
+                  <a 
+                    href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=DSI+Symposium+2025&dates=20250405T090000/20250405T170000&details=DSI+Spring+Symposium+2025&location=Reitz+Union,+University+of+Florida"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-900 dark:text-white font-semibold hover:text-blue-600 dark:hover:text-blue-400 hover:underline block"
+                  >
+                    April 5, 2025
+                  </a>
                 </div>
                 <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-4 border border-green-200 dark:border-green-800">
                   <div className="text-green-600 dark:text-green-400 text-sm font-medium">📍 Location</div>
-                  <div className="text-gray-900 dark:text-white font-semibold">Reitz Union, UF</div>
+                  <a 
+                    href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-gray-900 dark:text-white font-semibold hover:text-green-600 dark:hover:text-green-400 hover:underline block"
+                  >
+                    University of Florida, 655 Reitz Union Drive
+                  </a>
                 </div>
                 <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-4 border border-purple-200 dark:border-purple-800">
                   <div className="text-purple-600 dark:text-purple-400 text-sm font-medium">👥 Speakers</div>
