@@ -1,153 +1,19 @@
-"use client";
+'use client';
+
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import ScrollUp from "@/components/Common/ScrollUp";
+import { Workshop } from "@/types/db";
+import { link } from "fs/promises";
+import { Calendar, CircleUserRound, LocateIcon, LocationEdit, MapPin, PersonStanding } from "lucide-react";
+export default function Workshops({ workshops }: { workshops: Workshop[] }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const pastWorkshops = workshops.filter(workshop => new Date(workshop.datetime).getTime() < new Date().getTime());
+    const upcomingWorkshops = workshops.filter(workshop => new Date(workshop.datetime).getTime() >= new Date().getTime());
 
-// Sample workshop data - You can replace this with actual data from your API/DB
-const upcomingWorkshops = [];
-
-const pastWorkshops = [
-  {
-    id: 19,
-    title: "Intro to Tabular Data",
-    description: "Learn how to work with tabular data for data analysis.",
-    presenters: "Anh",
-    image: "/images/workshop/pyth.png"
-  },
-  {
-    id: 1,
-    title: "Intro to AI Agents",
-    description: "Introduction to AI agents and their applications.",
-    presenters: "Ragul",
-    image: "/images/workshop/aiagents.png"
-  },
-  {
-    id: 2,
-    title: "Intro to R",
-    description: "Introduction to R programming for data analysis.",
-    presenters: "Anjali",
-    image: "/images/workshop/R.png"
-  },
-  {
-    id: 3,
-    title: "Intro to Web Scraping",
-    description: "Learn how to extract data from websites programmatically.",
-    presenters: "Patrick",
-    image: "/images/workshop/webscraping.png"
-  },
-  {
-    id: 4,
-    title: "Introduction to C",
-    description: "Intro to the C Programming Language.",
-    presenters: "Raul",
-    image: "/images/workshop/c.jpeg"
-  },
-  {
-    id: 5,
-    title: "GPU Accelerated Scientific Computing",
-    description: "Intro to GPU Accelerated Workflows.",
-    presenters: "Raul",
-    image: "/images/workshop/gpu.png"
-  },
-  {
-    id: 6,
-    title: "AI Chronicles",
-    description: "Exploring the past, present, and future of AI.",
-    presenters: "Matt, Jim, Matheus",
-    image: "/images/workshop/ai.jpg"
-  },
-  {
-    id: 7,
-    title: "Applied Machine Learning",
-    description: "Applied machine learning techniques.",
-    presenters: "Hunor",
-    image: "/images/workshop/ml.jpg"
-  },
-  {
-    id: 8,
-    title: "Convolutional Neural Networks",
-    description: "Convolutional Neural Networks for image tasks.",
-    presenters: "Jim, Matheus",
-    image: "/images/workshop/cnn.jpg"
-  },
-  {
-    id: 9,
-    title: "Git and Github",
-    description: "Essentials of Git for version control.",
-    presenters: "Zach, Matheus",
-    image: "/images/workshop/git.jpg"
-  },
-  {
-    id: 10,
-    title: "Language Models",
-    description: "NLP and advanced language models.",
-    presenters: "Sebastian, Matheus",
-    image: "/images/workshop/cl.jpg"
-  },
-  {
-    id: 11,
-    title: "NumPy and MatPlotLib",
-    description: "Numerical computing and data visualization.",
-    presenters: "Jim, Matheus",
-    image: "/images/workshop/numpy.png"
-  },
-  {
-    id: 12,
-    title: "Pandas",
-    description: "Data analysis with Pandas.",
-    presenters: "Marielle",
-    image: "/images/workshop/pandas.png"
-  },
-  {
-    id: 13,
-    title: "Power BI",
-    description: "Data insights using Power BI.",
-    presenters: "Marc",
-    image: "/images/workshop/pbi.jpeg"
-  },
-  {
-    id: 14,
-    title: "PyTorch",
-    description: "Deep learning with PyTorch.",
-    presenters: "Jim, Matheus",
-    image: "/images/workshop/pytorch.jpg"
-  },
-  {
-    id: 15,
-    title: "SQL",
-    description: "SQL database manipulation and querying.",
-    presenters: "Marc",
-    image: "/images/workshop/sql.jpeg"
-  },
-  {
-    id: 16,
-    title: "Tableau",
-    description: "Data insights using Tableau.",
-    presenters: "Kyle",
-    image: "/images/workshop/tb.png"
-  },
-  {
-    id: 17,
-    title: "Sentence Transformers",
-    description: "Using Sentence Transformers for Semantic Search.",
-    presenters: "Tristan",
-    image: "/images/workshop/tf.png"
-  },
-  {
-    id: 18,
-    title: "Intro To Neural Networks",
-    description: "Algorithms needed for Neural Networks",
-    presenters: "Ishan",
-    image: "/images/workshop/nn.jpg"
-  }
-];
-
-export default function WorkshopsPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  return (
-    <>
+    return (
+        <>
       {/* Modal for All Past Workshops */}
       {isModalOpen && (
         <div 
@@ -177,28 +43,7 @@ export default function WorkshopsPage() {
             <div className="overflow-y-auto flex-1 p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {pastWorkshops.map((workshop, index) => {
-                  // Special links for each workshop
-                  const links = {
-                    "Intro to AI Agents": "https://github.com/dsiufl/WorkshopArchive/blob/main/Workshops/Intro%20to%20AI%20Agents/Build%20a%20Research%20Bot.ipynb",
-                    "Intro to R": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20R/DSI_Intro_to_R_Workshop.ipynb",
-                    "Intro to Web Scraping": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro%20to%20Web%20Scraping/intro_to_webscraping.ipynb",
-                    "Introduction to C": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro_C/IntroToC.ipynb",
-                    "GPU Accelerated Scientific Computing": "https://github.com/matheusmaldaner/WorkshopArchive/blob/main/Workshops/Intro_GPU/IntroToGPUAcceleratedScientificComputing.ipynb",
-                    "AI Chronicles": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/AI_Chronicles",
-                    "Applied Machine Learning": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Applied_ML",
-                    "Convolutional Neural Networks": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/CNNS",
-                    "Git and Github": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Git",
-                    "Language Models": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/LanguageModels",
-                    "NumPy and MatPlotLib": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/NumPy%20&%20MatPlotLib",
-                    "Pandas": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Pandas",
-                    "Power BI": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Power%20BI",
-                    "PyTorch": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/PyTorch",
-                    "SQL": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/SQL%202024",
-                    "Tableau": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Tableau",
-                    "Sentence Transformers": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Sentence_Transformers",
-                    "Intro To Neural Networks": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Intro%20To%20Neural%20Networks"
-                  };
-                  const link = links[workshop.title];
+                  // Special links for each workshos
                   
                   // Different background colors for variety
                   const bgColors = [
@@ -214,13 +59,13 @@ export default function WorkshopsPage() {
                   return (
                     <div 
                       key={workshop.id} 
-                      className={`group bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-300 ${link ? 'cursor-pointer' : ''}`}
-                      onClick={link ? () => window.open(link, '_blank', 'noopener,noreferrer') : undefined}
+                      className={`group bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-300 ${workshop.cover ? 'cursor-pointer' : ''}`}
+                      onClick={workshop.link ? () => window.open(workshop.link, '_blank', 'noopener,noreferrer') : undefined}
                     >
                       {/* Image Header */}
                       <div className={`relative h-32 ${bgColor} overflow-hidden`}>
                         <Image 
-                          src={workshop.image} 
+                          src={workshop.cover} 
                           alt={workshop.title}
                           fill
                           className="object-cover opacity-75 group-hover:opacity-90 transition-opacity duration-300"
@@ -236,7 +81,7 @@ export default function WorkshopsPage() {
                         
                         {/* Presenter/Time */}
                         <p className="text-xs text-gray-600 dark:text-gray-400">
-                          {workshop.presenters}
+                          {workshop.speaker}
                         </p>
                       </div>
                     </div>
@@ -322,7 +167,6 @@ export default function WorkshopsPage() {
                     "Sentence Transformers": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Sentence_Transformers",
                     "Intro To Neural Networks": "https://github.com/matheusmaldaner/WorkshopArchive/tree/main/Workshops/Intro%20To%20Neural%20Networks"
                   };
-                  const link = links[workshop.title];
                   
                   // Different background colors for variety (like the reference image)
                   const bgColors = [
@@ -338,13 +182,13 @@ export default function WorkshopsPage() {
                   return (
                     <div 
                       key={workshop.id} 
-                      className={`group bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-300 ${link ? 'cursor-pointer' : ''}`}
-                      onClick={link ? () => window.open(link, '_blank', 'noopener,noreferrer') : undefined}
+                      className={`group bg-white dark:bg-gray-700 rounded-lg overflow-hidden shadow-md hover:-translate-y-1 transition-transform duration-300 ${workshop.link ? 'cursor-pointer' : ''}`}
+                      onClick={workshop.link ? () => window.open(workshop.link, '_blank', 'noopener,noreferrer') : undefined}
                     >
                       {/* Image Header */}
                       <div className={`relative h-32 ${bgColor} overflow-hidden`}>
                         <Image 
-                          src={workshop.image} 
+                          src={workshop.cover} 
                           alt={workshop.title}
                           fill
                           className="object-cover opacity-75 group-hover:opacity-90 transition-opacity duration-300"
@@ -360,7 +204,7 @@ export default function WorkshopsPage() {
                         
                         {/* Presenter/Time */}
                         <p className="text-xs text-gray-600 dark:text-gray-400">
-                          {workshop.presenters}
+                          {workshop.speaker}
                         </p>
                       </div>
                     </div>
@@ -398,9 +242,9 @@ export default function WorkshopsPage() {
                       >
                         {/* Image Header */}
                         <div className={`relative h-32 ${bgColor} overflow-hidden`}>
-                          {workshop.image && (
+                          {workshop.cover && (
                             <Image 
-                              src={workshop.image} 
+                              src={workshop.cover} 
                               alt={workshop.title}
                               fill
                               className="object-cover opacity-75 group-hover:opacity-90 transition-opacity duration-300"
@@ -416,15 +260,21 @@ export default function WorkshopsPage() {
                           </h3>
                           
                           {/* Date/Time */}
-                          <p className="text-xs text-gray-600 dark:text-gray-400">
-                            {workshop.date}
-                          </p>
+                          <p className="flex items-center text-xs text-gray-600 dark:text-gray-400 mb-2 gap-1">
+                            <CircleUserRound className="size-5"/>{workshop.speaker}
+                            </p>
+                            <p className="flex items-center text-xs text-gray-600 dark:text-gray-400 mb-2 gap-1">
+                            <MapPin className="size-6 lg:size-5"/>{workshop.location}
+                            </p>
+                            <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 flex gap-1 items-center">
+                            <Calendar className="size-5"/>{new Date(workshop.datetime).toLocaleDateString('en-US', { hour: '2-digit', minute: '2-digit' } )}
+                            </p>
                         </div>
                       </div>
                     );
                   })}
                 </div>
-              ) : (
+              ) : ( 
                 <div className="text-center py-8">
                   <p className="text-sm text-gray-600 dark:text-gray-400">No upcoming workshops scheduled.</p>
                 </div>
@@ -483,5 +333,5 @@ export default function WorkshopsPage() {
       </section>
       <ScrollUp />
     </>
-  );
-} 
+    )
+}

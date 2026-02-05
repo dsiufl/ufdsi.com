@@ -2,335 +2,44 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import type { Symposium, Speaker } from '@/types/db';
+import { createUserClient } from '@/lib/supabase/client';
 
-interface Speaker {
-  id: string;
-  name: string;
-  title: string;
-  company: string;
-  image: string;
-  companyLogo?: string;
-  companyLogo2?: string;
-  description: string;
-  time: string;
-  room: string;
-  track: string;
-  category: 'keynote' | 'general' | 'industry' | 'research' | 'workshop';
-  youtubeUrl?: string;
-}
 
 const SymposiumNew = () => {
   const [selectedYear, setSelectedYear] = useState<'2025' | '2026'>('2026');
+  const [symposium, setSymposium] = useState<Symposium | null>(null);
+  const [speakers, setSpeakers] = useState<Speaker[]>([]);
   const [selectedSpeaker, setSelectedSpeaker] = useState<Speaker | null>(null);
   const [filter, setFilter] = useState('All');
   const [showPastSymposiums, setShowPastSymposiums] = useState(false);
+  const [loading, setLoading] = useState<boolean>(true);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
   });
+  const supabase = createUserClient();
+  useEffect(() => {
+    supabase.from('symposiums').select('*').eq('id', selectedYear).then((res) => {
+      setSymposium(res.data ? res.data[0] : null);
+      return res.data ? res.data[0] : null;
+    }).then((symp) => {
+      if (!symp) return;
+      console.log(symp)
+      supabase.from('speakers').select('*').eq('symposium', symp.id).then((res) => {
+        setSpeakers(res.data || []);
+        console.log(speakers)
+      });
+    });
+  }, [selectedYear]);
 
-  // Speaker data for 2025
-  const speakers2025: Speaker[] = [
-    {
-      id: 'jack-kendall',
-      name: 'Jack Kendall',
-      title: 'Keynote: Building Next-Generation Brain-Inspired Processors',
-      company: 'RainAI',
-      image: '/images/symposium-25/speakers/2025_JackKendall.jpg',
-      companyLogo: '/images/symposium-25/speakers/jack_sup.png',
-      description: 'Jack Kendall is the Co-Founder and current CTO of Rain AI, a company building next-generation brain-inspired processors for artificial intelligence. Jack\'s mission is to build a brain — bridging neuroscience, physics, and computing to reimagine how machines learn. His research includes highly cited papers on analog neural networks and neuromorphic architectures. Rain is backed by leading figures in AI, including Sam Altman, the CEO of OpenAI. Jack is a University of Florida alum and one of the original founders and the second President of DSI, making his keynote today a full-circle moment for the community he helped shape.',
-      time: '8:00AM - 9:00AM',
-      room: 'Auditorium',
-      track: 'Keynote',
-      category: 'keynote',
-      youtubeUrl: 'https://www.youtube.com/watch?v=w5gG1SM9omM&feature=youtu.be'
-    },
-    {
-      id: 'norman-bukingolts',
-      name: 'Norman Bukingolts',
-      title: 'Transforming our Humanity into Job Security',
-      company: 'Association of Computing Machinery',
-      image: '/images/symposium-25/speakers/norman.png',
-      companyLogo: '/images/symposium-25/speakers/norman_sup.png',
-      description: 'What happens when what we know isn\'t enough to be employable anymore? Amid rising layoffs in the tech industry and beyond due to the automation of labor with AI systems, stress about job security is thriving -- but hope for a meaningful, stable career is not yet lost. Attend this workshop to explore how analytical, generative, and agentic AI systems are being implemented in the modern workplace and understand their strengths and limitations. Learn about not just philosophical but technical arguments describing what exactly an AI system can and cannot provably do -- and why what makes us human is not only "marketable" but essential to the current and future workforce.',
-      time: '10:30AM - 11:30AM',
-      room: 'Room 2325',
-      track: 'Workshop Track',
-      category: 'workshop',
-      youtubeUrl: 'https://www.youtube.com/watch?v=_B0peKlTk3k'
-    },
-    {
-      id: 'hubert-wagner',
-      name: 'Dr. Hubert Wagner',
-      title: 'Trojan horses, Pavlov\'s dogs and self-driving cars',
-      company: 'University of Florida',
-      image: '/images/symposium-25/speakers/hubert.png',
-      companyLogo: '/images/symposium-25/speakers/hubert_sup.png',
-      description: 'While deep neural networks are powerful tools, they are known to have security issues. One particular threat is the so-called Trojan attack, which can be used to compromise, for instance, self-driving cars. I will describe our approach for detecting such attacks on vision models presented at NeurIPS\' 21. This approach is motivated by basic neuroscientific principles and uses methods of topological data analysis (TDA), which I will introduce along the way. (No previous background in topology is necessary.)',
-      time: '10:30AM - 11:30AM',
-      room: 'Room 2330',
-      track: 'Research Track',
-      category: 'research',
-      youtubeUrl: 'https://www.youtube.com/watch?v=zeSrfe8ATCE'
-    },
-    {
-      id: 'raul-valle',
-      name: 'Raul Valle',
-      title: 'Introduction to Signal Processing',
-      company: 'IEEE Signal Processing Society',
-      image: '/images/symposium-25/speakers/raul.png',
-      companyLogo: '/images/symposium-25/speakers/raul_sup.png',
-      description: 'Signals are how computers (and people) interpret the world. With the LLM hype calming down, we get a chance to revisit the mathematical roots of black-box machine learning in time-series problems, and learn how filters gave humanity access to computational foresight. Attend this workshop to attain mathematical insight into the complex world of signal processing from the perspective of its innovators, and learn what the future of AI beholds.',
-      time: '12:45PM - 1:45PM',
-      room: 'Room 2325',
-      track: 'Workshop Track',
-      category: 'workshop',
-      youtubeUrl: 'https://www.youtube.com/watch?v=yuJaMaA18js'
-    },
-    {
-      id: 'jacques-fleischer',
-      name: 'Jacques Fleischer',
-      title: 'Computer Vision and Data Annotation Workshop',
-      company: 'AI Club',
-      image: '/images/symposium-25/speakers/jacques.png',
-      companyLogo: '/images/symposium-25/speakers/jacques_sup.png',
-      description: 'Learn how to properly configure a CV model using sophisticated annotation platforms and a live demo of YOLO training. Hands-on participation where the audience can help train a gator detector model.',
-      time: '3:15PM - 4:15PM',
-      room: 'Room 2325',
-      track: 'Workshop Track',
-      category: 'workshop',
-      youtubeUrl: 'https://www.youtube.com/watch?v=cSPVHXKlNFg'
-    },
-    {
-      id: 'tony-barr',
-      name: 'Tony Barr',
-      title: 'Developing a Model of Reality',
-      company: 'SAS Institute, AMOR',
-      image: '/images/symposium-25/speakers/anthony.png',
-      companyLogo: '/images/symposium-25/speakers/anthony_sup.png',
-      companyLogo2: '/images/symposium-25/speakers/anthony_sup2.png',
-      description: 'Tony Barr will discuss the early history of the SAS system for data analytics and his current work, A Model Of Reality (AMOR). AMOR aims to create a world where young children and adults can understand and flourish in programming, databases, mathematics, and data analytics. AMOR uses diagrams and flowcharts to make reading and writing programs easy and intuitive for learners and seasoned users. The mission is to enable users to navigate through knowledge space naturally, as they navigate the real world.',
-      time: '10:30AM - 11:30AM',
-      room: 'Auditorium',
-      track: 'General Track',
-      category: 'general',
-      youtubeUrl: 'https://www.youtube.com/watch?v=HNkhqaDkPfA&feature=youtu.be'
-    },
-    {
-      id: 'aapo-hyvarinen',
-      name: 'Dr. Aapo Hyvarinen',
-      title: 'Painful Intelligence: What AI Can Tell Us About Human Suffering',
-      company: 'University of Helsinki',
-      image: '/images/symposium-25/speakers/aapo.png',
-      companyLogo: '/images/symposium-25/speakers/aapo_sup.png',
-      description: 'This talk introduces my recent e-book with the same title, freely available on arxiv. The book uses the modern theory of artificial intelligence (AI) to understand human suffering or mental pain. Both humans and sophisticated AI agents process information about the world in order to achieve goals and obtain rewards, which is why AI can be used as a model of the human brain and mind. The book starts with the assumption that suffering is mainly caused by frustration. Frustration means the failure of an agent (whether AI or human) to achieve a goal or a reward it wanted or expected. Frustration is inevitable because of the overwhelming complexity of the world, limited computational resources, and scarcity of good data. In particular, such limitations imply that an agent acting in the real world must cope with uncontrollability, unpredictability, and uncertainty, which all lead to frustration. Such computational theory is finally used to derive various interventions or training methods that will reduce suffering in humans. The ensuing interventions are very similar to those proposed by Buddhist and Stoic philosophy, and include mindfulness meditation.',
-      time: '9:15AM - 10:15AM',
-      room: 'Room 2330',
-      track: 'Research Track',
-      category: 'research',
-      youtubeUrl: 'https://www.youtube.com/watch?v=Ms95e1M3ajs'
-    },
-    {
-      id: 'megan-higgs',
-      name: 'Dr. Megan Higgs',
-      title: 'Pausing to Take a Deeper Look at Assumptions',
-      company: 'Critical Inference',
-      image: '/images/symposium-25/speakers/megan.png',
-      companyLogo: '/images/symposium-25/speakers/megan_sup.png',
-      description: 'Assumptions are a necessary part of making conclusions and inferences from data. Formal training in Statistics and data science tends to encourage a mathematical and automatic treatment of assumptions, with relatively low expectations for justifying assumptions in the context of the problem or conveying the extent to which conclusions are conditional on assumptions. With so much focus on methods and computing, it is important to also take time to step back and more deeply consider the layers of assumptions that make up the foundation of any data analysis. I believe statisticians and data scientists have a responsibility to better convey the conditional nature of results, and to work with subject matter experts to translate and interrogate assumptions within a particular scientific context. While this is challenging in most problems, it is a necessary step toward better justifying the use of, and trust in, statistical results. The goal of this high-level talk is to increase, or re-highlight, awareness and spur discussion about related challenges and strategies.',
-      time: '3:15PM - 4:15PM',
-      room: 'Auditorium',
-      track: 'General Track',
-      category: 'general',
-      youtubeUrl: 'https://www.youtube.com/watch?v=TBwZKeyi3JY'
-    },
-    {
-      id: 'jim-hoover',
-      name: 'Dr. Jim Hoover',
-      title: 'The Latest Developments in the Implementation of AI in Business',
-      company: 'University of Florida',
-      image: '/images/symposium-25/speakers/jim.png',
-      companyLogo: '/images/symposium-25/speakers/jim_sup.png',
-      description: 'Ever since November 2022 when ChatGPT was released commercially, businesses have been pursuing the best approaches to implement AI into their processes. There has been a great deal of Fear of Missing Out (FOMO) related to this quest for value out of AI capabilities. In this talk, we will discuss what is working and what is not. And, we will explore how students can best position themselves for roles in AI as the technology continues to evolve in business.',
-      time: '12:45PM - 1:45PM',
-      room: 'Auditorium',
-      track: 'General Track',
-      category: 'general',
-      youtubeUrl: 'https://www.youtube.com/watch?v=MFD3K_zR6NM'
-    },
-    {
-      id: 'andrew-gelman',
-      name: 'Dr. Andrew Gelman',
-      title: 'Principles of Bayesian Workflow',
-      company: 'Columbia University',
-      image: '/images/symposium-25/speakers/andrew.png',
-      companyLogo: '/images/symposium-25/speakers/andrew_sup.png',
-      description: 'The Bayesian approach to data analysis provides a powerful way to handle uncertainty in all observations, model parameters, and model structure using probability theory. Probabilistic programming languages make it easier to specify and fit Bayesian models, but this still leaves us with many options regarding constructing, evaluating, and using these models, along with many remaining challenges in computation. Using Bayesian inference to solve real-world problems requires not only statistical skills, subject matter knowledge, and programming, but also awareness of the decisions made in the process of data analysis. All of these aspects can be understood as part of a tangled workflow of applied Bayesian statistics. Beyond inference, the workflow also includes iterative model building, model checking, validation and troubleshooting of computational problems, model understanding, and model comparison. We review all these aspects of workflow in the context of several examples, keeping in mind that in practice we will be fitting many models for any given problem, even if only a subset of them will ultimately be relevant for our conclusions.',
-      time: '12:45PM - 1:45PM',
-      room: 'Room 2330',
-      track: 'Research Track',
-      category: 'research',
-      youtubeUrl: 'https://www.youtube.com/watch?v=slFGYV5BUVA'
-    },
-    {
-      id: 'jhonathan-herrera',
-      name: 'Jhonathan Herrera',
-      title: 'Intro to State Space Models and MAMBA',
-      company: 'Colorstack',
-      image: '/images/symposium-25/speakers/jhonathan.png',
-      companyLogo: '/images/symposium-25/speakers/jhonathan_sup.png',
-      description: 'This introduction workshop will provide you a foundational understanding of State Space Models (SSMs) and their applications in time-series modeling.',
-      time: '9:15AM - 10:15AM',
-      room: 'Room 2325',
-      track: 'Workshop Track',
-      category: 'workshop',
-      youtubeUrl: 'https://www.youtube.com/watch?v=o6ArpL4QTPo'
-    },
-    {
-      id: 'kausthubh-konuru',
-      name: 'Kausthubh Konuru',
-      title: 'Introduction to NLP: Embedding Techniques for Healthcare Applications',
-      company: 'American Statistical Association',
-      image: '/images/symposium-25/speakers/kausthubh.png',
-      companyLogo: '/images/symposium-25/speakers/kausthubh_sup.png',
-      description: 'This workshop introduces fundamental Natural Language Processing concepts through the lens of medical text embeddings. Participants will learn how to transform unstructured clinical text into meaningful vector representations. We cover text preprocessing techniques, tokenization, normalization, and various embedding methods from statistical approaches to neural representations.',
-      time: '2:00PM - 3:00PM',
-      room: 'Room 2325',
-      track: 'Workshop Track',
-      category: 'workshop',
-      youtubeUrl: 'https://www.youtube.com/watch?v=XuEAsw302hs&feature=youtu.be'
-    },
-    {
-      id: 'carlos-bastos',
-      name: 'Carlos Bastos Neto',
-      title: 'Living a Life within Big Tech',
-      company: 'Google Cloud',
-      image: '/images/symposium-25/speakers/carlos.png',
-      companyLogo: '/images/symposium-25/speakers/carlos_sup.png',
-      description: 'With over two decades at Microsoft and Google, Carlos offers an inside look at building a career across the world\'s top tech companies. He\'ll share lessons on leadership, navigating industry shifts, and what it truly means to drive innovation and transformation at scale.',
-      time: '9:15AM - 10:15AM',
-      room: 'Room 2335',
-      track: 'Industry Track',
-      category: 'industry',
-      youtubeUrl: 'https://www.youtube.com/watch?v=zIQfTEIub5o'
-    },
-    {
-      id: 'luciane-galuppo',
-      name: 'Luciane Galuppo',
-      title: 'Lessons from 30 years at Microsoft',
-      company: 'Microsoft',
-      image: '/images/symposium-25/speakers/luciane.png',
-      companyLogo: '/images/symposium-25/speakers/luciane_sup.png',
-      description: 'In this reflective talk, Luciane shares key lessons from her three-decade journey at Microsoft—from career milestones to daily life in tech. She\'ll touch on the evolution of the IT industry, her core values, and practical advice for navigating a successful and fulfilling career in tech.',
-      time: '10:30AM - 11:30AM',
-      room: 'Room 2335',
-      track: 'Industry Track',
-      category: 'industry',
-      youtubeUrl: 'https://www.youtube.com/watch?v=IwLmN4V-DkQ'
-    },
-    {
-      id: 'tyler-richards',
-      name: 'Tyler Richards',
-      title: 'Overcoming Rejection as an Aspiring Data Scientist',
-      company: 'Snowflake, Ex-Meta',
-      image: '/images/symposium-25/speakers/tyler.png',
-      companyLogo: '/images/symposium-25/speakers/tyler_sup.png',
-      description: 'In this talk, Tyler shares lessons learned from his journey breaking into data science—from early rejections to landing roles at Facebook, Streamlit, and Snowflake. He\'ll offer practical tips for staying resilient, building projects that stand out, and navigating an unpredictable career path with curiosity and creativity.',
-      time: '2:00PM - 3:00PM',
-      room: 'Room 2335',
-      track: 'Industry Track',
-      category: 'industry',
-      youtubeUrl: 'https://www.youtube.com/watch?v=OeU40fcfOis'
-    },
-    {
-      id: 'michael-vega',
-      name: 'Michael Vega-Sanz',
-      title: 'You Can Just Do Things',
-      company: 'Gail',
-      image: '/images/symposium-25/speakers/michael.png',
-      companyLogo: '/images/symposium-25/speakers/michael_sup.png',
-      description: 'Michael shares the story of how he launched two high-growth startups—first LULA, then Gail—starting from his college dorm room. Through candid reflections on risk-taking, building in regulated industries, and lessons from the journey, he\'ll inspire you to stop waiting for permission and start building.',
-      time: '9:15AM - 10:15AM',
-      room: 'Auditorium',
-      track: 'General Track',
-      category: 'general',
-      youtubeUrl: 'https://www.youtube.com/watch?v=i6DQyGf_g9A&feature=youtu.be'
-    },
-    {
-      id: 'wesley-deng',
-      name: 'Wesley Deng',
-      title: 'Supporting Responsible AI on the ground',
-      company: 'Carnegie Mellon University',
-      image: '/images/symposium-25/speakers/wesley.png',
-      companyLogo: '/images/symposium-25/speakers/wesley_sup.png',
-      description: 'As artificial intelligence (AI) becomes increasingly integrated into products and services across industries, ensuring its responsible development and deployment has become a critical challenge. Several tools, processes, and principles have been developed to support responsible AI (RAI) in industry practice. However, research has shown a persistent gap between the aspirational goals of these RAI interventions and the practical realities faced by practitioners tasked with designing and building responsible AI systems. In this talk, I will first present a set of insights gained from empirical studies with industry RAI practitioners. I will then share a series of tools and processes designed to better support RAI practices in real-world industry settings—particularly in the contexts of AI auditing, red-teaming, and impact assessment. Finally, I will briefly discuss future directions for research, practice, and policy in building safe and responsible AI within industry.',
-      time: '2:00PM - 3:00PM',
-      room: 'Room 2330',
-      track: 'Research Track',
-      category: 'research'
-    },
-    {
-      id: 'sarah-luger',
-      name: 'Dr. Sarah K Luger',
-      title: 'AI: trends, data, and low-resource languages',
-      company: 'ML Commons',
-      image: '/images/symposium-25/speakers/sarah.png',
-      companyLogo: '/images/symposium-25/speakers/sarah_sup.png',
-      description: 'Drawing from over 20 years in AI and NLP, Sarah explores emerging trends in generative AI, the challenges of building inclusive datasets, and the importance of supporting low-resource languages. With insights from both industry and research—including her work on IBM Watson\'s Jeopardy! Challenge—she highlights how responsible AI depends on diverse data, ethical practices, and a balance between scientific rigor and creativity.',
-      time: '2:00PM - 3:00PM',
-      room: 'Auditorium',
-      track: 'General Track',
-      category: 'general'
-    },
-    {
-      id: 'antonio-knez',
-      name: 'Antonio Knez',
-      title: 'Open and Loyal AGI for Everyone',
-      company: 'Sentient Foundation',
-      image: '/images/symposium-25/speakers/antonio.png',
-      companyLogo: '/images/symposium-25/speakers/antonio_sup.png',
-      description: 'The presentation will talk about Sentient\'s general mission and goal while presenting what we have done so far. It will also mention the builder grant program that we recently launched, which might be interesting to student developers.',
-      time: '12:45PM - 1:45PM',
-      room: 'Room 2335',
-      track: 'Industry Track',
-      category: 'industry',
-      youtubeUrl: 'https://www.youtube.com/watch?v=m-QS8uFNYcY'
-    },
-    {
-      id: 'olivia-dizon',
-      name: 'Dr. Olivia Dizon-Paradis',
-      title: 'Intro to AI Research',
-      company: 'University of Florida',
-      image: '/images/symposium-25/speakers/olivia.png',
-      companyLogo: '/images/symposium-25/speakers/olivia_sup.png',
-      description: 'This talk will go over an AI crash course, AI research in practice, and tools and resources for getting started with AI research.',
-      time: '3:15PM - 4:15PM',
-      room: 'Room 2335',
-      track: 'Industry Track',
-      category: 'industry'
-    },
-    {
-      id: 'stephen-wormald',
-      name: 'Stephen Wormald',
-      title: 'RAPID-XAI - Toward Explainable Models with Single-Cycle Inference',
-      company: 'University of Florida',
-      image: '/images/symposium-25/speakers/stephen.png',
-      companyLogo: '/images/symposium-25/speakers/stephen_sup.png',
-      description: 'This talk explores how we can make AI systems faster and easier to understand by bridging explainability and performance. It introduces a new framework that integrates logic-based neural models with custom hardware acceleration to enable single-cycle inference. Through this approach, the talk demonstrates how we can build AI systems that are not only highly interpretable but also capable of operating in real-time environments.',
-      time: '3:15PM - 4:15PM',
-      room: 'Room 2330',
-      track: 'Research Track',
-      category: 'research'
-    }
-  ];
 
   // Placeholder data for 2026
   const speakers2026: Speaker[] = [];
 
   // Select speakers based on selected year
-  const speakers = selectedYear === '2025' ? speakers2025 : speakers2026;
 
   const categories = ['All', 'Keynote', 'General Track', 'Industry Track', 'Research Track', 'Workshop Track'];
   
@@ -391,7 +100,7 @@ const SymposiumNew = () => {
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
         <div className="relative h-48 overflow-hidden">
           <Image
-            src={speaker.image}
+            src={speaker.cover}
             alt={speaker.name}
             fill
             className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -405,7 +114,7 @@ const SymposiumNew = () => {
         <div className="p-6">
           <div className="flex items-center justify-between mb-3">
             <div className="text-sm text-gray-500 dark:text-gray-400">
-              {speaker.time} • {speaker.room}
+              {speaker.time} • {speaker.location}
             </div>
           </div>
           
@@ -414,7 +123,7 @@ const SymposiumNew = () => {
           </h3>
           
           <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 font-medium">
-            {speaker.company}
+            {speaker.affiliation}
           </p>
           
           <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
@@ -435,7 +144,7 @@ const SymposiumNew = () => {
         <div className="md:flex">
           <div className="md:w-1/3 relative h-64 md:h-80">
             <Image
-              src={speaker.image}
+              src={speaker.cover}
               alt={speaker.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -455,7 +164,7 @@ const SymposiumNew = () => {
             </h2>
             
             <p className="text-lg text-purple-600 dark:text-purple-400 mb-4 font-medium">
-              {speaker.company}
+              {speaker.affiliation}
             </p>
             
             <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
@@ -463,7 +172,7 @@ const SymposiumNew = () => {
             </h3>
             
             <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              📅 {speaker.time} • 📍 {speaker.room}
+              📅 {speaker.time} • 📍 {speaker.location}
             </div>
             
             <p className="text-gray-600 dark:text-gray-300 line-clamp-4">
@@ -520,7 +229,7 @@ const SymposiumNew = () => {
   useEffect(() => {
     if (selectedYear !== '2026') return;
 
-    const targetDate = new Date('2026-03-28T09:00:00').getTime();
+    const targetDate = new Date(symposium?.date).getTime();
 
     const updateCountdown = () => {
       const now = new Date().getTime();
@@ -542,11 +251,10 @@ const SymposiumNew = () => {
     const interval = setInterval(updateCountdown, 1000);
 
     return () => clearInterval(interval);
-  }, [selectedYear]);
+  }, [selectedYear, symposium]);
 
   const keynoteSpeaker = sortedSpeakers.find(s => s.category === 'keynote');
   const regularSpeakers = sortedSpeakers.filter(s => s.category !== 'keynote');
-
   return (
     <div className="min-h-screen  ">
       {/* Header Section */}
@@ -600,34 +308,28 @@ const SymposiumNew = () => {
                   </h2>
                 </div>
                 
-                {/* Bottom Section - Description and Info */}
-                <div className="space-y-4">
-                  {/* Description */}
-                  <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
-                    Join us for a day of learning, networking, and innovation with industry leaders, researchers, and professors in AI and data science.
-                  </p>
-                  
-                  {/* Info Section */}
-                  <div className="space-y-3">
-                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
-                      <span className="font-medium">📅 Date:</span>
-                      <span>March 28, 2026</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
-                      <span className="font-medium">📍 Location:</span>
-                      <a 
-                        href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 dark:text-blue-400 hover:underline"
-                      >
-                        University of Florida, 655 Reitz Union Drive
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
-                      <span className="font-medium">👥 Speakers:</span>
-                      <span>TBD</span>
-                    </div>
+                {/* Description */}
+                <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
+                  Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+                </p>
+                
+                {/* Info Section */}
+                <div className="space-y-3 pt-4">
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📅 Date:</span>
+                    <span>{symposium && new Date(symposium.date).toLocaleDateString("en-US", {
+                      month: 'long',
+                      day: 'numeric',
+                      year: 'numeric'
+                    })}</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">📍 Location:</span>
+                    <span>University of Florida, 655 Reitz Union Drive</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
+                    <span className="font-medium">👥 Speakers:</span>
+                    <span>TBD</span>
                   </div>
                 </div>
               </div>
@@ -781,7 +483,7 @@ const SymposiumNew = () => {
       )}
 
       {/* Keynote Speaker Section */}
-      {keynoteSpeaker && selectedYear === '2025' && (
+      {keynoteSpeaker && (
         <section className="pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
             {/* Other Symposiums Button - Above Keynote on Right */}
@@ -1040,18 +742,19 @@ const SymposiumNew = () => {
               {/* Speaker Image and Header */}
               <div className="relative h-64 md:h-80">
                 <Image
-                  src={selectedSpeaker.image}
+                  src={selectedSpeaker.cover}
                   alt={selectedSpeaker.name}
                   fill
+
                   className="object-cover"
                   priority
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                 {/* YouTube Recording Link */}
-                {selectedSpeaker.youtubeUrl && (
+                {selectedSpeaker.youtube && (
                   <div className="absolute top-4 left-4 z-10 flex items-center gap-2">
                     <a
-                      href={selectedSpeaker.youtubeUrl}
+                      href={selectedSpeaker.youtube}
                       target="_blank"
                       rel="noopener noreferrer"
                       title="View Recording"
@@ -1065,11 +768,11 @@ const SymposiumNew = () => {
                   </div>
                 )}
                 {/* Company/Affiliation Logos Bottom Right */}
-                {(selectedSpeaker.companyLogo || selectedSpeaker.companyLogo2) && (
+                {(selectedSpeaker.affiliated_logo) && (
                   <div className="absolute bottom-4 right-4 z-10 flex items-center gap-3">
-                    {selectedSpeaker.companyLogo && (
+                    {selectedSpeaker.affiliated_logo && (
                       <Image
-                        src={selectedSpeaker.companyLogo}
+                        src={selectedSpeaker.affiliated_logo}
                         alt="Company logo"
                         width={112}
                         height={56}
@@ -1077,16 +780,7 @@ const SymposiumNew = () => {
                         style={{ maxWidth: 160, maxHeight: 64 }}
                       />
                     )}
-                    {selectedSpeaker.companyLogo2 && (
-                      <Image
-                        src={selectedSpeaker.companyLogo2}
-                        alt="Additional company logo"
-                        width={112}
-                        height={56}
-                        className="h-14 w-auto bg-white/80 rounded shadow p-2"
-                        style={{ maxWidth: 160, maxHeight: 64 }}
-                      />
-                    )}
+                    
                   </div>
                 )}
                 <div className="absolute bottom-6 left-6 right-16">
@@ -1095,10 +789,10 @@ const SymposiumNew = () => {
                     {selectedSpeaker.name}
                   </h1>
                   <p className="text-lg text-blue-200 mb-2">
-                    {selectedSpeaker.company}
+                    {selectedSpeaker.affiliation}
                   </p>
                   <div className="text-white/90 text-sm">
-                    📅 {selectedSpeaker.time} • 📍 {selectedSpeaker.room}
+                    📅 {selectedSpeaker.time} • 📍 {selectedSpeaker.location}
                   </div>
                 </div>
               </div>

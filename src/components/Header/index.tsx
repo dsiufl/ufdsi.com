@@ -1,15 +1,21 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { redirect, usePathname, useRouter } from "next/navigation";
+import { RefObject, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import menuData from "./menuData";
+import { createClient } from "@supabase/supabase-js";
+import { Button } from "../ui/button";
+import { createUserClient } from "@/lib/supabase/client";
+import { MoonIcon, SunIcon } from "lucide-react";
 
-const Header = () => {
+const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [sticky, setSticky] = useState(false);
+  const router = useRouter();
+  const supabase = createUserClient();
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -42,6 +48,11 @@ const Header = () => {
   };
 
   const usePathName = usePathname();
+  const data = usePathName.includes("/admin") ? [{
+    id: 100,
+    title: "Sign out",
+    newTab: false,
+  },] : menuData
 
   return (
     <>
@@ -49,12 +60,13 @@ const Header = () => {
         className={`header ${usePathName == '/' ? `fixed ${sticky ? 'bg-white dark:bg-gray-900 ' : "text-white"}` : 'sticky'} 
                     flex flex-col left-0 top-0 z-40 w-full items-center p-4 mb-10
                     ${sticky && usePathName !== '/' ? "bg-white dark:bg-black" : ""}`}
+        ref={ref}
       >
         <div className="container">
           <div className="relative -mx-4 flex items-center justify-between">
             <div className="w-32 xs:w-36 sm:w-40 max-w-full px-4 xl:mr-12">
               <Link
-                href="/"
+                href={usePathName.includes('/admin') ? '/admin/dashboard' : '/'}
                 className={`header-logo block w-full "py-4 lg:py-8"`}
               >
                 <Image
@@ -70,7 +82,7 @@ const Header = () => {
               <div className="hidden lg:block">
                 <nav id="navbarCollapse">
                   <ul className="flex items-center space-x-6">
-                    {menuData.map((menuItem, index) => (
+                    {data.map((menuItem, index) => (
                       <li key={index} className="group relative">
                         {menuItem.path ? (
                           <Link
@@ -85,7 +97,21 @@ const Header = () => {
                           >
                             {menuItem.title}
                           </Link>
-                        ) : (
+                        ) : menuItem.title === 'Sign out' ? (
+                            <Button
+                            onClick={() => {
+                              supabase.auth.signOut();
+                              redirect('/admin/login');
+                            }}
+                            className={`flex text-base font-medium ${
+                                    usePathName === menuItem.path
+                                ? "text-primary dark:text-white"
+                                : "hover:text-primary dark:text-white dark:hover:text-primary"
+                            }`}
+                          >
+                            {menuItem.title}
+                          </Button>
+                        ) :(
                           <>
                             <p
                               onClick={() => handleSubmenu(index)}
@@ -134,17 +160,13 @@ const Header = () => {
                   className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 dark:bg-black text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
                   aria-label="Toggle Theme"
                 >
-                  {mounted && (
+                  {
                     theme === 'dark' ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                      </svg>
+                      <SunIcon className="text-black" />
                     ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                      </svg>
+                      <MoonIcon  className="text-black"/>
                     )
-                  )}
+                  }
                 </button>
                 
                 {/* Mobile Menu Button */}
@@ -174,25 +196,19 @@ const Header = () => {
                 </button>
               </div>
               
+              
               {/* Desktop Theme Toggle */}
-              <div className="hidden lg:flex items-center justify-end ml-4">
-                <button
-                  onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-gray-800 shadow-md backdrop-blur-md transition-all hover:bg-white/20 dark:text-white"
-                  aria-label="Toggle Theme"
-                >
-                  {mounted && (
+              <div className="lg:flex items-center ml-4">
+                <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="!bg-slate-100/30 w-fit h-fit !p-2 rounded-full">
+                  {
                     theme === 'dark' ? (
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
-                      </svg>
+                      <SunIcon className="" style={{width: "24px !important", height: "24px"}} />
                     ) : (
-                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
-                      </svg>
+                      <MoonIcon  style={{width: "24px", height: "24px"}} />
                     )
-                  )}
+                  }
                 </button>
+                
               </div>
             </div>
           </div>
@@ -206,7 +222,7 @@ const Header = () => {
           style={{ maxHeight: "calc(100vh - 66px)", overflowY: "auto" }}
         >
           <ul className="block space-y-2">
-            {menuData.map((menuItem, index) => (
+            {data.map((menuItem, index) => (
               <li key={index} className="group relative border-b border-gray-100 dark:border-gray-800 py-2">
                 {menuItem.path ? (
                   <Link
@@ -220,7 +236,21 @@ const Header = () => {
                   >
                     {menuItem.title}
                   </Link>
-                ) : (
+                ) : menuItem.title == 'Sign out' ? 
+                  <Button
+                    onClick={() => {
+                      supabase.auth.signOut();
+                      router.push('/admin/login');
+                    }}
+                    className={`flex text-base font-medium ${
+                            usePathName === menuItem.path
+                        ? "text-primary dark:text-white"
+                        : "hover:text-primary dark:text-white dark:hover:text-primary"
+                    }`}
+                  >
+                    {menuItem.title}
+                    </Button> 
+                  : (
                   <>
                     <div
                       onClick={() => handleSubmenu(index)}

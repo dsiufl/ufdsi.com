@@ -4,17 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 
 // Import the articles data from the newsletter page
-import { sortedArticles as articles } from '@/app/newsletter/data';
 
-interface NewsCarouselProps {
-  articleIds?: number[];
-}
 
-const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
+export default function NewsCarousel({ displayArticles }: any) {
   // Get the specified articles or default to 3 most recent
-  const displayArticles = articleIds 
-    ? articleIds.map(id => articles.find(article => article.id === id)).filter(Boolean)
-    : articles.slice(0, 3);
   
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
@@ -79,7 +72,7 @@ const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
           >
             <div className="relative h-full w-full">
               <Image
-                src={article.image}
+                src={article.cover}
                 alt={article.title}
                 fill
                 className="object-cover"
@@ -88,7 +81,7 @@ const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
               
-              <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+              <div className="absolute bottom-10 left-0 right-0 p-6 text-white">
                 <h3 className="text-xl font-bold mb-2">{article.title}</h3>
                 <div className="flex justify-between items-center">
                   <span className="text-sm text-white/80">{article.date}</span>
@@ -120,29 +113,30 @@ const NewsCarousel = ({ articleIds }: NewsCarouselProps) => {
         </svg>
       </button>
 
-      {/* Indicators */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 flex space-x-2">
-        {displayArticles.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={`w-2 h-2 rounded-full transition-all ${
-              index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/70'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      <div className='absolute bottom-4 flex justify-between w-full px-4'>
+        {/* Indicators */}
+        <div className=" z-20 flex space-x-2">
+          {displayArticles.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2 h-2 rounded-full transition-all ${
+                index === currentIndex ? 'bg-white scale-125' : 'bg-white/50 hover:bg-white/70'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
 
-      {/* "See More News" link */}
-      <Link 
-        href="/newsletter" 
-        className="absolute bottom-4 right-4 z-20 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium px-3 py-1.5 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1"
-      >
-        See More News
-      </Link>
+        {/* "See More News" link */}
+        <Link 
+          href="/newsletter" 
+          className=" z-20 bg-teal-600 hover:bg-teal-700 text-white text-sm font-medium px-3 py-1.5 rounded-md transition-colors focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-1"
+        >
+          See More News
+        </Link>
+      </div>
     </div>
   );
 };
 
-export default NewsCarousel;

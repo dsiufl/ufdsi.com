@@ -1,90 +1,88 @@
 'use client';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { sortedArticles as articles } from './data';
 
-const CategoryBadge = ({ category }: { category: string }) => {
-  const categoryColors = {
-    'Awards': 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-200',
-    'Competition': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-    'Workshop': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  };
+import { Article } from "@/types/db";
+import Image from "next/image";
+import { useState, useEffect } from "react";
+export default function Newsletter({articles}: {articles: Article[]}) {
+    const CategoryBadge = ({ category }: { category: string }) => {
+        const categoryColors = {
+            'Awards': 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-200',
+            'Competition': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
+            'Workshop': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
+        };
 
-  return (
-    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryColors[category] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'}`}>
-      {category}
-    </span>
-  );
-};
+        return (
+            <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${categoryColors[category] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'}`}>
+            {category}
+            </span>
+        );
+    };
 
-const ArticleCard = ({ article, onClick, isSelected }: { article: any; onClick: () => void; isSelected: boolean }) => (
-  <article 
-    className={`group cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-primary' : ''}`}
-    onClick={onClick}
-  >
-    <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
-      <div className="relative h-48 overflow-hidden">
-        <Image
-          src={article.image}
-          alt={article.title}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
-        <div className="absolute top-4 left-4">
-          <CategoryBadge category={article.category} />
-        </div>
-      </div>
-      
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-3">
-          <time className="text-sm text-gray-500 dark:text-gray-400">{article.date}</time>
+    const ArticleCard = ({ article, onClick, isSelected }: { article: any; onClick: () => void; isSelected: boolean }) => (
+    <article 
+        className={`group cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-primary' : ''}`}
+        onClick={onClick}
+    >
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
+        <div className="relative h-48 overflow-hidden">
+            <Image
+            src={article.cover}
+            alt={article.title}
+            fill
+            className="object-cover transition-transform duration-300 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            <div className="absolute top-4 left-4">
+            <CategoryBadge category={article.category} />
+            </div>
         </div>
         
-        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
-          {article.title}
-        </h3>
-        
-        <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
-          {article.description.split('\n')[0]}
-        </p>
-      </div>
-    </div>
-  </article>
-);
-
-const FeaturedArticle = ({ article, onClick }: { article: any; onClick: () => void }) => (
-  <article 
-    className="group cursor-pointer transition-all duration-300"
-    onClick={onClick}
-  >
-    <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
-      <div className="relative h-64 md:h-80 overflow-hidden">
-        <Image
-          src={article.image}
-          alt={article.title}
-          fill
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
-          priority
-          sizes="(max-width: 768px) 100vw, 50vw"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute top-6 left-6">
-          <CategoryBadge category={article.category} />
-        </div>
-        <div className="absolute bottom-6 left-6 right-6">
-          <time className="text-white/90 text-sm mb-2 block">{article.date}</time>
-          <h2 className="text-white text-2xl md:text-3xl font-bold mb-3 line-clamp-2">
+        <div className="p-6">
+            <div className="flex items-center justify-between mb-3">
+            <time className="text-sm text-gray-500 dark:text-gray-400">{article.date}</time>
+            </div>
+            
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 line-clamp-2 group-hover:text-primary transition-colors duration-200">
             {article.title}
-          </h2>
+            </h3>
+            
+            <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
+            {article.summary && article.summary.split('\n')[0]}
+            </p>
         </div>
-      </div>
-    </div>
-  </article>
-);
+        </div>
+    </article>
+    );
 
-export default function NewsletterPage() {
+    const FeaturedArticle = ({ article, onClick }: { article: any; onClick: () => void }) => (
+    <article 
+        className="group cursor-pointer transition-all duration-300"
+        onClick={onClick}
+    >
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
+        <div className="relative h-64 md:h-80 overflow-hidden">
+            <Image
+                src={article.cover ?? null}
+                alt={article.title}
+                fill
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+                priority
+                sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+            <div className="absolute top-6 left-6">
+            <CategoryBadge category={article.category} />
+            </div>
+            <div className="absolute bottom-6 left-6 right-6">
+            <time className="text-white/90 text-sm mb-2 block">{article.date}</time>
+            <h2 className="text-white text-2xl md:text-3xl font-bold mb-3 line-clamp-2">
+                {article.title}
+            </h2>
+            </div>
+        </div>
+        </div>
+    </article>
+    );
   const [selectedArticle, setSelectedArticle] = useState(null);
   const [filter, setFilter] = useState('All');
   
@@ -209,7 +207,7 @@ export default function NewsletterPage() {
               {/* Article Image */}
               <div className="relative h-64 md:h-80">
                 <Image
-                  src={selectedArticle.articleImage || selectedArticle.image}
+                  src={(selectedArticle.cover || selectedArticle.cover) ?? null}
                   alt={selectedArticle.title}
                   fill
                   className="object-cover"
@@ -245,7 +243,7 @@ export default function NewsletterPage() {
                 </h1>
 
                 <div className="prose prose-lg dark:prose-invert max-w-none">
-                  {selectedArticle.description.split('\n').map((paragraph, index) => (
+                  {selectedArticle.content && selectedArticle.content.split('\n').map((paragraph, index) => (
                     <p key={index} className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
                       {paragraph}
                     </p>
@@ -258,4 +256,4 @@ export default function NewsletterPage() {
       )}
     </div>
   );
-} 
+}

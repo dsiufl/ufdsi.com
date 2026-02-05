@@ -12,8 +12,15 @@ const nextConfig = {
         hostname: "localhost",
         port: "",
       },
+      {
+        protocol: "https",
+        hostname: "nljfmwgzmavnjzmiqgbp.supabase.co"
+      }
     ],
   },
+  experimental: {
+    authInterrupts: true,
+  }
 };
 
 module.exports = nextConfig;
