@@ -27,7 +27,7 @@ export default async function sendEmail(user: Profile, access_token: string) {
         email: user.email,
         type: "magiclink",
         options: {
-            redirectTo: `${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
+            redirectTo: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
         }
         
     })
