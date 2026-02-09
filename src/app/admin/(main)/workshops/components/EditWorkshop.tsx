@@ -1,7 +1,6 @@
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field";
 import { Workshop } from "@/types/db";
 import { Input } from "@/components/ui/input";
-import { FieldError } from "node_modules/@base-ui/react/esm/field/error/FieldError";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
