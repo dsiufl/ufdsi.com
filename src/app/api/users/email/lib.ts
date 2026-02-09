@@ -22,7 +22,7 @@ export default async function sendEmail(user: Profile, access_token: string) {
         console.log(profile.role)
         return new Response('Forbidden', { status: 403 });
     }
-    console.log(`${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`)
+    console.log(`${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`)
     const {data: { properties: { hashed_token, action_link } } } = await supabase.auth.admin.generateLink({
         email: user.email,
         type: "magiclink",
