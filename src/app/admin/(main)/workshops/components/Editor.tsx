@@ -9,12 +9,14 @@ import { Button } from "@/components/ui/button";
 import Overlay from "@/components/Overlay/Overlay";
 import EditWorkshop from "./EditWorkshop";
 import { createUserClient } from "@/lib/supabase/client";
+import { Spinner } from "@/components/ui/spinner";
 
 export default function Editor({workshops}: {workshops: Workshop[]}) {
     const [workshopList, setWorkshopList] = useState<Workshop[]>(workshops);
     const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null);
     const [newWorkshop, setNewWorkshop] = useState<boolean>(false);
     const [editWorkshop, setEditWorkshop] = useState<Workshop | undefined>(undefined);
+    const [deleteWorkshop, setDeleteWorkshop] = useState<Workshop | undefined>(undefined);
     const supabase = createUserClient();
     const NewWorkshopOverlay = () => {
         return (
@@ -90,7 +92,32 @@ export default function Editor({workshops}: {workshops: Workshop[]}) {
             </>
         )
     }
-
+    const DeleteWorkshopOverlay = () => {
+        const [ loading, setLoading ] = useState(false);
+        return (
+            <Overlay close={() => setDeleteWorkshop(undefined)} title="Delete Workshop">
+                <div className="flex flex-col items-center gap-4">
+                    <p>Are you sure you want to delete the workshop {deleteWorkshop?.title}?</p>
+                    <div className="flex gap-4">
+                        <Button variant="destructive" onClick={async () => {
+                            setLoading(true);
+                            await supabase.from('workshops').delete().eq('id', deleteWorkshop?.id).then(res => {
+                                if (res.error) {
+                                    console.error("Error deleting workshop:", res.error);
+                                } else {
+                                    console.log("Workshop deleted:", deleteWorkshop);
+                                    setWorkshopList(workshopList.filter(w => w.id !== deleteWorkshop?.id));
+                                    setDeleteWorkshop(undefined);
+                                }
+                            });
+                            setLoading(false);
+                        }}>{loading ? <Spinner /> : "Delete"}</Button>
+                        <Button onClick={() => setDeleteWorkshop(undefined)}>Cancel</Button>
+                    </div>
+                </div>  
+            </Overlay>
+        )
+    }
     return (
         <div className="w-full flex flex-col items-center">
             <Button onClick={() => {
@@ -125,6 +152,11 @@ export default function Editor({workshops}: {workshops: Workshop[]}) {
                                                 setEditWorkshop(workshop)
                                             }}>
                                                 Edit
+                                            </DropdownMenuItem>
+                                            <DropdownMenuItem onClick={() => {
+                                                setEditWorkshop(workshop)
+                                            }}>
+                                                Delete
                                             </DropdownMenuItem>
                                         </DropdownMenuContent>
                                     </DropdownMenu>

@@ -1,7 +1,6 @@
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
+import { Field, FieldGroup, FieldLabel, FieldError } from "@/components/ui/field";
 import { Workshop } from "@/types/db";
 import { Input } from "@/components/ui/input";
-import { FieldError } from "node_modules/@base-ui/react/esm/field/error/FieldError";
 import { useForm, Controller } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -34,7 +33,7 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                     rules={{required: true}}
                     render={({field, fieldState}) => {
                         return (
-                            <Field aria-invalid={fieldState.invalid}>
+                            <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                                 <FieldLabel className="text-md">
                                     Cover
                                 </FieldLabel>
@@ -54,27 +53,27 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                                     className="hidden"
                                 />
                                 <div className="flex justify-between w-full gap-4 ">
-                                <Input
-                                    type="file"
-                                    accept="image/*"
-                                    value={undefined}
-                                    aria-invalid={fieldState.invalid}
-                                    onChange={(e) => {
-                                        field.onChange(URL.createObjectURL(e.target.files[0]))
-                                    }}
-                                    placeholder="Cover Image"
-                                    autoComplete="off"
-                                />
-                                { field.value !== workshop.cover && field.value !== "" && <Button onClick={(e) => {
-                                    console.log(field.value)
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    field.onChange(workshop.cover)
-                                }}>Revert</Button>}
+                                    <Input
+                                        type="file"
+                                        accept="image/*"
+                                        value={undefined}
+                                        aria-invalid={fieldState.invalid}
+                                        onChange={(e) => {
+                                            field.onChange(URL.createObjectURL(e.target.files[0]))
+                                        }}
+                                        placeholder="Cover Image"
+                                        autoComplete="off"
+                                    />
+                                    { field.value !== workshop.cover && field.value !== "" && <Button onClick={(e) => {
+                                        console.log(field.value)
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        field.onChange(workshop.cover)
+                                    }}>Revert</Button>}
                                 </div>
                                 {fieldState.invalid && (
                                     <FieldError>
-                                        {fieldState.error?.message}
+                                        {fieldState.error?.type ?? "This field is required"}
                                     </FieldError>
                                 )}
                             </Field>
@@ -83,22 +82,34 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                 <Controller
                     name="title"
                     control={form.control}
+                    rules={{required: true}}
                     defaultValue={workshop.title ?? ""}
                     render={({field, fieldState}) => (
-                        <Field aria-invalid={fieldState.invalid}>
+                        <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                             <FieldLabel className="text-md">Title</FieldLabel>
                             <Input {...field} placeholder="Title of Workshop"/>
+                            {fieldState.invalid && (
+                                <FieldError>
+                                    {fieldState.error?.type ?? "This field is required"}
+                                </FieldError>
+                            )}
                         </Field>
                     )}
                 />
                 <Controller
                     name="speaker"
                     control={form.control}
+                    rules={{required: true}}
                     defaultValue={workshop.speaker ?? ""}
                     render={({field, fieldState}) => (
-                        <Field aria-invalid={fieldState.invalid}>
+                        <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                             <FieldLabel className="text-md">Speaker</FieldLabel>
                             <Input {...field} placeholder="Workshop Speaker"/>
+                            {fieldState.invalid && (
+                                <FieldError>
+                                    {fieldState.error?.type ?? "This field is required"}
+                                </FieldError>
+                            )}
                         </Field>
                     )}
                 />             
@@ -106,11 +117,17 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                 <Controller
                     name="description"
                     control={form.control}
+                    rules={{required: true}}
                     defaultValue={workshop.description ?? " "}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">Description</FieldLabel>
                             <Textarea {...field} placeholder="Description"/>
+                            {fieldState.invalid && (
+                                <FieldError>
+                                    {fieldState.error?.type ?? "This field is required"}
+                                </FieldError>
+                            )}
                         </Field>
                     )}
                 />
@@ -122,7 +139,7 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                     rules={{required: true}}
                     defaultValue={workshop.datetime ? new Date(workshop.datetime) : new Date()}
                     render={({field, fieldState}) => (
-                        <Field aria-invalid={fieldState.invalid}>
+                        <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                             <FieldLabel className="text-md">Date/Time</FieldLabel>
                             <DropdownMenu modal={true}>
                                 <DropdownMenuTrigger asChild>
@@ -167,8 +184,9 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                     name="location"
                     control={form.control}
                     defaultValue={workshop.location ?? ""}
+                    
                     render={({field, fieldState}) => (
-                        <Field aria-invalid={fieldState.invalid}>
+                        <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                             <FieldLabel className="text-md">Location</FieldLabel>
                             <Input {...field} placeholder="AIIRI"/>
                         </Field>
@@ -179,13 +197,13 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                     control={form.control}
                     defaultValue={workshop.link ?? ""}
                     render={({field, fieldState}) => (
-                        <Field aria-invalid={fieldState.invalid}>
+                        <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
                             <FieldLabel className="text-md">GitHub / Youtube / Slides Link</FieldLabel>
                             <Input {...field} placeholder="Description"/>
                         </Field>
                     )}
                 />
-                <Field>
+                <Field aria-invalid={form.formState.isSubmitting} className="aria-[invalid=true]:text-red-500">
                     <Button type="submit">{loading ? <Spinner /> : "Submit"}</Button>
                 </Field>
                 

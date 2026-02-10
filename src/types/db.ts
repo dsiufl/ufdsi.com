@@ -72,3 +72,8 @@ export interface Profile {
     pictureURL?: string;
     publish: boolean;
 }
+
+export enum Email {
+    INVITE_EMAIL = 1,
+    RESET_PASSWORD = 2
+}
