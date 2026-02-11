@@ -27,7 +27,7 @@ export default async function sendEmail(user: Profile, access_token: string, typ
         email: user.email,
         type: type == Email.INVITE_EMAIL ? 'magiclink' : 'recovery',
         options: {
-            redirectTo: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
+            redirectTo: `${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
         }
         
     })
@@ -51,7 +51,7 @@ export default async function sendEmail(user: Profile, access_token: string, typ
             params: {
                 first_name: user.first_name,
                 role: user.role,
-                action_link: `${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link?token=${hashed_token}`
+                action_link: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link?token=${hashed_token}`
             }
            
         }) 
