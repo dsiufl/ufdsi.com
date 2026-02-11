@@ -81,7 +81,7 @@ export default function Settings({data, className}: {data?: AdminInfo, className
                         <Controller
                                 name="current_password"
                                 control={passwdForm.control}
-                                defaultValue={ ''}
+                                defaultValue={''}
                                 rules={{required: true}}
                                 render={({ field, fieldState }) => (
                                     <Field aria-label="Password" aria-invalid={!!fieldState.error}>

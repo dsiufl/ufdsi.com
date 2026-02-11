@@ -4,6 +4,9 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import type { Symposium, Speaker } from '@/types/db';
 import { createUserClient } from '@/lib/supabase/client';
+import { Skeleton } from '../ui/skeleton';
+import CategoryBadge from '../CategoryBadge';
+import SpeakerCard from './SpeakerCard';
 
 
 const SymposiumNew = () => {
@@ -22,22 +25,20 @@ const SymposiumNew = () => {
   });
   const supabase = createUserClient();
   useEffect(() => {
-    supabase.from('symposiums').select('*').eq('id', selectedYear).then((res) => {
+    supabase.from('symposiums').select('*').eq('year', selectedYear).then((res) => {
+      console.log(res);
       setSymposium(res.data ? res.data[0] : null);
       return res.data ? res.data[0] : null;
     }).then((symp) => {
       if (!symp) return;
       console.log(symp)
-      supabase.from('speakers').select('*').eq('symposium', symp.id).then((res) => {
+      supabase.from('speakers').select('*').eq('symposium', symp.year).then((res) => {
         setSpeakers(res.data || []);
-        console.log(speakers)
+        console.log("Speakers", speakers)
       });
     });
   }, [selectedYear]);
 
-
-  // Placeholder data for 2026
-  const speakers2026: Speaker[] = [];
 
   // Select speakers based on selected year
 
@@ -75,64 +76,10 @@ const SymposiumNew = () => {
     : sortedSpeakers.filter(speaker => speaker.track === filter);
 
   // Category badge component
-  const CategoryBadge = ({ category, track }: { category: string; track?: string }) => {
-    const categoryColors = {
-      'keynote': 'bg-gradient-to-r from-purple-500 to-purple-600 text-white',
-      'general': 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-      'industry': 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-      'research': 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-      'workshop': 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-200',
-    };
 
-    return (
-      <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${categoryColors[category] || 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200'}`}>
-        {category === 'keynote' ? 'Keynote Speaker' : track || category}
-      </span>
-    );
-  };
 
   // Speaker card component
-  const SpeakerCard = ({ speaker, onClick }: { speaker: Speaker; onClick: () => void }) => (
-    <article 
-      className="group cursor-pointer transition-all duration-300"
-      onClick={onClick}
-    >
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
-        <div className="relative h-48 overflow-hidden">
-          <Image
-            src={speaker.cover}
-            alt={speaker.name}
-            fill
-            className="object-cover transition-transform duration-300 group-hover:scale-105"
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          <div className="absolute top-4 left-4">
-            <CategoryBadge category={speaker.category} track={speaker.track} />
-          </div>
-        </div>
-        
-        <div className="p-6">
-          <div className="flex items-center justify-between mb-3">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              {speaker.time} • {speaker.location}
-            </div>
-          </div>
-          
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2 group-hover:text-blue-600 transition-colors duration-200">
-            {speaker.name}
-          </h3>
-          
-          <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 font-medium">
-            {speaker.affiliation}
-          </p>
-          
-          <p className="text-gray-600 dark:text-gray-300 text-sm line-clamp-3">
-            {speaker.title}
-          </p>
-        </div>
-      </div>
-    </article>
-  );
+  
 
   // Keynote speaker component
   const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick: () => void }) => (
@@ -317,11 +264,11 @@ const SymposiumNew = () => {
                 <div className="space-y-3 pt-4">
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">📅 Date:</span>
-                    <span>{symposium && new Date(symposium.date).toLocaleDateString("en-US", {
+                    { symposium ? <span>{symposium && new Date(symposium.date).toLocaleDateString("en-US", {
                       month: 'long',
                       day: 'numeric',
                       year: 'numeric'
-                    })}</span>
+                    })}</span> : <Skeleton className="h-5 w-32" /> }
                   </div>
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">📍 Location:</span>
@@ -383,7 +330,7 @@ const SymposiumNew = () => {
       )}
 
       {/* Countdown Timer for 2026 */}
-      {selectedYear === '2026' && (
+      {selectedYear === '2026' && (symposium ? (
               <div className="max-w-4xl mx-auto mb-0 px-4 -mt-8 md:-mt-10 pt-10 md:pt-12">
                 <div className="p-6 md:p-8">
                   <div className="grid grid-cols-4 gap-4 md:gap-8">
@@ -422,7 +369,7 @@ const SymposiumNew = () => {
                   </div>
                 </div>
               </div>
-      )}
+      ) : (<Skeleton className="max-w-4xl mx-auto mb-0 px-4 pt-10 md:pt-12 h-48 mt-5" />))}
 
       {/* 2026 Photo Gallery */}
       {selectedYear === '2026' && (
@@ -570,13 +517,17 @@ const SymposiumNew = () => {
                 />
               ))}
             </div>
-          ) : (
+          ) : selectedYear === '2026' ? (
             <div className="text-center py-12">
               <p className="text-lg text-gray-600 dark:text-gray-400">
                 {selectedYear === '2026' ? '2026 symposium information coming soon!' : 'No speakers found for the selected filter.'}
               </p>
             </div>
-          )}
+          ) : (<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <Skeleton className="h-48" />
+              <Skeleton className="h-48 col-span-1"/>
+              <Skeleton className="h-48" />
+            </div>)}
         </div>
       </section>
 
