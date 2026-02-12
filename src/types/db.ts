@@ -9,9 +9,10 @@ export interface AdminInfo {
     email: string;
 }
 export interface Symposium {
-    id: number;
+    id: string;
     keynote: number;
     date: Date;
+    year: number;
 }
 
 export interface Article {

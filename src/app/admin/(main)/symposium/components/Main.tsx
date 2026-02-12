@@ -74,7 +74,7 @@ export default function Main({symposiums, token}: {symposiums: Symposium[], toke
                                 router.push(`/admin/symposium/${symp.id}`)
                                 setLoading(true);
                             }}>
-                                Symposium {symp.id} - {new Date(symp.date).toLocaleDateString()}
+                                Symposium {symp.year} - {new Date(symp.date).toLocaleDateString()}
                             </DropdownMenuItem>
                         ))}
                     </DropdownMenuContent>
