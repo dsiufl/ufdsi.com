@@ -16,5 +16,5 @@ export default async function Page(props: {
         redirect('/admin/login');
     }
     
-    redirect(`https://nljfmwgzmavnjzmiqgbp.supabase.co/auth/v1/verify?token=${token}&type=magiclink&redirect_to=${(process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` ) ?? "https://unstable.jcamille.dev"}/admin/login/link`);
+    redirect(`https://nljfmwgzmavnjzmiqgbp.supabase.co/auth/v1/verify?token=${token}&type=magiclink&redirect_to=${(process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` ) ?? "https://unstable.jcamille.dev"}/admin/login/`);
 }
