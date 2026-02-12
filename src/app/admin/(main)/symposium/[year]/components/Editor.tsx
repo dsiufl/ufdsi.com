@@ -88,12 +88,12 @@ export default function Editor({symposium, speakers}: {
     return (
         <>
         <div className="w-full flex justify-center">
-            <h2>Editing: DSI Spring Symposium {symposium.id}</h2>
+            <h2>Editing: DSI Spring Symposium {symposium.year}</h2>
         </div>
         {
             newSpeakerOverlay && (
                 <NewSpeakerOverlay
-                    symposium={symposium.id} 
+                    symposium={symposium.year} 
                     close={() => setNewSpeakerOverlay(false)} 
                     save={(speaker: Speaker) => {
                             const exists = newSpeakers.find(s => s.id === speaker.id);
@@ -135,7 +135,7 @@ export default function Editor({symposium, speakers}: {
                         })
                     }} 
                     speaker={editSpeakerOverlay} 
-                    symposium={symposium.id} 
+                    symposium={symposium.year} 
                     close={() => {setEditSpeakerOverlay(undefined)}}
                 />
             )

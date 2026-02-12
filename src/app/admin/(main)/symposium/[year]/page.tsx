@@ -16,7 +16,7 @@ export default async function Page({
     const cookieStore = await cookies()
     const supabase = await createClient(cookieStore);
     const {data: symposium}: {data: Symposium} = await supabase.from("symposiums").select().eq("id", year).single();
-    const {data: speakers} = await supabase.from("speakers").select().eq("symposium", year);
+    const {data: speakers} = await supabase.from("speakers").select().eq("symposium", symposium.year);
     if (!symposium || !speakers) {
         notFound();
         return;
