@@ -87,7 +87,7 @@ const SymposiumNew = () => {
       className="group cursor-pointer transition-all duration-300 mb-12"
       onClick={onClick}
     >
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-purple-200 dark:border-purple-800">
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden border border-gray-200 dark:border-gray-700">
         <div className="md:flex">
           <div className="md:w-1/3 relative h-64 md:h-80">
             <Image
@@ -210,7 +210,7 @@ const SymposiumNew = () => {
         <section className="relative z-10 overflow-visible pb-0 bg-gray-50 dark:bg-gray-900">
           <div className="container mx-auto px-4 pt-0 pb-0">
             {/* Main Header Content - Esper Bionics Style */}
-            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center max-w-7xl mx-auto">
+            <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-end max-w-7xl mx-auto">
               {/* Left Side - Image */}
               <div className="relative w-full h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
                 <Image
@@ -222,27 +222,27 @@ const SymposiumNew = () => {
               </div>
               
               {/* Right Side - Text Content */}
-              <div className="h-[400px] flex flex-col justify-between order-1 md:order-2">
+              <div className="md:h-[400px] flex flex-col justify-between order-1 md:order-2">
                 {/* Top Section - Main Title */}
                 <div className="space-y-4 relative">
-                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight relative" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                  <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight flex items-center gap-6" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                     DSI
                     <a
                       href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=DSI+Symposium+2026&dates=20260328T090000/20260328T170000&details=DSI+Spring+Symposium+2026&location=Reitz+Union,+University+of+Florida"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="absolute left-[calc(100%-26rem)] md:left-[calc(100%-31rem)] top-2 md:top-3 flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 border border-red-500 hover:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group whitespace-nowrap"
+                      className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 border border-red-500 hover:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group whitespace-nowrap"
                       title="Add to Calendar"
                     >
-                      <svg 
-                        className="w-4 h-4 md:w-5 md:h-5 text-red-500 group-hover:text-red-600 transition-colors" 
-                        fill="none" 
-                        stroke="currentColor" 
+                      <svg
+                        className="w-4 h-4 md:w-5 md:h-5 text-red-500 group-hover:text-red-600 transition-colors"
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                       >
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                       </svg>
-                      <span className="text-xs md:text-sm font-medium text-red-500 group-hover:text-red-600 transition-colors hidden sm:inline">
+                      <span className="text-xs md:text-sm font-medium text-red-500 group-hover:text-red-600 transition-colors">
                         Add to Calendar
                       </span>
                     </a>
@@ -261,7 +261,7 @@ const SymposiumNew = () => {
                 </p>
                 
                 {/* Info Section */}
-                <div className="space-y-3 pt-4">
+                <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">📅 Date:</span>
                     { symposium ? <span>{symposium && new Date(symposium.date).toLocaleDateString("en-US", {
@@ -272,7 +272,7 @@ const SymposiumNew = () => {
                   </div>
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">📍 Location:</span>
-                    <span>University of Florida, 655 Reitz Union Drive</span>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL" target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline">University of Florida, 655 Reitz Union Drive</a>
                   </div>
                   <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                     <span className="font-medium">👥 Speakers:</span>
@@ -481,53 +481,88 @@ const SymposiumNew = () => {
         </section>
       )}
 
-      {/* Speakers Grid */}
-      <section className="pt-6 md:pt-8 pb-12 md:pb-16  ">
+      {/* Speakers Title */}
+      <h3 className="text-4xl md:text-5xl text-gray-900 dark:text-white mb-2 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+        SPEAKERS
+      </h3>
+
+      {/* Keynote Spotlight */}
+      <section
+        className="pt-4 pb-16 md:pt-6 md:pb-20 relative overflow-hidden"
+      >
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">
-              All Speakers
+<div className="max-w-6xl mx-auto">
+            <h2
+              className="text-3xl md:text-4xl text-gray-900 mb-12"
+              style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
+            >
+              Keynote Spotlight
             </h2>
-            
-            {/* Filter Buttons */}
-            <div className="flex flex-wrap gap-2">
-              {categories.map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setFilter(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
-                    filter === category
-                      ? 'bg-blue-600 text-white shadow-md'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+            <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
+              {/* Speaker Image */}
+              <div className="shrink-0">
+                <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
+                  <Image
+                    src="/images/symposium-26/speakers/JohnBohannon.png"
+                    alt="John Bohannon"
+                    width={320}
+                    height={320}
+                    className="object-cover w-full h-full"
+                  />
+                </div>
+              </div>
+              {/* Speaker Info */}
+              <div className="text-center md:text-left">
+                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                  John Bohannon
+                </h3>
+                <p className="text-base md:text-lg font-bold text-gray-900 mb-5">
+                  Vice President of Data Science, PrimerAI
+                </p>
+                <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                  John Bohannon brings deep experience in data analysis and reporting from his time as a correspondent for Science, the peer-reviewed journal of the American Association for the Advancement of Science (AAAS). He later transitioned from scientific journalism to industry, serving as Director and then VP of Data Science at Primer AI, where he led the development of NLP tools and solutions for the defense and intelligence sectors. He is currently co-founder of a stealth startup based in San Francisco.
+                </p>
+              </div>
             </div>
           </div>
+        </div>
+      </section>
 
-          {filteredSpeakers.length > 0 ? (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {filteredSpeakers.map((speaker) => (
-                <SpeakerCard
-                  key={speaker.id}
-                  speaker={speaker}
-                  onClick={() => setSelectedSpeaker(speaker)}
+      {/* Additional Speakers */}
+      <section className="pb-16 md:pb-20">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24">
+            {/* Kurt Zhao */}
+            <div className="text-center">
+              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
+                <Image
+                  src="/images/symposium-26/speakers/KurtZhao.jpg"
+                  alt="Kurt Zhao"
+                  width={320}
+                  height={320}
+                  className="object-cover w-full h-full"
                 />
-              ))}
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Kurt Zhao</h3>
+              <p className="text-base text-gray-600">Senior Staff Data Analyst</p>
+              <p className="text-base text-gray-600">Circle</p>
             </div>
-          ) : selectedYear === '2026' ? (
-            <div className="text-center py-12">
-              <p className="text-lg text-gray-600 dark:text-gray-400">
-                {selectedYear === '2026' ? '2026 symposium information coming soon!' : 'No speakers found for the selected filter.'}
-              </p>
+            {/* Jane Southworth */}
+            <div className="text-center">
+              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
+                <Image
+                  src="/images/symposium-26/speakers/JaneSouthworth.png"
+                  alt="Jane Southworth"
+                  width={320}
+                  height={320}
+                  className="object-cover w-full h-full"
+                />
+              </div>
+              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Jane Southworth</h3>
+              <p className="text-base text-gray-600">Full Professor, Geography</p>
+              <p className="text-base text-gray-600">University of Florida</p>
             </div>
-          ) : (<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Skeleton className="h-48" />
-              <Skeleton className="h-48 col-span-1"/>
-              <Skeleton className="h-48" />
-            </div>)}
+          </div>
         </div>
       </section>
 
