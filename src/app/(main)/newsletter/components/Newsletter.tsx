@@ -25,6 +25,7 @@ export default function Newsletter({articles}: {articles: Article[]}) {
     >
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
         <div className="relative h-48 overflow-hidden">
+            {article.cover ? (
             <Image
             src={article.cover}
             alt={article.title}
@@ -32,6 +33,11 @@ export default function Newsletter({articles}: {articles: Article[]}) {
             className="object-cover transition-transform duration-300 group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
+            ) : (
+            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <span className="text-gray-400 dark:text-gray-500 text-sm">No image</span>
+            </div>
+            )}
             <div className="absolute top-4 left-4">
             <CategoryBadge category={article.category} />
             </div>
@@ -61,14 +67,20 @@ export default function Newsletter({articles}: {articles: Article[]}) {
     >
         <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 overflow-hidden">
         <div className="relative h-64 md:h-80 overflow-hidden">
+            {article.cover ? (
             <Image
-                src={article.cover ?? null}
+                src={article.cover}
                 alt={article.title}
                 fill
                 className="object-cover transition-transform duration-300 group-hover:scale-105"
                 priority
                 sizes="(max-width: 768px) 100vw, 50vw"
             />
+            ) : (
+            <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+              <span className="text-gray-400 dark:text-gray-500 text-sm">No image</span>
+            </div>
+            )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
             <div className="absolute top-6 left-6">
             <CategoryBadge category={article.category} />
@@ -206,13 +218,19 @@ export default function Newsletter({articles}: {articles: Article[]}) {
 
               {/* Article Image */}
               <div className="relative h-64 md:h-80">
+                {selectedArticle.cover ? (
                 <Image
-                  src={(selectedArticle.cover || selectedArticle.cover) ?? null}
+                  src={selectedArticle.cover}
                   alt={selectedArticle.title}
                   fill
                   className="object-cover"
                   priority
                 />
+                ) : (
+                <div className="w-full h-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center">
+                  <span className="text-gray-400 dark:text-gray-500 text-sm">No image</span>
+                </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
               </div>
 

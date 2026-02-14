@@ -157,7 +157,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                 {/* Theme Toggle Button */}
                 <button
                   onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 dark:bg-black text-gray-800 backdrop-blur-md transition-all hover:bg-white/20 dark:text-white mr-3"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 text-gray-800 backdrop-blur-md transition-all hover:bg-gray-300 dark:hover:bg-gray-700 dark:text-white mr-3"
                   aria-label="Toggle Theme"
                 >
                   {
@@ -198,8 +198,8 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
               
               
               {/* Desktop Theme Toggle */}
-              <div className="lg:flex items-center ml-4">
-                <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="!bg-slate-100/30 w-fit h-fit !p-2 rounded-full">
+              <div className="hidden lg:flex items-center ml-4">
+                <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} className="bg-gray-200 dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-700 w-fit h-fit p-2 rounded-full transition-colors">
                   {
                     theme === 'dark' ? (
                       <SunIcon className="" style={{width: "24px !important", height: "24px"}} />
