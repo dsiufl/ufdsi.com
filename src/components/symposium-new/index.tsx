@@ -481,90 +481,157 @@ const SymposiumNew = () => {
         </section>
       )}
 
-      {/* Speakers Title */}
-      <h3 className="text-4xl md:text-5xl text-gray-900 dark:text-white mb-2 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
-        SPEAKERS
-      </h3>
+      {selectedYear === '2026' ? (
+        <>
+          {/* Speakers Title */}
+          <h3 className="text-4xl md:text-5xl text-gray-900 dark:text-white mb-2 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+            SPEAKERS
+          </h3>
 
-      {/* Keynote Spotlight */}
-      <section
-        className="pt-4 pb-16 md:pt-6 md:pb-20 relative overflow-hidden"
-      >
-        <div className="container mx-auto px-4">
-<div className="max-w-6xl mx-auto">
-            <h2
-              className="text-3xl md:text-4xl text-gray-900 mb-12"
-              style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
-            >
-              Keynote Spotlight
-            </h2>
-            <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
-              {/* Speaker Image */}
-              <div className="shrink-0">
-                <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
-                  <Image
-                    src="/images/symposium-26/speakers/JohnBohannon.png"
-                    alt="John Bohannon"
-                    width={320}
-                    height={320}
-                    className="object-cover w-full h-full"
-                  />
+          {/* Keynote Spotlight */}
+          <section
+            className="pt-4 pb-16 md:pt-6 md:pb-20 relative overflow-hidden"
+          >
+            <div className="container mx-auto px-4">
+              <div className="max-w-6xl mx-auto">
+                <h2
+                  className="text-3xl md:text-4xl text-gray-900 mb-12"
+                  style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
+                >
+                  Keynote Spotlight
+                </h2>
+                <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
+                  {/* Speaker Image */}
+                  <div className="shrink-0">
+                    <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
+                      <Image
+                        src="/images/symposium-26/speakers/JohnBohannon.png"
+                        alt="John Bohannon"
+                        width={320}
+                        height={320}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                  </div>
+                  {/* Speaker Info */}
+                  <div className="text-center md:text-left">
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                      John Bohannon
+                    </h3>
+                    <p className="text-base md:text-lg font-bold text-gray-900 mb-5">
+                      Vice President of Data Science, PrimerAI
+                    </p>
+                    <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                      John Bohannon brings deep experience in data analysis and reporting from his time as a correspondent for Science, the peer-reviewed journal of the American Association for the Advancement of Science (AAAS). He later transitioned from scientific journalism to industry, serving as Director and then VP of Data Science at Primer AI, where he led the development of NLP tools and solutions for the defense and intelligence sectors. He is currently co-founder of a stealth startup based in San Francisco.
+                    </p>
+                  </div>
                 </div>
               </div>
-              {/* Speaker Info */}
-              <div className="text-center md:text-left">
-                <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
-                  John Bohannon
-                </h3>
-                <p className="text-base md:text-lg font-bold text-gray-900 mb-5">
-                  Vice President of Data Science, PrimerAI
-                </p>
-                <p className="text-base md:text-lg text-gray-600 leading-relaxed">
-                  John Bohannon brings deep experience in data analysis and reporting from his time as a correspondent for Science, the peer-reviewed journal of the American Association for the Advancement of Science (AAAS). He later transitioned from scientific journalism to industry, serving as Director and then VP of Data Science at Primer AI, where he led the development of NLP tools and solutions for the defense and intelligence sectors. He is currently co-founder of a stealth startup based in San Francisco.
-                </p>
-              </div>
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
 
-      {/* Additional Speakers */}
-      <section className="pb-16 md:pb-20">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24">
-            {/* Kurt Zhao */}
-            <div className="text-center">
-              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
-                <Image
-                  src="/images/symposium-26/speakers/KurtZhao.jpg"
-                  alt="Kurt Zhao"
-                  width={320}
-                  height={320}
-                  className="object-cover w-full h-full"
+          {/* Additional Speakers */}
+          <section className="pb-16 md:pb-20">
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24">
+                {/* Kurt Zhao */}
+                <div className="text-center">
+                  <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
+                    <Image
+                      src="/images/symposium-26/speakers/KurtZhao.jpg"
+                      alt="Kurt Zhao"
+                      width={320}
+                      height={320}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Kurt Zhao</h3>
+                  <p className="text-base text-gray-600">Senior Staff Data Analyst</p>
+                  <p className="text-base text-gray-600">Circle</p>
+                </div>
+                {/* Jane Southworth */}
+                <div className="text-center">
+                  <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
+                    <Image
+                      src="/images/symposium-26/speakers/JaneSouthworth.png"
+                      alt="Jane Southworth"
+                      width={320}
+                      height={320}
+                      className="object-cover w-full h-full"
+                    />
+                  </div>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Jane Southworth</h3>
+                  <p className="text-base text-gray-600">Full Professor, Geography</p>
+                  <p className="text-base text-gray-600">University of Florida</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        </>
+      ) : (
+        <>
+          {/* Keynote Speaker Section */}
+          {keynoteSpeaker && (
+            <section className="pt-8 pb-6 md:pb-8">
+              <div className="container mx-auto px-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
+                  Keynote Speaker
+                </h2>
+                <KeynoteSpeaker
+                  speaker={keynoteSpeaker}
+                  onClick={() => setSelectedSpeaker(keynoteSpeaker)}
                 />
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Kurt Zhao</h3>
-              <p className="text-base text-gray-600">Senior Staff Data Analyst</p>
-              <p className="text-base text-gray-600">Circle</p>
-            </div>
-            {/* Jane Southworth */}
-            <div className="text-center">
-              <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
-                <Image
-                  src="/images/symposium-26/speakers/JaneSouthworth.png"
-                  alt="Jane Southworth"
-                  width={320}
-                  height={320}
-                  className="object-cover w-full h-full"
-                />
+            </section>
+          )}
+
+          {/* Speakers Grid */}
+          <section className="pt-6 md:pt-8 pb-12 md:pb-16">
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
+                <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-4 md:mb-0">
+                  All Speakers
+                </h2>
+
+                {/* Filter Buttons */}
+                <div className="flex flex-wrap gap-2">
+                  {categories.map((category) => (
+                    <button
+                      key={category}
+                      onClick={() => setFilter(category)}
+                      className={`px-4 py-2 rounded-full text-sm font-medium transition-colors duration-200 ${
+                        filter === category
+                          ? 'bg-blue-600 text-white shadow-md'
+                          : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                      }`}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Jane Southworth</h3>
-              <p className="text-base text-gray-600">Full Professor, Geography</p>
-              <p className="text-base text-gray-600">University of Florida</p>
+
+              {filteredSpeakers.length > 0 ? (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredSpeakers.map((speaker) => (
+                    <SpeakerCard
+                      key={speaker.id}
+                      speaker={speaker}
+                      onClick={() => setSelectedSpeaker(speaker)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  <Skeleton className="h-48" />
+                  <Skeleton className="h-48 col-span-1"/>
+                  <Skeleton className="h-48" />
+                </div>
+              )}
             </div>
-          </div>
-        </div>
-      </section>
+          </section>
+        </>
+      )}
 
       {/* Collaborators Section */}
       <section className="py-12 bg-white dark:bg-gray-800">
