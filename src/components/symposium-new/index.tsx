@@ -287,6 +287,40 @@ const SymposiumNew = () => {
         // 2025 - Original Simple Layout
         <section className="relative z-10 overflow-hidden pb-0">
           <div className="container mx-auto">
+            {/* Other Symposiums Button */}
+            <div className="flex justify-end mb-2 px-4" data-other-symposiums>
+              <div className="relative z-50">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setShowPastSymposiums(!showPastSymposiums);
+                  }}
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
+                >
+                  Other Symposiums
+                </button>
+                {showPastSymposiums && (
+                  <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
+                    <div className="py-2">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedYear('2026');
+                          setShowPastSymposiums(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
+                      >
+                        2026
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
             <div className="mx-auto max-w-[900px] text-center mb-12">
               <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
                 DSI Spring Symposium 2025
@@ -495,7 +529,7 @@ const SymposiumNew = () => {
             <div className="container mx-auto px-4">
               <div className="max-w-6xl mx-auto">
                 <h2
-                  className="text-3xl md:text-4xl text-gray-900 mb-12"
+                  className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-12"
                   style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
                 >
                   Keynote Spotlight
@@ -515,13 +549,13 @@ const SymposiumNew = () => {
                   </div>
                   {/* Speaker Info */}
                   <div className="text-center md:text-left">
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-3">
+                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
                       John Bohannon
                     </h3>
-                    <p className="text-base md:text-lg font-bold text-gray-900 mb-5">
+                    <p className="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-5">
                       Vice President of Data Science, PrimerAI
                     </p>
-                    <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+                    <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
                       John Bohannon brings deep experience in data analysis and reporting from his time as a correspondent for Science, the peer-reviewed journal of the American Association for the Advancement of Science (AAAS). He later transitioned from scientific journalism to industry, serving as Director and then VP of Data Science at Primer AI, where he led the development of NLP tools and solutions for the defense and intelligence sectors. He is currently co-founder of a stealth startup based in San Francisco.
                     </p>
                   </div>
@@ -545,9 +579,9 @@ const SymposiumNew = () => {
                       className="object-cover w-full h-full"
                     />
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Kurt Zhao</h3>
-                  <p className="text-base text-gray-600">Senior Staff Data Analyst</p>
-                  <p className="text-base text-gray-600">Circle</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-4">Kurt Zhao</h3>
+                  <p className="text-base text-gray-600 dark:text-gray-300">Senior Staff Data Analyst</p>
+                  <p className="text-base text-gray-600 dark:text-gray-300">Circle</p>
                 </div>
                 {/* Jane Southworth */}
                 <div className="text-center">
@@ -560,9 +594,9 @@ const SymposiumNew = () => {
                       className="object-cover w-full h-full"
                     />
                   </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 mt-4">Jane Southworth</h3>
-                  <p className="text-base text-gray-600">Full Professor, Geography</p>
-                  <p className="text-base text-gray-600">University of Florida</p>
+                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-4">Jane Southworth</h3>
+                  <p className="text-base text-gray-600 dark:text-gray-300">Full Professor, Geography</p>
+                  <p className="text-base text-gray-600 dark:text-gray-300">University of Florida</p>
                 </div>
               </div>
             </div>
