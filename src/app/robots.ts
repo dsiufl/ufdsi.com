@@ -2,10 +2,13 @@ import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: {
-      userAgent: '*',
-      allow: '/',
-    },
-    sitemap: 'https://ufdsi.com/sitemap.xml',
+    rules: [
+      {
+        userAgent: "*",
+        allow: "/",
+        disallow: ["/error", "/unsubscribe"],
+      },
+    ],
+    sitemap: "https://ufdsi.com/sitemap.xml",
   };
 }

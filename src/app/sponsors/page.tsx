@@ -1,5 +1,20 @@
-'use client';
 import Image from "next/image";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sponsors & Collaborators",
+  description:
+    "Learn about UF DSI's industry sponsors and academic collaborators—including AIIRI, UFIT, CISE, and UF Smathers Libraries—who support data science education and research at the University of Florida.",
+  alternates: {
+    canonical: "https://ufdsi.com/sponsors",
+  },
+  openGraph: {
+    title: "Sponsors & Collaborators | UF DSI",
+    description:
+      "Learn about UF DSI's industry sponsors and academic collaborators who support data science education and research at the University of Florida.",
+    url: "https://ufdsi.com/sponsors",
+  },
+};
 
 const SponsorsPage = () => {
   return (

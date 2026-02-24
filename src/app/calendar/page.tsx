@@ -1,11 +1,20 @@
 import ScrollUp from "@/components/Common/ScrollUp";
 import { Calendar } from "@/components/Workshop/Calendar";
-
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Calendar",
-  description: "View our upcoming workshops, events, and activities.",
+  title: "Events Calendar",
+  description:
+    "View all upcoming UF DSI workshops, networking events, and activities. Add our Google Calendar to never miss a data science or AI event at the University of Florida.",
+  alternates: {
+    canonical: "https://ufdsi.com/calendar",
+  },
+  openGraph: {
+    title: "Events Calendar | UF DSI",
+    description:
+      "View all upcoming UF DSI workshops, networking events, and activities at the University of Florida.",
+    url: "https://ufdsi.com/calendar",
+  },
 };
 
 const CalendarPage = () => {
@@ -47,4 +56,3 @@ const CalendarPage = () => {
 };
 
 export default CalendarPage;
-

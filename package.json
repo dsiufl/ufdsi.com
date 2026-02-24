@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seo:validate": "node scripts/seo-validate.mjs"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.2",

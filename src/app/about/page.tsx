@@ -1,8 +1,25 @@
-'use client';
 import dynamic from "next/dynamic";
+import { Metadata } from "next";
 
-// Use dynamic import with no SSR for the carousel component to avoid hydration issues
-const NewsCarousel = dynamic(() => import("@/components/NewsCarousel"), { ssr: false });
+// Dynamic import with no SSR for the carousel component to avoid hydration issues
+const NewsCarousel = dynamic(() => import("@/components/NewsCarousel"), {
+  ssr: false,
+});
+
+export const metadata: Metadata = {
+  title: "About Us",
+  description:
+    "Learn about UF Data Science & Informatics—a student organization founded in 2015 at the University of Florida promoting data science education, research, and collaboration for students of all majors.",
+  alternates: {
+    canonical: "https://ufdsi.com/about",
+  },
+  openGraph: {
+    title: "About UF DSI | Data Science & Informatics at University of Florida",
+    description:
+      "Learn about UF Data Science & Informatics—a student organization founded in 2015 at the University of Florida promoting data science education, research, and collaboration for students of all majors.",
+    url: "https://ufdsi.com/about",
+  },
+};
 
 const AboutPage = () => {
   // Article IDs for "org of year", "Ccc award", and "nvidia workshop"
@@ -26,7 +43,7 @@ const AboutPage = () => {
                     We offer workshops, networking events, research opportunities, and a supportive community for anyone interested in data science, machine learning, artificial intelligence, and related fields. Most importantly, we believe knowledge should be accessible to all.
                   </p>
                   <p className="mb-6 text-base leading-relaxed text-gray-700 dark:text-gray-300">
-                    We are officially sponsored by the University of Florida’s <a href="https://ai.research.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Artificial Intelligence and Research Informatics Institute (AIIRI)</a>, which provides resources and strategic support for our initiatives. We also collaborate closely with <a href="https://it.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF Information Technology (UFIT)</a>, which supports our members with access to the HiPerGator supercomputing infrastructure and technical workshops. Lastly, we extend our gratitude to the <a href="https://stat.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Statistics Department</a>, <a href="https://uflib.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF Smathers Libraries</a>, the <a href="https://www.cise.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Department of Computer & Information Science & Engineering (CISE)</a>, and the <a href="https://ai.ufl.edu/about/the-ai-center/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF AI2 Center</a> for their valuable support in the past.
+                    We are officially sponsored by the University of Florida's <a href="https://ai.research.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Artificial Intelligence and Research Informatics Institute (AIIRI)</a>, which provides resources and strategic support for our initiatives. We also collaborate closely with <a href="https://it.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF Information Technology (UFIT)</a>, which supports our members with access to the HiPerGator supercomputing infrastructure and technical workshops. Lastly, we extend our gratitude to the <a href="https://stat.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Statistics Department</a>, <a href="https://uflib.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF Smathers Libraries</a>, the <a href="https://www.cise.ufl.edu/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">Department of Computer & Information Science & Engineering (CISE)</a>, and the <a href="https://ai.ufl.edu/about/the-ai-center/" target="_blank" rel="noopener noreferrer" className="text-teal-600 underline">UF AI2 Center</a> for their valuable support in the past.
                   </p>
                 </div>
               </div>
@@ -46,4 +63,4 @@ const AboutPage = () => {
   );
 };
 
-export default AboutPage; 
+export default AboutPage;
