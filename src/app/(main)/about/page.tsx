@@ -13,7 +13,7 @@ const AboutPage = async () => {
   const { data: featuredArticles, error } = await supabase
     .from('news')
     .select('*')
-    .in('id', [1,4,7]);
+    .eq('featured', true)
   if (error) notFound();
 
   return (

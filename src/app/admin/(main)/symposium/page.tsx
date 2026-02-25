@@ -14,7 +14,7 @@ export default async function Page() {
     const {data: profile}: {data: AdminInfo} = await supabase.schema("admin").from("people").select().eq('id', user.id).single()
 
     return (
-        <div className="relative md:absolute md:top-0 flex flex-col h-screen w-full items-center justify-center">
+        <div className="md:top-0 flex flex-col h-screen w-full items-center justify-center">
             <Main symposiums={symposiums.data} token={token} />
         </div>
     )

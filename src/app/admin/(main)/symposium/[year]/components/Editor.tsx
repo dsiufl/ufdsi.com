@@ -85,6 +85,8 @@ export default function Editor({symposium, speakers}: {
             setChanged(false);
         }
     }, [newSpeakers, keynote, speakers, symposium.keynote])
+
+
     return (
         <>
         <div className="w-full flex justify-center">
@@ -163,7 +165,6 @@ export default function Editor({symposium, speakers}: {
                             selected={newDate}
                             
                             onSelect={(e) => {
-                                console.log(e);
                                 if (e) {
                                     setNewDate(e);
                                     setChanged(true);
@@ -209,7 +210,7 @@ export default function Editor({symposium, speakers}: {
             setNewSpeakerOverlay(true);
         }}>Add a new speaker</Button>
         {
-            newSpeakers.length > 0 && 
+            [...diffs, ...newSpeakers].length > 0 && 
                 <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
                     <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
                         <TableRow>
@@ -222,7 +223,7 @@ export default function Editor({symposium, speakers}: {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {[...diffs, ...newSpeakers].filter(s => !s.deleted).map(speaker => (
+                        {[...diffs, ...newSpeakers].map(speaker => (
                             <TableRow className="w-full" key={speaker.id}>
                                 <TableCell>{speaker.name}</TableCell>
                                 <TableCell>{speaker.affiliation}</TableCell>
@@ -269,7 +270,7 @@ export default function Editor({symposium, speakers}: {
                 </Table>
         }
         {(diffs.length > 0 || changed) && saveState !== 'saved' && 
-            <div className="fixed bottom-0 w-full left-0 p-4 fade-in flex gap-2 justify-center">
+            <div className="fixed w-full bottom-0 left-0 p-4 fade-in flex flex-1 gap-2 justify-center">
                 {saveState === 'unsaved' ? 
                     <>
                     <Button onClick={() => {
@@ -306,7 +307,6 @@ export default function Editor({symposium, speakers}: {
                                             .storage
                                             .from('images')
                                             .getPublicUrl(data.path);
-                                        console.log(urlData);
                                         speaker.cover = urlData.publicUrl;
                                     }
                                     if (speaker.affiliated_logo && speaker.affiliated_logo.startsWith('blob:')) {
@@ -327,7 +327,6 @@ export default function Editor({symposium, speakers}: {
                                             .storage
                                             .from('images')
                                             .getPublicUrl(data.path);
-                                        console.log(urlData);
                                         speaker.affiliated_logo = urlData.publicUrl;
                                     }
                                     if (speaker.id) {
@@ -341,7 +340,7 @@ export default function Editor({symposium, speakers}: {
                                             cover: speaker.cover,
                                             time: speaker.time,
                                             location: speaker.location,
-                                            symposium: symposium.id,
+                                            symposium: symposium.year,
                                         })
                                         .eq('id', speaker.id).then((data) => {
                                             if (data.error) {
@@ -360,7 +359,8 @@ export default function Editor({symposium, speakers}: {
                                             description: speaker.description,
                                             cover: speaker.cover,
                                             time: speaker.time,
-                                            location: speaker.location
+                                            location: speaker.location,
+                                            symposium: symposium.year,
                                         }).then((data) => {
                                             if (data.error) reject(data.error);
                                             else resolve(data)
@@ -377,7 +377,6 @@ export default function Editor({symposium, speakers}: {
                         }
                         const ogKeynote = speakers.find(s => s.id === (symposium.keynote ?? ''));
                         if (keynote !== ogKeynote || newDate.getTime() !== new Date(symposium.date).getTime()) {
-                            console.log("Keynote", keynote)
                             supabase
                                 .from('symposiums')
                                 .update({

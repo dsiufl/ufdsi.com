@@ -68,7 +68,7 @@ export default function Settings({data, className}: {data?: AdminInfo, className
 
     }
     return (
-        <div className={` border-box relative pr-4 w-full flex flex-grow items-center justify-start gap-4 py-2 ${className}`}>
+        <div className={` border-box relative w-full h-full flex flex-grow items-center justify-start gap-4 py-2 ${className}`}>
             { passwordOverlay && (
                 <Overlay close={() => {
                     setPasswordOverlay(false);
@@ -131,8 +131,8 @@ export default function Settings({data, className}: {data?: AdminInfo, className
             ) }
             <div className="flex w-full h-full shadow-xl items-center justify-center dark:bg-[#000000]/30 rounded-xl">
                 
-                <form className="flex flex-row w-[80%] p-4 gap-4" onSubmit={form.handleSubmit(submitHandler)}>
-                    <div className="flex flex-col text-center w-[50%] h-full items-start justify-center p-4">
+                <form className="flex flex-col md:flex-row w-[80%] p-4 gap-4" onSubmit={form.handleSubmit(submitHandler)}>
+                    <div className="flex flex-col text-center md:w-[50%] h-full items-start justify-center p-4">
                             <Controller
                                     name="pictureURL"
                                     control={form.control}

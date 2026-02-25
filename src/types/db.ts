@@ -78,3 +78,17 @@ export enum Email {
     INVITE_EMAIL = 1,
     RESET_PASSWORD = 2
 }
+
+export interface Activity {
+    id: string;
+    user_id: string;
+    action_type: string;
+    table_name: string;
+    record_id: string;
+    description: string;
+    created_at: Date;
+    people: AdminInfo | null;
+    old_data: object | null;
+    new_data: object | null;
+
+}
