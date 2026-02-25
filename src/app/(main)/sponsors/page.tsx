@@ -183,16 +183,16 @@ const SponsorsPage = () => {
       <section className="py-16 md:py-20 lg:py-24 border-t border-gray-200 dark:border-gray-700">
         <div className="container">
           <div className="w-full px-4">
-            <div className="mx-auto max-w-4xl">
-              <div className="mb-12 text-center">
-                <h2 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl">
+            <div className="mx-auto max-w-5xl">
+              <div className="text-center mb-12">
+                <h3 className="mb-4 text-2xl font-bold text-black dark:text-white sm:text-3xl">
                   Sponsorship Tiers
-                </h2>
+                </h3>
                 <div className="mx-auto mb-6 h-1 w-20 bg-primary"></div>
                 <p className="text-base text-body-color dark:text-body-color-dark">
                   If none of these packages work for you, please email us at{" "}
-                  <a 
-                    href="mailto:dsiufl@gmail.com" 
+                  <a
+                    href="mailto:dsiufl@gmail.com"
                     className="text-primary hover:text-primary/80 transition-colors duration-300"
                   >
                     dsiufl@gmail.com
@@ -200,9 +200,9 @@ const SponsorsPage = () => {
                   . We would love to work with you to make a package that works for you!
                 </p>
               </div>
+            </div>
 
-              {/* Sponsorship Table */}
-              <div className="overflow-x-auto -mx-4 px-4">
+            <div className="mx-auto max-w-4xl overflow-x-auto">
                 <div className="min-w-[800px] rounded-xl border-2 border-primary/20 shadow-xl bg-white dark:bg-black ring-1 ring-primary/10">
                   {/* Table Header */}
                   <div className="grid grid-cols-4 gap-0">
@@ -211,15 +211,15 @@ const SponsorsPage = () => {
                         Logo visibility is much more prominent with higher tiers.
                       </p>
                     </div>
-                    <div className="bg-gradient-to-br from-gray-300 to-gray-600 p-3 md:p-4 text-center border-r border-gray-400 min-w-[120px]">
+                    <div style={{ background: 'linear-gradient(to bottom right, #d1d5db, #4b5563)' }} className="p-3 md:p-4 text-center border-r border-gray-400 min-w-[120px]">
                       <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">SILVER</h3>
                       <p className="text-xs md:text-sm text-white">$500</p>
                     </div>
-                    <div className="bg-gradient-to-br from-amber-400 to-orange-600 p-3 md:p-4 text-center border-r border-orange-400 min-w-[120px]">
+                    <div style={{ background: 'linear-gradient(to bottom right, #fbbf24, #ea580c)' }} className="p-3 md:p-4 text-center border-r border-orange-400 min-w-[120px]">
                       <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">GOLD</h3>
                       <p className="text-xs md:text-sm text-white">$1000</p>
                     </div>
-                    <div className="bg-gradient-to-br from-blue-300 to-blue-600 p-3 md:p-4 text-center rounded-tr-xl min-w-[120px]">
+                    <div style={{ background: 'linear-gradient(to bottom right, #93c5fd, #2563eb)' }} className="p-3 md:p-4 text-center rounded-tr-xl min-w-[120px]">
                       <h3 className="text-base md:text-lg font-bold text-white whitespace-nowrap">DIAMOND</h3>
                       <p className="text-xs md:text-sm text-white">$2000</p>
                     </div>
@@ -292,7 +292,6 @@ const SponsorsPage = () => {
                     })}
                   </div>
                 </div>
-              </div>
             </div>
           </div>
         </div>
