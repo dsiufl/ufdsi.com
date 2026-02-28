@@ -224,7 +224,7 @@
   }
 
   h2 {
-    @apply text-2xl md:text-3xl font-bold mb-6 flex gap-2
+    @apply text-2xl md:text-3xl font-bold mb-2 flex gap-2
   }
 
   h3 {

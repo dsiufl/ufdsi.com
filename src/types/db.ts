@@ -8,11 +8,22 @@ export interface AdminInfo {
     account_setup: boolean;
     email: string;
 }
+
+export interface AgendaItem {
+    deleted?: boolean;
+    new?: boolean;
+    id: string;
+    session: string;
+    duration: string;
+    time_range: string;
+    description: string;
+}
 export interface Symposium {
     id: string;
     keynote: number;
     date: Date;
     year: number;
+    agenda: AgendaItem[];
 }
 
 export interface Article {
@@ -91,4 +102,14 @@ export interface Activity {
     old_data: object | null;
     new_data: object | null;
 
+}
+
+export interface Project {
+    id: string;
+    created_at: string;
+    title: string;
+    lead: string;
+    description: string;
+    link: string;
+    cover: string;
 }

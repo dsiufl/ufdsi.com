@@ -4,6 +4,7 @@ import Team from "@/components/Team";
 import ScrollUp from "@/components/Common/ScrollUp";
 import { useState } from "react";
 import { Tab } from '@headlessui/react';
+import { ArrowDown } from "lucide-react";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
@@ -598,6 +599,13 @@ const TeamPage = () => {
         id="team"
         className="relative z-10 overflow-hidden pb-[80px] "
       >
+        <div className="h-screen bg-[url('https://nljfmwgzmavnjzmiqgbp.supabase.co/storage/v1/object/public/images/IMG_3983.jpg')] bg-cover bg-center inset-0 text-white flex flex-col justify-center items-center  md:justify-end md:items-start">
+          <div className="bg-black/70 md:bg-black/30 rounded-xl flex flex-col items-center text-center md:w-full p-10">
+          <h1>The Board</h1>
+          <p>Learn more about the team behind the premier data science organization in Florida.</p>
+          <ArrowDown />
+          </div>
+        </div>
         <div className="container mx-auto">
           {/* Enhanced header with decorative elements */}
           <div className="mb-16 text-center relative">

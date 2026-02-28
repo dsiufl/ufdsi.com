@@ -1,7 +1,7 @@
 'use client';
 
-import { useEffect, useState } from "react";
-import type { Speaker, Symposium } from "@/types/db";
+import { useContext, useEffect, useState } from "react";
+import { AgendaItem, type Speaker, type Symposium } from "@/types/db";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -9,13 +9,16 @@ import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import Overlay from "@/components/Overlay/Overlay";
 import EditSpeakerOverlay from "./EditSpeakerOverlay";
-import { Calendar, EllipsisIcon } from "lucide-react";
+import { Calendar, DeleteIcon, EllipsisIcon, PlusIcon } from "lucide-react";
 import { Calendar as CalendarElement } from "@/components/ui/calendar";
 import { Spinner } from "@/components/ui/spinner";
 import { createUserClient } from "@/lib/supabase/client";
 import NewSpeakerOverlay from "./NewSpeakerOverlay";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
+import { Alert } from "@/components/ui/alert";
+import { AlertContext } from "@/app/AlertProvider";
+import TableCellCustom from "./TableCellCustom";
 
 
 const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick?: () => void }) => (
@@ -64,8 +67,9 @@ const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick?: () =
 );
 export default function Editor({symposium, speakers}: {
     symposium: Symposium,
-    speakers: Speaker[]
+    speakers: Speaker[],
 }) {
+    const alertCtx = useContext(AlertContext);
     const [keynote, setKeynote] = useState<Speaker | undefined>(speakers.find(s => s.id === symposium.keynote))
     const [newSpeakers, setNewSpeakers] = useState<Speaker[]>(speakers);
     const [newDate, setNewDate] = useState<Date>(new Date(symposium.date));
@@ -74,21 +78,28 @@ export default function Editor({symposium, speakers}: {
     const [editSpeakerOverlay, setEditSpeakerOverlay] = useState<Speaker | undefined>(undefined);
     const [newSpeakerOverlay, setNewSpeakerOverlay] = useState<boolean>(false);
     const [saveState, setSaveState] = useState<"unsaved" | "saving" | "saved">("unsaved");
+    const [agenda, setAgenda] = useState<AgendaItem[]>(symposium.agenda ?? []);
     const supabase = createUserClient();
     useEffect(() => {
+        if (!symposium.agenda) {
+            symposium.agenda = [];
+        }
+    }, [])
+    useEffect(() => {
         const ogKeynote = speakers.find(s => s.id === symposium.keynote)
-        if (newSpeakers !== speakers || keynote !== ogKeynote ) {
+        if (newSpeakers !== speakers || keynote !== ogKeynote || symposium.agenda !== agenda) {
             console.log("changed")
             setChanged(true);
             setSaveState("unsaved");
         } else {
             setChanged(false);
         }
-    }, [newSpeakers, keynote, speakers, symposium.keynote])
+    }, [newSpeakers, keynote, speakers, symposium.keynote, agenda])
 
 
     return (
         <>
+        <TooltipProvider>
         <div className="w-full flex justify-center">
             <h2>Editing: DSI Spring Symposium {symposium.year}</h2>
         </div>
@@ -98,13 +109,6 @@ export default function Editor({symposium, speakers}: {
                     symposium={symposium.year} 
                     close={() => setNewSpeakerOverlay(false)} 
                     save={(speaker: Speaker) => {
-                            const exists = newSpeakers.find(s => s.id === speaker.id);
-                            if (exists) {
-                                setNewSpeakers(prev => {
-                                    prev.splice(prev.findIndex(s => s.id === speaker.id), 1);
-                                    return prev;
-                                });
-                            }
                             setDiffs(prev => {
                                 const idx = prev.findIndex(s => s.id === speaker.id);
                                 if (idx !== -1) {
@@ -223,7 +227,7 @@ export default function Editor({symposium, speakers}: {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {[...diffs, ...newSpeakers].map(speaker => (
+                        {[...diffs, ...newSpeakers].filter(s => !s.deleted).map(speaker => (
                             <TableRow className="w-full" key={speaker.id}>
                                 <TableCell>{speaker.name}</TableCell>
                                 <TableCell>{speaker.affiliation}</TableCell>
@@ -245,6 +249,7 @@ export default function Editor({symposium, speakers}: {
                                                 setNewSpeakers(prev =>  prev.filter(s => s.id !== speaker.id))
                                                 setDiffs(prev => {
                                                     if (prev.findIndex(s => s.id === speaker.id) !== -1) return prev; 
+                                                    console.log("marking speaker as deleted:", speaker)
                                                     prev.push({...speaker, deleted: true})
                                                     return prev;
                                                 })
@@ -252,7 +257,8 @@ export default function Editor({symposium, speakers}: {
                                                 Delete
                                             </DropdownMenuItem>
                                             <DropdownMenuItem onClick={() => {
-                                                if (keynote.id === speaker.id) {
+                                                if (keynote && keynote.id === speaker.id) {
+                                                    alertCtx.setAlert('error', "This speaker is currently the keynote. Please select a different keynote before setting this speaker as a regular speaker.")
                                                     const ogKeynote = speakers.find(s => s.id === symposium.keynote)
                                                     setKeynote(ogKeynote);
                                                     return;
@@ -269,14 +275,86 @@ export default function Editor({symposium, speakers}: {
                     </TableBody>
                 </Table>
         }
+        <h2 className="mt-5">Agenda</h2>
+        <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem] mb-10">
+            <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
+                <TableRow>
+                    <TableHead>Session</TableHead>
+                    <TableHead>Duration</TableHead>
+                    <TableHead>Time range</TableHead>
+                    <TableHead>Description</TableHead>
+                    <TableHead></TableHead>
+                </TableRow>
+            </TableHeader>
+            <TableBody>
+                    
+                {agenda && agenda.filter(item => !item.deleted).map((item) => (
+                    <TableRow key={item.id}>
+                        <TableCellCustom initialActive={item.new ?? false} initialValue={item.session} onSave={(value) => {
+                            setAgenda(prev => prev.map(i => i.id === item.id ? {...i, session: value} : i))
+                        }} />
+                        <TableCellCustom initialValue={item.duration} onSave={(value) => {
+                            setAgenda(prev => prev.map(i => i.id === item.id ? {...i, duration: value} : i))
+                        }} />
+                        <TableCellCustom initialValue={item.time_range} onSave={(value) => {
+                            setAgenda(prev => prev.map(i => i.id === item.id ? {...i, time_range: value} : i))
+                        }} />
+                        <TableCellCustom initialValue={item.description} onSave={(value) => {
+                            setAgenda(prev => prev.map(i => i.id === item.id ? {...i, description: value} : i))
+                        }} />
+                        <TableCell>
+                        
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <DeleteIcon className="cursor-pointer" onClick={() => {
+                                        setAgenda(prev => prev.map(i => i.id === item.id ? {...i, deleted: true} : i))
+                                    }} />
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    Delete this agenda item
+                                </TooltipContent>
+                            </Tooltip>
+                        </TableCell>
+                    </TableRow>
+                ))}
+                <TableRow>
+                    <TableCell colSpan={5} >
+                            <div className="w-full flex justify-center items-center" onClick={() => {
+                            setAgenda(prev => [...prev, {
+                                    id: Math.random().toString(36).slice(2, 9),
+                                    session: "New session",
+                                    duration: "1h",
+                                    time_range: "10:00 - 11:00",
+                                    description: "Description of the session",
+                                    new: true,
+                                }])
+                            }}>
+                                <PlusIcon />
+                            </div>
+                    </TableCell>
+                </TableRow>
+            </TableBody>
+        </Table>
         {(diffs.length > 0 || changed) && saveState !== 'saved' && 
             <div className="fixed w-full bottom-0 left-0 p-4 fade-in flex flex-1 gap-2 justify-center">
                 {saveState === 'unsaved' ? 
                     <>
                     <Button onClick={() => {
                         setSaveState("saving")
+
+                        const promises = [];
+                        if (agenda !== symposium.agenda) {
+                            const newAgenda = agenda.map(item => item.new ? {...item, new: undefined} : item).filter(item => !item.deleted);
+                            const result = supabase.from('symposiums').update({agenda: newAgenda}).eq('id', symposium.id).then((data) => {
+                                if (data.error) {
+                                    setSaveState("unsaved");
+                                    throw data.error.message;
+                                } else symposium.agenda = agenda;
+                            })
+                            promises.push(result)              
+                        }
+
                         if (diffs.length > 0) {
-                            const promises = [];
                             diffs.forEach((speaker) => {
                                 if (speaker.deleted) {
                                     const result = supabase.from("speakers").delete().eq('id', speaker.id).single()
@@ -368,13 +446,15 @@ export default function Editor({symposium, speakers}: {
                                     }
                                 }))
                             });
-                            Promise.all(promises).then(() => {
-                                setSaveState("saved");
-                            }).catch((error) => {
-                                console.error("Error saving speakers:", error);
-                                setSaveState("unsaved");
-                            });
+                            
                         }
+                        Promise.all(promises).then(() => {
+                            setSaveState("saved");
+                        }).catch((error) => {
+                            console.error("Error saving speakers:", error);
+                            setSaveState("unsaved");
+                        });
+
                         const ogKeynote = speakers.find(s => s.id === (symposium.keynote ?? ''));
                         if (keynote !== ogKeynote || newDate.getTime() !== new Date(symposium.date).getTime()) {
                             supabase
@@ -391,7 +471,7 @@ export default function Editor({symposium, speakers}: {
                                         return;
                                     }
                                     speakers = [...diffs,...newSpeakers];
-                                    symposium.keynote = keynote.id ?? null;
+                                    symposium.keynote = keynote ? keynote.id : null;
                                     symposium.date = newDate.toISOString() as unknown as Date;
                                     setSaveState("saved");
                                 })
@@ -408,6 +488,7 @@ export default function Editor({symposium, speakers}: {
                             setNewDate(new Date(symposium.date));
                             setChanged(false);
                         }
+                        if (agenda !== symposium.agenda) setAgenda(symposium.agenda ?? []);
                     }}>Revert</Button>
                     </>
                     :
@@ -416,6 +497,7 @@ export default function Editor({symposium, speakers}: {
             </div>
         }
         </div>
+        </TooltipProvider>
         </>
     )
 }
