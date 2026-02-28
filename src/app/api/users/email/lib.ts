@@ -1,7 +1,7 @@
-import { Profile } from "@/types/db";
+import { Email, Profile } from "@/types/db";
 import { createClient } from "@supabase/supabase-js";
 
-export default async function sendEmail(user: Profile, access_token: string) {
+export default async function sendEmail(user: Profile, access_token: string, type: Email = Email.INVITE_EMAIL) {
     const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
         process.env.SUPABASE_ADMIN_KEY!,
@@ -25,7 +25,7 @@ export default async function sendEmail(user: Profile, access_token: string) {
     console.log(`${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`)
     const {data: { properties: { hashed_token, action_link } } } = await supabase.auth.admin.generateLink({
         email: user.email,
-        type: "magiclink",
+        type: type == Email.INVITE_EMAIL ? 'magiclink' : 'recovery',
         options: {
             redirectTo: `${process.env.VERCEL_URL ?? "https://unstable.jcamille.dev"}/admin/login/link`
         }
@@ -47,7 +47,7 @@ export default async function sendEmail(user: Profile, access_token: string) {
             },
             to: [{ email: user.email, name: user.first_name + ' ' + user.last_name }],
             subject: "Your DSI Admin Account has been created",
-            templateId: 1,
+            templateId: type,
             params: {
                 first_name: user.first_name,
                 role: user.role,

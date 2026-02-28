@@ -84,7 +84,7 @@ const Team = () => {
               <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-blue-500"></span>
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
             { 
               users && users.sort((a,b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime() ).filter(s => s.exec).map((data, index) => (
                 <PersonCard key={`exec-${index}`} person={{
@@ -108,7 +108,7 @@ const Team = () => {
                   <span className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-teal-500 to-blue-500"></span>
                 </h3>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 justify-items-center">
                 {users && users.filter(s => role.includes(s.role)).map((data, personIndex) => (
                       <PersonCard key={`${roleIndex}-${personIndex}`} person={{
                       name: data.name,

@@ -55,7 +55,6 @@ function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: 
         });
 
     }
-    console.log(data);
 
     return (
         <Overlay 

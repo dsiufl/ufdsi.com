@@ -23,15 +23,14 @@ export default async function Page() {
             detectSessionInUrl: false,
         }}
     )
-    console.log(await adminbase.auth.admin.generateLink({
-        email: user?.email!,
-        type: "magiclink"
-    }))
+
     const session = await supabase.auth.getSession();
     const token = session.data.session.access_token;
     const {data: profile}: {data: Profile} = await supabase.schema("admin").from('people').select().eq('id', user.id).single()
     profile.email = user.email;
+
     if (profile.account_setup) {
+        console.log("account alr set up")
         redirect('/admin/dashboard');
     }
     return (

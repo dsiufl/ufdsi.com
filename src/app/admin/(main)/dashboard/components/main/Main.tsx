@@ -5,7 +5,6 @@ import { ArrowDown } from "lucide-react";
 import { useState } from "react";
 import Actions from "../pages/Actions";
 import { AdminInfo } from "@/types/db";
-import Settings from "../pages/Settings";
 
 export default function Main({data}: {data: AdminInfo}) {
     const [page, setPage] = useState<"Actions" | "Settings">("Actions");
@@ -31,7 +30,6 @@ export default function Main({data}: {data: AdminInfo}) {
                     </DropdownMenuContent>
                 </DropdownMenu>
                  <Actions data={data} className={page === 'Actions' ? 'visible' : 'hidden'} />
-                 <Settings data={data} className={page === 'Settings' ? 'visible' : 'hidden'} />
             </div>
     );
 }

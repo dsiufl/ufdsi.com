@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Image from 'next/image';
 import type { Symposium, Speaker } from '@/types/db';
 import { createUserClient } from '@/lib/supabase/client';
 import { Skeleton } from '../ui/skeleton';
 import CategoryBadge from '../CategoryBadge';
 import SpeakerCard from './SpeakerCard';
+import { AlertContext } from '@/app/AlertProvider';
+import { useGSAP } from '@gsap/react';
+import gsap from 'gsap';
 
 
 const SymposiumNew = () => {
@@ -17,6 +20,8 @@ const SymposiumNew = () => {
   const [filter, setFilter] = useState('All');
   const [showPastSymposiums, setShowPastSymposiums] = useState(false);
   const [loading, setLoading] = useState<boolean>(true);
+  const [keynoteSpeaker, setKeynoteSpeaker] = useState<Speaker | null>(null);
+  const alertCtx = useContext(AlertContext);
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -25,6 +30,7 @@ const SymposiumNew = () => {
   });
   const supabase = createUserClient();
   useEffect(() => {
+    console.log("getting....")
     supabase.from('symposiums').select('*').eq('year', selectedYear).then((res) => {
       console.log(res);
       setSymposium(res.data ? res.data[0] : null);
@@ -34,10 +40,24 @@ const SymposiumNew = () => {
       console.log(symp)
       supabase.from('speakers').select('*').eq('symposium', symp.year).then((res) => {
         setSpeakers(res.data || []);
-        console.log("Speakers", speakers)
+          const sortedSpeakers = [...speakers].sort((a, b) => {
+          return timeToMinutes(a.time) - timeToMinutes(b.time);
+        });
+        
+        // Filter speakers and maintain chronological order
+        const filteredSpeakers = filter === 'All' 
+          ? sortedSpeakers 
+          : sortedSpeakers.filter(speaker => speaker.track === filter);
+
+        // Category badge component
+        setKeynoteSpeaker(res.data ? res.data.find(s => s.id === symp.keynote) || null : null);
+
       });
     });
   }, [selectedYear]);
+
+
+   
 
 
   // Select speakers based on selected year
@@ -66,16 +86,7 @@ const SymposiumNew = () => {
   };
 
   // Sort speakers chronologically by their session time (earliest first)
-  const sortedSpeakers = [...speakers].sort((a, b) => {
-    return timeToMinutes(a.time) - timeToMinutes(b.time);
-  });
-  
-  // Filter speakers and maintain chronological order
-  const filteredSpeakers = filter === 'All' 
-    ? sortedSpeakers 
-    : sortedSpeakers.filter(speaker => speaker.track === filter);
 
-  // Category badge component
 
 
   // Speaker card component
@@ -200,8 +211,7 @@ const SymposiumNew = () => {
     return () => clearInterval(interval);
   }, [selectedYear, symposium]);
 
-  const keynoteSpeaker = sortedSpeakers.find(s => s.category === 'keynote');
-  const regularSpeakers = sortedSpeakers.filter(s => s.category !== 'keynote');
+  const regularSpeakers = speakers.filter(s => s.category !== 'keynote');
   return (
     <div className="min-h-screen  ">
       {/* Header Section */}
@@ -464,7 +474,7 @@ const SymposiumNew = () => {
       )}
 
       {/* Keynote Speaker Section */}
-      {keynoteSpeaker && (
+      {selectedYear === '2025' && keynoteSpeaker && (
         <section className="pt-8 pb-6 md:pb-8  ">
           <div className="container mx-auto px-4">
             {/* Other Symposiums Button - Above Keynote on Right */}
@@ -522,85 +532,76 @@ const SymposiumNew = () => {
             SPEAKERS
           </h3>
 
+
           {/* Keynote Spotlight */}
-          <section
-            className="pt-4 pb-16 md:pt-6 md:pb-20 relative overflow-hidden"
-          >
-            <div className="container mx-auto px-4">
-              <div className="max-w-6xl mx-auto">
-                <h2
-                  className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-12"
-                  style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
-                >
-                  Keynote Spotlight
-                </h2>
-                <div className="flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
-                  {/* Speaker Image */}
-                  <div className="shrink-0">
-                    <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
-                      <Image
-                        src="/images/symposium-26/speakers/JohnBohannon.png"
-                        alt="John Bohannon"
-                        width={320}
-                        height={320}
-                        className="object-cover w-full h-full"
-                      />
+          {
+            keynoteSpeaker && 
+          
+            <section
+              className="pt-4 pb-16 md:pt-6 md:pb-20 relative overflow-hidden"
+            >
+              <div className="container mx-auto px-4">
+                <div className="max-w-6xl mx-auto">
+                  <h2
+                    className="text-3xl md:text-4xl text-gray-900 dark:text-white mb-12"
+                    style={{ fontFamily: 'Georgia, "Times New Roman", serif', fontStyle: 'italic', fontWeight: 400 }}
+                  >
+                    Keynote Spotlight
+                  </h2>
+                  <div className="keynote flex flex-col md:flex-row items-center md:items-start gap-10 md:gap-16">
+                    {/* Speaker Image */}
+                    <div className="shrink-0">
+                      <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
+                        <Image
+                          src="/images/symposium-26/speakers/JohnBohannon.png"
+                          alt={keynoteSpeaker.name}
+                          width={320}
+                          height={320}
+                          className="object-cover w-full h-full"
+                        />
+                      </div>
+                    </div>
+                    {/* Speaker Info */}
+                    <div className="text-center md:text-left">
+                      <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
+                        {keynoteSpeaker.name}
+                      </h3>
+                      <p className="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-5">
+                        {keynoteSpeaker.affiliation}
+                      </p>
+                      <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
+                        {keynoteSpeaker.description}
+                      </p>
                     </div>
                   </div>
-                  {/* Speaker Info */}
-                  <div className="text-center md:text-left">
-                    <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-white mb-3">
-                      John Bohannon
-                    </h3>
-                    <p className="text-base md:text-lg font-bold text-gray-900 dark:text-white mb-5">
-                      Vice President of Data Science, PrimerAI
-                    </p>
-                    <p className="text-base md:text-lg text-gray-600 dark:text-gray-300 leading-relaxed">
-                      John Bohannon brings deep experience in data analysis and reporting from his time as a correspondent for Science, the peer-reviewed journal of the American Association for the Advancement of Science (AAAS). He later transitioned from scientific journalism to industry, serving as Director and then VP of Data Science at Primer AI, where he led the development of NLP tools and solutions for the defense and intelligence sectors. He is currently co-founder of a stealth startup based in San Francisco.
-                    </p>
-                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-
-          {/* Additional Speakers */}
-          <section className="pb-16 md:pb-20">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24">
-                {/* Kurt Zhao */}
-                <div className="text-center">
-                  <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
-                    <Image
-                      src="/images/symposium-26/speakers/KurtZhao.jpg"
-                      alt="Kurt Zhao"
-                      width={320}
-                      height={320}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-4">Kurt Zhao</h3>
-                  <p className="text-base text-gray-600 dark:text-gray-300">Senior Staff Data Analyst</p>
-                  <p className="text-base text-gray-600 dark:text-gray-300">Circle</p>
-                </div>
-                {/* Jane Southworth */}
-                <div className="text-center">
-                  <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
-                    <Image
-                      src="/images/symposium-26/speakers/JaneSouthworth.png"
-                      alt="Jane Southworth"
-                      width={320}
-                      height={320}
-                      className="object-cover w-full h-full"
-                    />
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-4">Jane Southworth</h3>
-                  <p className="text-base text-gray-600 dark:text-gray-300">Full Professor, Geography</p>
-                  <p className="text-base text-gray-600 dark:text-gray-300">University of Florida</p>
+            </section>
+            }
+            {/* Additional Speakers */}
+            <section className="pb-16 md:pb-20">
+              <div className="container mx-auto px-4">
+                <div className="flex flex-col md:flex-row justify-center items-center gap-16 md:gap-24">
+                  {
+                    speakers.filter(s => s.id !== symposium.keynote).map(speaker => (
+                      <div key={speaker.id} className="text-center">
+                        <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl mx-auto mb-4">
+                          <Image
+                            src={speaker.cover}
+                            alt={speaker.name}
+                            width={320}
+                            height={320}
+                            className="object-cover w-full h-full"
+                          />
+                        </div>
+                        <h3 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mt-4">{speaker.name}</h3>
+                        <p className="text-base text-gray-600 dark:text-gray-300">{speaker.affiliation}</p>
+                      </div>
+                    ))
+                  }
                 </div>
               </div>
-            </div>
-          </section>
+            </section>
         </>
       ) : (
         <>
@@ -645,9 +646,9 @@ const SymposiumNew = () => {
                 </div>
               </div>
 
-              {filteredSpeakers.length > 0 ? (
+              {speakers.length > 0 ? (
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {filteredSpeakers.map((speaker) => (
+                  {speakers.map((speaker) => (
                     <SpeakerCard
                       key={speaker.id}
                       speaker={speaker}
