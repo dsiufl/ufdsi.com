@@ -6,7 +6,6 @@ import { notFound } from "next/navigation";
 import Head from "next/head";
 import Markdown from 'react-markdown'
 import { Metadata } from "next";
-import Share from "./components/share";
 
 
 export const generateMetadata = async ({
