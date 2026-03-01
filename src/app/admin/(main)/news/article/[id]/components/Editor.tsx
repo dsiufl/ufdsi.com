@@ -70,7 +70,7 @@ export default function Editor({article}: {article: Article}) {
                 <p className="!mb-0">{article.id ? "Editing" : "Creating new"}</p>
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-4 !text-black dark:text-white">
+                        <Button variant="outline" className="ml-4 !text-black dark:!text-white">
                             {category === "Articles" ? "Article" : category } <ArrowDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
