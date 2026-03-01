@@ -13,9 +13,7 @@ export default async function validateToken(token: string): Promise<{ user?: Use
     )
     if (!token) return { error: 'Unauthorized' };
     const { data: { user }, error } = await supabase.auth.getUser(token);
-    
     if (!user || error) return { error: 'Unauthorized' };
-    console.log(user);  
     const {data, error: fetchError} = await supabase.schema('admin').from('people').select().eq('id', user.id).single();
     if (fetchError) {
         return { error: 'Error fetching user data' };

@@ -7,13 +7,13 @@ import Image from "next/image";
 export default async function page() {
     const cookieStore = await cookies();
       const supabase = await createClient(cookieStore);
-      const workshops = await supabase.from("workshops").select("*");
+      const workshops = await supabase.from("workshops").select("*").order("datetime", {ascending: true});
       console.log("workshops", workshops);
       if (workshops.error) {
         notFound();
       }
     return (
-        <div className="w-full h-screen flex flex-col text-center items-center justify-center">
+        <div className="pt-[10%] w-full h-screen flex flex-col text-center items-center justify-center">
             <h2>DSI Workshops</h2>
             <div className="w-full h-full py-4 px-10 bg-gray-400/20 dark:bg-[#000000]/30 flex flex-col items-start">
                 <Editor workshops={workshops.data} />

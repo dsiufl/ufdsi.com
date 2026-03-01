@@ -37,10 +37,10 @@ export default function AuthFooter() {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="z-50 min-w-[8rem] overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 origin-[--radix-dropdown-menu-content-transform-origin] max-h-[200px]">
                     <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
-                        <Button className="!bg-[#000000]/30">Settings</Button>
+                        <Button className="bg-transparent text-black dark:text-white hover:shadow-xl hover:bg-primary/30 !border-0 dark:!bg-[#000000]/30 w-full">Settings</Button>
                     </DropdownMenuItem>
                     <DropdownMenuItem onClick={handleSignOut}>
-                        <Button className="!bg-[#000000]/30">Sign out</Button>
+                        <Button className="bg-transparent text-black dark:text-white hover:shadow-xl hover:bg-red-300 dark:!bg-[#000000]/30 w-full">Sign out</Button>
                     </DropdownMenuItem>
                 </DropdownMenuContent>
             </DropdownMenu>

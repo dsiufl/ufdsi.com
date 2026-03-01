@@ -6,7 +6,7 @@ const Table = React.forwardRef<
   HTMLTableElement,
   React.HTMLAttributes<HTMLTableElement>
 >(({ className, ...props }, ref) => (
-  <div className="mt-4 rounded-md h-fit max-h-80 w-full overflow-y-auto relative">
+  <div className={`mt-4 rounded-md h-fit max-h-80 w-full overflow-y-auto relative ${className.includes('!max-h-fit') ? '!max-h-fit' : ''}`}>
     <table
       ref={ref}
       className={cn("w-full caption-bottom text-sm", className)}

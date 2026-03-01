@@ -12,8 +12,8 @@ export default function Overlay({children, title, close}: {children: React.React
         }, 300);
     }
     if (window.innerWidth < 768) return (
-        <Drawer open={open} onOpenChange={exit}>
-            <DrawerContent className="p-10">
+        <Drawer disablePreventScroll={true} open={open} onOpenChange={exit}>
+            <DrawerContent className="max-h-[80vh] overflow-y-scroll p-10 pb">
                 <DrawerHeader>
                     <DrawerTitle>{title}</DrawerTitle>
                 </DrawerHeader>

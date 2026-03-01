@@ -2,8 +2,10 @@
 
 import { Article } from "@/types/db";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 export default function Newsletter({articles}: {articles: Article[]}) {
+    const router = useRouter();
     const CategoryBadge = ({ category }: { category: string }) => {
         const categoryColors = {
             'Awards': 'bg-orange-100 text-orange-900 dark:bg-orange-900 dark:text-orange-200',
@@ -21,7 +23,7 @@ export default function Newsletter({articles}: {articles: Article[]}) {
     const ArticleCard = ({ article, onClick, isSelected }: { article: any; onClick: () => void; isSelected: boolean }) => (
     <article 
         className={`group cursor-pointer transition-all duration-300 ${isSelected ? 'ring-2 ring-primary' : ''}`}
-        onClick={onClick}
+        onClick={() => router.push(`/newsletter/${article.id}`)}
     >
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden">
         <div className="relative h-48 overflow-hidden">

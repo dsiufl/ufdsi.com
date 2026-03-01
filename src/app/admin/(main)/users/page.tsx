@@ -13,7 +13,7 @@ export default async function Page() {
         throw new Error('Error fetching users');
     }
     return (
-        <div className="relative top-0 left-0 flex flex-col items-center w-full h-screen">
+        <div className="pt-[10%] relative top-0 left-0 flex flex-col items-center w-full h-screen">
             <h1>Manage users</h1>
             <Users data={data} />
         </div>

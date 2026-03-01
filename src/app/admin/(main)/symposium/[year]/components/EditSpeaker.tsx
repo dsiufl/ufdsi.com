@@ -41,7 +41,6 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     name="cover"
                     defaultValue={speakerRef.current.cover ?? ""}
                     control={form.control}
-                    rules={{required: true}}
                     render={({field, fieldState}) => {
                         return (
                         <Field data-invalid={fieldState.invalid}>
@@ -184,7 +183,6 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     name="title"
                     control={form.control}
                     defaultValue={speakerRef.current.title ?? ""}
-                    rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
@@ -226,7 +224,6 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     name="time"
                     control={form.control}
                     defaultValue={speakerRef.current.time ?? ""}
-                    rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
                             <FieldLabel className="text-md">
