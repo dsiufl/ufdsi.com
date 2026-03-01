@@ -70,7 +70,7 @@ export default function Editor({article}: {article: Article}) {
                 <p className="!mb-0">{article.id ? "Editing" : "Creating new"}</p>
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-4">
+                        <Button variant="outline" className="ml-4 !text-black dark:text-white">
                             {category === "Articles" ? "Article" : category } <ArrowDownIcon />
                         </Button>
                     </DropdownMenuTrigger>
@@ -102,8 +102,8 @@ export default function Editor({article}: {article: Article}) {
                     <Image
                         src={cover|| "/images/logo/hd-transparent-dsi-logo.png"}
                         alt={article.title}
-                        width={600}
-                        height={400}
+                        width={400}
+                        height={267}
                         className="rounded-xl"
                         unoptimized
                     />

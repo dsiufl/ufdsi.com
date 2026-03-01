@@ -104,12 +104,12 @@ export default function NewHeader() {
               {/* Mobile Menu */}
               <div className="md:hidden">
               <DropdownMenu>
-                <DropdownMenuTrigger className="!bg-gray-900">
+                <DropdownMenuTrigger className="!bg-primary !size-fit !p-2">
                   <Menu />
                 </DropdownMenuTrigger>
                 <DropdownMenuContent ref={dropdownRef} className="dropdown-content mt-[7%] w-screen bg-white dark:bg-gray-800 p-2 rounded-md shadow-lg">
                   {mobileMenu.map((item) => (
-                    <DropdownMenuItem key={item.id} className="menu-item p-0 dark:text-white">
+                    <DropdownMenuItem key={item.id} className="hover:bg-gray-100 dark:hover:bg-gray-700 menu-item p-0 dark:text-white">
                       {item.href && (
                         <Link href={item.href} className="block w-full h-full p-4">
                           {item.title}
