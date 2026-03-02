@@ -164,9 +164,9 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                     </div>
                     
                     {/* Right Side - Text Content */}
-                    <div className="md:h-[400px] flex flex-col justify-between order-1 md:order-2">
-                        {/* Top Section - Main Title */}
-                        <div className="space-y-4 relative">
+                    <div className="flex flex-col gap-4 order-1 md:order-2">
+                        {/* Title block */}
+                        <div className="space-y-2 relative">
                         <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight flex items-center gap-6" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                             DSI
                             <a
@@ -195,29 +195,32 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
                             2026
                         </h2>
-                        </div>
-                        
-                        {/* Description */}
                         <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
-                        Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+                            Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
                         </p>
-                        
+                        </div>
+
                         {/* Info Section */}
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                         <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                             <span className="font-medium">📅 Date:</span>
-                            { symposium ? <span>{symposium && new Date(symposium.date).toLocaleDateString("en-US", {
-                            month: 'long',
-                            day: 'numeric',
-                            year: 'numeric'
-                            })}</span> : <Skeleton className="h-5 w-32" /> }
+                            { symposium ? <span>{new Date(symposium.date).toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}</span> : <Skeleton className="h-5 w-32" /> }
                         </div>
                         <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
                             <span className="font-medium">📍 Location:</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL" target="_blank" rel="noopener noreferrer" className="hover:text-primary hover:underline">University of Florida, 655 Reitz Union Drive</a>
+                            <a href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL" target="_blank" rel="noopener noreferrer" className="hover:underline">University of Florida, 655 Reitz Union Drive</a>
                         </div>
-                        
                         </div>
+
+                        {/* Register Button - aligns with bottom of image */}
+                        <a
+                        href="https://docs.google.com/forms/d/e/1FAIpQLSeeLjQPm-lw_HWNLitDZzMpdg96bh48pw6cmYsdWsz_a5TyTg/viewform"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-block w-fit px-6 py-2 text-sm font-medium text-white bg-gray-900 dark:bg-white dark:text-gray-900 rounded-full hover:opacity-80 transition-opacity duration-200"
+                        >
+                        Register Now
+                        </a>
                     </div>
                     </div>
                 </div>
