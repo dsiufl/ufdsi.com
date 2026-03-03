@@ -485,7 +485,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                             <div className="shrink-0">
                             <div className="w-56 h-56 md:w-72 md:h-72 rounded-full overflow-hidden border-[6px] border-white shadow-xl">
                                 <Image
-                                src="/images/symposium-26/speakers/JohnBohannon.png"
+                                src={keynoteSpeaker.cover}
                                 alt={keynoteSpeaker.name}
                                 width={320}
                                 height={320}
