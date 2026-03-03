@@ -231,37 +231,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                 <div className="container mx-auto">
                     {/* Other Symposiums Button */}
                     <div className="flex justify-end mb-2 px-4" data-other-symposiums>
-                    <div className="relative z-50">
-                        <button
-                        type="button"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            setShowPastSymposiums(!showPastSymposiums);
-                        }}
-                        className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm transition-colors cursor-pointer relative z-50"
-                        >
-                        Other Symposiums
-                        </button>
-                        {showPastSymposiums && (
-                        <div className="absolute top-full right-0 mt-2 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50 min-w-[150px]">
-                            <div className="py-2">
-                            <button
-                                type="button"
-                                onClick={(e) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                router.push('/symposium/2026');
-                                setShowPastSymposiums(false);
-                                }}
-                                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-700 dark:text-gray-300"
-                            >
-                                2026
-                            </button>
-                            </div>
-                        </div>
-                        )}
-                    </div>
+                    
                     </div>
                     <div className="mx-auto max-w-[900px] text-center mb-12">
                     <h1 className="mb-4 text-3xl font-bold text-black dark:text-white sm:text-4xl md:text-[45px]">
@@ -724,7 +694,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                     {/* Speaker/Workshop Affiliations */}
                     <div className="text-center">
                         <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-8" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
-                        SPEAKER/WORKSHOP AFFILIATIONS
+                        SPEAKER/WORKSHOP AFFILIATIONS 
                         </h3>
                         <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-12 border border-gray-200 dark:border-gray-600">
                         <p className="text-gray-500 dark:text-gray-400 text-lg">Coming Soon!</p>
