@@ -538,20 +538,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
             ) : (
                 <>
                 {/* Keynote Speaker Section */}
-                {keynoteSpeaker && (
-                    <section className="pt-8 pb-6 md:pb-8">
-                    <div className="container mx-auto px-4">
-                        <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">
-                        Keynote Speaker
-                        </h2>
-                        <KeynoteSpeaker
-                        speaker={keynoteSpeaker}
-                        onClick={() => setSelectedSpeaker(keynoteSpeaker)}
-                        />
-                    </div>
-                    </section>
-                )}
-
+                
                 {/* Speakers Grid */}
                 <section className="pt-6 md:pt-8 pb-12">
                     <div className="container mx-auto px-4">
@@ -753,9 +740,10 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                 <div
                 className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
                 onClick={() => setSelectedSpeaker(null)}
+                style={{zIndex: 10000}}
                 >
                 <div
-                    className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-clip"
                     onClick={e => e.stopPropagation()}
                 >
                     <div className="relative">
@@ -828,7 +816,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                     </div>
 
                     {/* Content */}
-                    <div className="p-6 md:p-8">
+                    <div className="p-6 md:p-8 overflow-y-scroll">
                         <h2 className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white mb-4">
                         {selectedSpeaker.title}
                         </h2>
