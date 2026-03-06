@@ -19,7 +19,7 @@ export default async function page() {
 
 
     const faq = [
-        {title: "What are DSI projects?", description: "Our projects offer students an incredible opportunity to get involved with DSI and learn new skills that prepare them for research and careers in data science." },
+        {title: "What are DSI projects?", description: "Our projects offer students an incredible opportunity to get involved with DSI and learn new skills that prepare them for research and careers in data science. Our projects also offer access to the HiPerGator supercomputer, making achieving research goals more accessible.    " },
         {title: "Who can get involved?", description: "Anyone that meets the requirements of the project lead can get involved! Generally, these requiurements are not stringent as projects are an opportunity to learn and develop skills."},
         {title: "How do I get involved?", description: "Check out the list of projects below and contact a lead if interested!"}
     ]

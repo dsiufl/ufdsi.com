@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import Head from "next/head";
 import Markdown from 'react-markdown'
 import { Metadata } from "next";
+import Link from "next/link";
 
 
 export const generateMetadata = async ({
@@ -33,6 +34,18 @@ export const generateMetadata = async ({
         description: data.summary || 'Newsletter page',
     };
 };
+
+function CustomLink({ href, children }: { href: string; children: React.ReactNode }) {
+    const isExternal = href.startsWith('http');
+    if (isExternal) {
+        return (<Link href={href} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
+            {children}
+        </Link>);
+    }
+    return (<Link href={href} className="text-blue-500 hover:underline">
+        {children}
+    </Link>);
+}
 
 
 export default async function Page({
@@ -75,7 +88,11 @@ export default async function Page({
             </div>
         </div>
         <div className="flex flex-col items-center w-full px-32 pt-5">
-            <Markdown>
+            <Markdown
+                components={{
+                    a: CustomLink,
+                }}
+            >
                 {data?.content || ""}
             </Markdown>
         </div>

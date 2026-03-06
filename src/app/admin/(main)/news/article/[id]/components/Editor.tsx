@@ -3,7 +3,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/compon
 import { Article } from "@/types/db";
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
 import Image from "next/image";
-import MDEditor from "@uiw/react-md-editor";
+import MDEditor from "./MDEditor";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -166,8 +166,9 @@ export default function Editor({article}: {article: Article}) {
         <div className="bg-gray-200 dark:bg-gray-700 rounded-md p-4 w-[100%] min-h-[50vh]">
             <MDEditor
                 value={content}
-                onChange={(value) => setContent(value)}
-                className="size-full h-[100%]"
+                onChange={(value) => {
+                    value.target && setContent(value.target.value);
+                }}
             />
         </div>
         {
