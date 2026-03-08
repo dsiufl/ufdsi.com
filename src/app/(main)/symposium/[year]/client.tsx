@@ -691,15 +691,8 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         </div>
                     </div>
 
-                    {/* Speaker/Workshop Affiliations */}
-                    <div className="text-center">
-                        <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-8" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
-                        SPEAKER/WORKSHOP AFFILIATIONS 
-                        </h3>
-                        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-12 border border-gray-200 dark:border-gray-600">
-                        <p className="text-gray-500 dark:text-gray-400 text-lg">Coming Soon!</p>
-                        </div>
-                    </div>
+                  
+                
                     </>
                 )}
                 </div>

@@ -1,4 +1,5 @@
 'use client';
+import { AlertContext } from "@/app/AlertProvider";
 import Loading from "@/components/Loading/Loading";
 import { Field, FieldError, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
@@ -6,19 +7,22 @@ import { Spinner } from "@/components/ui/spinner";
 import { createUserClient } from "@/lib/supabase/client";
 import { Button } from "@headlessui/react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 export default function Form() {
     const form = useForm();
     const supabase = createUserClient();
     const router = useRouter();
+    const alertCtx = useContext(AlertContext);
     const [ loading, setLoading ] = useState<boolean>(false);
     const submit = (data) => {
         console.log("sent", data);
         supabase.auth.updateUser({ password: data.password }).then((result) => {
             if (result.error) {
                 console.error("Error updating password:", result.error);
+                alertCtx.setAlert("error", "Error updating password: " + result.error.message);
+
             } else {
                 console.log("Password updated successfully");
                 // Redirect to dashboard

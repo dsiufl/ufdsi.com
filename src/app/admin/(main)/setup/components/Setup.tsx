@@ -10,14 +10,16 @@ import { Profile } from "@/types/db";
 import { Info } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import EditUser from "../../components/EditUser";
+import { AlertContext } from "@/app/AlertProvider";
 
 
 function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: () => void}) {    const router = useRouter();
     
     const supabase = createUserClient();
+    const alertCtx = useContext(AlertContext)
     const submit = async (sub: Profile) => {
         if (sub.pictureURL !== data.pictureURL) {
             // Upload new picture to storage
@@ -29,6 +31,7 @@ function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: 
                 contentType: blob.type
             });
             if (error) {
+                alertCtx.setAlert("error", "Error uploading image: " + error.message);
                 console.error("Error uploading image:", error);
                 return;
             } else {
