@@ -720,7 +720,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                             </div>
                             <div className="bg-gray-100 dark:bg-gray-700 p-3">
                             <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>UFIT</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">UF Information Technology</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">UF's information technology services</p>
                             </div>
                         </div>
 
@@ -736,7 +736,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                             </div>
                             <div className="bg-gray-100 dark:bg-gray-700 p-3">
                             <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>UF Career Connections Center</p>
-                            <p className="text-xs text-gray-500 dark:text-gray-400">UF career development resources</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">UF's career services hub for students and alumni</p>
                             </div>
                         </div>
                         </div>
