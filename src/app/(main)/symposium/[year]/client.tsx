@@ -116,6 +116,17 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                 start: "top 80%",
             }
         })
+        gsap.from('.collaborators > div', {
+            y: -100,
+            opacity: 0,
+            duration: 0.8,
+            ease: "power2.out",
+            stagger: 0.4,
+            scrollTrigger: {
+                trigger: '.collaborators',
+                start: "top 80%",
+            }
+        })
     })
     useEffect(() => {
         if (selectedYear !== '2026') return;
@@ -691,8 +702,46 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         </div>
                     </div>
 
-                  
-                
+                    {/* Collaborators */}
+                    <div className="mb-12">
+                        <h3 className="text-2xl md:text-3xl text-gray-900 dark:text-white mb-8 text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
+                            COLLABORATORS
+                        </h3>
+                        <div className="collaborators flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
+                        {/* UFIT */}
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
+                            <div className="bg-white aspect-square relative p-4">
+                            <Image
+                                src="/images/symposium-26/sponsors/ufit.png"
+                                alt="UFIT"
+                                fill
+                                className="object-contain"
+                            />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                            <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>UFIT</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">UF Information Technology</p>
+                            </div>
+                        </div>
+
+                        {/* UF Career Connections Center */}
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
+                            <div className="bg-white aspect-square relative p-4">
+                            <Image
+                                src="/images/symposium-26/sponsors/ufccc.png"
+                                alt="UF Career Connections Center"
+                                fill
+                                className="object-contain"
+                            />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                            <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>UF Career Connections Center</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">UF career development resources</p>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+
                     </>
                 )}
                 </div>
