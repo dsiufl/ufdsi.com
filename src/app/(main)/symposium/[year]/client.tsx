@@ -635,9 +635,9 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         <p className="text-sm text-gray-500 dark:text-gray-400 text-center mb-8" style={{ fontFamily: 'Inter, sans-serif' }}>
                         Interested in being a sponsor? Check the sponsors page!
                         </p>
-                        <div className="sponsors grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto">
+                        <div className="sponsors flex flex-wrap justify-center gap-4 max-w-5xl mx-auto">
                         {/* NVIDIA */}
-                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
                             <div className="bg-white aspect-square relative p-4">
                             <Image
                                 src="/images/symposium-26/sponsors/nvidia.png"
@@ -653,7 +653,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         </div>
                         
                         {/* Mark III */}
-                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
                             <div className="bg-white aspect-square relative p-4">
                             <Image
                                 src="/images/symposium-26/sponsors/mark-iii.png"
@@ -669,7 +669,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         </div>
                         
                         {/* NLP Logix */}
-                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
                             <div className="aspect-square relative p-4" style={{ backgroundColor: '#79bc46' }}>
                             <Image
                                 src="/images/symposium-26/sponsors/nlp-logix.png"
@@ -685,7 +685,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                         </div>
                         
                         {/* AIIRI */}
-                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden">
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
                             <div className="aspect-square relative p-2" style={{ backgroundColor: '#0b2d81' }}>
                             <Image
                                 src="/images/symposium-26/sponsors/aiiri.png"
@@ -697,6 +697,53 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                             <div className="bg-gray-100 dark:bg-gray-700 p-3">
                             <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>AIIRI</p>
                             <p className="text-xs text-gray-500 dark:text-gray-400">UF hub advancing campus-wide AI research</p>
+                            </div>
+                        </div>
+                        {/* Smathers Libraries */}
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
+                            <div className="bg-white aspect-square relative p-4 overflow-hidden">
+                            <Image
+                                src="/images/symposium-26/sponsors/smathers.png"
+                                alt="Smathers Libraries"
+                                fill
+                                className="object-contain scale-150"
+                            />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                            <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Smathers Libraries</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">UF's library system</p>
+                            </div>
+                        </div>
+
+                        {/* Study Edge */}
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
+                            <div className="aspect-square relative p-4" style={{ backgroundColor: '#2fb4e9' }}>
+                            <Image
+                                src="/images/symposium-26/sponsors/study_edge.png"
+                                alt="Study Edge"
+                                fill
+                                className="object-contain"
+                            />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                            <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Study Edge</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Academic tutoring and study resources</p>
+                            </div>
+                        </div>
+
+                        {/* Vyspar */}
+                        <div className="bg-gray-100 dark:bg-gray-700 rounded-xl border-2 border-gray-400 dark:border-gray-600 overflow-hidden w-full md:w-[calc(25%-12px)]">
+                            <div className="aspect-square relative p-4" style={{ backgroundColor: '#1C1B2E' }}>
+                            <Image
+                                src="/images/symposium-26/sponsors/vyspar.png"
+                                alt="Vyspar"
+                                fill
+                                className="object-contain"
+                            />
+                            </div>
+                            <div className="bg-gray-100 dark:bg-gray-700 p-3">
+                            <p className="text-gray-900 dark:text-white mb-1 text-base" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Vyspar</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">Education prescription for medical professionals</p>
                             </div>
                         </div>
                         </div>
