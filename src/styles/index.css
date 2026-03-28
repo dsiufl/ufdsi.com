@@ -266,7 +266,49 @@
   .scrollbar::-webkit-scrollbar-thumb:hover {
     background: #c0a0b9;
   }
-  
+
+}
+
+@page {
+  margin: 0;
+}
+
+@media print {
+  body {
+    padding: 0.6in 0.75in;
+    background: white !important;
+    color: black !important;
+    font-size: 11pt;
+  }
+
+  /* Hide everything except agenda content */
+  .header, header, nav, [data-other-symposiums] {
+    display: none !important;
+  }
+
+  .print-time-col {
+    display: flex !important;
+  }
+
+  .print-connector {
+    display: none !important;
+  }
+
+  .print-time-badge {
+    display: none !important;
+  }
+
+  .agenda-item-card {
+    background: white !important;
+    border-left-color: #374151 !important;
+    break-inside: avoid;
+  }
+
+  .agenda-break-card {
+    background: white !important;
+    border-color: #d1d5db !important;
+    break-inside: avoid;
+  }
 }
 
  

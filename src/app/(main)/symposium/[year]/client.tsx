@@ -12,6 +12,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import { Calendar, MapPin } from 'lucide-react';
 
 
 const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick: () => void }) => (
@@ -163,7 +164,7 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                 <section className="relative z-10 overflow-visible pb-0 bg-gray-50 dark:bg-gray-900">
                 <div className="container mx-auto px-4 pt-0 pb-0">
                     {/* Main Header Content - Esper Bionics Style */}
-                    <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-end max-w-7xl mx-auto">
+                    <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-stretch max-w-7xl mx-auto">
                     {/* Left Side - Image */}
                     <div className="relative w-full h-[400px] rounded-2xl overflow-hidden order-2 md:order-1">
                         <Image
@@ -175,51 +176,41 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
                     </div>
                     
                     {/* Right Side - Text Content */}
-                    <div className="flex flex-col gap-4 order-1 md:order-2">
-                        {/* Title block */}
-                        <div className="space-y-2 relative">
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight flex items-center gap-6" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
-                            DSI
-                            <a
-                            href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=DSI+Symposium+2026&dates=20260328T090000/20260328T170000&details=DSI+Spring+Symposium+2026&location=Reitz+Union,+University+of+Florida"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 border border-red-500 hover:border-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-full transition-all duration-200 group whitespace-nowrap"
-                            title="Add to Calendar"
-                            >
-                            <svg
-                                className="w-4 h-4 md:w-5 md:h-5 text-red-500 group-hover:text-red-600 transition-colors"
-                                fill="none"
-                                stroke="currentColor"
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                            </svg>
-                            <span className="text-xs md:text-sm font-medium text-red-500 group-hover:text-red-600 transition-colors">
-                                Add to Calendar
-                            </span>
-                            </a>
+                    <div className="flex flex-col justify-between gap-4 order-1 md:order-2">
+                        {/* Title block — DSI top-aligns with image */}
+                        <div className="relative">
+                        <p className="text-xs font-semibold tracking-[0.2em] uppercase text-blue-700 dark:text-blue-400 mb-3 -mt-[0.18em]">
+                            University of Florida · Spring 2026
+                        </p>
+                        <h1 className="leading-none mb-1" style={{ fontFamily: 'Inter, sans-serif' }}>
+                            <span className="block text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-gray-900 dark:text-white">DSI</span>
+                            <span className="block text-4xl md:text-5xl lg:text-6xl font-extralight tracking-[0.12em] text-gray-900 dark:text-white">SYMPOSIUM</span>
                         </h1>
-                        <h1 className="text-4xl md:text-5xl lg:text-6xl text-gray-900 dark:text-white leading-tight" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
-                            SYMPOSIUM
-                        </h1>
-                        <h2 className="text-3xl md:text-4xl lg:text-5xl text-blue-600 dark:text-blue-400" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>
+                        <p className="text-5xl md:text-6xl lg:text-7xl font-black text-blue-700 dark:text-blue-400 leading-none mt-1" style={{ fontFamily: 'Inter, sans-serif' }}>
                             2026
-                        </h2>
-                        <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-md">
-                            Join us for a day of learning, networking, and innovation with industry leaders, researchers, and innovators in AI and data science.
+                        </p>
+                        <p className="text-sm md:text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-md mt-3">
+                            Talks, panels, and networking with industry leaders and researchers in AI and data science.
                         </p>
                         </div>
 
                         {/* Info Section */}
                         <div className="space-y-2">
-                        <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
-                            <span className="font-medium">📅 Date:</span>
-                            { symposium ? <span>{new Date(symposium.date).toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}</span> : <Skeleton className="h-5 w-32" /> }
+                        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+                            <Calendar className="w-4 h-4 text-blue-700 dark:text-blue-400 shrink-0" />
+                            { symposium ? <span>{new Date(symposium.date).toLocaleDateString("en-US", { month: 'long', day: 'numeric', year: 'numeric' })}</span> : <Skeleton className="h-4 w-32" /> }
+                            <a
+                                href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=DSI+Symposium+2026&dates=20260328T090000/20260328T170000&details=DSI+Spring+Symposium+2026&location=Reitz+Union,+University+of+Florida"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs text-blue-700 dark:text-blue-400 hover:underline ml-1"
+                            >
+                                + Add to Calendar
+                            </a>
                         </div>
-                        <div className="flex items-center gap-3 text-sm md:text-base text-gray-700 dark:text-gray-300">
-                            <span className="font-medium">📍 Location:</span>
-                            <a href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL" target="_blank" rel="noopener noreferrer" className="hover:underline">University of Florida, 655 Reitz Union Drive</a>
+                        <div className="flex items-center gap-2.5 text-sm text-gray-700 dark:text-gray-300">
+                            <MapPin className="w-4 h-4 text-blue-700 dark:text-blue-400 shrink-0" />
+                            <a href="https://www.google.com/maps/search/?api=1&query=Reitz+Union,+655+Reitz+Union+Drive,+Gainesville,+FL" target="_blank" rel="noopener noreferrer" className="hover:underline">655 Reitz Union Drive, University of Florida</a>
                         </div>
                         </div>
 
@@ -569,13 +560,20 @@ export default function Client({ selectedYear, symposium, speakers }: { selected
             )}
             { /* Agenda */ }
             { selectedYear === '2026' && (
-                <section className="py-12 bg-gray-50 dark:bg-gray-900 w-full flex flex-row gap-4 items-center justify-center">
-                <h2 className="text-3xl md:text-4xl !mb-0 text-gray-900 dark:text-white text-center" style={{ fontFamily: 'Inter, sans-serif', fontWeight: 300 }}>
-                    AGENDA | 
-                </h2>
-                <Link href="/symposium/2026/agenda" className="button">
-                    View Agenda
-                </Link>
+                <section className="w-full px-4 py-4">
+                    <Link
+                        href="/symposium/2026/agenda"
+                        className="group flex items-center justify-between gap-4 w-full max-w-4xl mx-auto border border-blue-700 dark:border-blue-500 px-5 py-3 rounded-xl hover:bg-blue-50 dark:hover:bg-blue-950/30 transition-colors duration-200"
+                    >
+                        <div className="flex items-center gap-3">
+                            <div className="w-2 h-2 rounded-full bg-blue-700 dark:bg-blue-400 shrink-0" />
+                            <span className="text-base font-semibold text-gray-900 dark:text-white">View the Agenda</span>
+                            <span className="text-sm text-gray-400 dark:text-gray-500 hidden sm:block">— Full day schedule</span>
+                        </div>
+                        <svg className="w-4 h-4 text-blue-700 dark:text-blue-400 shrink-0 group-hover:translate-x-0.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                    </Link>
                 </section>
             )}
             {/* Collaborators Section */}
