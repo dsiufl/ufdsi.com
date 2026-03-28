@@ -1,11 +1,5 @@
-import SymposiumSchedule from '@/components/symposium/index';
-import { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Symposium",
-  description: "Symposium",
-};
+import { redirect } from "next/navigation";
 
 export default function SymposiumPage() {
-  return <SymposiumSchedule />;
+  redirect("/symposium/2026");
 }
