@@ -35,3 +35,10 @@ yarn-error.log*
 
 # cursor ignore
 .cursorignore
+
+# playwright
+.playwright-mcp/
+screenshots/
+
+# build cache
+tsconfig.tsbuildinfo

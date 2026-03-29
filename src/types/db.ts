@@ -101,7 +101,6 @@ export interface Activity {
     people: AdminInfo | null;
     old_data: object | null;
     new_data: object | null;
-
 }
 
 export interface Project {
@@ -112,4 +111,70 @@ export interface Project {
     description: string;
     link: string;
     cover: string;
+}
+
+export type FieldType =
+    | 'short-text' | 'long-text' | 'email' | 'phone' | 'number'
+    | 'dropdown' | 'radio' | 'checkbox-group' | 'chip-select' | 'yes-no'
+    | 'uf-id' | 'date' | 'file-upload' | 'emergency-contact'
+    | 'section-header' | 'info-banner' | 'waiver' | 'page-break';
+
+export type FieldWidth = 'half' | 'full';
+
+export interface FormField {
+    id: string;
+    type: FieldType;
+    label: string;
+    placeholder?: string;
+    required?: boolean;
+    helpText?: string;
+    width?: FieldWidth;
+    options?: string[];
+    validation?: {
+        emailDomain?: string;
+        min?: number;
+        max?: number;
+        pattern?: string;
+    };
+    content?: string;
+    headingLevel?: 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export interface FormTemplate {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    fields: FormField[];
+}
+
+export type FormStatus = 'draft' | 'open' | 'closed';
+export type SubmissionStatus = 'pending' | 'confirmed' | 'waitlist' | 'cancelled';
+
+export interface EventForm {
+    id: string;
+    slug: string;
+    title: string;
+    description: string | null;
+    fields: FormField[];
+    event_date: string | null;
+    deadline: string | null;
+    capacity: number | null;
+    status: FormStatus;
+    allowed_domains: string[] | null;
+    created_by: string;
+    created_at: string;
+}
+
+export interface FormSubmission {
+    id: string;
+    form_id: string;
+    submitted_at: string;
+    status: SubmissionStatus;
+    waitlist_position: number | null;
+    first_name: string;
+    last_name: string;
+    email: string;
+    phone: string | null;
+    data: Record<string, unknown>;
 }
