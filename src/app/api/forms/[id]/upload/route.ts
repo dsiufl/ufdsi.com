@@ -28,6 +28,12 @@ function adminClient() {
 export async function POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const { id: formId } = await params;
 
+    // Verify the form exists and is open before accepting uploads
+    const supabase = adminClient();
+    const { data: form } = await supabase.from('forms').select('status').eq('id', formId).single();
+    if (!form) return new Response('Form not found', { status: 404 });
+    if (form.status !== 'open') return new Response('Form is not accepting submissions', { status: 400 });
+
     const formData = await req.formData();
     const file = formData.get('file') as File | null;
     const fieldId = formData.get('fieldId') as string | null;
@@ -46,8 +52,6 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
 
     const ext = file.name.split('.').pop() ?? 'bin';
     const path = `${formId}/${fieldId}-${Date.now()}.${ext}`;
-
-    const supabase = adminClient();
     const { error } = await supabase.storage
         .from('form-uploads')
         .upload(path, file, {

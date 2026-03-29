@@ -27,7 +27,11 @@ export default function TemplatePicker() {
         const template = formTemplates.find(t => t.id === templateId);
         const supabase = createUserClient();
         const { data: { session } } = await supabase.auth.getSession();
-        if (!session) return;
+        if (!session) {
+            setError('You must be logged in to create a form.');
+            setCreating(false);
+            return;
+        }
 
         try {
             const res = await fetch('/api/forms/create', {

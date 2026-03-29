@@ -14,7 +14,10 @@ async function send(payload: {
     templateId: number;
     params: Record<string, unknown>;
 }) {
-    if (!process.env.BREVO_API_KEY || !payload.templateId) return;
+    if (!process.env.BREVO_API_KEY || !payload.templateId) {
+        console.warn('Brevo email skipped: missing BREVO_API_KEY or template ID');
+        return;
+    }
     try {
         const res = await fetch(BREVO_API_URL, {
             method: 'POST',

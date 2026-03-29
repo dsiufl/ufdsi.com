@@ -6,9 +6,10 @@ import { useRouter } from "next/navigation";
 export default function SidebarLogo() {
     const router = useRouter();
     return (
-        <div
+        <button
             onClick={() => router.push('/admin/dashboard')}
-            className="cursor-pointer py-2 w-fit h-fit flex items-center justify-start"
+            className="cursor-pointer py-2 w-fit h-fit flex items-center justify-start bg-transparent border-none p-0"
+            aria-label="Go to dashboard"
         >
             <Image
                 src="/images/logo/hd-transparent-dsi-logo.png"
@@ -16,6 +17,6 @@ export default function SidebarLogo() {
                 width={100}
                 height={100}
             />
-        </div>
+        </button>
     );
 }

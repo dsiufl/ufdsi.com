@@ -15,7 +15,7 @@ export async function PATCH(
     req: NextRequest,
     { params }: { params: Promise<{ id: string; subId: string }> }
 ) {
-    const { subId } = await params;
+    const { id, subId } = await params;
     const { access_token, status } = await req.json();
 
     const { error } = await validateToken(access_token);
@@ -23,11 +23,12 @@ export async function PATCH(
 
     const supabase = adminClient();
 
-    // Load current submission + form title for email
+    // Load current submission + form title for email, verifying it belongs to this form
     const { data: current } = await supabase
         .from('form_submissions')
         .select('*, forms(title)')
         .eq('id', subId)
+        .eq('form_id', id)
         .single();
 
     const updates: Record<string, unknown> = { status };
@@ -38,6 +39,7 @@ export async function PATCH(
         .from('form_submissions')
         .update(updates)
         .eq('id', subId)
+        .eq('form_id', id)
         .select()
         .single();
 

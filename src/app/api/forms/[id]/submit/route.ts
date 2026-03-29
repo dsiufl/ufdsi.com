@@ -76,16 +76,19 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ id:
             .eq('status', 'confirmed');
 
         if ((count ?? 0) >= form.capacity) {
-            status = 'waitlist';
-            const { data: lastWaitlist } = await supabase
+            // Check if waitlist is also full
+            const { count: waitlistCount } = await supabase
                 .from('form_submissions')
-                .select('waitlist_position')
+                .select('*', { count: 'exact', head: true })
                 .eq('form_id', id)
-                .eq('status', 'waitlist')
-                .order('waitlist_position', { ascending: false })
-                .limit(1)
-                .maybeSingle();
-            waitlist_position = (lastWaitlist?.waitlist_position ?? 0) + 1;
+                .eq('status', 'waitlist');
+
+            if ((waitlistCount ?? 0) >= form.capacity) {
+                return new Response('This event is full and the waitlist is closed', { status: 409 });
+            }
+
+            status = 'waitlist';
+            waitlist_position = (waitlistCount ?? 0) + 1;
         }
     }
 

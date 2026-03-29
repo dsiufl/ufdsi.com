@@ -129,7 +129,11 @@ export default function FormsManager({ forms: initial, counts }: { forms: EventF
                                                         <Copy className="mr-2 h-4 w-4" />
                                                         Copy Link
                                                     </DropdownMenuItem>
-                                                    <DropdownMenuItem className="text-destructive">
+                                                    <DropdownMenuItem
+                                                        className="text-destructive"
+                                                        disabled
+                                                        title="Delete is not yet implemented"
+                                                    >
                                                         <Trash2 className="mr-2 h-4 w-4" />
                                                         Delete
                                                     </DropdownMenuItem>

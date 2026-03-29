@@ -29,7 +29,7 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
 
     // Check capacity — only redirect when both confirmed and waitlist are at capacity
     // (the submit API handles putting users on the waitlist when confirmed >= capacity)
-    if (form.capacity) {
+    if (form.capacity !== null) {
         const { count: confirmedCount } = await supabase
             .from('form_submissions')
             .select('*', { count: 'exact', head: true })
