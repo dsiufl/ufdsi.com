@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';

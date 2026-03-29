@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -17,7 +19,7 @@ export default async function FormsPage() {
     const supabase = await createClient(cookieStore);
     const adminSupabase = createAdminClient();
 
-    const { data: forms } = await supabase
+    const { data: forms } = await adminSupabase
         .from('forms')
         .select('*')
         .order('created_at', { ascending: false });

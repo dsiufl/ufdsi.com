@@ -12,7 +12,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from '@/components/ui/dialog';
 import { EventForm, FormStatus } from '@/types/db';
+import { createUserClient } from '@/lib/supabase/client';
 
 const statusConfig: Record<FormStatus, { label: string; className: string }> = {
     draft: { label: 'Draft', className: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300' },
@@ -32,8 +41,30 @@ function formatDate(dateString?: string | null) {
 }
 
 export default function FormsManager({ forms: initial, counts }: { forms: EventForm[]; counts: Counts }) {
-    const [forms] = useState<EventForm[]>(initial);
+    const [forms, setForms] = useState<EventForm[]>(initial);
+    const [deleteTarget, setDeleteTarget] = useState<EventForm | null>(null);
+    const [deleting, setDeleting] = useState(false);
     const router = useRouter();
+
+    async function handleDelete() {
+        if (!deleteTarget) return;
+        setDeleting(true);
+        const supabase = createUserClient();
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session) { setDeleting(false); return; }
+
+        const res = await fetch(`/api/forms/${deleteTarget.id}`, {
+            method: 'DELETE',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ access_token: session.access_token }),
+        });
+
+        if (res.ok) {
+            setForms(prev => prev.filter(f => f.id !== deleteTarget.id));
+        }
+        setDeleting(false);
+        setDeleteTarget(null);
+    }
 
     return (
         <div>
@@ -131,8 +162,7 @@ export default function FormsManager({ forms: initial, counts }: { forms: EventF
                                                     </DropdownMenuItem>
                                                     <DropdownMenuItem
                                                         className="text-destructive"
-                                                        disabled
-                                                        title="Delete is not yet implemented"
+                                                        onSelect={() => setTimeout(() => setDeleteTarget(form), 0)}
                                                     >
                                                         <Trash2 className="mr-2 h-4 w-4" />
                                                         Delete
@@ -147,6 +177,27 @@ export default function FormsManager({ forms: initial, counts }: { forms: EventF
                     </Table>
                 </div>
             )}
+
+            <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Delete Form</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete &ldquo;{deleteTarget?.title}&rdquo;? This will also delete all submissions. This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setDeleteTarget(null)}>Cancel</Button>
+                        <Button
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                        >
+                            {deleting ? 'Deleting...' : 'Delete'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }
