@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Edit, Copy, ExternalLink } from 'lucide-react';
+import { ArrowLeft, Edit, Copy, ExternalLink, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,6 +11,18 @@ import { Badge } from '@/components/ui/badge';
 import { EventForm, FormSubmission, FormStatus } from '@/types/db';
 import { createUserClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+} from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import SubmissionsTable from './SubmissionsTable';
 import FormSettingsPanel from './FormSettingsPanel';
 
@@ -26,6 +38,11 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
     const [token, setToken] = useState<string | undefined>();
     const [loadingSubmissions, setLoadingSubmissions] = useState(false);
     const [tab, setTab] = useState('overview');
+    const [showSaveTemplate, setShowSaveTemplate] = useState(false);
+    const [templateName, setTemplateName] = useState('');
+    const [templateDesc, setTemplateDesc] = useState('');
+    const [templateCategory, setTemplateCategory] = useState('general');
+    const [savingTemplate, setSavingTemplate] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -170,6 +187,18 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                             </Button>
                             <Button
                                 variant="outline"
+                                className="gap-2"
+                                onClick={() => {
+                                    setTemplateName(form.title);
+                                    setTemplateDesc('');
+                                    setShowSaveTemplate(true);
+                                }}
+                            >
+                                <Layers className="h-4 w-4" />
+                                Save as Template
+                            </Button>
+                            <Button
+                                variant="outline"
                                 className={cn(
                                     'gap-2',
                                     form.status === 'open' && 'border-red-200 text-red-700 hover:bg-red-50',
@@ -201,6 +230,7 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                     <SubmissionsTable
                         formId={form.id}
                         formTitle={form.title}
+                        formFields={form.fields}
                         submissions={submissions ?? []}
                         loading={loadingSubmissions}
                         token={token}
@@ -209,6 +239,7 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                                 (prev ?? []).map(s => (s.id === updated.id ? updated : s))
                             );
                         }}
+                        onRefresh={() => setSubmissions(null)}
                     />
                 </TabsContent>
 
@@ -221,6 +252,82 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                     />
                 </TabsContent>
             </Tabs>
+
+            <Dialog open={showSaveTemplate} onOpenChange={setShowSaveTemplate}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Save as Template</DialogTitle>
+                        <DialogDescription>
+                            Save this form&apos;s fields as a reusable template.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <div className="space-y-4 py-2">
+                        <div>
+                            <Label>Template Name</Label>
+                            <Input
+                                value={templateName}
+                                onChange={e => setTemplateName(e.target.value)}
+                                className="mt-1.5"
+                            />
+                        </div>
+                        <div>
+                            <Label>Description</Label>
+                            <Textarea
+                                value={templateDesc}
+                                onChange={e => setTemplateDesc(e.target.value)}
+                                rows={2}
+                                className="mt-1.5"
+                            />
+                        </div>
+                        <div>
+                            <Label>Category</Label>
+                            <Select value={templateCategory} onValueChange={setTemplateCategory}>
+                                <SelectTrigger className="mt-1.5">
+                                    <SelectValue />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="general">General</SelectItem>
+                                    <SelectItem value="events">Events</SelectItem>
+                                    <SelectItem value="surveys">Surveys</SelectItem>
+                                    <SelectItem value="applications">Applications</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setShowSaveTemplate(false)}>Cancel</Button>
+                        <Button
+                            className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                            disabled={savingTemplate || !templateName.trim()}
+                            onClick={async () => {
+                                if (!token) return;
+                                setSavingTemplate(true);
+                                try {
+                                    const res = await fetch('/api/templates', {
+                                        method: 'POST',
+                                        headers: { 'Content-Type': 'application/json' },
+                                        body: JSON.stringify({
+                                            access_token: token,
+                                            name: templateName.trim(),
+                                            description: templateDesc.trim() || null,
+                                            category: templateCategory,
+                                            icon: 'FileText',
+                                            fields: form.fields,
+                                        }),
+                                    });
+                                    if (res.ok) {
+                                        setShowSaveTemplate(false);
+                                    }
+                                } finally {
+                                    setSavingTemplate(false);
+                                }
+                            }}
+                        >
+                            {savingTemplate ? 'Saving...' : 'Save Template'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     );
 }

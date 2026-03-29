@@ -148,6 +148,19 @@ export interface FormTemplate {
     fields: FormField[];
 }
 
+export interface FormTemplateDB {
+    id: string;
+    name: string;
+    description: string | null;
+    icon: string;
+    category: string;
+    fields: FormField[];
+    is_default: boolean;
+    created_by: string | null;
+    created_at: string;
+    updated_at: string;
+}
+
 export type FormStatus = 'draft' | 'open' | 'closed';
 export type SubmissionStatus = 'pending' | 'confirmed' | 'waitlist' | 'cancelled';
 

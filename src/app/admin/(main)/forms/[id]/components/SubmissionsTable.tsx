@@ -19,9 +19,10 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Label } from '@/components/ui/label';
-import { MoreVertical, Download, CheckCircle, Eye, ListOrdered, XCircle, Paperclip } from 'lucide-react';
-import { FormSubmission, SubmissionStatus } from '@/types/db';
+import { MoreVertical, Download, Upload, CheckCircle, Eye, ListOrdered, XCircle, Paperclip } from 'lucide-react';
+import { FormSubmission, FormField, SubmissionStatus } from '@/types/db';
 import Loading from '@/components/Loading/Loading';
+import ImportDialog from './ImportDialog';
 
 function FileLink({ formId, path, name, token }: { formId: string; path: string; name: string; token: string | undefined }) {
     const [loading, setLoading] = useState(false);
@@ -65,22 +66,27 @@ const statusConfig: Record<SubmissionStatus, { label: string; className: string 
 export default function SubmissionsTable({
     formId,
     formTitle,
+    formFields,
     submissions,
     loading,
     token,
     onUpdate,
+    onRefresh,
 }: {
     formId: string;
     formTitle: string;
+    formFields: FormField[];
     submissions: FormSubmission[];
     loading: boolean;
     token: string | undefined;
     onUpdate: (updated: FormSubmission) => void;
+    onRefresh: () => void;
 }) {
     const [selected, setSelected] = useState<Set<string>>(new Set());
     const [viewSub, setViewSub] = useState<FormSubmission | null>(null);
     const [updating, setUpdating] = useState<string | null>(null);
     const [filter, setFilter] = useState<SubmissionStatus | 'all'>('all');
+    const [showImport, setShowImport] = useState(false);
 
     const visible = filter === 'all' ? submissions : submissions.filter(s => s.status === filter);
 
@@ -171,10 +177,16 @@ export default function SubmissionsTable({
                         </>
                     )}
                 </div>
-                <Button variant="outline" size="sm" className="gap-2" onClick={exportCSV}>
-                    <Download className="h-4 w-4" />
-                    Export CSV
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Button variant="outline" size="sm" className="gap-2" onClick={() => setShowImport(true)}>
+                        <Upload className="h-4 w-4" />
+                        Import CSV
+                    </Button>
+                    <Button variant="outline" size="sm" className="gap-2" onClick={exportCSV}>
+                        <Download className="h-4 w-4" />
+                        Export CSV
+                    </Button>
+                </div>
             </div>
 
             {/* Table */}
@@ -329,6 +341,15 @@ export default function SubmissionsTable({
                     )}
                 </DialogContent>
             </Dialog>
+
+            <ImportDialog
+                open={showImport}
+                onOpenChange={setShowImport}
+                formId={formId}
+                formFields={formFields}
+                token={token}
+                onComplete={onRefresh}
+            />
         </div>
     );
 }
