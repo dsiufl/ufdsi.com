@@ -41,6 +41,9 @@ export default async function Layout({children}) {
                                     {action.title}
                                 </Link>
                             ))}
+                            <Link href="/admin/templates" className="w-full h-full p-2 rounded-xl hover:shadow-xl hover:border transition duration-300 hover:dark:bg-[#000000]/50">
+                                Templates
+                            </Link>
                         </SidebarGroup>
                     </SidebarContent>
                     <SidebarFooter className="absolute bottom-0 w-full flex flex-row items-center justify-between py-2">

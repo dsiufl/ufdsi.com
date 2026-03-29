@@ -234,7 +234,7 @@
     @apply mb-4 text-lg;
   }
 
-  a.button, button {
+  a.button {
     @apply bg-primary text-white font-semibold py-3 px-6 rounded-md transition hover:shadow-xl hover:bg-primary/30 hover:cursor-pointer;
   }
 
