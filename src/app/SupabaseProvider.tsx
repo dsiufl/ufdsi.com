@@ -1,13 +1,17 @@
 'use client';
-import { createUserClient } from "@/lib/supabase/client";
-import { createClient } from "@/lib/supabase/server";
 import { SupabaseClient } from "@supabase/supabase-js";
-import { createContext } from "react"
+import { createContext, useMemo, type ReactNode } from "react";
 
 
 class Supabase extends SupabaseClient {
     constructor() {
-        console.log("Creating Supabase client with URL:", process.env.NEXT_PUBLIC_SUPABASE_URL, "and Key:", process.env.NEXT_PUBLIC_SUPABASE_KEY);
+        if (process.env.NODE_ENV === "development") {
+            console.log(
+                "Supabase:",
+                process.env.NEXT_PUBLIC_SUPABASE_URL ? "URL set" : "missing NEXT_PUBLIC_SUPABASE_URL",
+                process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY ? "key set" : "missing NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY",
+            );
+        }
         super(
             process.env.NEXT_PUBLIC_SUPABASE_URL || "",
             process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY || ""
@@ -26,11 +30,12 @@ class Supabase extends SupabaseClient {
 
 export const SupabaseContext = createContext<Supabase | null>(null);
 
-export function SupabaseProvider({ children }: { children: React.ReactNode }) {
+export function SupabaseProvider({ children }: { children: ReactNode }) {
+    const client = useMemo(() => new Supabase(), []);
 
     return (
-        <SupabaseContext.Provider value={new Supabase()}>
+        <SupabaseContext.Provider value={client}>
             {children}
         </SupabaseContext.Provider>
-    )
+    );
 }
