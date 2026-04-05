@@ -14,8 +14,9 @@ export default function SidebarLogo() {
             <Image
                 src="/images/logo/hd-transparent-dsi-logo.png"
                 alt="DSI logo"
-                width={100}
-                height={100}
+                width={132}
+                height={44}
+                className="h-9 w-auto object-contain object-left"
             />
         </button>
     );

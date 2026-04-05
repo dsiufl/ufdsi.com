@@ -11,9 +11,6 @@ import { Menu, MoonIcon, SunIcon } from "lucide-react";
 import { menuData, mobileMenu } from "./data";
 import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { DropdownMenuContent } from "@radix-ui/react-dropdown-menu";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
 
 export default function NewHeader() {
     const { theme, setTheme } = useTheme();
