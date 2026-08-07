@@ -1,0 +1,869 @@
+
+
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+
+CREATE SCHEMA IF NOT EXISTS "admin";
+
+
+ALTER SCHEMA "admin" OWNER TO "postgres";
+
+
+CREATE SCHEMA IF NOT EXISTS "public";
+
+
+ALTER SCHEMA "public" OWNER TO "pg_database_owner";
+
+
+COMMENT ON SCHEMA "public" IS 'standard public schema';
+
+
+
+CREATE TYPE "admin"."role" AS ENUM (
+    'President',
+    'Internal Vice President',
+    'External Vice President',
+    'Treasurer',
+    'Workshop Director',
+    'Networking Director',
+    'Secretary'
+);
+
+
+ALTER TYPE "admin"."role" OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "admin"."log_activity"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$BEGIN
+  IF (TG_OP = 'DELETE') THEN
+    INSERT INTO admin.activity_log (user_id, action_type, table_name, record_id, old_data)
+    VALUES (
+      auth.uid(), -- Gets the current authenticated user's ID
+      TG_OP,
+      TG_TABLE_NAME,
+      OLD.id,
+      row_to_json(OLD)::jsonb
+    );
+    RETURN OLD;
+  ELSIF (TG_OP = 'UPDATE') THEN
+    INSERT INTO admin.activity_log (user_id, action_type, table_name, record_id, old_data, new_data)
+    VALUES (
+      auth.uid(),
+      TG_OP,
+      TG_TABLE_NAME,
+      NEW.id,
+      row_to_json(OLD)::jsonb,
+      row_to_json(NEW)::jsonb
+    );
+    RETURN NEW;
+  ELSIF (TG_OP = 'INSERT') THEN
+    INSERT INTO admin.activity_log (user_id, action_type, table_name, record_id, new_data)
+    VALUES (
+      auth.uid(),
+      TG_OP,
+      TG_TABLE_NAME,
+      NEW.id,
+      row_to_json(NEW)::jsonb
+    );
+    RETURN NEW;
+  END IF;
+  RETURN NULL;
+END;$$;
+
+
+ALTER FUNCTION "admin"."log_activity"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."debug_current_user"() RETURNS "text"
+    LANGUAGE "sql"
+    AS $$
+  select current_user;
+$$;
+
+
+ALTER FUNCTION "public"."debug_current_user"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."log_activity"() RETURNS "trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    AS $$
+BEGIN
+  IF (TG_OP = 'DELETE') THEN
+    INSERT INTO activity_log (user_id, action_type, table_name, record_id, old_data)
+    VALUES (
+      auth.uid(), -- Gets the current authenticated user's ID
+      TG_OP,
+      TG_TABLE_NAME,
+      OLD.id,
+      row_to_json(OLD)::jsonb
+    );
+    RETURN OLD;
+  ELSIF (TG_OP = 'UPDATE') THEN
+    INSERT INTO activity_log (user_id, action_type, table_name, record_id, old_data, new_data)
+    VALUES (
+      auth.uid(),
+      TG_OP,
+      TG_TABLE_NAME,
+      NEW.id,
+      row_to_json(OLD)::jsonb,
+      row_to_json(NEW)::jsonb
+    );
+    RETURN NEW;
+  ELSIF (TG_OP = 'INSERT') THEN
+    INSERT INTO activity_log (user_id, action_type, table_name, record_id, new_data)
+    VALUES (
+      auth.uid(),
+      TG_OP,
+      TG_TABLE_NAME,
+      NEW.id,
+      row_to_json(NEW)::jsonb
+    );
+    RETURN NEW;
+  END IF;
+  RETURN NULL;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."log_activity"() OWNER TO "postgres";
+
+
+CREATE OR REPLACE FUNCTION "public"."rls_auto_enable"() RETURNS "event_trigger"
+    LANGUAGE "plpgsql" SECURITY DEFINER
+    SET "search_path" TO 'pg_catalog'
+    AS $$
+DECLARE
+  cmd record;
+BEGIN
+  FOR cmd IN
+    SELECT *
+    FROM pg_event_trigger_ddl_commands()
+    WHERE command_tag IN ('CREATE TABLE', 'CREATE TABLE AS', 'SELECT INTO')
+      AND object_type IN ('table','partitioned table')
+  LOOP
+     IF cmd.schema_name IS NOT NULL AND cmd.schema_name IN ('public') AND cmd.schema_name NOT IN ('pg_catalog','information_schema') AND cmd.schema_name NOT LIKE 'pg_toast%' AND cmd.schema_name NOT LIKE 'pg_temp%' THEN
+      BEGIN
+        EXECUTE format('alter table if exists %s enable row level security', cmd.object_identity);
+        RAISE LOG 'rls_auto_enable: enabled RLS on %', cmd.object_identity;
+      EXCEPTION
+        WHEN OTHERS THEN
+          RAISE LOG 'rls_auto_enable: failed to enable RLS on %', cmd.object_identity;
+      END;
+     ELSE
+        RAISE LOG 'rls_auto_enable: skip % (either system schema or not in enforced list: %.)', cmd.object_identity, cmd.schema_name;
+     END IF;
+  END LOOP;
+END;
+$$;
+
+
+ALTER FUNCTION "public"."rls_auto_enable"() OWNER TO "postgres";
+
+SET default_tablespace = '';
+
+SET default_table_access_method = "heap";
+
+
+CREATE TABLE IF NOT EXISTS "admin"."actions" (
+    "id" bigint NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "title" "text" NOT NULL,
+    "redirect" "text" NOT NULL,
+    "action" "text" NOT NULL,
+    "role" "text"[],
+    "description" "text"
+);
+
+
+ALTER TABLE "admin"."actions" OWNER TO "postgres";
+
+
+ALTER TABLE "admin"."actions" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "admin"."actions_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+
+CREATE TABLE IF NOT EXISTS "admin"."activity_log" (
+    "id" "uuid" DEFAULT "extensions"."uuid_generate_v4"() NOT NULL,
+    "user_id" "uuid",
+    "action_type" "text",
+    "table_name" "text",
+    "record_id" "uuid",
+    "description" "text",
+    "created_at" timestamp without time zone DEFAULT "now"(),
+    "old_data" "jsonb",
+    "new_data" "jsonb"
+);
+
+
+ALTER TABLE "admin"."activity_log" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "admin"."people" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "displayName" "text",
+    "role" "text",
+    "pictureURL" "text" DEFAULT 'https://nljfmwgzmavnjzmiqgbp.supabase.co/storage/v1/object/public/images/placeholder.png'::"text",
+    "first_name" "text" NOT NULL,
+    "last_name" "text" NOT NULL,
+    "account_setup" boolean DEFAULT false,
+    "publish" boolean DEFAULT true NOT NULL,
+    "email" "text",
+    CONSTRAINT "people_publish_check" CHECK (("publish" = ANY (ARRAY[true, false])))
+);
+
+
+ALTER TABLE "admin"."people" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."board" (
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "year" bigint NOT NULL,
+    "name" "text" NOT NULL,
+    "role" "text" NOT NULL,
+    "exec" boolean DEFAULT false NOT NULL,
+    "linkedin" "text",
+    "headshot" "text" NOT NULL,
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL
+);
+
+
+ALTER TABLE "public"."board" OWNER TO "postgres";
+
+
+COMMENT ON TABLE "public"."board" IS 'The executive board for UF''s Data Science and Informatics Cluib.';
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."form_submissions" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "form_id" "uuid" NOT NULL,
+    "submitted_at" timestamp with time zone DEFAULT "now"(),
+    "status" "text" DEFAULT 'pending'::"text" NOT NULL,
+    "waitlist_position" integer,
+    "first_name" "text" NOT NULL,
+    "last_name" "text" NOT NULL,
+    "email" "text" NOT NULL,
+    "phone" "text",
+    "data" "jsonb" DEFAULT '{}'::"jsonb" NOT NULL,
+    CONSTRAINT "form_submissions_status_check" CHECK (("status" = ANY (ARRAY['pending'::"text", 'confirmed'::"text", 'waitlist'::"text", 'cancelled'::"text"])))
+);
+
+
+ALTER TABLE "public"."form_submissions" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."form_templates" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "name" "text" NOT NULL,
+    "description" "text",
+    "icon" "text" DEFAULT 'FileText'::"text" NOT NULL,
+    "category" "text" DEFAULT 'general'::"text" NOT NULL,
+    "fields" "jsonb" DEFAULT '[]'::"jsonb" NOT NULL,
+    "is_default" boolean DEFAULT false NOT NULL,
+    "created_by" "uuid",
+    "created_at" timestamp with time zone DEFAULT "now"(),
+    "updated_at" timestamp with time zone DEFAULT "now"()
+);
+
+
+ALTER TABLE "public"."form_templates" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."forms" (
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "slug" "text" NOT NULL,
+    "title" "text" NOT NULL,
+    "description" "text",
+    "event_date" "date",
+    "deadline" timestamp with time zone,
+    "capacity" integer,
+    "status" "text" DEFAULT 'draft'::"text" NOT NULL,
+    "allowed_domains" "text"[],
+    "created_by" "uuid",
+    "created_at" timestamp with time zone DEFAULT "now"(),
+    "fields" "jsonb" DEFAULT '[]'::"jsonb" NOT NULL,
+    CONSTRAINT "forms_capacity_check" CHECK (("capacity" > 0)),
+    CONSTRAINT "forms_status_check" CHECK (("status" = ANY (ARRAY['draft'::"text", 'open'::"text", 'closed'::"text"])))
+);
+
+
+ALTER TABLE "public"."forms" OWNER TO "postgres";
+
+
+CREATE TABLE IF NOT EXISTS "public"."news" (
+    "title" "text" NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "content" "text",
+    "summary" "text",
+    "category" "text" NOT NULL,
+    "cover" "text",
+    "featured" boolean DEFAULT false NOT NULL,
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL
+);
+
+
+ALTER TABLE "public"."news" OWNER TO "postgres";
+
+
+COMMENT ON TABLE "public"."news" IS 'UF DSI''s news storage.';
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."projects" (
+    "id" bigint NOT NULL,
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "title" "text",
+    "lead" "text",
+    "description" "text",
+    "link" "text",
+    "cover" "text"
+);
+
+
+ALTER TABLE "public"."projects" OWNER TO "postgres";
+
+
+ALTER TABLE "public"."projects" ALTER COLUMN "id" ADD GENERATED BY DEFAULT AS IDENTITY (
+    SEQUENCE NAME "public"."projects_id_seq"
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."speakers" (
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "name" "text" NOT NULL,
+    "affiliation" "text",
+    "title" "text" NOT NULL,
+    "time" "text" DEFAULT ''::"text" NOT NULL,
+    "location" "text" DEFAULT 'AIIRI'::"text",
+    "cover" "text" NOT NULL,
+    "symposium" smallint,
+    "description" "text",
+    "affiliated_logo" "text",
+    "youtube" "text",
+    "track" "text",
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL
+);
+
+
+ALTER TABLE "public"."speakers" OWNER TO "postgres";
+
+
+COMMENT ON TABLE "public"."speakers" IS 'Speakers at various events hosted by the UF Data Science and Informatics club.';
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."symposiums" (
+    "year" smallint DEFAULT '2026'::smallint NOT NULL,
+    "date" timestamp with time zone,
+    "keynote" "uuid",
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL,
+    "agenda" "jsonb"
+);
+
+
+ALTER TABLE "public"."symposiums" OWNER TO "postgres";
+
+
+COMMENT ON TABLE "public"."symposiums" IS 'Info on UF''s annual Data Science & Informatics Symposium.';
+
+
+
+CREATE TABLE IF NOT EXISTS "public"."workshops" (
+    "created_at" timestamp with time zone DEFAULT "now"() NOT NULL,
+    "title" "text" NOT NULL,
+    "speaker" "text" NOT NULL,
+    "link" "text",
+    "description" "text",
+    "datetime" timestamp with time zone NOT NULL,
+    "location" "text" DEFAULT 'AIIRI'::"text",
+    "cover" "text" DEFAULT '/images/logo/logo.svg'::"text",
+    "id" "uuid" DEFAULT "gen_random_uuid"() NOT NULL
+);
+
+
+ALTER TABLE "public"."workshops" OWNER TO "postgres";
+
+
+COMMENT ON COLUMN "public"."workshops"."cover" IS 'cover image';
+
+
+
+ALTER TABLE ONLY "admin"."actions"
+    ADD CONSTRAINT "actions_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "admin"."activity_log"
+    ADD CONSTRAINT "activity_log_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "admin"."people"
+    ADD CONSTRAINT "people_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."board"
+    ADD CONSTRAINT "board_new_id_key" UNIQUE ("id");
+
+
+
+ALTER TABLE ONLY "public"."board"
+    ADD CONSTRAINT "board_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."form_submissions"
+    ADD CONSTRAINT "form_submissions_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."form_templates"
+    ADD CONSTRAINT "form_templates_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."forms"
+    ADD CONSTRAINT "forms_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."forms"
+    ADD CONSTRAINT "forms_slug_key" UNIQUE ("slug");
+
+
+
+ALTER TABLE ONLY "public"."news"
+    ADD CONSTRAINT "news_new_id_key" UNIQUE ("id");
+
+
+
+ALTER TABLE ONLY "public"."news"
+    ADD CONSTRAINT "news_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."projects"
+    ADD CONSTRAINT "projects_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."speakers"
+    ADD CONSTRAINT "speakers_new_id_key" UNIQUE ("id");
+
+
+
+ALTER TABLE ONLY "public"."speakers"
+    ADD CONSTRAINT "speakers_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."symposiums"
+    ADD CONSTRAINT "symposiums_id_key" UNIQUE ("year");
+
+
+
+ALTER TABLE ONLY "public"."symposiums"
+    ADD CONSTRAINT "symposiums_pkey" PRIMARY KEY ("id");
+
+
+
+ALTER TABLE ONLY "public"."workshops"
+    ADD CONSTRAINT "workshops_new_id_key" UNIQUE ("id");
+
+
+
+ALTER TABLE ONLY "public"."workshops"
+    ADD CONSTRAINT "workshops_pkey" PRIMARY KEY ("id");
+
+
+
+CREATE INDEX "form_submissions_email_idx" ON "public"."form_submissions" USING "btree" ("email");
+
+
+
+CREATE INDEX "form_submissions_form_id_idx" ON "public"."form_submissions" USING "btree" ("form_id");
+
+
+
+CREATE INDEX "form_submissions_waitlist_idx" ON "public"."form_submissions" USING "btree" ("form_id", "waitlist_position") WHERE ("status" = 'waitlist'::"text");
+
+
+
+CREATE INDEX "form_templates_category_idx" ON "public"."form_templates" USING "btree" ("category");
+
+
+
+CREATE OR REPLACE TRIGGER "users_activity_trigger" AFTER INSERT OR DELETE OR UPDATE ON "admin"."people" FOR EACH ROW EXECUTE FUNCTION "admin"."log_activity"();
+
+
+
+CREATE OR REPLACE TRIGGER "speakers_activity_trigger" AFTER INSERT OR DELETE OR UPDATE ON "public"."speakers" FOR EACH ROW EXECUTE FUNCTION "admin"."log_activity"();
+
+
+
+CREATE OR REPLACE TRIGGER "symposiums_activity_trigger" AFTER INSERT OR DELETE OR UPDATE ON "public"."symposiums" FOR EACH ROW EXECUTE FUNCTION "admin"."log_activity"();
+
+
+
+CREATE OR REPLACE TRIGGER "workshops_activity_trigger" AFTER INSERT OR DELETE OR UPDATE ON "public"."workshops" FOR EACH ROW EXECUTE FUNCTION "admin"."log_activity"();
+
+
+
+CREATE OR REPLACE TRIGGER "your_other_table_activity_trigger" AFTER INSERT OR DELETE OR UPDATE ON "public"."news" FOR EACH ROW EXECUTE FUNCTION "admin"."log_activity"();
+
+
+
+ALTER TABLE ONLY "admin"."activity_log"
+    ADD CONSTRAINT "activity_log_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "admin"."people"("id");
+
+
+
+ALTER TABLE ONLY "admin"."people"
+    ADD CONSTRAINT "people_id_fkey" FOREIGN KEY ("id") REFERENCES "auth"."users"("id") ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."form_submissions"
+    ADD CONSTRAINT "form_submissions_form_id_fkey" FOREIGN KEY ("form_id") REFERENCES "public"."forms"("id") ON DELETE CASCADE;
+
+
+
+ALTER TABLE ONLY "public"."form_templates"
+    ADD CONSTRAINT "form_templates_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "auth"."users"("id");
+
+
+
+ALTER TABLE ONLY "public"."forms"
+    ADD CONSTRAINT "forms_created_by_fkey" FOREIGN KEY ("created_by") REFERENCES "auth"."users"("id");
+
+
+
+ALTER TABLE ONLY "public"."speakers"
+    ADD CONSTRAINT "speakers_symposium_fkey" FOREIGN KEY ("symposium") REFERENCES "public"."symposiums"("year") ON UPDATE RESTRICT ON DELETE RESTRICT;
+
+
+
+ALTER TABLE ONLY "public"."symposiums"
+    ADD CONSTRAINT "symposiums_keynote_fkey" FOREIGN KEY ("keynote") REFERENCES "public"."speakers"("id");
+
+
+
+CREATE POLICY "Allow authenticated users to view site-wide activity" ON "admin"."activity_log" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Any officer can read the actions of their role" ON "admin"."actions" FOR SELECT USING ((EXISTS ( SELECT 1
+   FROM "admin"."people" "p"
+  WHERE (("p"."id" = "auth"."uid"()) AND ("p"."role" = ANY ("actions"."role"))))));
+
+
+
+CREATE POLICY "Enable read access for all users" ON "admin"."people" FOR SELECT TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Public profiles are visible to everyone." ON "admin"."activity_log" FOR SELECT TO "authenticated" USING (true);
+
+
+
+ALTER TABLE "admin"."actions" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "admin"."activity_log" ENABLE ROW LEVEL SECURITY;
+
+
+CREATE POLICY "admin_people_update_own" ON "admin"."people" FOR UPDATE TO "authenticated" USING ((( SELECT "auth"."uid"() AS "uid") = "id")) WITH CHECK ((( SELECT "auth"."uid"() AS "uid") = "id"));
+
+
+
+ALTER TABLE "admin"."people" ENABLE ROW LEVEL SECURITY;
+
+
+CREATE POLICY "All can read tables" ON "public"."workshops" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Any " ON "public"."workshops" TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "admin"."people" "p"
+  WHERE (("p"."id" = "auth"."uid"()) AND ("p"."role" = ANY (ARRAY['President'::"text", 'Technology Coordinator'::"text", 'Workshop Coordinator'::"text"])))))) WITH CHECK ((EXISTS ( SELECT 1
+   FROM "admin"."people" "p"
+  WHERE (("p"."id" = "auth"."uid"()) AND ("p"."role" = ANY (ARRAY['President'::"text", 'Technology Coordinator'::"text", 'Workshop Coordinator'::"text"]))))));
+
+
+
+CREATE POLICY "Enable delete for authenticated users only" ON "public"."speakers" FOR DELETE TO "authenticated" USING (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."speakers" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable insert for authenticated users only" ON "public"."symposiums" FOR INSERT TO "authenticated" WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."board" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."news" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."projects" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."speakers" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable read access for all users" ON "public"."symposiums" FOR SELECT USING (true);
+
+
+
+CREATE POLICY "Enable sweeping perms for users based on user_id" ON "public"."board" TO "supabase_admin" USING (true);
+
+
+
+CREATE POLICY "Enable update for authenticated users only" ON "public"."speakers" FOR UPDATE TO "authenticated" USING (true) WITH CHECK (true);
+
+
+
+CREATE POLICY "Enable update for authenticated users only" ON "public"."symposiums" FOR UPDATE TO "authenticated" USING (true) WITH CHECK (true);
+
+
+
+CREATE POLICY "Permissions for correct users" ON "public"."news" TO "authenticated" USING ((EXISTS ( SELECT 1
+   FROM "admin"."people" "person"
+  WHERE (("person"."id" = "auth"."uid"()) AND ("person"."role" = ANY (ARRAY['President'::"text", 'Technology Coordinator'::"text", 'Marketing Coordinator'::"text"])))))) WITH CHECK ((EXISTS ( SELECT 1
+   FROM "admin"."people" "person"
+  WHERE (("person"."id" = "auth"."uid"()) AND ("person"."role" = ANY (ARRAY['President'::"text", 'Technology Coordinator'::"text", 'Marketing Coordinator'::"text"]))))));
+
+
+
+CREATE POLICY "Public read open forms" ON "public"."forms" FOR SELECT USING (("status" = 'open'::"text"));
+
+
+
+CREATE POLICY "Restrict editing projects to President, Internal Vice President" ON "public"."projects" TO "authenticated" USING (("auth"."uid"() = ( SELECT "people"."id"
+   FROM "admin"."people"
+  WHERE (("people"."id" = "auth"."uid"()) AND ("people"."role" = ANY (ARRAY['Technology Coordinator'::"text", 'Internal Vice President'::"text", 'President'::"text"])))
+ LIMIT 1))) WITH CHECK (("auth"."uid"() = ( SELECT "people"."id"
+   FROM "admin"."people"
+  WHERE (("people"."id" = "auth"."uid"()) AND ("people"."role" = ANY (ARRAY['Technology Coordinator'::"text", 'Internal Vice President'::"text", 'President'::"text"])))
+ LIMIT 1)));
+
+
+
+CREATE POLICY "Sweeping perms" ON "public"."news" TO "supabase_admin" USING (true);
+
+
+
+ALTER TABLE "public"."board" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."form_submissions" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."form_templates" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."forms" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."news" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."projects" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."speakers" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."symposiums" ENABLE ROW LEVEL SECURITY;
+
+
+ALTER TABLE "public"."workshops" ENABLE ROW LEVEL SECURITY;
+
+
+GRANT USAGE ON SCHEMA "admin" TO "authenticated";
+GRANT USAGE ON SCHEMA "admin" TO "service_role";
+
+
+
+GRANT USAGE ON SCHEMA "public" TO "postgres";
+GRANT USAGE ON SCHEMA "public" TO "anon";
+GRANT USAGE ON SCHEMA "public" TO "authenticated";
+GRANT USAGE ON SCHEMA "public" TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "admin"."log_activity"() TO "anon";
+GRANT ALL ON FUNCTION "admin"."log_activity"() TO "authenticated";
+GRANT ALL ON FUNCTION "admin"."log_activity"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."debug_current_user"() TO "anon";
+GRANT ALL ON FUNCTION "public"."debug_current_user"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."debug_current_user"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."log_activity"() TO "anon";
+GRANT ALL ON FUNCTION "public"."log_activity"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."log_activity"() TO "service_role";
+
+
+
+GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "anon";
+GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "authenticated";
+GRANT ALL ON FUNCTION "public"."rls_auto_enable"() TO "service_role";
+
+
+
+GRANT SELECT ON TABLE "admin"."actions" TO "authenticated";
+GRANT ALL ON TABLE "admin"."actions" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "admin"."actions_id_seq" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "admin"."activity_log" TO "service_role";
+GRANT ALL ON TABLE "admin"."activity_log" TO "authenticated";
+
+
+
+GRANT SELECT,UPDATE ON TABLE "admin"."people" TO "authenticated";
+GRANT ALL ON TABLE "admin"."people" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."board" TO "anon";
+GRANT ALL ON TABLE "public"."board" TO "authenticated";
+GRANT ALL ON TABLE "public"."board" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."form_submissions" TO "anon";
+GRANT ALL ON TABLE "public"."form_submissions" TO "authenticated";
+GRANT ALL ON TABLE "public"."form_submissions" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."form_templates" TO "anon";
+GRANT ALL ON TABLE "public"."form_templates" TO "authenticated";
+GRANT ALL ON TABLE "public"."form_templates" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."forms" TO "anon";
+GRANT ALL ON TABLE "public"."forms" TO "authenticated";
+GRANT ALL ON TABLE "public"."forms" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."news" TO "anon";
+GRANT ALL ON TABLE "public"."news" TO "authenticated";
+GRANT ALL ON TABLE "public"."news" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."projects" TO "anon";
+GRANT ALL ON TABLE "public"."projects" TO "authenticated";
+GRANT ALL ON TABLE "public"."projects" TO "service_role";
+
+
+
+GRANT ALL ON SEQUENCE "public"."projects_id_seq" TO "anon";
+GRANT ALL ON SEQUENCE "public"."projects_id_seq" TO "authenticated";
+GRANT ALL ON SEQUENCE "public"."projects_id_seq" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."speakers" TO "anon";
+GRANT ALL ON TABLE "public"."speakers" TO "authenticated";
+GRANT ALL ON TABLE "public"."speakers" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."symposiums" TO "anon";
+GRANT ALL ON TABLE "public"."symposiums" TO "authenticated";
+GRANT ALL ON TABLE "public"."symposiums" TO "service_role";
+
+
+
+GRANT ALL ON TABLE "public"."workshops" TO "anon";
+GRANT ALL ON TABLE "public"."workshops" TO "authenticated";
+GRANT ALL ON TABLE "public"."workshops" TO "service_role";
+
+
+
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "admin" GRANT ALL ON SEQUENCES TO "service_role";
+
+
+
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "admin" GRANT ALL ON TABLES TO "service_role";
+
+
+
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "postgres";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "anon";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "authenticated";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON SEQUENCES TO "service_role";
+
+
+
+
+
+
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "postgres";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "anon";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "authenticated";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON FUNCTIONS TO "service_role";
+
+
+
+
+
+
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "postgres";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "anon";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "authenticated";
+ALTER DEFAULT PRIVILEGES FOR ROLE "postgres" IN SCHEMA "public" GRANT ALL ON TABLES TO "service_role";
+
+
+
+
+
+
+
