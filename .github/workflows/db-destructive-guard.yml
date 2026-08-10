@@ -1,15 +1,5 @@
 name: Guard destructive DB migrations
 
-# Blocks any PR that ADDS destructive SQL (DROP / TRUNCATE / DELETE /
-# ALTER ... DROP|TYPE / etc.) inside supabase/migrations/** unless the
-# designated approver has submitted an APPROVED review on the PR.
-#
-# Setup (one-time):
-#   1. Repo → Settings → Secrets and variables → Actions → Variables:
-#      add MIGRATION_APPROVER = <your GitHub username>.
-#   2. Repo → Settings → Branches → protect `main` → require the status
-#      check "guard" so this cannot be bypassed by merging.
-
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -36,11 +26,9 @@ jobs:
           set -euo pipefail
           BASE="origin/${{ github.event.pull_request.base.ref }}"
           git fetch --quiet origin "${{ github.event.pull_request.base.ref }}"
-          # Only added (+) lines in migration files, ignoring SQL comments.
           ADDED=$(git diff "$BASE"...HEAD -- 'supabase/migrations/**' \
             | grep -E '^\+' | grep -vE '^\+\+\+' \
             | sed -E 's/^\+//' | sed -E 's/--.*$//')
-          # Destructive patterns (case-insensitive, word-boundaried).
           PATTERN='\b(DROP|TRUNCATE)\b|\bDELETE[[:space:]]+FROM\b|\bALTER[[:space:]]+TABLE\b.*\b(DROP|ALTER[[:space:]]+COLUMN|TYPE|SET[[:space:]]+NOT[[:space:]]+NULL|RENAME)\b|\bDROP[[:space:]]+(TABLE|COLUMN|SCHEMA|POLICY|CONSTRAINT|INDEX|VIEW|FUNCTION|TRIGGER|TYPE)\b'
           HITS=$(printf '%s\n' "$ADDED" | grep -inE "$PATTERN" || true)
           if [ -n "$HITS" ]; then
@@ -77,7 +65,7 @@ jobs:
             // Latest review state per user.
             const latest = new Map();
             for (const r of reviews) {
-              if (r.user && r.user.login) latest.set(r.user.login.toLowerCase(), r.state);
+              if (r.user?.login) latest.set(r.user.login.toLowerCase(), r.state);
             }
             const state = latest.get(approver.toLowerCase());
             if (state === "APPROVED") {
