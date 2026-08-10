@@ -148,7 +148,7 @@ function BuilderCanvasContent({
                 <div className="flex-1 overflow-auto bg-accent/30">
                     <div className="mx-auto max-w-4xl p-8">
                         <div
-                            ref={drop}
+                            ref={(node) => { drop(node); }}
                             className="min-h-[600px] rounded-lg border-2 border-dashed border-border bg-card p-8"
                         >
                             {fields.length === 0 ? (
