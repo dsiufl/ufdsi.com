@@ -1,0 +1,92 @@
+name: Guard destructive DB migrations
+
+# Blocks any PR that ADDS destructive SQL (DROP / TRUNCATE / DELETE /
+# ALTER ... DROP|TYPE / etc.) inside supabase/migrations/** unless the
+# designated approver has submitted an APPROVED review on the PR.
+#
+# Setup (one-time):
+#   1. Repo → Settings → Secrets and variables → Actions → Variables:
+#      add MIGRATION_APPROVER = <your GitHub username>.
+#   2. Repo → Settings → Branches → protect `main` → require the status
+#      check "guard" so this cannot be bypassed by merging.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "supabase/migrations/**"
+  pull_request_review:
+    types: [submitted, dismissed, edited]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect destructive SQL in added migration lines
+        id: scan
+        run: |
+          set -euo pipefail
+          BASE="origin/${{ github.event.pull_request.base.ref }}"
+          git fetch --quiet origin "${{ github.event.pull_request.base.ref }}"
+          # Only added (+) lines in migration files, ignoring SQL comments.
+          ADDED=$(git diff "$BASE"...HEAD -- 'supabase/migrations/**' \
+            | grep -E '^\+' | grep -vE '^\+\+\+' \
+            | sed -E 's/^\+//' | sed -E 's/--.*$//')
+          # Destructive patterns (case-insensitive, word-boundaried).
+          PATTERN='\b(DROP|TRUNCATE)\b|\bDELETE[[:space:]]+FROM\b|\bALTER[[:space:]]+TABLE\b.*\b(DROP|ALTER[[:space:]]+COLUMN|TYPE|SET[[:space:]]+NOT[[:space:]]+NULL|RENAME)\b|\bDROP[[:space:]]+(TABLE|COLUMN|SCHEMA|POLICY|CONSTRAINT|INDEX|VIEW|FUNCTION|TRIGGER|TYPE)\b'
+          HITS=$(printf '%s\n' "$ADDED" | grep -inE "$PATTERN" || true)
+          if [ -n "$HITS" ]; then
+            echo "destructive=true" >> "$GITHUB_OUTPUT"
+            {
+              echo "### 🚨 Destructive SQL detected in this migration"
+              echo ""
+              echo "The following added lines look destructive and require approval from \`${{ vars.MIGRATION_APPROVER }}\`:"
+              echo '```'
+              printf '%s\n' "$HITS"
+              echo '```'
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "destructive=false" >> "$GITHUB_OUTPUT"
+            echo "✅ No destructive SQL added in supabase/migrations/**." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Require approver's review when destructive
+        if: steps.scan.outputs.destructive == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const approver = process.env.APPROVER;
+            if (!approver) {
+              core.setFailed("Destructive SQL found and no MIGRATION_APPROVER variable is set. " +
+                "Set repo variable MIGRATION_APPROVER to require a named approver.");
+              return;
+            }
+            const { owner, repo } = context.repo;
+            const pull_number = context.payload.pull_request.number;
+            const reviews = await github.paginate(github.rest.pulls.listReviews, {
+              owner, repo, pull_number, per_page: 100,
+            });
+            // Latest review state per user.
+            const latest = new Map();
+            for (const r of reviews) {
+              if (r.user && r.user.login) latest.set(r.user.login.toLowerCase(), r.state);
+            }
+            const state = latest.get(approver.toLowerCase());
+            if (state === "APPROVED") {
+              core.info(`Approved by ${approver}. Destructive migration allowed.`);
+            } else {
+              core.setFailed(
+                `This PR adds destructive SQL to supabase/migrations/** and requires an ` +
+                `APPROVED review from ${approver} (current: ${state || "no review"}).`
+              );
+            }
+        env:
+          APPROVER: ${{ vars.MIGRATION_APPROVER }}
