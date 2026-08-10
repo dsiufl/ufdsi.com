@@ -18,7 +18,7 @@ export default function DraggableField({ type, label, disabled }: { type: FieldT
 
     return (
         <div
-            ref={drag}
+            ref={(node) => { drag(node); }}
             className={cn(
                 'flex items-center gap-2 rounded-md border border-border bg-card p-2.5 text-sm transition-all',
                 disabled ? 'cursor-not-allowed opacity-50' : 'cursor-move hover:border-[#FF5722] hover:bg-accent',

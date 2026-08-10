@@ -12,7 +12,7 @@ import BuilderCanvas from '@/app/admin/builder/[id]/components/BuilderCanvas';
 
 export default function TemplateEditor({ template }: { template: FormTemplateDB }) {
     const router = useRouter();
-    const tokenRef = useRef<string | undefined>();
+    const tokenRef = useRef<string | undefined>(undefined);
     const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'idle' | 'error'>('saved');
 
     useEffect(() => {

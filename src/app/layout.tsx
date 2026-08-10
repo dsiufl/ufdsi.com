@@ -1,6 +1,6 @@
 
 
-import "node_modules/react-modal-video/css/modal-video.css";
+import "@/styles/modal-video.css";
 import "@/styles/index.css";
 
 import { Inter } from "next/font/google";
