@@ -3,8 +3,6 @@ name: Guard destructive DB migrations
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - "supabase/migrations/**"
   pull_request_review:
     types: [submitted, dismissed, edited]
 
