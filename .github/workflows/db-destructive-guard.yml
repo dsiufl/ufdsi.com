@@ -25,7 +25,7 @@ jobs:
           BASE="origin/${{ github.event.pull_request.base.ref }}"
           git fetch --quiet origin "${{ github.event.pull_request.base.ref }}"
           ADDED=$(git diff "$BASE"...HEAD -- 'supabase/migrations/**' \
-            | grep -E '^\+' | grep -vE '^\+\+\+' \
+            | { grep -E '^\+' || true; } | { grep -vE '^\+\+\+' || true; } \
             | sed -E 's/^\+//' | sed -E 's/--.*$//')
           PATTERN='\b(DROP|TRUNCATE)\b|\bDELETE[[:space:]]+FROM\b|\bALTER[[:space:]]+TABLE\b.*\b(DROP|ALTER[[:space:]]+COLUMN|TYPE|SET[[:space:]]+NOT[[:space:]]+NULL|RENAME)\b|\bDROP[[:space:]]+(TABLE|COLUMN|SCHEMA|POLICY|CONSTRAINT|INDEX|VIEW|FUNCTION|TRIGGER|TYPE)\b'
           HITS=$(printf '%s\n' "$ADDED" | grep -inE "$PATTERN" || true)
