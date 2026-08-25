@@ -38,7 +38,14 @@ export async function POST(req: NextRequest) {
         return new Response('First-time setup required', { status: 204 });
     } else {
         
-        const { count, error } = await supabase.schema('admin').from('people').update({...new_data, account_setup: true}).eq('id', user.id);
+        // Only allow profile fields — never role/email/publish/id from the client.
+        const allowed = {
+            first_name: new_data.first_name,
+            last_name: new_data.last_name,
+            displayName: new_data.displayName,
+            pictureURL: new_data.pictureURL,
+        };
+        const { count, error } = await supabase.schema('admin').from('people').update({...allowed, account_setup: true}).eq('id', user.id);
         if (error) {
             console.log("update err", error);
             return new Response('Error updating user data', { status: 400 });

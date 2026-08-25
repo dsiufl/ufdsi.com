@@ -33,7 +33,13 @@ export default function Settings({data, className}: {data?: AdminInfo, className
                 return;
             }
         }
-        const { data: result, error } = await supabase.schema('admin').from('people').update(values).eq('id', data?.id);
+        // Only submit editable profile fields — role/email/publish are not user-editable
+        // and are blocked by the column-level UPDATE grant on admin.people.
+        const { data: result, error } = await supabase.schema('admin').from('people').update({
+            first_name: values.first_name,
+            last_name: values.last_name,
+            pictureURL: values.pictureURL,
+        }).eq('id', data?.id);
         if (error) {
             console.error("Error updating profile:", error);
             setError("Error updating profile");
