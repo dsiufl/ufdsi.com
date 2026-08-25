@@ -31,8 +31,8 @@ export default async function sendEmail(user: Profile, access_token: string, typ
         }
         
     })
-    console.log("Action link:", action_link);
     const token = action_link.match(/token=([^&]+)/)?.[1];
+    const linkType = type == Email.INVITE_EMAIL ? 'magiclink' : 'recovery';
     return await fetch("https://api.brevo.com/v3/smtp/email", {
         headers: {
             'accept': 'application/json',
@@ -51,7 +51,7 @@ export default async function sendEmail(user: Profile, access_token: string, typ
             params: {
                 first_name: user.first_name,
                 role: user.role,
-                action_link: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link?token=${hashed_token}`
+                action_link: `${process.env.VERCEL_PROJECT_PRODUCTION_URL ?? "https://unstable.jcamille.dev"}/admin/login/link?token=${hashed_token}&type=${linkType}`
             }
            
         }) 

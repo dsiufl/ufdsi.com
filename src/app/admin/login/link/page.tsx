@@ -1,20 +1,26 @@
-import { createClient } from "@supabase/supabase-js";
-import { headers } from "next/headers";
-import { notFound, redirect, unauthorized } from "next/navigation";
+import { redirect } from "next/navigation";
+import VerifyButton from "./VerifyButton";
 
-export default async function Page(props: { 
-  searchParams: Promise<{ token: string }> 
+export default async function Page(props: {
+  searchParams: Promise<{ token?: string; type?: string }>
 }) {
-    console.log('link page accessed');
-    const { token } = await props.searchParams;
-
-    const headersList = await headers()
-    const userAgent = headersList.get('user-agent') || 'unknown';
-    console.log("User-Agent:", userAgent);
+    const { token, type } = await props.searchParams;
 
     if (!token) {
         redirect('/admin/login');
     }
-    
-    redirect(`https://nljfmwgzmavnjzmiqgbp.supabase.co/auth/v1/verify?token=${token}&type=magiclink&redirect_to=${(process.env.VERCEL_PROJECT_PRODUCTION_URL && `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` ) ?? "https://unstable.jcamille.dev"}/admin/login/`);
+
+    const linkType = type === 'recovery' ? 'recovery' : 'magiclink';
+
+    return (
+        <div className="flex min-h-screen flex-col items-center justify-center gap-4 px-4 text-center">
+            <h1 className="text-2xl font-semibold">
+                {linkType === 'recovery' ? 'Reset your password' : 'Sign in to DSI Admin'}
+            </h1>
+            <p className="max-w-md text-sm text-muted-foreground">
+                Click the button below to continue. This link can only be used once.
+            </p>
+            <VerifyButton token={token} type={linkType} />
+        </div>
+    );
 }
