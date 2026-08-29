@@ -3,7 +3,7 @@
 const Stats = () => {
   const stats = [
     {
-      number: "1,820",
+      number: "2,224",
       label: "Discord Members",
       icon: (
         <svg
@@ -34,7 +34,7 @@ const Stats = () => {
       ),
     },
     {
-      number: "2,095",
+      number: "2,281",
       label: "Instagram Followers",
       icon: (
         <svg
