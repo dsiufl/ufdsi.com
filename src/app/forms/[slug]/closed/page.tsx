@@ -107,7 +107,7 @@ export default async function FormClosedPage({
                         <p className="text-sm text-gray-700">
                             Have questions or need assistance?
                             <br />
-                            <a href="mailto:dsi@ufl.edu" className="mt-1 inline-block font-medium text-[#FF5722] hover:underline">
+                            <a href="mailto:dsi@ufl.edu" className="mt-1 inline-block font-medium text-[#CF3F12] hover:underline">
                                 Contact us at dsi@ufl.edu
                             </a>
                         </p>

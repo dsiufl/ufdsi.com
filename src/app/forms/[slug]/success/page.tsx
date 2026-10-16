@@ -129,7 +129,7 @@ export default async function SuccessPage({
 
                 <p className="mt-6 text-center text-sm text-gray-400">
                     Questions? Contact us at{' '}
-                    <a href="mailto:dsi@ufl.edu" className="text-[#FF5722] hover:underline">dsi@ufl.edu</a>
+                    <a href="mailto:dsi@ufl.edu" className="text-[#CF3F12] hover:underline">dsi@ufl.edu</a>
                 </p>
             </div>
         </div>
