@@ -20,10 +20,10 @@ export interface AgendaItem {
 }
 export interface Symposium {
     id: string;
-    keynote: number;
-    date: Date;
+    keynote: string | null;
+    date: Date | null;
     year: number;
-    agenda: AgendaItem[];
+    agenda: AgendaItem[] | null;
 }
 
 export interface Article {
@@ -50,7 +50,7 @@ export interface Workshop {
 }
 
 export interface Speaker {
-  id: number;
+  id: string;
   created_at: Date;
   name: string;
   affiliation: string;
@@ -58,12 +58,12 @@ export interface Speaker {
   time: string;
   location: string;
   cover: string;
-  symposium: number;
+  symposium: number | null;
   description: string;
   affiliated_logo?: string;
   youtube?: string;
-  track: string;
-  category: 'keynote' | 'general' | 'industry' | 'research' | 'workshop';
+  // e.g. "Keynote", "Research Track". Empty for years without tracks.
+  track: string | null;
   deleted?: true;
 }
 
