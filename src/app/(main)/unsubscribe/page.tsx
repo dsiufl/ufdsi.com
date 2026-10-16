@@ -1,33 +1,60 @@
-import ScrollUp from "@/components/Common/ScrollUp";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Unsubscribe | UF DSI",
+  description: "Unsubscribe from the DSI newsletter.",
+};
+
+const LISTSERV_URL = "https://lists.ufl.edu/cgi-bin/wa?SUBED1=AIIRIDSI&A=1";
 
 export default function UnsubscribePage() {
-    return (
-        <section>
-            <h1 className="flex justify-center">Unsubscribe</h1>
-            <div className="flex justify-center">
-                <div className="flex flex-col py-5 text-center gap-5">
-                    <div className="flex flex-col items-center max-w-[800px]">
-                        <p>We’re sorry to see you go. Please click the link below to unsubscribe from The DSI Newsletter. <strong>Note that this link will only work if you are connected on UF wifi or are using the UF VPN.</strong></p>
-                        <a className="button" href="https://lists.ufl.edu/cgi-bin/wa?SUBED1=AIIRIDSI&A=1">Unsubscribe from DSI Newsletter</a>
-                    </div>
-                    <div className="w-full h-[1px] bg-gray-400 m-4"> </div>
-                    <div className="flex flex-col items-center gap-8 max-w-[800px]">
-                        <div>
-                            <h3>Having trouble unsubscribing?</h3>
-                            <p className="mb-0">If the link does not work, compose an email to <a className="link" href="mailto:listserv@lists.ufl.edu">listserv@lists.ufl.edu</a> with the only message being “UNSUBSCRIBE AIIRIDSI”. No subject line or reason to unsubscribe is required.</p>
-                        </div>
-                        <a className="button" href="mailto:listserv@lists.ufl.edu?body=UNSUBSCRIBE AIIRIDSI">Unsubscribe via Email</a>
-                        <div className="w-full h-[1px] bg-gray-400 m-4"> </div>
-                        <p className="text-gray-400 dark:text-gray-700">If you have any continued difficulties, please email <a className="link" href="mailto:dsiufl@gmail.com">dsiufl@gmail.com</a> with the subject line “UNSUBSCRIBE” and we will manually unsubscribe you from the DSI Newsletter. You are not required to provide a reason for unsubscribing.</p>
-                    </div>
-                    
-                    
-                    <p></p>
-                </div>
-                
-            </div>
-            
-        </section>
-    )
+  return (
+    <main>
+      <section className="site-intro" aria-labelledby="unsub-title">
+        <div className="site-wrap site-hero__copy" style={{ maxWidth: "calc(760px + var(--pad) * 2)" }}>
+          <p className="site-label">Newsletter</p>
+          <h1 id="unsub-title" className="site-h1">
+            Unsubscribe.
+          </h1>
+          <p className="site-lede">
+            Sorry to see you go. Any of these three ways works, and you never need to give a reason.
+          </p>
+
+          <ol className="site-steps" style={{ gridTemplateColumns: "minmax(0, 1fr)", marginTop: 40 }}>
+            <li className="site-step">
+              <span className="site-step__num" aria-hidden="true">1.</span>
+              <h2 className="site-step__title">Use the list page</h2>
+              <p>
+                This link only works on UF Wi-Fi or the UF VPN.
+              </p>
+              <a href={LISTSERV_URL} target="_blank" rel="noopener noreferrer">
+                Unsubscribe from the DSI newsletter <span className="site-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li className="site-step">
+              <span className="site-step__num" aria-hidden="true">2.</span>
+              <h2 className="site-step__title">Email the list server</h2>
+              <p>
+                Send an email to listserv@lists.ufl.edu whose only text is &ldquo;UNSUBSCRIBE AIIRIDSI&rdquo;. No
+                subject line is needed.
+              </p>
+              <a href="mailto:listserv@lists.ufl.edu?body=UNSUBSCRIBE%20AIIRIDSI">
+                Open the email <span className="site-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+            <li className="site-step">
+              <span className="site-step__num" aria-hidden="true">3.</span>
+              <h2 className="site-step__title">Ask us</h2>
+              <p>
+                Still stuck? Email us with the subject &ldquo;UNSUBSCRIBE&rdquo; and we will remove you by hand.
+              </p>
+              <a href="mailto:dsiufl@gmail.com?subject=UNSUBSCRIBE">
+                Email dsiufl@gmail.com <span className="site-arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ol>
+        </div>
+      </section>
+    </main>
+  );
 }
