@@ -330,7 +330,7 @@ function FieldRenderer({
                                     className={cn(
                                         'rounded-full px-4 py-2 text-sm font-medium transition-all border',
                                         isSelected
-                                            ? 'bg-[#FF5722] text-white border-[#FF5722]'
+                                            ? 'bg-[#CF3F12] text-white border-[#CF3F12]'
                                             : '!bg-white text-gray-700 border-gray-300 hover:border-[#FF5722]'
                                     )}
                                 >
@@ -766,7 +766,7 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
                                     <Button
                                         type="button"
                                         onClick={handleNext}
-                                        className="gap-2 bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                                        className="gap-2 bg-[#CF3F12] hover:bg-[#BF360C] text-white"
                                     >
                                         Continue
                                         <ChevronRight className="h-4 w-4" />
@@ -776,7 +776,7 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
                                         type="button"
                                         onClick={handleSubmit}
                                         disabled={submitting || isPreview}
-                                        className="gap-2 bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                                        className="gap-2 bg-[#CF3F12] hover:bg-[#BF360C] text-white"
                                     >
                                         <Check className="h-4 w-4" />
                                         {submitting ? 'Submitting...' : 'Submit'}
