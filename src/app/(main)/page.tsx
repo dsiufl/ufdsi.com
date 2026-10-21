@@ -106,7 +106,6 @@ export default async function Home() {
                 priority
               />
             </div>
-            <figcaption>DSI members outside Marston Science Library.</figcaption>
           </figure>
         </div>
       </section>

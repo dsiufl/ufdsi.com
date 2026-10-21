@@ -90,7 +90,6 @@ const TeamPage = async () => {
                 priority
               />
             </div>
-            <figcaption>The organizing team at the 2025 DSI Spring Symposium, Reitz Union.</figcaption>
           </figure>
         </div>
       </section>
