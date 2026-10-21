@@ -1,14 +1,14 @@
 -- Executive board for the 2026-27 year (board.year 2027). Safe to run more than once.
 -- Headshot and LinkedIn are copied from the person's 2026 row when they have one; check the
 -- rows with an empty headshot afterwards. Row order sets the order within a shared role
--- (the co-presidents).
+-- (the co-presidents, Andria first).
 
 insert into public.board (year, name, role, exec, linkedin, headshot, created_at)
 select 2027, v.name, v.role, true, o.linkedin, coalesce(o.headshot, ''),
        now() + v.position * interval '1 millisecond'
 from (values
-  (1, 'Pranav Bhargava', 'Co-President'),
-  (2, 'Andria Gonzalez Lopez', 'Co-President'),
+  (1, 'Andria Gonzalez Lopez', 'Co-President'),
+  (2, 'Pranav Bhargava', 'Co-President'),
   (3, 'Safi Ali', 'Internal Vice President'),
   (4, 'Alfred Navarro', 'Treasurer'),
   (5, 'An Hoang', 'Workshop Director'),
