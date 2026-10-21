@@ -9,3 +9,5 @@ Run `jboard-2027.sql` in the Supabase SQL editor. It is safe to run more than on
 Headshots are left empty, so the page shows initials. Set `board.headshot` per person once photos are uploaded.
 
 Then run `eboard-2027.sql` for the executive board. The team page reads `board.year = 2027`.
+
+Then run `headshots-2027.sql` to point the junior board at their 2026-27 photos in `public/images/people/2026-2027`.
