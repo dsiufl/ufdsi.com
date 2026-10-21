@@ -6,8 +6,7 @@ import { Workshop } from "@/types/db";
 import { Metadata } from "next";
 import Image from "next/image";
 
-// Render on every request: "Coming up" depends on the current time and new workshops should show right away.
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Workshops | UF DSI",
