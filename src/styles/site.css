@@ -2111,3 +2111,246 @@ a.site-row__inner--index:hover .site-row__action {
 .site-head.is-last {
   margin-bottom: 0;
 }
+
+/* ---------- hackathons ---------- */
+
+.site-hack-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px 32px;
+  margin-bottom: 24px;
+}
+
+.site-hack-search {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.site-hack-search input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--line-hi);
+  border-radius: var(--r);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: var(--fs-small);
+}
+
+.site-hack-search input:focus {
+  outline: 2px solid var(--blue-ink);
+  outline-offset: 1px;
+}
+
+.site-hack-filter {
+  margin-bottom: 12px;
+}
+
+.site-hack-filter__gap {
+  width: 1px;
+  margin-inline: 4px;
+  background: var(--line);
+}
+
+.site-hack-count {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  justify-content: space-between;
+  margin: 20px 0 8px;
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.site-hack-legend span {
+  color: var(--signal-ink);
+}
+
+.site-hack-empty {
+  padding-block: 32px;
+}
+
+.site-hack-month {
+  margin-top: 36px;
+}
+
+.site-hack-month__title {
+  margin-bottom: 12px;
+  font-size: var(--fs-xsmall);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--blue-ink);
+}
+
+.site-hack-list li.site-hack {
+  grid-template-columns: 64px minmax(0, 1fr);
+}
+
+.site-hack .site-date strong {
+  font-size: 22px;
+}
+
+.site-hack.is-ended .site-date {
+  background: var(--paper-2);
+  color: var(--ink-3);
+}
+
+.site-hack.is-ended .site-h3 {
+  color: var(--ink-3);
+}
+
+.site-hack__head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+
+.site-hack__logo {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  object-fit: contain;
+  background: #fff;
+}
+
+.site-hack__tag {
+  padding: 1px 7px;
+  border: 1px solid var(--line-hi);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--ink-2);
+}
+
+.site-hack__star {
+  margin-right: 6px;
+  color: var(--signal-ink);
+}
+
+.site-upcoming .site-hack__status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px 10px;
+  font-size: 14px;
+}
+
+.site-hack__pill {
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.site-hack__pill--go {
+  background: color-mix(in oklch, oklch(0.62 0.15 150) 16%, transparent);
+  color: oklch(0.42 0.12 150);
+}
+
+.site-hack__pill--info {
+  background: var(--blue-wash);
+  color: var(--blue-ink);
+}
+
+.site-hack__pill--muted {
+  background: var(--paper-2);
+  color: var(--ink-3);
+}
+
+.dark .site .site-hack__pill--go {
+  color: oklch(0.8 0.13 150);
+}
+
+.site-hack__more {
+  margin-top: 10px;
+}
+
+.site-hack__more summary,
+.site-hack-past summary {
+  cursor: pointer;
+  width: fit-content;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.site-hack__more summary:hover,
+.site-hack-past summary:hover {
+  color: var(--signal-ink);
+}
+
+.site-hack__more > div {
+  margin-top: 10px;
+  max-width: 68ch;
+}
+
+.site-hack__dsi {
+  color: var(--ink) !important;
+}
+
+.site-hack__more dl {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  gap: 4px 16px;
+  margin: 12px 0 0;
+  font-size: 14px;
+}
+
+.site-hack__more dt {
+  color: var(--ink-3);
+}
+
+.site-hack__more dd {
+  margin: 0;
+  color: var(--ink-2);
+}
+
+.site-hack__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.site-hack-past {
+  margin-top: 40px;
+}
+
+.site-hack-past > ul {
+  margin-top: 16px;
+}
+
+.site-hack-note {
+  margin-top: 40px;
+  max-width: 68ch;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-3);
+}
+
+@media (max-width: 574px) {
+  .site-hack-filter {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    scrollbar-width: none;
+  }
+
+  .site-hack-filter li {
+    flex: none;
+  }
+
+  .site-hack-search {
+    max-width: none;
+  }
+}

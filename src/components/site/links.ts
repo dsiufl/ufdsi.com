@@ -11,6 +11,7 @@ export const socials = [
 export const navLinks = [
   { title: "About", href: "/about" },
   { title: "Workshops", href: "/workshops-list" },
+  { title: "Hackathons", href: "/hackathons" },
   { title: "Projects", href: "/projects" },
   { title: "Symposium", href: symposiumHref() },
   { title: "Team", href: "/team" },
