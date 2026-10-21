@@ -14,8 +14,33 @@ export const metadata: Metadata = {
 
 const CURRENT_YEAR = 2026;
 
+// Executive board in the order they appear, matched on the role text.
+const execOrder: RegExp[] = [
+  /co-?president/i,
+  /internal|vice|\bvp\b/i,
+  /treasurer/i,
+  /workshop/i,
+  /networking/i,
+  /secretary/i,
+  /project/i,
+  /research/i,
+];
+const execRank = (role: string) => {
+  const index = execOrder.findIndex((pattern) => pattern.test(role));
+  return index === -1 ? execOrder.length : index;
+};
+
 // Coordinator teams in the order they appear on the page; any other role follows.
-const coordinatorOrder = ["Technology", "Workshop", "Marketing", "Sponsorship", "Networking", "Event"];
+const coordinatorOrder = [
+  "Technology",
+  "Workshop",
+  "Marketing",
+  "Sponsorship",
+  "Networking",
+  "Event",
+  "Hackathon",
+  "Research",
+];
 
 const TeamPage = async () => {
   const cookieStore = await cookies();
@@ -37,7 +62,8 @@ const TeamPage = async () => {
   });
 
   const groups: BoardGroup[] = [];
-  const execs = board.filter((row) => row.exec);
+  // sort is stable, so people sharing a role (the co-presidents) keep their database order
+  const execs = board.filter((row) => row.exec).sort((a, b) => execRank(a.role) - execRank(b.role));
   if (execs.length > 0) {
     groups.push({ title: "Executive Board", members: execs.map((row) => toMember(row, true)) });
   }
