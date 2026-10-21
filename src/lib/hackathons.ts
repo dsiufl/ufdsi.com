@@ -157,6 +157,83 @@ export const matches = (h: Hackathon, f: Filters) => {
   return true;
 };
 
+const SITE = "https://ufdsi.com";
+export const FEED_PATH = "/hackathons/calendar.ics";
+
+const nextDay = (iso: string) => new Date(day(iso).getTime() + 86400000).toISOString().slice(0, 10);
+
+export const detailsText = (h: Hackathon) =>
+  [h.description, h.applicationNote, `Official site: ${h.url}`, `Listed on ${SITE}/hackathons`].filter(Boolean).join("\n\n");
+
+// All-day Google Calendar event, end date is exclusive.
+export const googleCalendarUrl = (h: Hackathon) => {
+  if (h.dates.kind !== "confirmed") return null;
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: h.name,
+    dates: `${h.dates.start.replace(/-/g, "")}/${nextDay(h.dates.end).replace(/-/g, "")}`,
+    details: detailsText(h),
+    location: h.attendance === "online" ? "Online" : [h.venue, place(h)].filter(Boolean).join(", "),
+  });
+  return `https://calendar.google.com/calendar/render?${params}`;
+};
+
+export const feedUrls = () => {
+  const webcal = `webcal://${SITE.replace(/^https?:\/\//, "")}${FEED_PATH}`;
+  return {
+    webcal,
+    google: `https://calendar.google.com/calendar/render?cid=${encodeURIComponent(webcal)}`,
+  };
+};
+
+const icsEscape = (s: string) => s.replace(/\\/g, "\\\\").replace(/;/g, "\\;").replace(/,/g, "\\,").replace(/\r?\n/g, "\\n");
+
+// Lines over 75 octets get folded, per RFC 5545.
+const fold = (line: string) => {
+  const out: string[] = [];
+  let rest = line;
+  while (Buffer.byteLength(rest) > 75) {
+    let cut = 75;
+    while (Buffer.byteLength(rest.slice(0, cut)) > 75) cut--;
+    out.push(rest.slice(0, cut));
+    rest = " " + rest.slice(cut);
+  }
+  out.push(rest);
+  return out.join("\r\n");
+};
+
+export const toIcs = (events: Hackathon[], name = "UF DSI Hackathons") => {
+  const stamp = new Date().toISOString().replace(/[-:]/g, "").replace(/\.\d{3}/, "");
+  const lines = [
+    "BEGIN:VCALENDAR",
+    "VERSION:2.0",
+    "PRODID:-//UF DSI//Hackathons//EN",
+    "CALSCALE:GREGORIAN",
+    "METHOD:PUBLISH",
+    `X-WR-CALNAME:${icsEscape(name)}`,
+    "X-PUBLISHED-TTL:PT12H",
+    "REFRESH-INTERVAL;VALUE=DURATION:PT12H",
+  ];
+  for (const h of events) {
+    if (h.dates.kind !== "confirmed") continue;
+    lines.push(
+      "BEGIN:VEVENT",
+      `UID:${h.id}@ufdsi.com`,
+      `DTSTAMP:${stamp}`,
+      `DTSTART;VALUE=DATE:${h.dates.start.replace(/-/g, "")}`,
+      `DTEND;VALUE=DATE:${nextDay(h.dates.end).replace(/-/g, "")}`,
+      `SUMMARY:${icsEscape(h.name)}`,
+      `LOCATION:${icsEscape(h.attendance === "online" ? "Online" : [h.venue, place(h)].filter(Boolean).join(", "))}`,
+      `DESCRIPTION:${icsEscape(detailsText(h))}`,
+      `URL:${h.url}`,
+      "TRANSP:TRANSPARENT",
+      "END:VEVENT",
+    );
+  }
+  lines.push("END:VCALENDAR");
+  return lines.map(fold).join("\r\n") + "\r\n";
+};
+
 export const sortByDate = (a: Hackathon, b: Hackathon) => {
   const as = a.dates.kind === "confirmed" ? a.dates.start : "9999";
   const bs = b.dates.kind === "confirmed" ? b.dates.start : "9999";
