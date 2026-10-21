@@ -17,7 +17,7 @@ const CURRENT_YEAR = 2027;
 
 // Executive board in the order they appear, matched on the role text.
 const execOrder: RegExp[] = [
-  /co-?president/i,
+  /^(co-)?president/i,
   /internal|vice|\bvp\b/i,
   /treasurer/i,
   /workshop/i,
