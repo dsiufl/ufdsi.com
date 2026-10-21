@@ -31,7 +31,16 @@ const execRank = (role: string) => {
 };
 
 // Coordinator teams in the order they appear on the page; any other role follows.
-const coordinatorOrder = ["Technology", "Workshop", "Marketing", "Sponsorship", "Networking", "Event"];
+const coordinatorOrder = [
+  "Technology",
+  "Workshop",
+  "Marketing",
+  "Sponsorship",
+  "Networking",
+  "Event",
+  "Hackathon",
+  "Research",
+];
 
 const TeamPage = async () => {
   const cookieStore = await cookies();
