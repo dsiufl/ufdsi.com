@@ -7,3 +7,5 @@ Run `jboard-2027.sql` in the Supabase SQL editor. It is safe to run more than on
 - It then sets the role and email for everyone on the list, so people who were already in the table end up in the right team too.
 
 Headshots are left empty, so the page shows initials. Set `board.headshot` per person once photos are uploaded.
+
+Then run `eboard-2027.sql` for the executive board and `carry-over-photos-2027.sql` to reuse last year's headshots. The team page reads `board.year = 2027`.
