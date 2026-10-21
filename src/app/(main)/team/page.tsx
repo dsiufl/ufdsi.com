@@ -19,10 +19,10 @@ const CURRENT_YEAR = 2027;
 const execOrder: RegExp[] = [
   /^(co-)?president/i,
   /internal|vice|\bvp\b/i,
+  /secretary/i,
   /treasurer/i,
   /workshop/i,
   /networking/i,
-  /secretary/i,
   /project/i,
   /research/i,
 ];
