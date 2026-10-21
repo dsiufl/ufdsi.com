@@ -64,7 +64,7 @@ const AboutPage = async () => {
         </div>
       </section>
 
-      <section className="site-section" aria-labelledby="what-title" style={{ borderTop: "1px solid var(--line)" }}>
+      <section className="site-section" aria-labelledby="what-title">
         <div className="site-wrap site-split">
           <Reveal>
             <h2 id="what-title" className="site-label">What we do</h2>

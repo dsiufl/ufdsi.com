@@ -122,7 +122,6 @@ export default async function WorkshopsPage() {
         className="site-section site-section--tight"
         id="calendar"
         aria-labelledby="upcoming-title"
-        style={{ borderTop: "1px solid var(--line)" }}
       >
         <div className="site-wrap">
           <Reveal

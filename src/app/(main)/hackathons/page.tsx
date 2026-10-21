@@ -115,7 +115,6 @@ export default async function HackathonsPage({ searchParams }: { searchParams: P
         className="site-section site-section--tight"
         id="calendar"
         aria-labelledby="calendar-title"
-        style={{ borderTop: "1px solid var(--line)" }}
       >
         <div className="site-wrap">
           <div className="site-hack-bar">

@@ -42,7 +42,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
         </div>
       </section>
 
-      <section className="site-section" aria-labelledby="stories-title" style={{ borderTop: "1px solid var(--line)" }}>
+      <section className="site-section" aria-labelledby="stories-title">
         <div className="site-wrap">
           <h2 id="stories-title" className="sr-only">
             Stories

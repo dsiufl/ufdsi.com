@@ -9,6 +9,7 @@
   --ink-3: oklch(0.54 0.014 48);
   --line: color-mix(in oklch, var(--ink) 13%, transparent);
   --line-hi: color-mix(in oklch, var(--ink) 28%, transparent);
+  --line-soft: color-mix(in oklch, var(--ink) 8%, transparent);
   --signal: #ff5722;
   --signal-ink: oklch(0.5 0.185 36);
   /* Orange that carries white text: the brand orange is too light for it
@@ -83,10 +84,6 @@
 
 .site-section {
   padding-block: var(--section);
-}
-
-.site-section + .site-section {
-  border-top: 1px solid var(--line);
 }
 
 /* Short sections (a list, an empty state) don't need a full-height band. */
@@ -339,7 +336,7 @@ a:hover > .site-arrow {
 .site-mobile-nav a {
   display: block;
   padding: 14px 0;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
   font-size: var(--fs-medium);
   font-weight: 500;
   color: var(--ink);
@@ -643,7 +640,7 @@ button.site-week[aria-pressed="true"] {
 
 .site-sem__items li {
   padding-block: 16px;
-  border-top: 1px solid var(--line);
+  border-top: 1px solid var(--line-soft);
 }
 
 .site-sem__items p {
@@ -675,7 +672,7 @@ button.site-week[aria-pressed="true"] {
 .site-ledger {
   display: grid;
   margin: 0;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-ledger > div {
@@ -684,7 +681,7 @@ button.site-week[aria-pressed="true"] {
   justify-content: space-between;
   gap: 24px;
   padding-block: 22px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-ledger dt {
@@ -833,11 +830,11 @@ button.site-week[aria-pressed="true"] {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-row {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-row__inner {
@@ -1208,7 +1205,7 @@ a.site-row__inner:hover .site-h3 {
   display: grid;
   gap: 0;
   margin: 0;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-facts > div {
@@ -1217,7 +1214,7 @@ a.site-row__inner:hover .site-h3 {
   gap: 16px;
   align-items: baseline;
   padding-block: 14px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-facts dt {
@@ -1300,11 +1297,11 @@ a.site-row__inner:hover .site-h3 {
 /* ---------- FAQ ---------- */
 
 .site-faq {
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-faq details {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-faq summary {
@@ -1416,7 +1413,7 @@ a.site-row__inner:hover .site-h3 {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-upcoming li {
@@ -1424,7 +1421,7 @@ a.site-row__inner:hover .site-h3 {
   grid-template-columns: 72px minmax(0, 1fr);
   gap: 20px;
   padding-block: 22px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-date {
@@ -1965,7 +1962,7 @@ a.site-row__inner--index:hover .site-row__action {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-agenda li {
@@ -1973,7 +1970,7 @@ a.site-row__inner--index:hover .site-row__action {
   grid-template-columns: minmax(0, 1fr);
   gap: 6px 32px;
   padding-block: 20px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .site-agenda__time {
@@ -2046,7 +2043,7 @@ a.site-row__inner--index:hover .site-row__action {
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line-hi);
+  border-top: 1px solid var(--line);
 }
 
 .site-links a {
@@ -2054,7 +2051,7 @@ a.site-row__inner--index:hover .site-row__action {
   justify-content: space-between;
   gap: 16px;
   padding-block: 18px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-soft);
   font-size: var(--fs-medium);
   color: var(--ink);
 }

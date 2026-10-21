@@ -59,7 +59,6 @@ export default async function ProjectsPage() {
       <section
         className="site-section site-section--tight"
         aria-labelledby="current-title"
-        style={{ borderTop: "1px solid var(--line)" }}
       >
         <div className="site-wrap">
           <Reveal className="site-head">

@@ -61,7 +61,7 @@ export default function SponsorsPage() {
         </div>
       </section>
 
-      <section className="site-section" aria-labelledby="main-title" style={{ borderTop: "1px solid var(--line)" }}>
+      <section className="site-section" aria-labelledby="main-title">
         <div className="site-wrap">
           <Reveal className="site-head">
             <h2 id="main-title" className="site-h2">

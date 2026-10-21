@@ -121,7 +121,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <section className="site-section" aria-labelledby="steps-title" style={{ borderTop: "1px solid var(--line)" }}>
+      <section className="site-section" aria-labelledby="steps-title">
         <div className="site-wrap">
           <Reveal className="site-head">
             <h2 id="steps-title" className="site-h2">
