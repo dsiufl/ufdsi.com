@@ -1,0 +1,45 @@
+-- Junior board (coordinators) for 2026. Run once in the Supabase SQL editor.
+-- Headshots are left empty so the page shows initials until photos are uploaded;
+-- set board.headshot per person afterwards.
+
+alter table public.board add column if not exists email text;
+
+insert into public.board (year, name, role, exec, email, headshot)
+select v.year, v.name, v.role, v.exec, v.email, v.headshot
+from (values
+  (2026, 'Hyunmin Kim', 'Event Coordinator', false, 'hyunminkim@ufl.edu', ''),
+  (2026, 'Anish Nelluri', 'Event Coordinator', false, 'anelluri@ufl.edu', ''),
+  (2026, 'Nicolas Murguia', 'Event Coordinator', false, 'nmurguia@ufl.edu', ''),
+  (2026, 'Toni Comer', 'Event Coordinator', false, 'tonicomer@ufl.edu', ''),
+  (2026, 'Jiexi Yang', 'Hackathon Coordinator', false, 'j.yang2@ufl.edu', ''),
+  (2026, 'Felix Chang', 'Hackathon Coordinator', false, 'felix.chang@ufl.edu', ''),
+  (2026, 'Joshua Brown', 'Hackathon Coordinator', false, 'jbrown29@ufl.edu', ''),
+  (2026, 'Evan Daniels', 'Marketing Coordinator', false, 'e.daniels@ufl.edu', ''),
+  (2026, 'Emily Blumhof', 'Marketing Coordinator', false, 'emilyblumhof@ufl.edu', ''),
+  (2026, 'Zibran Faruque', 'Marketing Coordinator', false, 'zfaruque@ufl.edu', ''),
+  (2026, 'Sarah Acra', 'Marketing Coordinator', false, 'sarahacra@ufl.edu', ''),
+  (2026, 'Grace Corathers', 'Marketing Coordinator', false, 'gcorathers@ufl.edu', ''),
+  (2026, 'Jonathan Gleiber', 'Networking Coordinator', false, 'jonathan.gleiber@ufl.edu', ''),
+  (2026, 'Taher Akolawala', 'Networking Coordinator', false, 'taherakolawala@ufl.edu', ''),
+  (2026, 'Rithvika Veerapureddy', 'Networking Coordinator', false, 'rithvika.veerapu@ufl.edu', ''),
+  (2026, 'Nikhil Sangamkar', 'Networking Coordinator', false, 'nikhil.sangamkar@ufl.edu', ''),
+  (2026, 'Youssef Alhamzawi', 'Research Coordinator', false, 'youssefalhamzawi@ufl.edu', ''),
+  (2026, 'Isabelle Zolkos', 'Research Coordinator', false, 'zolkosisabelle@ufl.edu', ''),
+  (2026, 'Nikhil Raj Deep', 'Research Coordinator', false, 'nikhildeep@ufl.edu', ''),
+  (2026, 'Neha Jupalli', 'Sponsorship Coordinator', false, 'jupallineha@ufl.edu', ''),
+  (2026, 'Aryan Patel', 'Sponsorship Coordinator', false, 'aryan.patel@ufl.edu', ''),
+  (2026, 'Andrew Robinson', 'Sponsorship Coordinator', false, 'ap.robinson@ufl.edu', ''),
+  (2026, 'Brigid O''Sullivan', 'Sponsorship Coordinator', false, 'brigid.osullivan@ufl.edu', ''),
+  (2026, 'Jossaya Camille', 'Technology Coordinator', false, 'jossaya.camille@ufl.edu', ''),
+  (2026, 'Zayd Tawam', 'Technology Coordinator', false, 'ztawam@ufl.edu', ''),
+  (2026, 'John Courtney', 'Technology Coordinator', false, 'johncourtney@ufl.edu', ''),
+  (2026, 'Hana Elbatouty', 'Technology Coordinator', false, 'hanaelbatout@ufl.edu', ''),
+  (2026, 'Ragul Thiyagarajan', 'Workshop Coordinator', false, 'rthiyagarajan@ufl.edu', ''),
+  (2026, 'Devereaux Dumas', 'Workshop Coordinator', false, 'ddumas1@ufl.edu', ''),
+  (2026, 'Anjali Tomerlin', 'Workshop Coordinator', false, 'a.tomerlin@ufl.edu', ''),
+  (2026, 'Hayden Luong', 'Workshop Coordinator', false, 'giakhangluong@ufl.edu', ''),
+  (2026, 'Sai Rajan', 'Workshop Coordinator', false, 'srajan1@ufl.edu', '')
+) as v(year, name, role, exec, email, headshot)
+where not exists (
+  select 1 from public.board b where b.year = v.year and b.name = v.name
+);
