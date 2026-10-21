@@ -1,8 +1,9 @@
 # Loading the 2026 junior board
 
-Run these in the Supabase SQL editor, in order. Both are safe to repeat.
+Run `jboard-2026.sql` in the Supabase SQL editor. It is safe to run more than once.
 
-1. `jboard-2026.sql` adds the coordinators. It skips anyone already in `board` for 2026 with the same name.
-2. `jboard-2026-emails.sql` adds the `email` column and fills it in. The team page shows a mail icon for anyone with an email.
+- It adds the `email` column to `board` if it is missing.
+- It inserts each coordinator with their role (the team plus " Coordinator", which is what the team page groups on) and email. People already in `board` for 2026 with the same name are skipped.
+- It then sets the role and email for everyone on the list, so people who were already in the table end up in the right team too.
 
 Headshots are left empty, so the page shows initials. Set `board.headshot` per person once photos are uploaded.
