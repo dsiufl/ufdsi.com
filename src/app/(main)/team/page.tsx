@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   description: "Meet the dedicated team members of the UF Data Science and Informatics student organization",
 };
 
-const CURRENT_YEAR = 2026;
+// board.year is the spring year of the school year: 2027 is the 2026-27 board.
+const CURRENT_YEAR = 2027;
 
 // Executive board in the order they appear, matched on the role text.
 const execOrder: RegExp[] = [
