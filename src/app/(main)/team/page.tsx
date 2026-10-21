@@ -63,8 +63,10 @@ const TeamPage = async () => {
   });
 
   const groups: BoardGroup[] = [];
-  // sort is stable, so people sharing a role (the co-presidents) keep their database order
-  const execs = board.filter((row) => row.exec).sort((a, b) => execRank(a.role) - execRank(b.role));
+  // people sharing a role (the co-presidents) go alphabetically, so the order doesn't depend on row timestamps
+  const execs = board
+    .filter((row) => row.exec)
+    .sort((a, b) => execRank(a.role) - execRank(b.role) || a.name.localeCompare(b.name));
   if (execs.length > 0) {
     groups.push({ title: "Executive Board", members: execs.map((row) => toMember(row, true)) });
   }
