@@ -2354,3 +2354,325 @@ a.site-row__inner--index:hover .site-row__action {
     max-width: none;
   }
 }
+
+/* ---------- workshops ---------- */
+
+/* Covers are a mix of logos, photos and diagrams, so every one sits on the
+   same white slide. It stays white in dark mode too. */
+.site-ws-slide {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: calc(var(--r-panel) - 6px);
+  background: #fff;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.site-ws-slide img {
+  object-fit: contain;
+  padding: 9% 11%;
+}
+
+.site-ws-slide > span {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 12%;
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: var(--track-h2);
+  text-align: center;
+  color: oklch(0.21 0.016 48);
+}
+
+.site-ws-tickets {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-ws-ticket {
+  --notch: 11px;
+  display: grid;
+  grid-template-columns: 84px minmax(0, 1fr);
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--paper);
+  overflow: hidden;
+}
+
+.site-ws-ticket__stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 20px 8px;
+  background: var(--blue-wash);
+  color: var(--blue-ink);
+  border-right: 2px dashed color-mix(in oklch, currentColor 30%, transparent);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Punched notches where the stub tears off. */
+.site-ws-ticket__stub::before,
+.site-ws-ticket__stub::after {
+  content: "";
+  position: absolute;
+  right: calc(var(--notch) * -1 - 1px);
+  width: calc(var(--notch) * 2);
+  height: calc(var(--notch) * 2);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.site-ws-ticket__stub::before {
+  top: calc(var(--notch) * -1 - 1px);
+}
+
+.site-ws-ticket__stub::after {
+  bottom: calc(var(--notch) * -1 - 1px);
+}
+
+.site-ws-ticket__stub span {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+
+.site-ws-ticket__stub strong {
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: var(--track-h2);
+}
+
+.site-ws-ticket.is-next .site-ws-ticket__stub {
+  background: var(--signal-fill);
+  color: var(--on-signal);
+}
+
+.site-ws-ticket__body {
+  display: grid;
+  align-content: start;
+  gap: 12px;
+  padding: clamp(20px, 3vw, 32px);
+}
+
+.site-ws-ticket__title {
+  font-size: clamp(24px, 3vw, 34px);
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: var(--track-h2);
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.site-ws-ticket__desc {
+  max-width: 60ch;
+  font-size: var(--fs-small);
+  line-height: 1.6;
+  color: var(--ink-2);
+}
+
+.site-ws-facts {
+  display: grid;
+  gap: 10px 28px;
+  margin: 6px 0 0;
+}
+
+.site-ws-facts dt {
+  font-size: var(--fs-xsmall);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+.site-ws-facts dd {
+  margin: 2px 0 0;
+  font-size: var(--fs-small);
+  color: var(--ink);
+}
+
+.site-ws-ticket__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.site-ws-ticket__cover {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .site-ws-ticket {
+    grid-template-columns: 112px minmax(0, 1fr);
+  }
+
+  .site-ws-ticket__stub strong {
+    font-size: 52px;
+  }
+
+  .site-ws-facts {
+    grid-template-columns: repeat(3, max-content);
+  }
+}
+
+@media (min-width: 992px) {
+  .site-ws-ticket {
+    grid-template-columns: 120px minmax(0, 1fr) minmax(0, 0.62fr);
+  }
+
+  .site-ws-ticket__cover {
+    display: block;
+    align-self: center;
+    padding: 24px 24px 24px 0;
+  }
+}
+
+.site-ws-term {
+  margin-top: clamp(36px, 4vw, 56px);
+}
+
+.site-ws-term__title {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+  font-size: var(--fs-xsmall);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--blue-ink);
+}
+
+.site-ws-term__title span {
+  color: var(--ink-3);
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-weight: 500;
+}
+
+.site-ws-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 575px) {
+  .site-ws-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 992px) {
+  .site-ws-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .site-ws-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.site-ws-card > :is(a, div) {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 8px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-panel);
+  background: var(--paper-2);
+  color: inherit;
+  transition:
+    transform var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast);
+}
+
+.site-ws-card > a:hover {
+  transform: translateY(-3px);
+  border-color: var(--line-hi);
+}
+
+.site-ws-card__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 8px 8px;
+}
+
+.site-ws-card__date {
+  font-size: var(--fs-xsmall);
+  font-weight: 600;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--blue-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.site-ws-card__desc {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+
+.site-ws-card__meta {
+  font-size: 14px;
+  color: var(--ink-3);
+}
+
+.site-ws-card__cta {
+  margin-top: auto;
+  padding-top: 14px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.site-ws-card > a:hover .site-ws-card__cta {
+  color: var(--signal-ink);
+}
+
+.site-ws-card__cta.is-off {
+  font-weight: 500;
+  color: var(--ink-3);
+}
+
+@media (max-width: 574px) {
+  .site-ws-card > :is(a, div) {
+    display: grid;
+    grid-template-columns: 112px minmax(0, 1fr);
+    align-items: start;
+    gap: 4px;
+  }
+
+  .site-ws-card .site-ws-slide {
+    aspect-ratio: 1;
+  }
+
+  .site-ws-card .site-ws-slide img {
+    padding: 8%;
+  }
+
+  .site-ws-card__body {
+    height: 100%;
+    padding: 4px 6px 4px 10px;
+  }
+}
