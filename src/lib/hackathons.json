@@ -1,0 +1,6553 @@
+[
+ {
+  "id": "nebius-nvidia-global-2026",
+  "series": "nebius-nvidia-global",
+  "semester": "2026-fall",
+  "name": "Nebius × NVIDIA Global AI Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Nebius",
+   "short": "Nebius",
+   "logo": "/images/hackathons/hosts/nebius-com.png"
+  },
+  "city": "Online",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "online",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-08-26",
+   "end": "2026-10-30"
+  },
+  "application": "open",
+  "applicationNote": "Build and submit by October 30, 10 a.m. Pacific. Judging follows in December.",
+  "category": "AI + developer tools",
+  "description": "Online build challenge from Nebius with NVIDIA technologies. Create AI applications, agents or physical AI projects using Nebius infrastructure and NVIDIA open models. Calendar dates show the build and submission period.",
+  "eligibility": "Legal age of majority; individuals, teams and organizations, including eligible U.S. entrants. Location and conflict-of-interest exclusions apply.",
+  "cost": "Free entry; optional cloud credits offered",
+  "url": "https://nebiusglobalaihackathon.devpost.com/",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "timeZone": "America/Los_Angeles",
+  "endsAt": "2026-10-30T17:00:00Z"
+ },
+ {
+  "id": "alpaca-trading-agents-2026",
+  "series": "alpaca-trading-agents",
+  "semester": "2026-fall",
+  "name": "Alpaca AI Trading Agents Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Alpaca",
+   "short": "Alpaca",
+   "logo": "/images/hackathons/hosts/alpaca-markets.png"
+  },
+  "city": "Online",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "online",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-08-28",
+   "end": "2026-09-04"
+  },
+  "application": "closed",
+  "applicationNote": "Build period ended September 4.",
+  "category": "Fintech + algorithmic trading",
+  "description": "Online build week from Alpaca and lablab.ai for trading agents and applications. Projects use Alpaca's paper-trading environment and developer tools.",
+  "eligibility": "Ages 18+, worldwide subject to location and conflict-of-interest restrictions. See organizer rules.",
+  "cost": "Free entry; no purchase required",
+  "url": "https://lablab.ai/ai-hackathons/alpaca-ai-trading-agents-hackathon",
+  "checked": "2026-10-19",
+  "status": "announced"
+ },
+ {
+  "id": "amazon-developer-2026",
+  "series": "amazon-developer",
+  "semester": "2026-fall",
+  "name": "Build, Ship, Shape: Amazon Developer Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Amazon",
+   "short": "Amazon",
+   "logo": "/images/hackathons/hosts/amazon-com.ico"
+  },
+  "city": "Online",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "online",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-08-31",
+   "end": "2026-10-23"
+  },
+  "application": "open",
+  "applicationNote": "Submit by Oct 23, 12:00 p.m. Pacific.",
+  "category": "Devices + AI",
+  "description": "Global online build challenge hosted by Amazon. Create applications for Fire TV, Alexa+, Ring, or Bee, with optional AWS and open-source challenges.",
+  "eligibility": "U.S. residents and other eligible countries; legal age of majority. Country exclusions and the full rules apply.",
+  "cost": "See organizer; hardware is not required for every track.",
+  "url": "https://amazonappdev2026.devpost.com/",
+  "checked": "2026-10-18",
+  "status": "announced",
+  "timeZone": "America/Los_Angeles",
+  "endsAt": "2026-10-23T19:00:00Z"
+ },
+ {
+  "id": "assemblyai-voice-2026",
+  "series": "assemblyai-voice",
+  "semester": "2026-fall",
+  "name": "AssemblyAI Voice Agent Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "AssemblyAI",
+   "short": "AssemblyAI",
+   "logo": "/images/hackathons/hosts/assemblyai-com.ico"
+  },
+  "city": "Online",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "online",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-01",
+   "end": "2026-09-30"
+  },
+  "application": "closed",
+  "applicationNote": "Build period ended September 30.",
+  "category": "Voice AI",
+  "description": "Month-long online voice agent challenge run by AssemblyAI and lablab.ai. Build a working application with AssemblyAI's voice technology, with tutorials and community mentors.",
+  "eligibility": "Worldwide participation; beginners welcome. Personal email addresses accepted. Organizer terms apply.",
+  "cost": "Free entry",
+  "url": "https://lablab.ai/ai-hackathons/assemblyai-voice-agent-hackathon",
+  "checked": "2026-10-19",
+  "status": "announced"
+ },
+ {
+  "id": "hackcmu-2026-fall",
+  "series": "hackcmu",
+  "semester": "2026-fall",
+  "name": "HackCMU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Carnegie Mellon University",
+   "short": "CMU",
+   "logo": "/images/hackathons/hosts/cmu-edu.ico"
+  },
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-11",
+   "end": "2026-09-12"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour beginner-friendly hackathon hosted by ACM@CMU at Carnegie Mellon, with team projects, workshops, and mentors.",
+  "eligibility": "Current students; check organizer's campus eligibility rules",
+  "cost": "See organizer",
+  "url": "https://www.acmatcmu.com/hackcmu2026/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "ACM at CMU",
+   "short": "ACM",
+   "logo": "/images/hackathons/hosts/acmatcmu-com.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "hackrice-2026-fall",
+  "series": "hackrice",
+  "semester": "2026-fall",
+  "name": "HackRice",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rice University",
+   "short": "Rice",
+   "logo": "/images/hackathons/hosts/rice-edu.ico"
+  },
+  "city": "Houston",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-11",
+   "end": "2026-09-13"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by HackRice at Rice University. Teams build software and hardware projects together.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackrice.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "hophacks-2026-fall",
+  "series": "hophacks",
+  "semester": "2026-fall",
+  "name": "HopHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Johns Hopkins University",
+   "short": "JHU"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-18",
+   "end": "2026-09-20"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by HopHacks at Johns Hopkins. Open to undergraduate and graduate students, including beginners.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hophacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "vthacks-2026-fall",
+  "series": "vthacks",
+  "semester": "2026-fall",
+  "name": "VTHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Virginia Tech",
+   "short": "VT",
+   "logo": "/images/hackathons/hosts/vt-edu.ico"
+  },
+  "city": "Blacksburg",
+  "state": "VA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-18",
+   "end": "2026-09-20"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by VTHacks at Virginia Tech, combining project building with workshops.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://vthacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "hackmit-2026-fall",
+  "series": "hackmit",
+  "semester": "2026-fall",
+  "name": "HackMIT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Massachusetts Institute of Technology",
+   "short": "MIT",
+   "logo": "/images/hackathons/hosts/mit-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-19",
+   "end": "2026-09-20"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by HackMIT at MIT, bringing together builders for a weekend of projects and learning.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackmit.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "hackgt-2026-fall",
+  "series": "hackgt",
+  "semester": "2026-fall",
+  "name": "HackGT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgia Institute of Technology",
+   "short": "GT",
+   "logo": "/images/hackathons/hosts/gatech-edu.ico"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-25",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by HexLabs at Georgia Tech's Klaus Center. Welcomes different majors and experience levels.",
+  "eligibility": "Participants age 18+; see organizer",
+  "cost": "See organizer",
+  "url": "https://hack.gt/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "HexLabs",
+   "short": "HexLabs",
+   "logo": "/images/hackathons/hosts/hexlabs-org.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "ibm-bob-2026",
+  "series": "ibm-bob",
+  "semester": "2026-fall",
+  "name": "IBM Bob 2.0 Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "IBM",
+   "short": "IBM",
+   "logo": "/images/hackathons/hosts/ibm-com.ico"
+  },
+  "city": "Online",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "online",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-25",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Registration closed September 24; event ended September 27.",
+  "category": "Developer tools + AI",
+  "description": "48-hour online IBM Bob challenge on lablab.ai. Build a working prototype that improves a developer workflow, such as testing, code review or maintenance.",
+  "eligibility": "Individuals or teams interested in AI. Advance enrollment required for Bob access; organizer terms apply.",
+  "cost": "Free entry",
+  "url": "https://lablab.ai/ai-hackathons/ibm-bob-2-hackathon",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "timeZone": "America/New_York",
+  "endsAt": "2026-09-27T15:00:00Z"
+ },
+ {
+  "id": "shellhacks-2026-fall",
+  "series": "shellhacks",
+  "semester": "2026-fall",
+  "name": "ShellHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Florida International University",
+   "short": "FIU",
+   "logo": "/images/hackathons/hosts/fiu-edu.ico"
+  },
+  "city": "Miami",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-25",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour fall hackathon hosted by INIT FIU at Florida International University. Students build projects, attend workshops, and meet mentors.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://shellhacks.net/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "FIU Graham Center",
+  "club": {
+   "name": "INIT at FIU",
+   "short": "INIT",
+   "logo": "/images/hackathons/hosts/weareinit-org.svg"
+  },
+  "dsi": "UF DSI involvement in most years. Participation and bus arrangements vary by edition.",
+  "usually": "September"
+ },
+ {
+  "id": "tigerhacks-2026-fall",
+  "series": "tigerhacks",
+  "semester": "2026-fall",
+  "name": "TigerHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Missouri",
+   "short": "Mizzou",
+   "logo": "/images/hackathons/hosts/missouri-edu.ico"
+  },
+  "city": "Columbia",
+  "state": "MO",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-25",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by TigerHacks at the University of Missouri, with collaborative technology projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://tigerhacks.dev/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September 2026"
+ },
+ {
+  "id": "divhacks-2026-fall",
+  "series": "divhacks",
+  "semester": "2026-fall",
+  "name": "DivHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Columbia University",
+   "short": "Columbia"
+  },
+  "city": "New York",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-26",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "32-hour diversity hackathon run by Women in Computer Science at Columbia. Participants build solutions for community needs.",
+  "eligibility": "See organizer's participation and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://www.columbiadivhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Women in Computer Science at Columbia",
+   "short": "WiCS"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "owlhacks-2026-fall",
+  "series": "owlhacks",
+  "semester": "2026-fall",
+  "name": "OwlHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Temple University",
+   "short": "Temple",
+   "logo": "/images/hackathons/hosts/temple-edu.ico"
+  },
+  "city": "Philadelphia",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-26",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour student-organized hackathon at Temple University, with project building, workshops, and community activities.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.owlhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "hackumbc-2026-fall",
+  "series": "hackumbc",
+  "semester": "2026-fall",
+  "name": "hackUMBC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland, Baltimore County",
+   "short": "UMBC",
+   "logo": "/images/hackathons/hosts/umbc-edu.png"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-09-26",
+   "end": "2026-09-27"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour student-run hackathon at UMBC, with software and hardware projects, workshops, and mentors.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackumbc.tech/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "September"
+ },
+ {
+  "id": "bigredhacks-2026-fall",
+  "series": "bigredhacks",
+  "semester": "2026-fall",
+  "name": "BigRed//Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Cornell University",
+   "short": "Cornell",
+   "logo": "/images/hackathons/hosts/cornell-edu.png"
+  },
+  "city": "Ithaca",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-02",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "Weekend hackathon hosted by BigRed//Hacks at Cornell's Ithaca campus, with student teams and technical projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.bigredhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "gator-quant-hacks-2026-fall",
+  "series": "gator-quant-hacks",
+  "semester": "2026-fall",
+  "name": "Gator Quant Hacks",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-02",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Data science + AI",
+  "description": "36-hour quantitative finance hackathon hosted by Gator Quant Hacks at UF. Students build and test trading models in person.",
+  "eligibility": "Undergraduate and graduate students; check organizer requirements",
+  "cost": "See organizer",
+  "url": "https://www.gqhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Gator Quant",
+   "short": "GQ",
+   "logo": "/images/hackathons/hosts/gqhacks-com.png"
+  },
+  "usually": "October 2026"
+ },
+ {
+  "id": "girlhacks-2026-fall",
+  "series": "girlhacks",
+  "semester": "2026-fall",
+  "name": "GirlHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "New Jersey Institute of Technology",
+   "short": "NJIT",
+   "logo": "/images/hackathons/hosts/njit-edu.ico"
+  },
+  "city": "Newark",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-03",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "Hackathon hosted by Women in Computing Society at NJIT, supporting participation in technology through team projects.",
+  "eligibility": "Check organizer's eligibility and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://www.njitgirlhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Women in Computing Society at NJIT",
+   "short": "WiCS"
+  },
+  "usually": "October 2026"
+ },
+ {
+  "id": "hackdearborn-2026-fall",
+  "series": "hackdearborn",
+  "semester": "2026-fall",
+  "name": "Hack Dearborn",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan-Dearborn",
+   "short": "UM-D",
+   "logo": "/images/hackathons/hosts/umdearborn-edu.ico"
+  },
+  "city": "Dearborn",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-03",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by Google Developer Group on Campus at UM-Dearborn, with workshops and mentorship.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.hackdearborn.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Google Developer Group at UM-Dearborn",
+   "short": "GDG"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "mhacks-2026-fall",
+  "series": "mhacks",
+  "semester": "2026-fall",
+  "name": "MHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan",
+   "short": "UMich",
+   "logo": "/images/hackathons/hosts/umich-edu.ico"
+  },
+  "city": "Ann Arbor",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-03",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by MHacks at the University of Michigan, focused on engineering, design, and prototyping.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.mhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "supabase-select-2026",
+  "series": "supabase-select",
+  "semester": "2026-fall",
+  "name": "Supabase Select Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Supabase",
+   "short": "Supabase",
+   "logo": "/images/hackathons/hosts/supabase-com.png"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-03",
+   "end": "2026-10-03"
+  },
+  "application": "closed",
+  "applicationNote": "Registration closed September 28; event ended October 3.",
+  "category": "App development",
+  "description": "One-day builder hackathon hosted by Supabase and partners following the Select conference. Teams turn ideas into working projects.",
+  "eligibility": "Registration approval required; see organizer for participation rules.",
+  "cost": "See organizer",
+  "url": "https://hackathon.supabase.com/supabase-select-2026-hackathon",
+  "checked": "2026-10-18",
+  "status": "announced",
+  "timeZone": "America/Los_Angeles",
+  "endsAt": "2026-10-04T00:30:00Z"
+ },
+ {
+  "id": "wolfhacks-2026-fall",
+  "series": "wolfhacks",
+  "semester": "2026-fall",
+  "name": "WolfHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "North Carolina State University",
+   "short": "NCSU",
+   "logo": "/images/hackathons/hosts/ncsu-edu.png"
+  },
+  "city": "Raleigh",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-03",
+   "end": "2026-10-04"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by ACM at NC State in Duke Energy Hall. Separate from the spring Hack_NCState event; overnight stays are not permitted.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://wolfhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "ACM at NC State",
+   "short": "ACM"
+  },
+  "usually": "October 2026"
+ },
+ {
+  "id": "hackknight-2026-fall",
+  "series": "hackknight",
+  "semester": "2026-fall",
+  "name": "HackKnight",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Queens College, CUNY",
+   "short": "QC",
+   "logo": "/images/hackathons/hosts/qc-cuny-edu.jpg"
+  },
+  "city": "Flushing",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-09",
+   "end": "2026-10-11"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "48-hour student-run hackathon at Queens College, focused on collaborative technology projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackknight.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October 2026"
+ },
+ {
+  "id": "hacknc-2026-fall",
+  "series": "hacknc",
+  "semester": "2026-fall",
+  "name": "HackNC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Carolina at Chapel Hill",
+   "short": "UNC",
+   "logo": "/images/hackathons/hosts/unc-edu.png"
+  },
+  "city": "Chapel Hill",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-09",
+   "end": "2026-10-11"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by HackNC at UNC Chapel Hill. The weekend includes a 24-hour project challenge for all skill levels.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hacknc.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "knighthacks-2026-fall",
+  "series": "knighthacks",
+  "semester": "2026-fall",
+  "name": "Knight Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Central Florida",
+   "short": "UCF",
+   "logo": "/images/hackathons/hosts/ucf-edu.jpg"
+  },
+  "city": "Orlando",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-09",
+   "end": "2026-10-11"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "36-hour student hackathon hosted by Knight Hacks at UCF, with team projects, workshops, and mentorship.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://2026.knighthacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "hackru-2026-fall",
+  "series": "hackru",
+  "semester": "2026-fall",
+  "name": "HackRU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rutgers University",
+   "short": "Rutgers",
+   "logo": "/images/hackathons/hosts/rutgers-edu.ico"
+  },
+  "city": "Piscataway",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-10",
+   "end": "2026-10-11"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by HackRU at Rutgers' Busch Student Center, with software and hardware projects for beginners and experienced students.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.hackru.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "Fall; latest in October"
+ },
+ {
+  "id": "palmettohacks-2026-fall",
+  "series": "palmettohacks",
+  "semester": "2026-fall",
+  "name": "PalmettoHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of South Carolina",
+   "short": "USC",
+   "logo": "/images/hackathons/hosts/sc-edu.ico"
+  },
+  "city": "Columbia",
+  "state": "SC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-10",
+   "end": "2026-10-11"
+  },
+  "application": "closed",
+  "applicationNote": "Past edition",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by Kappa Theta Pi at the University of South Carolina. Teams develop projects with mentoring and workshops.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.palmettohacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Kappa Theta Pi",
+   "short": "KTP",
+   "logo": "/images/hackathons/hosts/kappathetapi-org.svg"
+  },
+  "usually": "October 2026"
+ },
+ {
+  "id": "amd-act-iii-2026",
+  "series": "amd-act-iii",
+  "semester": "2026-fall",
+  "name": "AMD Developer Hackathon: ACT III",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "AMD",
+   "short": "AMD"
+  },
+  "city": "Online + Rome, Milan and Imperia",
+  "state": "",
+  "country": "Worldwide",
+  "attendance": "hybrid",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-12",
+   "end": "2026-10-18"
+  },
+  "application": "closed",
+  "applicationNote": "Build week ended October 18; judging follows.",
+  "category": "AI build week + GPU engineering",
+  "description": "AMD and lablab.ai build week for AI agents and applications on cloud GPUs with ROCm. Online participation runs October 12–18; selected builders could attend the October 17–18 Italian hubs.",
+  "eligibility": "Developers worldwide, including beginners. AMD AI Developer Program account required; in-person attendance requires approval.",
+  "cost": "Free entry; travel and accommodation not covered",
+  "url": "https://lablab.ai/ai-hackathons/amd-developer-hackathon-act-iii",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "timeZone": "Europe/Rome"
+ },
+ {
+  "id": "hackharvard-2026-fall",
+  "series": "hackharvard",
+  "semester": "2026-fall",
+  "name": "HackHarvard",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Harvard University",
+   "short": "Harvard",
+   "logo": "/images/hackathons/hosts/harvard-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-16",
+   "end": "2026-10-18"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour undergraduate hackathon hosted by HackHarvard at Harvard University, bringing students together to build and learn.",
+  "eligibility": "Undergraduate students; see organizer for details",
+  "cost": "See organizer",
+  "url": "https://hhuh.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "swamphacks-2026",
+  "series": "swamphacks",
+  "semester": "2026-fall",
+  "name": "SwampHacks XII",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-16",
+   "end": "2026-10-18"
+  },
+  "application": "unknown",
+  "applicationNote": "See organizer for participation details",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by SwampHacks at the University of Florida. Workshops, mentorship, and team projects welcome students of all experience levels.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://xii.swamphacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "Reitz Union",
+  "usually": "January and October in 2026"
+ },
+ {
+  "id": "dubhacks-2026-fall",
+  "series": "dubhacks",
+  "semester": "2026-fall",
+  "name": "DubHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Washington",
+   "short": "UW",
+   "logo": "/images/hackathons/hosts/washington-edu.ico"
+  },
+  "city": "Seattle",
+  "state": "WA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-17",
+   "end": "2026-10-18"
+  },
+  "application": "closed",
+  "applicationNote": "2026 applications closed",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by DubHacks at the University of Washington, with student teams, mentorship, and workshops.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://dh26.dubhacks.co/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "hackgb-2026-fall",
+  "series": "hackgb",
+  "semester": "2026-fall",
+  "name": "HackGB",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Wisconsin-Green Bay",
+   "short": "UWGB",
+   "logo": "/images/hackathons/hosts/uwgb-edu.png"
+  },
+  "city": "Green Bay",
+  "state": "WI",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-17",
+   "end": "2026-10-18"
+  },
+  "application": "closed",
+  "applicationNote": "2026 applications closed",
+  "category": "Student hackathon",
+  "description": "24-hour collegiate hackathon hosted by GDG on Campus at UW-Green Bay's STEM Innovation Center, with workshops and team projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackgb.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Google Developer Group at UW-Green Bay",
+   "short": "GDG"
+  },
+  "usually": "October 2026"
+ },
+ {
+  "id": "la-hacks-ai-2026-fall",
+  "series": "la-hacks-ai",
+  "semester": "2026-fall",
+  "name": "LA Hacks AI Hackathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California Los Angeles",
+   "short": "UCLA",
+   "logo": "/images/hackathons/hosts/ucla-edu.png"
+  },
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-17",
+   "end": "2026-10-18"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Data science + AI",
+  "description": "AI hackathon hosted by LA Hacks at UCLA's James West Alumni Center. This is separate from LA Hacks' main spring event.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://ai.lahacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October 2026"
+ },
+ {
+  "id": "technica-2026-fall",
+  "series": "technica",
+  "semester": "2026-fall",
+  "name": "Technica",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland",
+   "short": "UMD",
+   "logo": "/images/hackathons/hosts/umd-edu.png"
+  },
+  "city": "Hyattsville",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "hybrid",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-17",
+   "end": "2026-10-18"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Hackathon celebrating underrepresented genders in tech, hosted by Technica at the University of Maryland. Attend at the College Park Marriott or virtually.",
+  "eligibility": "See organizer's inclusion and attendance policy",
+  "cost": "See organizer",
+  "url": "https://gotechnica.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "unf-ai4good-2026-fall",
+  "series": "unf-ai4good",
+  "semester": "2026-fall",
+  "name": "AI for Good Hackathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Florida",
+   "short": "UNF",
+   "logo": "/images/hackathons/hosts/unf-edu.ico"
+  },
+  "city": "Ponte Vedra",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-23",
+   "end": "2026-10-25"
+  },
+  "application": "open",
+  "applicationNote": "Registration closes October 23 at 1 PM",
+  "category": "Data science + AI",
+  "description": "48-hour AI hackathon organized by Florida Data Science for Social Good at UNF. Teams build solutions for community needs at The Link in Ponte Vedra.",
+  "eligibility": "Students from Florida and Georgia; see organizer requirements",
+  "cost": "See organizer",
+  "url": "https://dssg.unf.edu/ai4good/2026AI4GoodHackathon.html",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "calhacks-2026-fall",
+  "series": "calhacks",
+  "semester": "2026-fall",
+  "name": "Cal Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Berkeley",
+   "short": "UCB",
+   "logo": "/images/hackathons/hosts/berkeley-edu.svg"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-23",
+   "end": "2026-10-25"
+  },
+  "application": "closed",
+  "applicationNote": "Regular application deadline was September 20",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by Hackathons @ Berkeley. The 2026 venue is the Palace of Fine Arts in San Francisco.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.calhacks.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "gator-hack-2026-fall",
+  "series": "gator-hack",
+  "semester": "2026-fall",
+  "name": "Gator Hack",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-23",
+   "end": "2026-10-25"
+  },
+  "application": "link",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "48-hour hackathon hosted through UF AI Days at the University of Florida. Teams build AI solutions with mentorship and workshops.",
+  "eligibility": "Students across schools, majors, and experience levels",
+  "cost": "See organizer",
+  "url": "https://ufgatorhack.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "Newell Hall",
+  "usually": "October"
+ },
+ {
+  "id": "sbuhacks-2026-fall",
+  "series": "sbuhacks",
+  "semester": "2026-fall",
+  "name": "SBUHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Stony Brook University",
+   "short": "SBU",
+   "logo": "/images/hackathons/hosts/stonybrook-edu.png"
+  },
+  "city": "Stony Brook",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-23",
+   "end": "2026-10-25"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour student hackathon hosted by SBUHacks at Stony Brook University, with collaborative projects and learning opportunities.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hack.sbcs.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "uf-bayer-2026-fall",
+  "series": "uf-bayer",
+  "semester": "2026-fall",
+  "name": "UF–Bayer Hackathon",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-23",
+   "end": "2026-10-25"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Data science + AI",
+  "description": "Three-day interdisciplinary hackathon at UF with Bayer, focused on agriculture, life sciences, and digital technology. Teams work with phenotypic, genomic, and weather data.",
+  "eligibility": "UF graduate students and postdoctoral researchers",
+  "cost": "See organizer",
+  "url": "https://ai.research.ufl.edu/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October 2026"
+ },
+ {
+  "id": "duquantum-2026-fall",
+  "series": "duquantum",
+  "semester": "2026-fall",
+  "name": "DuQuantum",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Duke University",
+   "short": "Duke",
+   "logo": "/images/hackathons/hosts/duke-edu.png"
+  },
+  "city": "Durham",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-24",
+   "end": "2026-10-25"
+  },
+  "application": "closed",
+  "applicationNote": "2026 registrations closed",
+  "category": "Data science + AI",
+  "description": "24-hour quantum computing hackathon hosted by DuQuantum at Duke. Teams tackle industry challenges and receive introductory support.",
+  "eligibility": "Participants age 18+; see organizer",
+  "cost": "See organizer",
+  "url": "https://duquantum.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "DuQuantum",
+   "short": "DuQ",
+   "logo": "/images/hackathons/hosts/duquantum-org.svg"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackohio-2026-fall",
+  "series": "hackohio",
+  "semester": "2026-fall",
+  "name": "HackOHI/O",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "The Ohio State University",
+   "short": "OSU",
+   "logo": "/images/hackathons/hosts/osu-edu.ico"
+  },
+  "city": "Columbus",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "hybrid",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-24",
+   "end": "2026-10-25"
+  },
+  "application": "link",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by OHI/O at Ohio State. Participants work on technology projects at the Ohio Union or online.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hack.osu.edu/2026/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "OHI/O",
+   "short": "OHI/O",
+   "logo": "/images/hackathons/hosts/hack-osu-edu.png"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackpsu-2026-fall",
+  "series": "hackpsu",
+  "semester": "2026-fall",
+  "name": "HackPSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Pennsylvania State University",
+   "short": "PSU",
+   "logo": "/images/hackathons/hosts/psu-edu.ico"
+  },
+  "city": "University Park",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-24",
+   "end": "2026-10-25"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour collegiate hackathon hosted by HackPSU at Penn State, with workshops, speakers, and student projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackpsu.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "ECoRE Building",
+  "usually": "Spring and fall"
+ },
+ {
+  "id": "hacktx-2026-fall",
+  "series": "hacktx",
+  "semester": "2026-fall",
+  "name": "HackTX",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Austin",
+   "short": "UT",
+   "logo": "/images/hackathons/hosts/utexas-edu.png"
+  },
+  "city": "Austin",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-24",
+   "end": "2026-10-25"
+  },
+  "application": "closed",
+  "applicationNote": "Applications closed; organizer describes event-day walk-ins",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by Freetail Hackers at UT Austin. Students from different majors build projects and learn together.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hacktx.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Freetail Hackers",
+   "short": "Freetail",
+   "logo": "/images/hackathons/hosts/freetailhackers-com.ico"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "howdyhack-2026-fall",
+  "series": "howdyhack",
+  "semester": "2026-fall",
+  "name": "HowdyHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-24",
+   "end": "2026-10-25"
+  },
+  "application": "closed",
+  "applicationNote": "Registration deadline was October 11",
+  "category": "Student hackathon",
+  "description": "24-hour beginner-focused hackathon hosted by TAMUhack exclusively for Texas A&M students. The separate hardware track starts October 19; in-person hacking is October 24–25.",
+  "eligibility": "Texas A&M students only",
+  "cost": "See organizer",
+  "url": "https://hh26.tamuhack.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "October"
+ },
+ {
+  "id": "google-agents-atl-2026",
+  "series": "google-agents-atl",
+  "semester": "2026-fall",
+  "name": "Agents for Impact — Atlanta",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Google Cloud",
+   "short": "Google Cloud",
+   "logo": "/images/hackathons/hosts/cloud-google-com.png"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-10-27",
+   "end": "2026-10-27"
+  },
+  "application": "open",
+  "applicationNote": "Apply through Google Cloud. Organizer approval is required; no application deadline published.",
+  "category": "AI agents",
+  "description": "One-day AI agent hackathon hosted by Google Cloud, 8 a.m.–6 p.m. local time. Teams build solutions for social impact with technical guidance.",
+  "eligibility": "Coding, terminal, Git, SQL and Python familiarity expected. Limited space; registration approval required. Check full eligibility with Google.",
+  "cost": "See organizer",
+  "url": "https://cloud.google.com/events/agents-for-impact-atl",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "venue": "The Coca-Cola Roxy",
+  "timeZone": "America/New_York",
+  "endsAt": "2026-10-27T22:00:00Z"
+ },
+ {
+  "id": "vultr-agent-rush-2026",
+  "series": "vultr-agent-rush",
+  "semester": "2026-fall",
+  "name": "Vultr: Agent Rush Hackathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Vultr",
+   "short": "Vultr",
+   "logo": "/images/hackathons/hosts/vultr-com.ico"
+  },
+  "city": "Online + Salt Lake City",
+  "state": "UT",
+  "country": "Worldwide",
+  "attendance": "hybrid",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-03",
+   "end": "2026-11-08"
+  },
+  "application": "open",
+  "applicationNote": "Registration available. Detailed schedule and submission time TBA.",
+  "category": "AI agents + cloud engineering",
+  "description": "Build AI agents that execute tasks in isolated environments on Vultr. Hosted with lablab.ai, with an online build phase and an optional, approved November 8 showcase in Salt Lake City.",
+  "eligibility": "Online builders; check organizer rules. The in-person showcase requires separate approval.",
+  "cost": "Free entry; travel and accommodation not covered",
+  "url": "https://lablab.ai/ai-hackathons/vultr-hackathon",
+  "checked": "2026-10-19",
+  "status": "announced"
+ },
+ {
+  "id": "sharkbyte-2026-fall",
+  "series": "sharkbyte",
+  "semester": "2026-fall",
+  "name": "SharkByte",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Miami Dade College",
+   "short": "MDC",
+   "logo": "/images/hackathons/hosts/mdc-edu.ico"
+  },
+  "city": "Miami",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-06",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Three-day hackathon hosted by SharkByte at Miami Dade College, with technology projects, skills development, and collaboration.",
+  "eligibility": "See organizer",
+  "cost": "Free",
+  "url": "https://shark-byte.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November 2026"
+ },
+ {
+  "id": "ycphacks-2026-fall",
+  "series": "ycphacks",
+  "semester": "2026-fall",
+  "name": "YCP Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "York College of Pennsylvania",
+   "short": "YCP",
+   "logo": "/images/hackathons/hosts/ycp-edu.ico"
+  },
+  "city": "York",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-06",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Weekend student hackathon hosted by YCP Hacks at York College of Pennsylvania's Willman Business Center.",
+  "eligibility": "College students age 18+",
+  "cost": "See organizer",
+  "url": "https://ycphacks.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "hackrpi-2026-fall",
+  "series": "hackrpi",
+  "semester": "2026-fall",
+  "name": "HackRPI",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rensselaer Polytechnic Institute",
+   "short": "RPI",
+   "logo": "/images/hackathons/hosts/rpi-edu.png"
+  },
+  "city": "Troy",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by HackRPI at RPI's Darrin Communications Center. Students collaborate on technology projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackrpi.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "hackutd-2026-fall",
+  "series": "hackutd",
+  "semester": "2026-fall",
+  "name": "HackUTD",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Dallas",
+   "short": "UTD",
+   "logo": "/images/hackathons/hosts/utdallas-edu.png"
+  },
+  "city": "Richardson",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-08"
+  },
+  "application": "open",
+  "applicationNote": "See organizer for current application deadlines",
+  "category": "Student hackathon",
+  "description": "24-hour student hackathon hosted by HackUTD at UT Dallas, with technical challenges and mentorship.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://zeroday.hackutd.co/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "lpchacks-2026-fall",
+  "series": "lpchacks",
+  "semester": "2026-fall",
+  "name": "LPC Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Las Positas College",
+   "short": "LPC",
+   "logo": "/images/hackathons/hosts/laspositascollege-edu.png"
+  },
+  "city": "Livermore",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-07"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "10-hour hackathon hosted by LPC Hacks at Las Positas College. Teams build projects with mentoring and beginner-friendly support.",
+  "eligibility": "See organizer",
+  "cost": "Free",
+  "url": "https://lpchacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November 2026"
+ },
+ {
+  "id": "makeuc-2026-fall",
+  "series": "makeuc",
+  "semester": "2026-fall",
+  "name": "MakeUC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Cincinnati",
+   "short": "UC",
+   "logo": "/images/hackathons/hosts/uc-edu.png"
+  },
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "hybrid",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by IEEE at the University of Cincinnati, with in-person and online participation.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://makeuc.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "IEEE at Cincinnati",
+   "short": "IEEE"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "tamu-datathon-2026-fall",
+  "series": "tamu-datathon",
+  "semester": "2026-fall",
+  "name": "TAMU Datathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Data science + AI",
+  "description": "24-hour data science hackathon hosted by TAMU Datathon at Texas A&M, with datasets, workshops, and team challenges.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://tamudatathon.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "TAMU Datathon",
+   "short": "TD"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "ubhacking-2026-fall",
+  "series": "ubhacking",
+  "semester": "2026-fall",
+  "name": "UB Hacking",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University at Buffalo",
+   "short": "UB",
+   "logo": "/images/hackathons/hosts/buffalo-edu.ico"
+  },
+  "city": "Buffalo",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-07",
+   "end": "2026-11-08"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by UB Hacking at the University at Buffalo for student developers, designers, and builders.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://ubhacking.cse.buffalo.edu/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "emoryhacks-2026-fall",
+  "series": "emoryhacks",
+  "semester": "2026-fall",
+  "name": "Emory Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Emory University",
+   "short": "Emory",
+   "logo": "/images/hackathons/hosts/emory-edu.svg"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-13",
+   "end": "2026-11-15"
+  },
+  "application": "link",
+  "applicationNote": "Organizer lists conflicting deadlines; check before applying",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by Emory Hacks at Emory University, welcoming beginners and experienced developers.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://emoryhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "hackprinceton-2026-fall",
+  "series": "hackprinceton",
+  "semester": "2026-fall",
+  "name": "HackPrinceton",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Princeton University",
+   "short": "Princeton",
+   "logo": "/images/hackathons/hosts/princeton-edu.ico"
+  },
+  "city": "Princeton",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-13",
+   "end": "2026-11-15"
+  },
+  "application": "closed",
+  "applicationNote": "Applications closed September 28",
+  "category": "Student hackathon",
+  "description": "36-hour student hackathon hosted by HackPrinceton at Princeton University, with software and hardware projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.hackprinceton.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "Fall; latest in November"
+ },
+ {
+  "id": "hackumass-2026-fall",
+  "series": "hackumass",
+  "semester": "2026-fall",
+  "name": "HackUMass",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Massachusetts Amherst",
+   "short": "UMass",
+   "logo": "/images/hackathons/hosts/umass-edu.png"
+  },
+  "city": "Amherst",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-13",
+   "end": "2026-11-15"
+  },
+  "application": "link",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by HackUMass at UMass Amherst, with software and hardware projects across disciplines.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.hackumass.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "hackthenest-2026-fall",
+  "series": "hackthenest",
+  "semester": "2026-fall",
+  "name": "Hack The Nest",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Eastern Michigan University",
+   "short": "EMU"
+  },
+  "city": "Ypsilanti",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-14",
+   "end": "2026-11-15"
+  },
+  "application": "link",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by GDG at Eastern Michigan University, with mentors, workshops, and collaborative projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackthenest.tech/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Google Developer Group at Eastern Michigan",
+   "short": "GDG"
+  },
+  "usually": "November 2026"
+ },
+ {
+  "id": "hackuta-2026-fall",
+  "series": "hackuta",
+  "semester": "2026-fall",
+  "name": "HackUTA",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Arlington",
+   "short": "UTA",
+   "logo": "/images/hackathons/hosts/uta-edu.png"
+  },
+  "city": "Arlington",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-14",
+   "end": "2026-11-15"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by HackUTA at UT Arlington, with a weekend of collaborative project building.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.hackuta.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November 2026"
+ },
+ {
+  "id": "sunhacks-2026-fall",
+  "series": "sunhacks",
+  "semester": "2026-fall",
+  "name": "sunhacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Arizona State University",
+   "short": "ASU",
+   "logo": "/images/hackathons/hosts/asu-edu.ico"
+  },
+  "city": "Tempe",
+  "state": "AZ",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-14",
+   "end": "2026-11-15"
+  },
+  "application": "not-open",
+  "applicationNote": "Registration not open yet",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by sunhacks at Arizona State University's Student Pavilion. Exact hacking hours will be announced with the schedule.",
+  "eligibility": "Students over 18; see organizer",
+  "cost": "See organizer",
+  "url": "https://2026.sunhacks.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "google-agents-svl-2026",
+  "series": "google-agents-svl",
+  "semester": "2026-fall",
+  "name": "Agents for Impact — Sunnyvale",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Google Cloud",
+   "short": "Google Cloud",
+   "logo": "/images/hackathons/hosts/cloud-google-com.png"
+  },
+  "city": "Sunnyvale",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-17",
+   "end": "2026-11-17"
+  },
+  "application": "open",
+  "applicationNote": "Apply through Google Cloud. Organizer approval is required; no application deadline published.",
+  "category": "AI agents",
+  "description": "One-day AI agent hackathon hosted by Google Cloud, 8 a.m.–6 p.m. local time. Teams build solutions for social impact with technical guidance.",
+  "eligibility": "Coding, terminal, Git, SQL and Python familiarity expected. Limited space; registration approval required. Check full eligibility with Google.",
+  "cost": "See organizer",
+  "url": "https://cloud.google.com/events/agents-for-impact-svl",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "venue": "Google Event Center (MP7)",
+  "timeZone": "America/Los_Angeles",
+  "endsAt": "2026-11-18T02:00:00Z"
+ },
+ {
+  "id": "bostonhacks-2026-fall",
+  "series": "bostonhacks",
+  "semester": "2026-fall",
+  "name": "BostonHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Boston University",
+   "short": "BU",
+   "logo": "/images/hackathons/hosts/bu-edu.png"
+  },
+  "city": "Boston",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-21",
+   "end": "2026-11-22"
+  },
+  "application": "link",
+  "applicationNote": "Organizer's application button lists October 28",
+  "category": "Student hackathon",
+  "description": "24-hour student-run hackathon at Boston University, with beginner-friendly workshops and collaborative technology projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://bostonhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November"
+ },
+ {
+  "id": "whack-2026-fall",
+  "series": "whack",
+  "semester": "2026-fall",
+  "name": "WHACK",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Wellesley College",
+   "short": "Wellesley",
+   "logo": "/images/hackathons/hosts/wellesley-edu.png"
+  },
+  "city": "Wellesley",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-11-21",
+   "end": "2026-11-22"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by WHACK at Wellesley College, bringing participants together for a weekend of technology projects.",
+  "eligibility": "See organizer's eligibility and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://www.wellesleyhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "November 2026"
+ },
+ {
+  "id": "google-agents-nyc-2026",
+  "series": "google-agents-nyc",
+  "semester": "2026-fall",
+  "name": "Agents for Impact — New York",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Google Cloud",
+   "short": "Google Cloud",
+   "logo": "/images/hackathons/hosts/cloud-google-com.png"
+  },
+  "city": "New York",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2026-12-08",
+   "end": "2026-12-08"
+  },
+  "application": "open",
+  "applicationNote": "Apply through Google Cloud. Organizer approval is required; no application deadline published.",
+  "category": "AI agents",
+  "description": "One-day AI agent hackathon hosted by Google Cloud, 8 a.m.–6 p.m. local time. Teams build solutions for social impact with technical guidance.",
+  "eligibility": "Coding, terminal, Git, SQL and Python familiarity expected. Limited space; registration approval required. Check full eligibility with Google.",
+  "cost": "See organizer",
+  "url": "https://cloud.google.com/events/agents-for-impact-nyc",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "venue": "Google Pier 57",
+  "timeZone": "America/New_York",
+  "endsAt": "2026-12-08T23:00:00Z"
+ },
+ {
+  "id": "gatorai-promptathon-2026-fall",
+  "series": "gatorai-promptathon",
+  "semester": "2026-fall",
+  "name": "GatorAI Prompt-A-Thon",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "closed",
+  "applicationNote": "Past event · exact dates not published",
+  "category": "Data science + AI",
+  "description": "AI-assisted software development hackathon hosted by GatorAI at UF. UF's October recap places it in mid-September 2026; exact dates and duration were not published.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://eed.eng.ufl.edu/2026/10/06/gatorai-club-offers-learning-mentorship-competitions-and-even-bingo/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "GatorAI",
+   "short": "GatorAI"
+  },
+  "usually": "Mid-September 2026"
+ },
+ {
+  "id": "unf-ai4good-2027-fall",
+  "series": "unf-ai4good",
+  "semester": "2027-fall",
+  "name": "AI for Good Hackathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Florida",
+   "short": "UNF",
+   "logo": "/images/hackathons/hosts/unf-edu.ico"
+  },
+  "city": "Ponte Vedra",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 48-hour AI hackathon organized by Florida Data Science for Social Good at UNF.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://dssg.unf.edu/ai4good/2026AI4GoodHackathon.html",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "bigredhacks-2027-fall",
+  "series": "bigredhacks",
+  "semester": "2027-fall",
+  "name": "BigRed//Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Cornell University",
+   "short": "Cornell",
+   "logo": "/images/hackathons/hosts/cornell-edu.png"
+  },
+  "city": "Ithaca",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Weekend hackathon hosted by BigRed//Hacks at Cornell's Ithaca campus, with student teams and technical projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.bigredhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "bostonhacks-2027-fall",
+  "series": "bostonhacks",
+  "semester": "2027-fall",
+  "name": "BostonHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Boston University",
+   "short": "BU",
+   "logo": "/images/hackathons/hosts/bu-edu.png"
+  },
+  "city": "Boston",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-run hackathon at Boston University, with beginner-friendly workshops and collaborative technology projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://bostonhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "calhacks-2027-fall",
+  "series": "calhacks",
+  "semester": "2027-fall",
+  "name": "Cal Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Berkeley",
+   "short": "UCB",
+   "logo": "/images/hackathons/hosts/berkeley-edu.svg"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by Hackathons @ Berkeley.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.calhacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "divhacks-2027-fall",
+  "series": "divhacks",
+  "semester": "2027-fall",
+  "name": "DivHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Columbia University",
+   "short": "Columbia"
+  },
+  "city": "New York",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 32-hour diversity hackathon run by Women in Computer Science at Columbia.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.columbiadivhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Women in Computer Science at Columbia",
+   "short": "WiCS"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "duquantum-2027-fall",
+  "series": "duquantum",
+  "semester": "2027-fall",
+  "name": "DuQuantum",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Duke University",
+   "short": "Duke",
+   "logo": "/images/hackathons/hosts/duke-edu.png"
+  },
+  "city": "Durham",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 24-hour quantum computing hackathon hosted by DuQuantum at Duke.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://duquantum.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "DuQuantum",
+   "short": "DuQ",
+   "logo": "/images/hackathons/hosts/duquantum-org.svg"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "dubhacks-2027-fall",
+  "series": "dubhacks",
+  "semester": "2027-fall",
+  "name": "DubHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Washington",
+   "short": "UW",
+   "logo": "/images/hackathons/hosts/washington-edu.ico"
+  },
+  "city": "Seattle",
+  "state": "WA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by DubHacks at the University of Washington, with student teams, mentorship, and workshops.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://dh26.dubhacks.co/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "emoryhacks-2027-fall",
+  "series": "emoryhacks",
+  "semester": "2027-fall",
+  "name": "Emory Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Emory University",
+   "short": "Emory",
+   "logo": "/images/hackathons/hosts/emory-edu.svg"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by Emory Hacks at Emory University, welcoming beginners and experienced developers.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://emoryhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "gator-hack-2027-fall",
+  "series": "gator-hack",
+  "semester": "2027-fall",
+  "name": "Gator Hack",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 48-hour hackathon hosted through UF AI Days at the University of Florida.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ufgatorhack.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackdearborn-2027-fall",
+  "series": "hackdearborn",
+  "semester": "2027-fall",
+  "name": "Hack Dearborn",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan-Dearborn",
+   "short": "UM-D",
+   "logo": "/images/hackathons/hosts/umdearborn-edu.ico"
+  },
+  "city": "Dearborn",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Google Developer Group on Campus at UM-Dearborn, with workshops and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackdearborn.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Google Developer Group at UM-Dearborn",
+   "short": "GDG"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackcmu-2027-fall",
+  "series": "hackcmu",
+  "semester": "2027-fall",
+  "name": "HackCMU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Carnegie Mellon University",
+   "short": "CMU",
+   "logo": "/images/hackathons/hosts/cmu-edu.ico"
+  },
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour beginner-friendly hackathon hosted by ACM@CMU at Carnegie Mellon, with team projects, workshops, and mentors.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.acmatcmu.com/hackcmu2026/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ACM at CMU",
+   "short": "ACM",
+   "logo": "/images/hackathons/hosts/acmatcmu-com.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "hackgt-2027-fall",
+  "series": "hackgt",
+  "semester": "2027-fall",
+  "name": "HackGT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgia Institute of Technology",
+   "short": "GT",
+   "logo": "/images/hackathons/hosts/gatech-edu.ico"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HexLabs at Georgia Tech's Klaus Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.gt/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "HexLabs",
+   "short": "HexLabs",
+   "logo": "/images/hackathons/hosts/hexlabs-org.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "hackharvard-2027-fall",
+  "series": "hackharvard",
+  "semester": "2027-fall",
+  "name": "HackHarvard",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Harvard University",
+   "short": "Harvard",
+   "logo": "/images/hackathons/hosts/harvard-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour undergraduate hackathon hosted by HackHarvard at Harvard University, bringing students together to build and learn.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hhuh.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackmit-2027-fall",
+  "series": "hackmit",
+  "semester": "2027-fall",
+  "name": "HackMIT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Massachusetts Institute of Technology",
+   "short": "MIT",
+   "logo": "/images/hackathons/hosts/mit-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by HackMIT at MIT, bringing together builders for a weekend of projects and learning.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackmit.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "hacknc-2027-fall",
+  "series": "hacknc",
+  "semester": "2027-fall",
+  "name": "HackNC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Carolina at Chapel Hill",
+   "short": "UNC",
+   "logo": "/images/hackathons/hosts/unc-edu.png"
+  },
+  "city": "Chapel Hill",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by HackNC at UNC Chapel Hill.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hacknc.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackohio-2027-fall",
+  "series": "hackohio",
+  "semester": "2027-fall",
+  "name": "HackOHI/O",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "The Ohio State University",
+   "short": "OSU",
+   "logo": "/images/hackathons/hosts/osu-edu.ico"
+  },
+  "city": "Columbus",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by OHI/O at Ohio State.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.osu.edu/2026/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "OHI/O",
+   "short": "OHI/O",
+   "logo": "/images/hackathons/hosts/hack-osu-edu.png"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackpsu-2027-fall",
+  "series": "hackpsu",
+  "semester": "2027-fall",
+  "name": "HackPSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Pennsylvania State University",
+   "short": "PSU",
+   "logo": "/images/hackathons/hosts/psu-edu.ico"
+  },
+  "city": "University Park",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour collegiate hackathon hosted by HackPSU at Penn State, with workshops, speakers, and student projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackpsu.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring and fall"
+ },
+ {
+  "id": "hackprinceton-2027-fall",
+  "series": "hackprinceton",
+  "semester": "2027-fall",
+  "name": "HackPrinceton",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Princeton University",
+   "short": "Princeton",
+   "logo": "/images/hackathons/hosts/princeton-edu.ico"
+  },
+  "city": "Princeton",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by HackPrinceton at Princeton University, with software and hardware projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackprinceton.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Fall; latest in November"
+ },
+ {
+  "id": "hackrpi-2027-fall",
+  "series": "hackrpi",
+  "semester": "2027-fall",
+  "name": "HackRPI",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rensselaer Polytechnic Institute",
+   "short": "RPI",
+   "logo": "/images/hackathons/hosts/rpi-edu.png"
+  },
+  "city": "Troy",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by HackRPI at RPI's Darrin Communications Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackrpi.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackru-2027-fall",
+  "series": "hackru",
+  "semester": "2027-fall",
+  "name": "HackRU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rutgers University",
+   "short": "Rutgers",
+   "logo": "/images/hackathons/hosts/rutgers-edu.ico"
+  },
+  "city": "Piscataway",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by HackRU at Rutgers' Busch Student Center, with software and hardware projects for beginners and experienced students.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackru.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Fall; latest in October"
+ },
+ {
+  "id": "hackrice-2027-fall",
+  "series": "hackrice",
+  "semester": "2027-fall",
+  "name": "HackRice",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rice University",
+   "short": "Rice",
+   "logo": "/images/hackathons/hosts/rice-edu.ico"
+  },
+  "city": "Houston",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HackRice at Rice University.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackrice.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "hacktx-2027-fall",
+  "series": "hacktx",
+  "semester": "2027-fall",
+  "name": "HackTX",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Austin",
+   "short": "UT",
+   "logo": "/images/hackathons/hosts/utexas-edu.png"
+  },
+  "city": "Austin",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Freetail Hackers at UT Austin.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hacktx.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Freetail Hackers",
+   "short": "Freetail",
+   "logo": "/images/hackathons/hosts/freetailhackers-com.ico"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackumass-2027-fall",
+  "series": "hackumass",
+  "semester": "2027-fall",
+  "name": "HackUMass",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Massachusetts Amherst",
+   "short": "UMass",
+   "logo": "/images/hackathons/hosts/umass-edu.png"
+  },
+  "city": "Amherst",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HackUMass at UMass Amherst, with software and hardware projects across disciplines.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackumass.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackutd-2027-fall",
+  "series": "hackutd",
+  "semester": "2027-fall",
+  "name": "HackUTD",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Dallas",
+   "short": "UTD",
+   "logo": "/images/hackathons/hosts/utdallas-edu.png"
+  },
+  "city": "Richardson",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student hackathon hosted by HackUTD at UT Dallas, with technical challenges and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://zeroday.hackutd.co/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hophacks-2027-fall",
+  "series": "hophacks",
+  "semester": "2027-fall",
+  "name": "HopHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Johns Hopkins University",
+   "short": "JHU"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HopHacks at Johns Hopkins.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hophacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "howdyhack-2027-fall",
+  "series": "howdyhack",
+  "semester": "2027-fall",
+  "name": "HowdyHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour beginner-focused hackathon hosted by TAMUhack exclusively for Texas A&M students.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hh26.tamuhack.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "knighthacks-2027-fall",
+  "series": "knighthacks",
+  "semester": "2027-fall",
+  "name": "Knight Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Central Florida",
+   "short": "UCF",
+   "logo": "/images/hackathons/hosts/ucf-edu.jpg"
+  },
+  "city": "Orlando",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by Knight Hacks at UCF, with team projects, workshops, and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://2026.knighthacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "mhacks-2027-fall",
+  "series": "mhacks",
+  "semester": "2027-fall",
+  "name": "MHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan",
+   "short": "UMich",
+   "logo": "/images/hackathons/hosts/umich-edu.ico"
+  },
+  "city": "Ann Arbor",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by MHacks at the University of Michigan, focused on engineering, design, and prototyping.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.mhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "makeuc-2027-fall",
+  "series": "makeuc",
+  "semester": "2027-fall",
+  "name": "MakeUC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Cincinnati",
+   "short": "UC",
+   "logo": "/images/hackathons/hosts/uc-edu.png"
+  },
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by IEEE at the University of Cincinnati, with in-person and online participation.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://makeuc.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "IEEE at Cincinnati",
+   "short": "IEEE"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "owlhacks-2027-fall",
+  "series": "owlhacks",
+  "semester": "2027-fall",
+  "name": "OwlHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Temple University",
+   "short": "Temple",
+   "logo": "/images/hackathons/hosts/temple-edu.ico"
+  },
+  "city": "Philadelphia",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-organized hackathon at Temple University, with project building, workshops, and community activities.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.owlhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "sbuhacks-2027-fall",
+  "series": "sbuhacks",
+  "semester": "2027-fall",
+  "name": "SBUHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Stony Brook University",
+   "short": "SBU",
+   "logo": "/images/hackathons/hosts/stonybrook-edu.png"
+  },
+  "city": "Stony Brook",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by SBUHacks at Stony Brook University, with collaborative projects and learning opportunities.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.sbcs.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "shellhacks-2027",
+  "series": "shellhacks",
+  "semester": "2027-fall",
+  "name": "ShellHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Florida International University",
+   "short": "FIU",
+   "logo": "/images/hackathons/hosts/fiu-edu.ico"
+  },
+  "city": "Miami",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "2027 details not announced",
+  "category": "Student hackathon",
+  "description": "36-hour fall hackathon hosted annually by INIT FIU at Florida International University.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://shellhacks.net/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "INIT at FIU",
+   "short": "INIT",
+   "logo": "/images/hackathons/hosts/weareinit-org.svg"
+  },
+  "dsi": "UF DSI involvement in most years. CISE bus support noted in the design; arrangements for this edition TBA.",
+  "usually": "September"
+ },
+ {
+  "id": "tamu-datathon-2027-fall",
+  "series": "tamu-datathon",
+  "semester": "2027-fall",
+  "name": "TAMU Datathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 24-hour data science hackathon hosted by TAMU Datathon at Texas A&M, with datasets, workshops, and team challenges.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tamudatathon.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "TAMU Datathon",
+   "short": "TD"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "technica-2027-fall",
+  "series": "technica",
+  "semester": "2027-fall",
+  "name": "Technica",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland",
+   "short": "UMD",
+   "logo": "/images/hackathons/hosts/umd-edu.png"
+  },
+  "city": "Hyattsville",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Hackathon celebrating underrepresented genders in tech, hosted by Technica at the University of Maryland.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://gotechnica.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "ubhacking-2027-fall",
+  "series": "ubhacking",
+  "semester": "2027-fall",
+  "name": "UB Hacking",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University at Buffalo",
+   "short": "UB",
+   "logo": "/images/hackathons/hosts/buffalo-edu.ico"
+  },
+  "city": "Buffalo",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by UB Hacking at the University at Buffalo for student developers, designers, and builders.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ubhacking.cse.buffalo.edu/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "vthacks-2027-fall",
+  "series": "vthacks",
+  "semester": "2027-fall",
+  "name": "VTHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Virginia Tech",
+   "short": "VT",
+   "logo": "/images/hackathons/hosts/vt-edu.ico"
+  },
+  "city": "Blacksburg",
+  "state": "VA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by VTHacks at Virginia Tech, combining project building with workshops.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://vthacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "ycphacks-2027-fall",
+  "series": "ycphacks",
+  "semester": "2027-fall",
+  "name": "YCP Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "York College of Pennsylvania",
+   "short": "YCP",
+   "logo": "/images/hackathons/hosts/ycp-edu.ico"
+  },
+  "city": "York",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Weekend student hackathon hosted by YCP Hacks at York College of Pennsylvania's Willman Business Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ycphacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackumbc-2027-fall",
+  "series": "hackumbc",
+  "semester": "2027-fall",
+  "name": "hackUMBC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland, Baltimore County",
+   "short": "UMBC",
+   "logo": "/images/hackathons/hosts/umbc-edu.png"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-run hackathon at UMBC, with software and hardware projects, workshops, and mentors.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackumbc.tech/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "sunhacks-2027-fall",
+  "series": "sunhacks",
+  "semester": "2027-fall",
+  "name": "sunhacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Arizona State University",
+   "short": "ASU",
+   "logo": "/images/hackathons/hosts/asu-edu.ico"
+  },
+  "city": "Tempe",
+  "state": "AZ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by sunhacks at Arizona State University's Student Pavilion.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://2026.sunhacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "boilermake-2027-spring",
+  "series": "boilermake",
+  "semester": "2027-spring",
+  "name": "BoilerMake",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Purdue University",
+   "short": "Purdue",
+   "logo": "/images/hackathons/hosts/purdue-edu.png"
+  },
+  "city": "West Lafayette",
+  "state": "IN",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-01-22",
+   "end": "2027-01-24"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by BoilerMake at Purdue, with technology projects, workshops, and mentoring.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://boilermake.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "January"
+ },
+ {
+  "id": "hoyahacks-2027-spring",
+  "series": "hoyahacks",
+  "semester": "2027-spring",
+  "name": "Hoya Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgetown University",
+   "short": "GU",
+   "logo": "/images/hackathons/hosts/georgetown-edu.png"
+  },
+  "city": "Washington",
+  "state": "DC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-01-22",
+   "end": "2027-01-24"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by Hoya Hacks at Georgetown University, with collaborative coding and student innovation.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hoyahacks.georgetown.domains/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "January"
+ },
+ {
+  "id": "hack-at-brown-2027",
+  "series": "hack-at-brown",
+  "semester": "2027-spring",
+  "name": "Hack@Brown",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Brown University",
+   "short": "Brown",
+   "logo": "/images/hackathons/hosts/brown-edu.png"
+  },
+  "city": "Providence",
+  "state": "RI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-06",
+   "end": "2027-02-07"
+  },
+  "application": "not-open",
+  "applicationNote": "Application updates available",
+  "category": "Student hackathon",
+  "description": "A weekend of building and learning hosted by Hack@Brown at Brown University. Sign up for notification when hacker applications open.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackatbrown.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "hack-ncstate-2027-spring",
+  "series": "hack-ncstate",
+  "semester": "2027-spring",
+  "name": "Hack_NCState",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "North Carolina State University",
+   "short": "NCSU",
+   "logo": "/images/hackathons/hosts/ncsu-edu.png"
+  },
+  "city": "Raleigh",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-06",
+   "end": "2027-02-07"
+  },
+  "application": "open",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by the Hack_NCState Planning Committee at NC State's Talley Student Union.",
+  "eligibility": "University students; students from other universities welcome",
+  "cost": "Free",
+  "url": "https://hackncstate.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "innovateher-2027-spring",
+  "series": "innovateher",
+  "semester": "2027-spring",
+  "name": "InnovateHer",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Purdue University",
+   "short": "Purdue",
+   "logo": "/images/hackathons/hosts/purdue-edu.png"
+  },
+  "city": "West Lafayette",
+  "state": "IN",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-06",
+   "end": "2027-02-07"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Women-centric hackathon hosted by InnovateHer at Purdue. The event features 24 hours of coding, design, and prototyping; venue TBA.",
+  "eligibility": "See organizer's eligibility and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://innovateherhacks.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "spartahack-2027-spring",
+  "series": "spartahack",
+  "semester": "2027-spring",
+  "name": "SpartaHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Michigan State University",
+   "short": "MSU",
+   "logo": "/images/hackathons/hosts/msu-edu.ico"
+  },
+  "city": "East Lansing",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-06",
+   "end": "2027-02-07"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by SpartaHack at Michigan State University, focused on learning and building student projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.spartahack.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "treehacks-2027",
+  "series": "treehacks",
+  "semester": "2027-spring",
+  "name": "TreeHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Stanford University",
+   "short": "Stanford",
+   "logo": "/images/hackathons/hosts/stanford-edu.ico"
+  },
+  "city": "Stanford",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-12",
+   "end": "2027-02-14"
+  },
+  "application": "open",
+  "applicationNote": "Deadline: see organizer",
+  "category": "Student hackathon",
+  "description": "36-hour hackathon hosted by TreeHacks at Stanford. Free for admitted hackers; travel support has regional caps.",
+  "eligibility": "Enrolled college students",
+  "cost": "Free for admitted hackers",
+  "url": "https://treehacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "hackusu-2027-spring",
+  "series": "hackusu",
+  "semester": "2027-spring",
+  "name": "HackUSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Utah State University",
+   "short": "USU",
+   "logo": "/images/hackathons/hosts/usu-edu.ico"
+  },
+  "city": "Logan",
+  "state": "UT",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-19",
+   "end": "2027-02-20"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour innovation challenge hosted at Utah State's Huntsman Hall. Participants work on cases and technical projects with workshops and mentors.",
+  "eligibility": "High school, technical college, and university students",
+  "cost": "See organizer",
+  "url": "https://huntsman.usu.edu/hackusu/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "sfhacks-2027-spring",
+  "series": "sfhacks",
+  "semester": "2027-spring",
+  "name": "SF Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "San Francisco State University",
+   "short": "SFSU",
+   "logo": "/images/hackathons/hosts/sfsu-edu.ico"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-19",
+   "end": "2027-02-21"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "36-hour student-run hackathon at San Francisco State University, with project building, mentors, and workshops.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.sfhacks.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February"
+ },
+ {
+  "id": "cuhackit-2027-spring",
+  "series": "cuhackit",
+  "semester": "2027-spring",
+  "name": "CUhackit",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Clemson University",
+   "short": "Clemson",
+   "logo": "/images/hackathons/hosts/clemson-edu.ico"
+  },
+  "city": "Clemson",
+  "state": "SC",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-20",
+   "end": "2027-02-21"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by CUhackit at Clemson University, with collaborative technology projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://cuhack.it/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "February 2027"
+ },
+ {
+  "id": "hacklytics-2027",
+  "series": "hacklytics",
+  "semester": "2027-spring",
+  "name": "Hacklytics",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgia Institute of Technology",
+   "short": "GT",
+   "logo": "/images/hackathons/hosts/gatech-edu.ico"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-02-26",
+   "end": "2027-02-28"
+  },
+  "application": "not-open",
+  "applicationNote": "Deadline not announced",
+  "category": "Data science + AI",
+  "description": "36 hours of data science and AI, hosted by Data Science @ GT at Georgia Tech. Free; university students 18+; teams up to 4.",
+  "eligibility": "University students, 18+",
+  "cost": "Free",
+  "url": "https://hacklytics.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "Klaus Advanced Computing Building",
+  "club": {
+   "name": "Data Science at Georgia Tech",
+   "short": "DSGT",
+   "logo": "/images/hackathons/hosts/datasciencegt-org.ico"
+  },
+  "dsi": "UF DSI involvement in most years. Bus provided by the CLAS department.",
+  "usually": "February"
+ },
+ {
+  "id": "henhacks-2027",
+  "series": "henhacks",
+  "semester": "2027-spring",
+  "name": "HenHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Delaware",
+   "short": "UD",
+   "logo": "/images/hackathons/hosts/udel-edu.png"
+  },
+  "city": "Newark",
+  "state": "DE",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-03-06",
+   "end": "2027-03-07"
+  },
+  "application": "interest",
+  "applicationNote": "Registration coming soon",
+  "category": "Student hackathon",
+  "description": "A beginner-friendly hackathon hosted by HenHacks at the University of Delaware. Open to college students of every major.",
+  "eligibility": "College students of any major",
+  "cost": "See organizer",
+  "url": "https://www.henhackshackathon.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "March"
+ },
+ {
+  "id": "kenthackenough-2027-spring",
+  "series": "kenthackenough",
+  "semester": "2027-spring",
+  "name": "Kent Hack Enough",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Kent State University",
+   "short": "KSU",
+   "logo": "/images/hackathons/hosts/kent-edu.ico"
+  },
+  "city": "Kent",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-03-06",
+   "end": "2027-03-07"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by Kent Hack Enough at Kent State's Design Innovation Hub, with workshops and team projects.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://khe.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "March"
+ },
+ {
+  "id": "diamondhacks-2027",
+  "series": "diamondhacks",
+  "semester": "2027-spring",
+  "name": "DiamondHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California San Diego",
+   "short": "UCSD",
+   "logo": "/images/hackathons/hosts/ucsd-edu.ico"
+  },
+  "city": "La Jolla",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "confirmed",
+   "start": "2027-04-03",
+   "end": "2027-04-04"
+  },
+  "application": "interest",
+  "applicationNote": "Deadline: see organizer",
+  "category": "Student hackathon",
+  "description": "36-hour event hosted by ACM at UC San Diego. Undergraduate students welcome.",
+  "eligibility": "Undergraduate students",
+  "cost": "See organizer",
+  "url": "https://diamondhacks.acmucsd.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "ACM at UC San Diego",
+   "short": "ACM",
+   "logo": "/images/hackathons/hosts/acmucsd-com.ico"
+  },
+  "usually": "April"
+ },
+ {
+  "id": "citadel-womens-datathon-2027",
+  "series": "citadel-womens-datathon",
+  "semester": "2027-spring",
+  "name": "Citadel Women's Datathon",
+  "hostType": "industry",
+  "atUF": false,
+  "host": {
+   "name": "Citadel",
+   "short": "Citadel"
+  },
+  "city": "Miami",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "open",
+  "applicationNote": "Apply by January 11, 2027. Exact event dates TBA.",
+  "category": "Quant + data science",
+  "description": "Team-based data science competition from Citadel, with applications administered through Correlation One. Announced for early February 2027 in Miami; exact dates and duration are not published.",
+  "eligibility": "Undergraduates aged 18+ at U.S. or Canadian universities, graduating December 2027–June 2029. Selection and program terms apply.",
+  "cost": "See organizer",
+  "url": "https://www.citadel.com/careers/programs-and-events/datathons/",
+  "checked": "2026-10-19",
+  "status": "announced",
+  "timeZone": "America/New_York"
+ },
+ {
+  "id": "cruzhacks-2027-spring",
+  "series": "cruzhacks",
+  "semester": "2027-spring",
+  "name": "CruzHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Santa Cruz",
+   "short": "UCSC",
+   "logo": "/images/hackathons/hosts/ucsc-edu.ico"
+  },
+  "city": "Santa Cruz",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by CruzHacks at UC Santa Cruz. The organizer's 2026 FAQ lists January 16–18; next-edition dates remain TBA.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://cruzhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; month varies"
+ },
+ {
+  "id": "eaglehacks-2027-spring",
+  "series": "eaglehacks",
+  "semester": "2027-spring",
+  "name": "EagleHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Florida Gulf Coast University",
+   "short": "FGCU",
+   "logo": "/images/hackathons/hosts/fgcu-edu.png"
+  },
+  "city": "Fort Myers",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "36-hour student hackathon hosted by CSSEC at Florida Gulf Coast University. The last verified edition was March 27–29, 2026.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.eaglehacks2026.dev/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "March"
+ },
+ {
+  "id": "hackdavis-2027-spring",
+  "series": "hackdavis",
+  "semester": "2027-spring",
+  "name": "HackDavis",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Davis",
+   "short": "UCD",
+   "logo": "/images/hackathons/hosts/ucdavis-edu.png"
+  },
+  "city": "Davis",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by HackDavis at UC Davis. The 2026 event ran May 9–10; the organizer is recruiting 2027 directors, with next-edition dates TBA.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackdavis.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; latest in May"
+ },
+ {
+  "id": "hackhers-2027-spring",
+  "series": "hackhers",
+  "semester": "2027-spring",
+  "name": "HackHERS",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rutgers University",
+   "short": "Rutgers",
+   "logo": "/images/hackathons/hosts/rutgers-edu.ico"
+  },
+  "city": "New Brunswick",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by Rutgers Women in Computer Science. The organizer's site has mixed older schedule information; the next edition's dates remain TBA.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ruhackhers.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Rutgers Women in Computer Science",
+   "short": "WiCS"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "hackillinois-2027",
+  "series": "hackillinois",
+  "semester": "2027-spring",
+  "name": "HackIllinois",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Illinois Urbana-Champaign",
+   "short": "UIUC",
+   "logo": "/images/hackathons/hosts/illinois-edu.png"
+  },
+  "city": "Urbana-Champaign",
+  "state": "IL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "interest",
+  "applicationNote": "Deadline: see organizer",
+  "category": "Student hackathon",
+  "description": "A student hackathon at the University of Illinois Urbana-Champaign. Interest form available; exact 2027 dates are not published.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://hackillinois.org/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "Late winter / early spring"
+ },
+ {
+  "id": "hackpsu-2027-spring",
+  "series": "hackpsu",
+  "semester": "2027-spring",
+  "name": "HackPSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Pennsylvania State University",
+   "short": "PSU",
+   "logo": "/images/hackathons/hosts/psu-edu.ico"
+  },
+  "city": "University Park",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour collegiate hackathon hosted by HackPSU at Penn State, with workshops, speakers, and student projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackpsu.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring and fall"
+ },
+ {
+  "id": "irvinehacks-2027-spring",
+  "series": "irvinehacks",
+  "semester": "2027-spring",
+  "name": "IrvineHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Irvine",
+   "short": "UCI",
+   "logo": "/images/hackathons/hosts/uci-edu.ico"
+  },
+  "city": "Irvine",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by IrvineHacks at UC Irvine. The last verified edition ran February 27–March 1, 2026, with daytime in-person activities.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://irvinehacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February / March"
+ },
+ {
+  "id": "la-hacks-2027",
+  "series": "la-hacks",
+  "semester": "2027-spring",
+  "name": "LA Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California Los Angeles",
+   "short": "UCLA",
+   "logo": "/images/hackathons/hosts/ucla-edu.png"
+  },
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "link",
+  "applicationNote": "Deadline: see organizer",
+  "category": "Student hackathon",
+  "description": "36-hour student hackathon hosted by LA Hacks at UCLA. Free to attend; exact weekend to be announced.",
+  "eligibility": "See organizer",
+  "cost": "Free",
+  "url": "https://www.lahacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "venue": "Pauley Pavilion",
+  "usually": "April"
+ },
+ {
+  "id": "qwerhacks-2027-spring",
+  "series": "qwerhacks",
+  "semester": "2027-spring",
+  "name": "QWER Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California Los Angeles",
+   "short": "UCLA",
+   "logo": "/images/hackathons/hosts/ucla-edu.png"
+  },
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "LGBTQIA+ focused student hackathon hosted by QWER Hacks at UCLA. A 2027 edition is advertised, but conflicting date listings need clarification before an exact weekend is shown.",
+  "eligibility": "See organizer's eligibility and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://www.qwerhacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "Winter / early spring"
+ },
+ {
+  "id": "revolutionuc-2027-spring",
+  "series": "revolutionuc",
+  "semester": "2027-spring",
+  "name": "RevolutionUC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Cincinnati",
+   "short": "UC",
+   "logo": "/images/hackathons/hosts/uc-edu.png"
+  },
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour student hackathon hosted by ACM@UC at the University of Cincinnati. The organizer announces Spring 2027 but has not published exact dates.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://www.revolutionuc.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "ACM at Cincinnati",
+   "short": "ACM"
+  },
+  "usually": "Spring"
+ },
+ {
+  "id": "tamuhack-2027-spring",
+  "series": "tamuhack",
+  "semester": "2027-spring",
+  "name": "TAMUhack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by TAMUhack at Texas A&M. The previous main edition ran January 24–25, 2026; next-edition details are unannounced.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tamuhack.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "January"
+ },
+ {
+  "id": "tartanhacks-2027-spring",
+  "series": "tartanhacks",
+  "semester": "2027-spring",
+  "name": "TartanHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Carnegie Mellon University",
+   "short": "CMU",
+   "logo": "/images/hackathons/hosts/cmu-edu.ico"
+  },
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "24-hour hackathon hosted by ScottyLabs at Carnegie Mellon University. The last edition's organizer materials reference February 2026; 2027 dates are unannounced.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tartanhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ScottyLabs",
+   "short": "ScottyLabs",
+   "logo": "/images/hackathons/hosts/scottylabs-org.ico"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "ugahacks-2027-spring",
+  "series": "ugahacks",
+  "semester": "2027-spring",
+  "name": "UGAHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Georgia",
+   "short": "UGA",
+   "logo": "/images/hackathons/hosts/uga-edu.ico"
+  },
+  "city": "Athens",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "Student-run hackathon hosted by UGAHacks at the University of Georgia. The twelfth edition's exact dates remain TBA in this catalog until verified on the organizer page.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://12.ugahacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "usually": "Winter / early spring"
+ },
+ {
+  "id": "uncommonhacks-2027-spring",
+  "series": "uncommonhacks",
+  "semester": "2027-spring",
+  "name": "Uncommon Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Chicago",
+   "short": "UChicago",
+   "logo": "/images/hackathons/hosts/uchicago-edu.ico"
+  },
+  "city": "Chicago",
+  "state": "IL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Student hackathon hosted by Uncommon Hacks at the University of Chicago. The latest verified edition ran May 16–17, 2026.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://uncommonhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; latest in May"
+ },
+ {
+  "id": "wehack-2027-spring",
+  "series": "wehack",
+  "semester": "2027-spring",
+  "name": "WEHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Dallas",
+   "short": "UTD",
+   "logo": "/images/hackathons/hosts/utdallas-edu.png"
+  },
+  "city": "Richardson",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Hackathon hosted by WEHack at UT Dallas, supporting women and nonbinary students in technology. The official site still describes April 11–12, 2026; 2027 dates are TBA.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.wehackutd.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "April"
+ },
+ {
+  "id": "wichacks-2027-spring",
+  "series": "wichacks",
+  "semester": "2027-spring",
+  "name": "WiCHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rochester Institute of Technology",
+   "short": "RIT",
+   "logo": "/images/hackathons/hosts/rit-edu.png"
+  },
+  "city": "Rochester",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "in-person",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Check the organizer for current details",
+  "category": "Student hackathon",
+  "description": "24-hour collaborative programming event hosted by Women in Computing at RIT. The official countdown points to February 2027; a complete date range is not yet verified.",
+  "eligibility": "See organizer's eligibility and inclusion policy",
+  "cost": "See organizer",
+  "url": "https://wichacks.io/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Women in Computing at RIT",
+   "short": "WiC",
+   "logo": "/images/hackathons/hosts/wic-rit-edu.png"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "winghacks-2027",
+  "series": "winghacks",
+  "semester": "2027-spring",
+  "name": "WiNGHacks",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "not-open",
+  "applicationNote": "Applications coming soon",
+  "category": "Student hackathon",
+  "description": "Hosted by WiNGHacks at the University of Florida, uplifting women and gender minorities in technology. Past editions featured 36 hours of building. Beginners welcome; Spring 2027 dates are TBA.",
+  "eligibility": "2027 eligibility to be announced",
+  "cost": "Free",
+  "url": "https://www.winghacks.com/",
+  "checked": "2026-10-17",
+  "status": "announced",
+  "club": {
+   "name": "Women in Computer Science and Engineering at UF",
+   "short": "WiCSE",
+   "logo": "/images/hackathons/hosts/ufwicse-com.png"
+  },
+  "usually": "Winter / early spring"
+ },
+ {
+  "id": "unf-ai4good-2028-fall",
+  "series": "unf-ai4good",
+  "semester": "2028-fall",
+  "name": "AI for Good Hackathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Florida",
+   "short": "UNF",
+   "logo": "/images/hackathons/hosts/unf-edu.ico"
+  },
+  "city": "Ponte Vedra",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 48-hour AI hackathon organized by Florida Data Science for Social Good at UNF.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://dssg.unf.edu/ai4good/2026AI4GoodHackathon.html",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "bigredhacks-2028-fall",
+  "series": "bigredhacks",
+  "semester": "2028-fall",
+  "name": "BigRed//Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Cornell University",
+   "short": "Cornell",
+   "logo": "/images/hackathons/hosts/cornell-edu.png"
+  },
+  "city": "Ithaca",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Weekend hackathon hosted by BigRed//Hacks at Cornell's Ithaca campus, with student teams and technical projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.bigredhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "bostonhacks-2028-fall",
+  "series": "bostonhacks",
+  "semester": "2028-fall",
+  "name": "BostonHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Boston University",
+   "short": "BU",
+   "logo": "/images/hackathons/hosts/bu-edu.png"
+  },
+  "city": "Boston",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-run hackathon at Boston University, with beginner-friendly workshops and collaborative technology projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://bostonhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "calhacks-2028-fall",
+  "series": "calhacks",
+  "semester": "2028-fall",
+  "name": "Cal Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Berkeley",
+   "short": "UCB",
+   "logo": "/images/hackathons/hosts/berkeley-edu.svg"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by Hackathons @ Berkeley.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.calhacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "divhacks-2028-fall",
+  "series": "divhacks",
+  "semester": "2028-fall",
+  "name": "DivHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Columbia University",
+   "short": "Columbia"
+  },
+  "city": "New York",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 32-hour diversity hackathon run by Women in Computer Science at Columbia.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.columbiadivhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Women in Computer Science at Columbia",
+   "short": "WiCS"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "duquantum-2028-fall",
+  "series": "duquantum",
+  "semester": "2028-fall",
+  "name": "DuQuantum",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Duke University",
+   "short": "Duke",
+   "logo": "/images/hackathons/hosts/duke-edu.png"
+  },
+  "city": "Durham",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 24-hour quantum computing hackathon hosted by DuQuantum at Duke.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://duquantum.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "DuQuantum",
+   "short": "DuQ",
+   "logo": "/images/hackathons/hosts/duquantum-org.svg"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "dubhacks-2028-fall",
+  "series": "dubhacks",
+  "semester": "2028-fall",
+  "name": "DubHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Washington",
+   "short": "UW",
+   "logo": "/images/hackathons/hosts/washington-edu.ico"
+  },
+  "city": "Seattle",
+  "state": "WA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by DubHacks at the University of Washington, with student teams, mentorship, and workshops.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://dh26.dubhacks.co/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "emoryhacks-2028-fall",
+  "series": "emoryhacks",
+  "semester": "2028-fall",
+  "name": "Emory Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Emory University",
+   "short": "Emory",
+   "logo": "/images/hackathons/hosts/emory-edu.svg"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by Emory Hacks at Emory University, welcoming beginners and experienced developers.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://emoryhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "gator-hack-2028-fall",
+  "series": "gator-hack",
+  "semester": "2028-fall",
+  "name": "Gator Hack",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 48-hour hackathon hosted through UF AI Days at the University of Florida.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ufgatorhack.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackdearborn-2028-fall",
+  "series": "hackdearborn",
+  "semester": "2028-fall",
+  "name": "Hack Dearborn",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan-Dearborn",
+   "short": "UM-D",
+   "logo": "/images/hackathons/hosts/umdearborn-edu.ico"
+  },
+  "city": "Dearborn",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Google Developer Group on Campus at UM-Dearborn, with workshops and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackdearborn.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Google Developer Group at UM-Dearborn",
+   "short": "GDG"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackcmu-2028-fall",
+  "series": "hackcmu",
+  "semester": "2028-fall",
+  "name": "HackCMU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Carnegie Mellon University",
+   "short": "CMU",
+   "logo": "/images/hackathons/hosts/cmu-edu.ico"
+  },
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour beginner-friendly hackathon hosted by ACM@CMU at Carnegie Mellon, with team projects, workshops, and mentors.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.acmatcmu.com/hackcmu2026/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ACM at CMU",
+   "short": "ACM",
+   "logo": "/images/hackathons/hosts/acmatcmu-com.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "hackgt-2028-fall",
+  "series": "hackgt",
+  "semester": "2028-fall",
+  "name": "HackGT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgia Institute of Technology",
+   "short": "GT",
+   "logo": "/images/hackathons/hosts/gatech-edu.ico"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HexLabs at Georgia Tech's Klaus Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.gt/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "HexLabs",
+   "short": "HexLabs",
+   "logo": "/images/hackathons/hosts/hexlabs-org.ico"
+  },
+  "usually": "September"
+ },
+ {
+  "id": "hackharvard-2028-fall",
+  "series": "hackharvard",
+  "semester": "2028-fall",
+  "name": "HackHarvard",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Harvard University",
+   "short": "Harvard",
+   "logo": "/images/hackathons/hosts/harvard-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour undergraduate hackathon hosted by HackHarvard at Harvard University, bringing students together to build and learn.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hhuh.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackmit-2028-fall",
+  "series": "hackmit",
+  "semester": "2028-fall",
+  "name": "HackMIT",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Massachusetts Institute of Technology",
+   "short": "MIT",
+   "logo": "/images/hackathons/hosts/mit-edu.png"
+  },
+  "city": "Cambridge",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by HackMIT at MIT, bringing together builders for a weekend of projects and learning.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackmit.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "hacknc-2028-fall",
+  "series": "hacknc",
+  "semester": "2028-fall",
+  "name": "HackNC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of North Carolina at Chapel Hill",
+   "short": "UNC",
+   "logo": "/images/hackathons/hosts/unc-edu.png"
+  },
+  "city": "Chapel Hill",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by HackNC at UNC Chapel Hill.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hacknc.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "hackohio-2028-fall",
+  "series": "hackohio",
+  "semester": "2028-fall",
+  "name": "HackOHI/O",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "The Ohio State University",
+   "short": "OSU",
+   "logo": "/images/hackathons/hosts/osu-edu.ico"
+  },
+  "city": "Columbus",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by OHI/O at Ohio State.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.osu.edu/2026/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "OHI/O",
+   "short": "OHI/O",
+   "logo": "/images/hackathons/hosts/hack-osu-edu.png"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackpsu-2028-fall",
+  "series": "hackpsu",
+  "semester": "2028-fall",
+  "name": "HackPSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Pennsylvania State University",
+   "short": "PSU",
+   "logo": "/images/hackathons/hosts/psu-edu.ico"
+  },
+  "city": "University Park",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour collegiate hackathon hosted by HackPSU at Penn State, with workshops, speakers, and student projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackpsu.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring and fall"
+ },
+ {
+  "id": "hackprinceton-2028-fall",
+  "series": "hackprinceton",
+  "semester": "2028-fall",
+  "name": "HackPrinceton",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Princeton University",
+   "short": "Princeton",
+   "logo": "/images/hackathons/hosts/princeton-edu.ico"
+  },
+  "city": "Princeton",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by HackPrinceton at Princeton University, with software and hardware projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackprinceton.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Fall; latest in November"
+ },
+ {
+  "id": "hackrpi-2028-fall",
+  "series": "hackrpi",
+  "semester": "2028-fall",
+  "name": "HackRPI",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rensselaer Polytechnic Institute",
+   "short": "RPI",
+   "logo": "/images/hackathons/hosts/rpi-edu.png"
+  },
+  "city": "Troy",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by HackRPI at RPI's Darrin Communications Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackrpi.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackru-2028-fall",
+  "series": "hackru",
+  "semester": "2028-fall",
+  "name": "HackRU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rutgers University",
+   "short": "Rutgers",
+   "logo": "/images/hackathons/hosts/rutgers-edu.ico"
+  },
+  "city": "Piscataway",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by HackRU at Rutgers' Busch Student Center, with software and hardware projects for beginners and experienced students.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackru.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Fall; latest in October"
+ },
+ {
+  "id": "hackrice-2028-fall",
+  "series": "hackrice",
+  "semester": "2028-fall",
+  "name": "HackRice",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rice University",
+   "short": "Rice",
+   "logo": "/images/hackathons/hosts/rice-edu.ico"
+  },
+  "city": "Houston",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HackRice at Rice University.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackrice.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "hacktx-2028-fall",
+  "series": "hacktx",
+  "semester": "2028-fall",
+  "name": "HackTX",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Austin",
+   "short": "UT",
+   "logo": "/images/hackathons/hosts/utexas-edu.png"
+  },
+  "city": "Austin",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Freetail Hackers at UT Austin.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hacktx.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Freetail Hackers",
+   "short": "Freetail",
+   "logo": "/images/hackathons/hosts/freetailhackers-com.ico"
+  },
+  "usually": "October"
+ },
+ {
+  "id": "hackumass-2028-fall",
+  "series": "hackumass",
+  "semester": "2028-fall",
+  "name": "HackUMass",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Massachusetts Amherst",
+   "short": "UMass",
+   "logo": "/images/hackathons/hosts/umass-edu.png"
+  },
+  "city": "Amherst",
+  "state": "MA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HackUMass at UMass Amherst, with software and hardware projects across disciplines.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.hackumass.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackutd-2028-fall",
+  "series": "hackutd",
+  "semester": "2028-fall",
+  "name": "HackUTD",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Dallas",
+   "short": "UTD",
+   "logo": "/images/hackathons/hosts/utdallas-edu.png"
+  },
+  "city": "Richardson",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student hackathon hosted by HackUTD at UT Dallas, with technical challenges and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://zeroday.hackutd.co/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hophacks-2028-fall",
+  "series": "hophacks",
+  "semester": "2028-fall",
+  "name": "HopHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Johns Hopkins University",
+   "short": "JHU"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by HopHacks at Johns Hopkins.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hophacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "howdyhack-2028-fall",
+  "series": "howdyhack",
+  "semester": "2028-fall",
+  "name": "HowdyHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour beginner-focused hackathon hosted by TAMUhack exclusively for Texas A&M students.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hh26.tamuhack.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "knighthacks-2028-fall",
+  "series": "knighthacks",
+  "semester": "2028-fall",
+  "name": "Knight Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Central Florida",
+   "short": "UCF",
+   "logo": "/images/hackathons/hosts/ucf-edu.jpg"
+  },
+  "city": "Orlando",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by Knight Hacks at UCF, with team projects, workshops, and mentorship.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://2026.knighthacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "mhacks-2028-fall",
+  "series": "mhacks",
+  "semester": "2028-fall",
+  "name": "MHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Michigan",
+   "short": "UMich",
+   "logo": "/images/hackathons/hosts/umich-edu.ico"
+  },
+  "city": "Ann Arbor",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by MHacks at the University of Michigan, focused on engineering, design, and prototyping.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.mhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "makeuc-2028-fall",
+  "series": "makeuc",
+  "semester": "2028-fall",
+  "name": "MakeUC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Cincinnati",
+   "short": "UC",
+   "logo": "/images/hackathons/hosts/uc-edu.png"
+  },
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by IEEE at the University of Cincinnati, with in-person and online participation.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://makeuc.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "IEEE at Cincinnati",
+   "short": "IEEE"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "owlhacks-2028-fall",
+  "series": "owlhacks",
+  "semester": "2028-fall",
+  "name": "OwlHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Temple University",
+   "short": "Temple",
+   "logo": "/images/hackathons/hosts/temple-edu.ico"
+  },
+  "city": "Philadelphia",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-organized hackathon at Temple University, with project building, workshops, and community activities.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.owlhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "sbuhacks-2028-fall",
+  "series": "sbuhacks",
+  "semester": "2028-fall",
+  "name": "SBUHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Stony Brook University",
+   "short": "SBU",
+   "logo": "/images/hackathons/hosts/stonybrook-edu.png"
+  },
+  "city": "Stony Brook",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by SBUHacks at Stony Brook University, with collaborative projects and learning opportunities.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hack.sbcs.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "shellhacks-2028",
+  "series": "shellhacks",
+  "semester": "2028-fall",
+  "name": "ShellHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Florida International University",
+   "short": "FIU",
+   "logo": "/images/hackathons/hosts/fiu-edu.ico"
+  },
+  "city": "Miami",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "2028 details not announced",
+  "category": "Student hackathon",
+  "description": "36-hour fall hackathon hosted annually by INIT FIU at Florida International University.",
+  "eligibility": "See organizer",
+  "cost": "See organizer",
+  "url": "https://shellhacks.net/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "INIT at FIU",
+   "short": "INIT",
+   "logo": "/images/hackathons/hosts/weareinit-org.svg"
+  },
+  "dsi": "UF DSI involvement in most years. CISE bus support noted in the design; arrangements for this edition TBA.",
+  "usually": "September"
+ },
+ {
+  "id": "tamu-datathon-2028-fall",
+  "series": "tamu-datathon",
+  "semester": "2028-fall",
+  "name": "TAMU Datathon",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 24-hour data science hackathon hosted by TAMU Datathon at Texas A&M, with datasets, workshops, and team challenges.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tamudatathon.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "TAMU Datathon",
+   "short": "TD"
+  },
+  "usually": "November"
+ },
+ {
+  "id": "technica-2028-fall",
+  "series": "technica",
+  "semester": "2028-fall",
+  "name": "Technica",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland",
+   "short": "UMD",
+   "logo": "/images/hackathons/hosts/umd-edu.png"
+  },
+  "city": "Hyattsville",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Hackathon celebrating underrepresented genders in tech, hosted by Technica at the University of Maryland.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://gotechnica.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "October"
+ },
+ {
+  "id": "ubhacking-2028-fall",
+  "series": "ubhacking",
+  "semester": "2028-fall",
+  "name": "UB Hacking",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University at Buffalo",
+   "short": "UB",
+   "logo": "/images/hackathons/hosts/buffalo-edu.ico"
+  },
+  "city": "Buffalo",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by UB Hacking at the University at Buffalo for student developers, designers, and builders.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ubhacking.cse.buffalo.edu/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "vthacks-2028-fall",
+  "series": "vthacks",
+  "semester": "2028-fall",
+  "name": "VTHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Virginia Tech",
+   "short": "VT",
+   "logo": "/images/hackathons/hosts/vt-edu.ico"
+  },
+  "city": "Blacksburg",
+  "state": "VA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by VTHacks at Virginia Tech, combining project building with workshops.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://vthacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "ycphacks-2028-fall",
+  "series": "ycphacks",
+  "semester": "2028-fall",
+  "name": "YCP Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "York College of Pennsylvania",
+   "short": "YCP",
+   "logo": "/images/hackathons/hosts/ycp-edu.ico"
+  },
+  "city": "York",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Weekend student hackathon hosted by YCP Hacks at York College of Pennsylvania's Willman Business Center.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ycphacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "hackumbc-2028-fall",
+  "series": "hackumbc",
+  "semester": "2028-fall",
+  "name": "hackUMBC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Maryland, Baltimore County",
+   "short": "UMBC",
+   "logo": "/images/hackathons/hosts/umbc-edu.png"
+  },
+  "city": "Baltimore",
+  "state": "MD",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student-run hackathon at UMBC, with software and hardware projects, workshops, and mentors.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackumbc.tech/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "September"
+ },
+ {
+  "id": "sunhacks-2028-fall",
+  "series": "sunhacks",
+  "semester": "2028-fall",
+  "name": "sunhacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Arizona State University",
+   "short": "ASU",
+   "logo": "/images/hackathons/hosts/asu-edu.ico"
+  },
+  "city": "Tempe",
+  "state": "AZ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by sunhacks at Arizona State University's Student Pavilion.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://2026.sunhacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "November"
+ },
+ {
+  "id": "boilermake-2028-spring",
+  "series": "boilermake",
+  "semester": "2028-spring",
+  "name": "BoilerMake",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Purdue University",
+   "short": "Purdue",
+   "logo": "/images/hackathons/hosts/purdue-edu.png"
+  },
+  "city": "West Lafayette",
+  "state": "IN",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by BoilerMake at Purdue, with technology projects, workshops, and mentoring.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://boilermake.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "January"
+ },
+ {
+  "id": "cruzhacks-2028-spring",
+  "series": "cruzhacks",
+  "semester": "2028-spring",
+  "name": "CruzHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Santa Cruz",
+   "short": "UCSC",
+   "logo": "/images/hackathons/hosts/ucsc-edu.ico"
+  },
+  "city": "Santa Cruz",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by CruzHacks at UC Santa Cruz.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://cruzhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; month varies"
+ },
+ {
+  "id": "diamondhacks-2028-spring",
+  "series": "diamondhacks",
+  "semester": "2028-spring",
+  "name": "DiamondHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California San Diego",
+   "short": "UCSD",
+   "logo": "/images/hackathons/hosts/ucsd-edu.ico"
+  },
+  "city": "La Jolla",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour event hosted by ACM at UC San Diego.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://diamondhacks.acmucsd.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ACM at UC San Diego",
+   "short": "ACM",
+   "logo": "/images/hackathons/hosts/acmucsd-com.ico"
+  },
+  "usually": "April"
+ },
+ {
+  "id": "eaglehacks-2028-spring",
+  "series": "eaglehacks",
+  "semester": "2028-spring",
+  "name": "EagleHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Florida Gulf Coast University",
+   "short": "FGCU",
+   "logo": "/images/hackathons/hosts/fgcu-edu.png"
+  },
+  "city": "Fort Myers",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by CSSEC at Florida Gulf Coast University.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.eaglehacks2026.dev/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "March"
+ },
+ {
+  "id": "hack-at-brown-2028-spring",
+  "series": "hack-at-brown",
+  "semester": "2028-spring",
+  "name": "Hack@Brown",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Brown University",
+   "short": "Brown",
+   "logo": "/images/hackathons/hosts/brown-edu.png"
+  },
+  "city": "Providence",
+  "state": "RI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: A weekend of building and learning hosted by Hack@Brown at Brown University.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackatbrown.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "hackdavis-2028-spring",
+  "series": "hackdavis",
+  "semester": "2028-spring",
+  "name": "HackDavis",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Davis",
+   "short": "UCD",
+   "logo": "/images/hackathons/hosts/ucdavis-edu.png"
+  },
+  "city": "Davis",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by HackDavis at UC Davis.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackdavis.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; latest in May"
+ },
+ {
+  "id": "hackhers-2028-spring",
+  "series": "hackhers",
+  "semester": "2028-spring",
+  "name": "HackHERS",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rutgers University",
+   "short": "Rutgers",
+   "logo": "/images/hackathons/hosts/rutgers-edu.ico"
+  },
+  "city": "New Brunswick",
+  "state": "NJ",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Rutgers Women in Computer Science.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://ruhackhers.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Rutgers Women in Computer Science",
+   "short": "WiCS"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "hackillinois-2028-spring",
+  "series": "hackillinois",
+  "semester": "2028-spring",
+  "name": "HackIllinois",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Illinois Urbana-Champaign",
+   "short": "UIUC",
+   "logo": "/images/hackathons/hosts/illinois-edu.png"
+  },
+  "city": "Urbana-Champaign",
+  "state": "IL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: A student hackathon at the University of Illinois Urbana-Champaign.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackillinois.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Late winter / early spring"
+ },
+ {
+  "id": "hackpsu-2028-spring",
+  "series": "hackpsu",
+  "semester": "2028-spring",
+  "name": "HackPSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Pennsylvania State University",
+   "short": "PSU",
+   "logo": "/images/hackathons/hosts/psu-edu.ico"
+  },
+  "city": "University Park",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour collegiate hackathon hosted by HackPSU at Penn State, with workshops, speakers, and student projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackpsu.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring and fall"
+ },
+ {
+  "id": "hackusu-2028-spring",
+  "series": "hackusu",
+  "semester": "2028-spring",
+  "name": "HackUSU",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Utah State University",
+   "short": "USU",
+   "logo": "/images/hackathons/hosts/usu-edu.ico"
+  },
+  "city": "Logan",
+  "state": "UT",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour innovation challenge hosted at Utah State's Huntsman Hall.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://huntsman.usu.edu/hackusu/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "hack-ncstate-2028-spring",
+  "series": "hack-ncstate",
+  "semester": "2028-spring",
+  "name": "Hack_NCState",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "North Carolina State University",
+   "short": "NCSU",
+   "logo": "/images/hackathons/hosts/ncsu-edu.png"
+  },
+  "city": "Raleigh",
+  "state": "NC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by the Hack_NCState Planning Committee at NC State's Talley Student Union.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hackncstate.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "hacklytics-2028-spring",
+  "series": "hacklytics",
+  "semester": "2028-spring",
+  "name": "Hacklytics",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgia Institute of Technology",
+   "short": "GT",
+   "logo": "/images/hackathons/hosts/gatech-edu.ico"
+  },
+  "city": "Atlanta",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Data science + AI",
+  "description": "Series overview: 36 hours of data science and AI, hosted by Data Science @ GT at Georgia Tech.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hacklytics.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Data Science at Georgia Tech",
+   "short": "DSGT",
+   "logo": "/images/hackathons/hosts/datasciencegt-org.ico"
+  },
+  "dsi": "UF DSI involvement in most years. Participation and bus arrangements for this edition TBA.",
+  "usually": "February"
+ },
+ {
+  "id": "henhacks-2028-spring",
+  "series": "henhacks",
+  "semester": "2028-spring",
+  "name": "HenHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Delaware",
+   "short": "UD",
+   "logo": "/images/hackathons/hosts/udel-edu.png"
+  },
+  "city": "Newark",
+  "state": "DE",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: A beginner-friendly hackathon hosted by HenHacks at the University of Delaware.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.henhackshackathon.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "March"
+ },
+ {
+  "id": "hoyahacks-2028-spring",
+  "series": "hoyahacks",
+  "semester": "2028-spring",
+  "name": "Hoya Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Georgetown University",
+   "short": "GU",
+   "logo": "/images/hackathons/hosts/georgetown-edu.png"
+  },
+  "city": "Washington",
+  "state": "DC",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by Hoya Hacks at Georgetown University, with collaborative coding and student innovation.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://hoyahacks.georgetown.domains/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "January"
+ },
+ {
+  "id": "innovateher-2028-spring",
+  "series": "innovateher",
+  "semester": "2028-spring",
+  "name": "InnovateHer",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Purdue University",
+   "short": "Purdue",
+   "logo": "/images/hackathons/hosts/purdue-edu.png"
+  },
+  "city": "West Lafayette",
+  "state": "IN",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Women-centric hackathon hosted by InnovateHer at Purdue.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://innovateherhacks.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "irvinehacks-2028-spring",
+  "series": "irvinehacks",
+  "semester": "2028-spring",
+  "name": "IrvineHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California, Irvine",
+   "short": "UCI",
+   "logo": "/images/hackathons/hosts/uci-edu.ico"
+  },
+  "city": "Irvine",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by IrvineHacks at UC Irvine.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://irvinehacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February / March"
+ },
+ {
+  "id": "kenthackenough-2028-spring",
+  "series": "kenthackenough",
+  "semester": "2028-spring",
+  "name": "Kent Hack Enough",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Kent State University",
+   "short": "KSU",
+   "logo": "/images/hackathons/hosts/kent-edu.ico"
+  },
+  "city": "Kent",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by Kent Hack Enough at Kent State's Design Innovation Hub, with workshops and team projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://khe.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "March"
+ },
+ {
+  "id": "la-hacks-2028-spring",
+  "series": "la-hacks",
+  "semester": "2028-spring",
+  "name": "LA Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of California Los Angeles",
+   "short": "UCLA",
+   "logo": "/images/hackathons/hosts/ucla-edu.png"
+  },
+  "city": "Los Angeles",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student hackathon hosted by LA Hacks at UCLA.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.lahacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "April"
+ },
+ {
+  "id": "revolutionuc-2028-spring",
+  "series": "revolutionuc",
+  "semester": "2028-spring",
+  "name": "RevolutionUC",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Cincinnati",
+   "short": "UC",
+   "logo": "/images/hackathons/hosts/uc-edu.png"
+  },
+  "city": "Cincinnati",
+  "state": "OH",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour student hackathon hosted by ACM@UC at the University of Cincinnati.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.revolutionuc.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ACM at Cincinnati",
+   "short": "ACM"
+  },
+  "usually": "Spring"
+ },
+ {
+  "id": "sfhacks-2028-spring",
+  "series": "sfhacks",
+  "semester": "2028-spring",
+  "name": "SF Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "San Francisco State University",
+   "short": "SFSU",
+   "logo": "/images/hackathons/hosts/sfsu-edu.ico"
+  },
+  "city": "San Francisco",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour student-run hackathon at San Francisco State University, with project building, mentors, and workshops.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.sfhacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "spartahack-2028-spring",
+  "series": "spartahack",
+  "semester": "2028-spring",
+  "name": "SpartaHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Michigan State University",
+   "short": "MSU",
+   "logo": "/images/hackathons/hosts/msu-edu.ico"
+  },
+  "city": "East Lansing",
+  "state": "MI",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by SpartaHack at Michigan State University, focused on learning and building student projects.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.spartahack.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "tamuhack-2028-spring",
+  "series": "tamuhack",
+  "semester": "2028-spring",
+  "name": "TAMUhack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Texas A&M University",
+   "short": "TAMU",
+   "logo": "/images/hackathons/hosts/tamu-edu.png"
+  },
+  "city": "College Station",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by TAMUhack at Texas A&M.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tamuhack.org/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "January"
+ },
+ {
+  "id": "tartanhacks-2028-spring",
+  "series": "tartanhacks",
+  "semester": "2028-spring",
+  "name": "TartanHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Carnegie Mellon University",
+   "short": "CMU",
+   "logo": "/images/hackathons/hosts/cmu-edu.ico"
+  },
+  "city": "Pittsburgh",
+  "state": "PA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour hackathon hosted by ScottyLabs at Carnegie Mellon University.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://tartanhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "ScottyLabs",
+   "short": "ScottyLabs",
+   "logo": "/images/hackathons/hosts/scottylabs-org.ico"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "treehacks-2028-spring",
+  "series": "treehacks",
+  "semester": "2028-spring",
+  "name": "TreeHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Stanford University",
+   "short": "Stanford",
+   "logo": "/images/hackathons/hosts/stanford-edu.ico"
+  },
+  "city": "Stanford",
+  "state": "CA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 36-hour hackathon hosted by TreeHacks at Stanford.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://treehacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "February"
+ },
+ {
+  "id": "ugahacks-2028-spring",
+  "series": "ugahacks",
+  "semester": "2028-spring",
+  "name": "UGAHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Georgia",
+   "short": "UGA",
+   "logo": "/images/hackathons/hosts/uga-edu.ico"
+  },
+  "city": "Athens",
+  "state": "GA",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student-run hackathon hosted by UGAHacks at the University of Georgia.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://12.ugahacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Winter / early spring"
+ },
+ {
+  "id": "uncommonhacks-2028-spring",
+  "series": "uncommonhacks",
+  "semester": "2028-spring",
+  "name": "Uncommon Hacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Chicago",
+   "short": "UChicago",
+   "logo": "/images/hackathons/hosts/uchicago-edu.ico"
+  },
+  "city": "Chicago",
+  "state": "IL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Student hackathon hosted by Uncommon Hacks at the University of Chicago.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://uncommonhacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "Spring; latest in May"
+ },
+ {
+  "id": "wehack-2028-spring",
+  "series": "wehack",
+  "semester": "2028-spring",
+  "name": "WEHack",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "University of Texas at Dallas",
+   "short": "UTD",
+   "logo": "/images/hackathons/hosts/utdallas-edu.png"
+  },
+  "city": "Richardson",
+  "state": "TX",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Hackathon hosted by WEHack at UT Dallas, supporting women and nonbinary students in technology.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.wehackutd.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "usually": "April"
+ },
+ {
+  "id": "wichacks-2028-spring",
+  "series": "wichacks",
+  "semester": "2028-spring",
+  "name": "WiCHacks",
+  "hostType": "collegiate",
+  "atUF": false,
+  "host": {
+   "name": "Rochester Institute of Technology",
+   "short": "RIT",
+   "logo": "/images/hackathons/hosts/rit-edu.png"
+  },
+  "city": "Rochester",
+  "state": "NY",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: 24-hour collaborative programming event hosted by Women in Computing at RIT.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://wichacks.io/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Women in Computing at RIT",
+   "short": "WiC",
+   "logo": "/images/hackathons/hosts/wic-rit-edu.png"
+  },
+  "usually": "February"
+ },
+ {
+  "id": "winghacks-2028-spring",
+  "series": "winghacks",
+  "semester": "2028-spring",
+  "name": "WiNGHacks",
+  "hostType": "collegiate",
+  "atUF": true,
+  "host": {
+   "name": "University of Florida",
+   "short": "UF",
+   "logo": "/images/hackathons/hosts/ufl-edu.png"
+  },
+  "city": "Gainesville",
+  "state": "FL",
+  "country": "United States",
+  "attendance": "unconfirmed",
+  "dates": {
+   "kind": "tba"
+  },
+  "application": "unknown",
+  "applicationNote": "Edition not announced",
+  "category": "Student hackathon",
+  "description": "Series overview: Hosted by WiNGHacks at the University of Florida, uplifting women and gender minorities in technology.",
+  "eligibility": "Next-edition eligibility TBA",
+  "cost": "See organizer",
+  "url": "https://www.winghacks.com/",
+  "checked": "2026-10-17",
+  "status": "expected",
+  "club": {
+   "name": "Women in Computer Science and Engineering at UF",
+   "short": "WiCSE",
+   "logo": "/images/hackathons/hosts/ufwicse-com.png"
+  },
+  "usually": "Winter / early spring"
+ }
+]
