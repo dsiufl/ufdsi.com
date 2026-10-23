@@ -10,6 +10,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import Overlay from "@/components/Overlay/Overlay";
 import EditSpeakerOverlay from "./EditSpeakerOverlay";
 import { Calendar, DeleteIcon, EllipsisIcon, PlusIcon } from "lucide-react";
+import { PageHeader, Panel } from "../../../components/PageHeader";
 import { Calendar as CalendarElement } from "@/components/ui/calendar";
 import { Spinner } from "@/components/ui/spinner";
 import { createUserClient } from "@/lib/supabase/client";
@@ -21,50 +22,19 @@ import { AlertContext } from "@/app/AlertProvider";
 import TableCellCustom from "./TableCellCustom";
 
 
-const KeynoteSpeaker = ({ speaker, onClick }: { speaker: Speaker; onClick?: () => void }) => (
-    <article 
-      className="group cursor-pointer transition-all duration-300 mb-4 w-full"
-      onClick={onClick}
-    >
-      <div className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-900/20 dark:to-blue-900/20 rounded-2xl shadow-lg transition-shadow duration-300 overflow-hidden border border-purple-200 dark:border-purple-800">
-        <div className="md:flex">
-          <div className="md:w-1/3 relative">
-            <Image
-              src={speaker.cover}
-              alt={speaker.name}
-              fill
-              className="object-cover transition-transform duration-300"
-              priority
-              sizes="100%, 33vh"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-          </div>
-          
-          <div className="md:w-2/3 p-8">
-            <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4 group-hover:text-purple-600 transition-colors duration-200">
-              {speaker.name}
-            </h2>
-            
-            <p className="text-lg text-purple-600 dark:text-purple-400 mb-4 font-medium">
-              {speaker.affiliation}
-            </p>
-            
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">
-              {speaker.title}
-            </h3>
-            
-            <div className="text-sm text-gray-600 dark:text-gray-400 mb-4">
-              📅 {speaker.time} • 📍 {speaker.location}
-            </div>
-            
-            <p className="text-gray-600 dark:text-gray-300 line-clamp-4">
-              {speaker.description}
-            </p>
-          </div>
+const KeynoteSpeaker = ({ speaker }: { speaker: Speaker }) => (
+    <div className="flex w-full items-center gap-3">
+        <div className="is-round relative size-14 shrink-0 overflow-hidden rounded-full bg-muted">
+            {speaker.cover && <Image src={speaker.cover} alt="" fill sizes="56px" className="object-cover" />}
         </div>
-      </div>
-    </article>
+        <div className="min-w-0">
+            <p className="truncate font-medium">{speaker.name}</p>
+            <p className="truncate text-sm text-muted-foreground">{speaker.affiliation}</p>
+            <p className="line-clamp-2 text-sm text-muted-foreground">{speaker.title}</p>
+        </div>
+    </div>
 );
+
 export default function Editor({symposium, speakers}: {
     symposium: Symposium,
     speakers: Speaker[],
@@ -100,9 +70,12 @@ export default function Editor({symposium, speakers}: {
     return (
         <>
         <TooltipProvider>
-        <div className="w-full flex justify-center">
-            <h2>Editing: DSI Spring Symposium {symposium.year}</h2>
-        </div>
+        <div className="admin-page">
+        <PageHeader
+            label="Symposium"
+            title={`Spring Symposium ${symposium.year}`}
+            description="Changes stay local until you press Save at the bottom of the screen."
+        />
         {
             newSpeakerOverlay && (
                 <NewSpeakerOverlay
@@ -146,26 +119,26 @@ export default function Editor({symposium, speakers}: {
                 />
             )
         }
-        <div className="relative w-full h-fit min-h-screen lg:h-[80%] rounded-xl px-[10%] py-10 bg-gray-200 dark:bg-[#000000]/70">
-            <div className="w-full flex justify-center">
+        <div className="grid gap-6 lg:grid-cols-[280px_minmax(0,1fr)]">
+            <Panel title="Date">
+            <div className="px-5 pb-5">
                 <DropdownMenu modal={true}>
                     <DropdownMenuTrigger asChild>
-                        <div className="hover:cursor-pointer hover:underline flex gap-1">
-                            <Calendar />
-                            <p>
+                        <button className="flex w-full items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-left text-sm hover:bg-accent">
+                            <Calendar className="size-4 text-muted-foreground" />
+                            <span>
                                 {newDate.toLocaleDateString('en-US', {
                                     year: 'numeric',
                                     month: 'long',
                                     day: '2-digit',
                                 })}
-                            </p>
-                        </div>
+                            </span>
+                        </button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <CalendarElement
                             mode="single"
                             defaultMonth={newDate}
-                            className="!text-black"
                             selected={newDate}
                             
                             onSelect={(e) => {
@@ -179,15 +152,16 @@ export default function Editor({symposium, speakers}: {
                         
                     </DropdownMenuContent>
                 </DropdownMenu>
-                
             </div>
-            <h2>Keynote</h2>
+            </Panel>
+            <Panel title="Keynote">
+            <div className="px-5 pb-5">
             {keynote ? (
-            <div className="flex flex-col items-center justify-center">
+            <div className="flex flex-col items-start gap-3">
                 <KeynoteSpeaker speaker={keynote} />
                 <DropdownMenu modal={false} dir="ltr" >
                     <DropdownMenuTrigger asChild>
-                        <Button>Edit</Button>
+                        <Button variant="outline" size="sm">Change</Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                         <DropdownMenuItem onClick={() => {
@@ -204,21 +178,22 @@ export default function Editor({symposium, speakers}: {
                 </DropdownMenu>
             </div>
             ) : 
-            <div className="w-full flex flex-col place-items-center">
-                <p>No keynote speaker selected.</p>
-                { newSpeakers.length > 0 && <Button>Select a keynote speaker</Button>}
-            </div>
+            <p className="text-sm text-muted-foreground">No keynote yet. Use &ldquo;Set keynote&rdquo; on a speaker below.</p>
         }
-        <h2>Speakers</h2>
-        <Button onClick={() => {
-            setNewSpeakerOverlay(true);
-        }}>Add a new speaker</Button>
+            </div>
+            </Panel>
+        </div>
+        <Panel
+            title="Speakers"
+            meta={[...diffs, ...newSpeakers].filter(s => !s.deleted).length}
+            actions={<Button size="sm" onClick={() => setNewSpeakerOverlay(true)}><PlusIcon /> Add speaker</Button>}
+        >
         {
             [...diffs, ...newSpeakers].length > 0 && 
-                <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
-                    <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
+                <Table>
+                    <TableHeader>
                         <TableRow>
-                            <TableHead>Name</TableHead>
+                            <TableHead className="pl-5">Name</TableHead>
                             <TableHead>Affiliation</TableHead>
                             <TableHead>Title of Talk</TableHead>
                             <TableHead>Time</TableHead>
@@ -229,7 +204,7 @@ export default function Editor({symposium, speakers}: {
                     <TableBody>
                         {[...diffs, ...newSpeakers].filter(s => !s.deleted).map(speaker => (
                             <TableRow className="w-full" key={speaker.id}>
-                                <TableCell>{speaker.name}</TableCell>
+                                <TableCell className="pl-5 font-medium">{speaker.name}{keynote?.id === speaker.id && <span className="admin-pill admin-pill--info admin-pill--plain ml-2">Keynote</span>}</TableCell>
                                 <TableCell>{speaker.affiliation}</TableCell>
                                 <TableCell>{speaker.title}</TableCell>
                                 <TableCell>{speaker.time}</TableCell>
@@ -237,7 +212,7 @@ export default function Editor({symposium, speakers}: {
                                 <TableCell>
                                     <DropdownMenu modal={false}>
                                         <DropdownMenuTrigger asChild>
-                                            <EllipsisIcon className="cursor-pointer" />
+                                            <Button variant="ghost" size="icon" className="admin-row-actions h-8 w-8 text-muted-foreground" aria-label={`Options for ${speaker.name}`}><EllipsisIcon /></Button>
                                         </DropdownMenuTrigger>
                                         <DropdownMenuContent>
                                             <DropdownMenuItem onClick={() => {
@@ -275,11 +250,12 @@ export default function Editor({symposium, speakers}: {
                     </TableBody>
                 </Table>
         }
-        <h2 className="mt-5">Agenda</h2>
-        <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem] mb-10">
-            <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
+        </Panel>
+        <Panel title="Agenda" meta="Click a cell to edit it">
+        <Table>
+            <TableHeader>
                 <TableRow>
-                    <TableHead>Session</TableHead>
+                    <TableHead className="pl-5">Session</TableHead>
                     <TableHead>Duration</TableHead>
                     <TableHead>Time range</TableHead>
                     <TableHead>Description</TableHead>
@@ -329,14 +305,16 @@ export default function Editor({symposium, speakers}: {
                                     new: true,
                                 }])
                             }}>
-                                <PlusIcon />
+                                <Button variant="ghost" size="sm" className="text-muted-foreground"><PlusIcon /> Add session</Button>
                             </div>
                     </TableCell>
                 </TableRow>
             </TableBody>
         </Table>
+        </Panel>
         {(diffs.length > 0 || changed) && saveState !== 'saved' && 
-            <div className="fixed w-full bottom-0 left-0 p-4 fade-in flex flex-1 gap-2 justify-center">
+            <div className="fade-in sticky bottom-4 z-10 mx-auto flex w-fit items-center gap-3 rounded-full border bg-card px-4 py-2 shadow-lg">
+                <span className="text-sm text-muted-foreground">Unsaved changes</span>
                 {saveState === 'unsaved' ? 
                     <>
                     <Button onClick={() => {
@@ -480,7 +458,7 @@ export default function Editor({symposium, speakers}: {
                     }}>
                         Save
                     </Button>
-                    <Button onClick={() => {
+                    <Button variant="outline" onClick={() => {
                         const ogKeynote = speakers.find(s => s.id === symposium.keynote)
                         if (keynote !== ogKeynote) setKeynote(ogKeynote);
                         if (newSpeakers !== speakers) setNewSpeakers(speakers);

@@ -36,7 +36,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
             data.id = speakerRef.current.id;
             save(data as Speaker);
         })}>
-            <FieldGroup>
+            <FieldGroup className="gap-5">
                 <Controller
                     name="cover"
                     defaultValue={speakerRef.current.cover ?? ""}
@@ -44,7 +44,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     render={({field, fieldState}) => {
                         return (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Headshot
                             </FieldLabel>
                             <div className="w-full flex justify-center">
@@ -93,7 +93,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     rules={{required: true}}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Name
                             </FieldLabel>
                             <Input
@@ -114,7 +114,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.affiliation ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Affiliation
                             </FieldLabel>
                             <Input
@@ -137,7 +137,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     render={({field, fieldState}) => {
                         return (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Logo of Affiliated Organization
                             </FieldLabel>
                             <div className="w-full flex justify-center">
@@ -185,7 +185,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.title ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Title of Talk
                             </FieldLabel>
                             <Input
@@ -206,7 +206,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.description ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Description
                             </FieldLabel>
                             <Textarea
@@ -226,7 +226,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.time ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Time
                             </FieldLabel>
                             <Input
@@ -247,7 +247,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.location ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Location
                             </FieldLabel>
                             <Input
@@ -269,7 +269,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.youtube ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 YouTube Link
                             </FieldLabel>
                             <Input
@@ -289,7 +289,7 @@ export default function EditSpeaker({speaker, save}: {speaker?: Speaker, save: (
                     defaultValue={speakerRef.current.track ?? ""}
                     render={({field, fieldState}) => (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Symposium Track
                             </FieldLabel>
                             <Input

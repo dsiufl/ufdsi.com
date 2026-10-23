@@ -34,9 +34,13 @@ export default function TableCellCustom({onSave, initialValue, initialActive}: {
                     />
                 </div>
             ) : (
-                <div onClick={() => setActive(true)}>
-                    {value || "Click to edit"}
-                </div>
+                <button
+                    type="button"
+                    onClick={() => setActive(true)}
+                    className="-mx-2 w-[calc(100%+1rem)] rounded-md px-2 py-1 text-left hover:bg-muted"
+                >
+                    {value || <span className="text-muted-foreground">Click to edit</span>}
+                </button>
             )}
         </TableCell>
     )

@@ -1,5 +1,4 @@
 
-import { Button } from "@/components/ui/button";
 import type { AdminInfo, Symposium } from "@/types/db";
 import { createClient } from "@/lib/supabase/server";
 import Main from "./components/Main";
@@ -14,8 +13,6 @@ export default async function Page() {
     const {data: profile}: {data: AdminInfo} = await supabase.schema("admin").from("people").select().eq('id', user.id).single()
 
     return (
-        <div className="md:top-0 flex flex-col h-screen w-full items-center justify-center">
-            <Main symposiums={symposiums.data} token={token} />
-        </div>
+        <Main symposiums={symposiums.data ?? []} token={token} />
     )
 }

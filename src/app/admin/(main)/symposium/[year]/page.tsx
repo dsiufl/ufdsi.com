@@ -22,9 +22,6 @@ export default async function Page({
         return;
     }
     return (
-        <div className="pt-[10%]">
-             <Editor speakers={speakers} symposium={symposium} /> 
-        </div>
-        
+        <Editor speakers={speakers} symposium={symposium} />
     )
 }
