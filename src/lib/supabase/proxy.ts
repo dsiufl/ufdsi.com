@@ -42,19 +42,18 @@ export async function updateSession(request: NextRequest) {
   const user = data?.claims
   const pathname = request.nextUrl.pathname
   console.log(JSON.stringify({ user: user ? user.email : null, origin: request.nextUrl.origin, path: pathname })) // log the user and the path they're trying to access
-  if (
-    !user && pathname.startsWith('/admin') && !pathname.includes("/admin/login")
-  ) {
-    // no user, potentially respond by redirecting the user to the login page
+  // redirects carry over any refreshed auth cookies
+  const go = (path: string) => {
     const url = request.nextUrl.clone()
-    url.pathname = '/admin/login'
-    return NextResponse.redirect(url)
-  } else {
-    const url = request.nextUrl.clone();
-    url.pathname = '/admin/dashboard';
-    if (pathname === "/admin" || (pathname === '/admin/login' && user)) return NextResponse.redirect(url)
-    return NextResponse.next();``
+    url.pathname = path
+    url.search = ''
+    const res = NextResponse.redirect(url)
+    supabaseResponse.cookies.getAll().forEach((c) => res.cookies.set(c))
+    return res
   }
+  if (!user && pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) return go('/admin/login')
+  if (pathname === '/admin' || pathname === '/admin/') return go(user ? '/admin/dashboard' : '/admin/login')
+  if (user && pathname === '/admin/login') return go('/admin/dashboard')
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
 
