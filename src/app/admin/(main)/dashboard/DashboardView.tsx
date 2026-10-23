@@ -1,42 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { Breadcrumb } from "@/components/ui/breadcrumb";
+import { ArrowUpRight, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Filter,
-  LayoutGrid,
-  MoreVertical,
-  Search,
-  UserPlus,
-} from "lucide-react";
-
-const DSI_BLUE = "#0021A5";
+import { Empty, PageHeader, Panel } from "../components/PageHeader";
 
 export type ActivityRow = {
   id: string;
+  actor: string;
   description: string;
   created_at: string;
   table_name: string;
+  action: string;
 };
 
 export type WorkshopCard = {
@@ -45,301 +22,365 @@ export type WorkshopCard = {
   speaker: string;
   datetime: string;
   location: string;
-  cover: string;
   link: string | null;
 };
 
-function badgeVariantForTable(table: string) {
-  switch (table) {
-    case "people":
-      return "default";
-    case "speakers":
-      return "secondary";
-    case "symposium":
-      return "outline";
-    case "news":
-      return "outline";
-    default:
-      return "secondary";
+type Stats = { upcoming: number; drafts: number; openForms: number; thisWeek: number };
+type Point = { at: string; table: string };
+
+const TZ = "America/New_York";
+const DAY = 86400000;
+const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+
+function ago(iso: string) {
+  const s = (new Date(iso).getTime() - Date.now()) / 1000;
+  const steps: [number, Intl.RelativeTimeFormatUnit][] = [
+    [60, "second"],
+    [60, "minute"],
+    [24, "hour"],
+    [7, "day"],
+    [4.35, "week"],
+    [12, "month"],
+  ];
+  let v = s;
+  for (const [n, unit] of steps) {
+    if (Math.abs(v) < n) return unit === "second" ? "just now" : rtf.format(Math.round(v), unit);
+    v /= n;
   }
+  return rtf.format(Math.round(v), "year");
 }
 
-function WorkshopCardItem({ workshop }: { workshop: WorkshopCard }) {
-  const upcoming = new Date(workshop.datetime) > new Date();
+const SECTIONS: { key: string; label: string; tables: string[] }[] = [
+  { key: "workshops", label: "Workshops", tables: ["workshops"] },
+  { key: "news", label: "News", tables: ["news"] },
+  { key: "symposium", label: "Symposium", tables: ["symposium", "symposiums", "speakers"] },
+  { key: "users", label: "Users", tables: ["people"] },
+  { key: "projects", label: "Projects", tables: ["projects"] },
+];
+const sectionOf = (table: string) => SECTIONS.find((s) => s.tables.includes(table));
+
+const VERB: Record<string, string> = { INSERT: "Created", UPDATE: "Updated", DELETE: "Deleted" };
+
+function Stat({ value, label, href }: { value: number; label: string; href: string }) {
   return (
-    <div
-      role={workshop.link ? "link" : undefined}
-      tabIndex={workshop.link ? 0 : undefined}
-      className={`group overflow-hidden rounded-xl border border-border/80 bg-card shadow-sm transition hover:shadow-md ${
-        workshop.link ? "cursor-pointer" : ""
-      }`}
-      onClick={
-        workshop.link
-          ? () =>
-              window.open(
-                workshop.link!,
-                "_blank",
-                "noopener,noreferrer",
-              )
-          : undefined
-      }
-      onKeyDown={
-        workshop.link
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                window.open(
-                  workshop.link!,
-                  "_blank",
-                  "noopener,noreferrer",
-                );
-              }
-            }
-          : undefined
+    <Link href={href} className="admin-stat">
+      <span className="admin-stat__label">{label}</span>
+      <span className="admin-stat__value">{value}</span>
+    </Link>
+  );
+}
+
+// Round the axis up so four even steps land on whole numbers.
+function niceMax(n: number) {
+  const raw = Math.max(n, 1) / 4;
+  const p = 10 ** Math.floor(Math.log10(raw));
+  const step = [1, 2, 5, 10].map((f) => f * p).find((v) => v >= raw)!;
+  return Math.max(4, Math.ceil(step) * 4);
+}
+
+const short = (d: Date) => d.toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: TZ });
+
+function useBuckets(history: Point[], mode: "week" | "day") {
+  return useMemo(() => {
+    const size = mode === "week" ? 7 * DAY : DAY;
+    const count = mode === "week" ? 8 : 14;
+    const end = Date.now();
+    const buckets = Array.from({ length: count }, (_, i) => {
+      const from = end - (count - i) * size;
+      return { from: new Date(from), to: new Date(from + size - 1), value: 0 };
+    });
+    for (const h of history) {
+      const i = Math.floor((new Date(h.at).getTime() - (end - count * size)) / size);
+      if (i >= 0 && i < count) buckets[i].value++;
+    }
+    return buckets;
+  }, [history, mode]);
+}
+
+function BarChart({ history }: { history: Point[] }) {
+  const [mode, setMode] = useState<"week" | "day">("week");
+  const [hover, setHover] = useState<number | null>(null);
+  const buckets = useBuckets(history, mode);
+  const max = niceMax(Math.max(...buckets.map((b) => b.value)));
+  const ticks = [1, 0.75, 0.5, 0.25, 0].map((f) => Math.round(max * f));
+  const total = buckets.reduce((n, b) => n + b.value, 0);
+  const label = (b: (typeof buckets)[number]) => (mode === "week" ? `${short(b.from)} – ${short(b.to)}` : short(b.from));
+
+  return (
+    <Panel
+      title="Site activity"
+      meta={`${total} changes`}
+      actions={
+        <div className="admin-tabs" role="group" aria-label="Range">
+          <button type="button" aria-pressed={mode === "week"} onClick={() => setMode("week")}>8 weeks</button>
+          <button type="button" aria-pressed={mode === "day"} onClick={() => setMode("day")}>14 days</button>
+        </div>
       }
     >
-      <div className="relative h-32 overflow-hidden">
-        <Image
-          src={workshop.cover}
-          alt=""
-          fill
-          className="object-cover opacity-90 transition group-hover:opacity-100"
-          sizes="(max-width: 768px) 100vw, 280px"
-        />
-        {!upcoming && (
-          <span className="absolute right-2 top-2 rounded-md bg-background/90 px-2 py-0.5 text-[10px] font-medium text-muted-foreground">
-            Past
-          </span>
-        )}
+      <div className="px-5 pb-5">
+        <div className="relative flex h-56 gap-3">
+          <div className="admin-mono flex w-6 flex-col justify-between text-right text-[11px] text-muted-foreground" aria-hidden>
+            {ticks.map((t) => (
+              <span key={t} className="-translate-y-1/2 first:translate-y-0 last:translate-y-0">{t}</span>
+            ))}
+          </div>
+          <div className="relative flex-1">
+            <div className="pointer-events-none absolute inset-0 flex flex-col justify-between" aria-hidden>
+              {ticks.map((t) => (
+                <span key={t} className="border-t" style={{ borderColor: t === 0 ? "var(--a-line-hi)" : "var(--a-line-soft)" }} />
+              ))}
+            </div>
+            <div className="absolute inset-0 flex items-end gap-2" onMouseLeave={() => setHover(null)}>
+              {buckets.map((b, i) => {
+                const on = hover === i || (hover === null && i === buckets.length - 1);
+                return (
+                  <div
+                    key={i}
+                    className="relative flex h-full flex-1 items-end justify-center outline-none"
+                    onMouseEnter={() => setHover(i)}
+                    onFocus={() => setHover(i)}
+                    onBlur={() => setHover(null)}
+                    tabIndex={0}
+                    aria-label={`${label(b)}: ${b.value} changes`}
+                  >
+                    <div
+                      className="w-full max-w-8"
+                      style={{
+                        height: `${(b.value / max) * 100}%`,
+                        minHeight: b.value ? 2 : 0,
+                        background: on ? "var(--a-signal)" : "var(--a-ink)",
+                        opacity: on ? 1 : 0.82,
+                      }}
+                    />
+                    {hover === i && (
+                      <div
+                        className="pointer-events-none absolute z-10 -translate-y-2 whitespace-nowrap border bg-popover px-2.5 py-1.5 text-xs"
+                        style={{ bottom: `${(b.value / max) * 100}%`, borderColor: "var(--a-line-hi)" }}
+                      >
+                        <p className="admin-mono text-muted-foreground">{label(b)}</p>
+                        <p className="mt-0.5 text-sm font-semibold text-foreground">
+                          <span className="admin-mono">{b.value}</span> {b.value === 1 ? "change" : "changes"}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        <div className="admin-mono ml-9 mt-2 flex gap-2 text-center text-[11px] text-muted-foreground" aria-hidden>
+          {buckets.map((b, i) => (
+            <span key={i} className={`flex-1 whitespace-nowrap ${i % 2 ? (mode === "day" ? "invisible" : "max-sm:invisible") : ""}`}>{short(b.from)}</span>
+          ))}
+        </div>
+        <table className="sr-only">
+          <caption>Site changes per {mode}</caption>
+          <tbody>
+            {buckets.map((b, i) => (
+              <tr key={i}><th>{label(b)}</th><td>{b.value}</td></tr>
+            ))}
+          </tbody>
+        </table>
       </div>
-      <div className="space-y-1 p-4">
-        <h3 className="line-clamp-2 text-sm font-semibold leading-snug">
-          {workshop.title}
-        </h3>
-        <p className="text-xs text-muted-foreground">
-          {workshop.speaker}
-        </p>
-        <p className="text-xs text-muted-foreground">
-          {new Date(workshop.datetime).toLocaleDateString()} ·{" "}
-          {new Date(workshop.datetime).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </p>
-        <p className="text-xs text-muted-foreground">{workshop.location}</p>
-      </div>
-    </div>
+    </Panel>
+  );
+}
+
+function Breakdown({ history }: { history: Point[] }) {
+  const rows = useMemo(() => {
+    const counts = new Map<string, number>();
+    for (const h of history) {
+      const key = sectionOf(h.table)?.key ?? "other";
+      counts.set(key, (counts.get(key) ?? 0) + 1);
+    }
+    const list = SECTIONS.map((s) => ({ key: s.key, label: s.label, value: counts.get(s.key) ?? 0 }));
+    if (counts.get("other")) list.push({ key: "other", label: "Other", value: counts.get("other")! });
+    return list.sort((a, b) => b.value - a.value);
+  }, [history]);
+  const total = rows.reduce((n, r) => n + r.value, 0);
+  const top = Math.max(...rows.map((r) => r.value), 1);
+
+  return (
+    <Panel title="Where edits went" meta="8 wk">
+      {total === 0 ? (
+        <Empty title="No edits yet" />
+      ) : (
+        <ul className="flex flex-col gap-3.5 px-5 pb-5 text-sm">
+          {rows.map((r, i) => (
+            <li key={r.key}>
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="text-foreground">{r.label}</span>
+                <span className="admin-mono text-muted-foreground">
+                  {r.value} <span className="inline-block w-9 text-right text-foreground">{total ? Math.round((r.value / total) * 100) : 0}%</span>
+                </span>
+              </div>
+              <div className="mt-1.5 h-1.5" style={{ background: "var(--a-line-soft)" }}>
+                <div className="h-full" style={{ width: `${(r.value / top) * 100}%`, background: i === 0 ? "var(--a-signal)" : "var(--a-ink)", opacity: i === 0 ? 1 : 0.75 }} />
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </Panel>
   );
 }
 
 export function DashboardView({
-  firstName,
-  roleLabel,
+  greeting,
+  role,
   activities,
+  history,
   workshops,
+  stats,
 }: {
-  firstName: string;
-  roleLabel: string;
+  greeting: string;
+  role: string;
   activities: ActivityRow[];
+  history: Point[];
   workshops: WorkshopCard[];
+  stats: Stats;
 }) {
   const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<Record<string, boolean>>({});
+  const [all, setAll] = useState(false);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return activities;
-    return activities.filter((a) =>
-      a.description.toLowerCase().includes(q),
-    );
+    return activities.filter((a) => a.description.toLowerCase().includes(q));
   }, [activities, query]);
-
-  const upcoming = workshops.filter(
-    (w) => new Date(w.datetime) > new Date(),
-  );
+  const shown = all || query ? filtered : filtered.slice(0, 7);
 
   return (
-    <div className="mx-auto flex max-w-6xl flex-col gap-6">
-      <div className="overflow-hidden rounded-xl border border-border/80 bg-background shadow-sm">
-        <div className="border-b border-border/80 px-6 py-6 sm:px-8">
-          <Breadcrumb
-            items={[
-              { label: "Admin", href: "/admin/dashboard" },
-              { label: "Dashboard" },
-            ]}
-          />
-          <div className="mt-5 flex flex-col gap-1">
-            <h1 className="text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Hi, {firstName}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {roleLabel} · Monitor recent activity across DSI and stay on top
-              of workshops.
-            </p>
-          </div>
-        </div>
-
-        <div className="flex flex-col gap-4 border-b border-border/60 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-          <p className="text-sm text-muted-foreground">
-            <span className="font-medium text-foreground">All activity</span>{" "}
-            <span className="tabular-nums text-muted-foreground">
-              {filtered.length}
-            </span>
-          </p>
-          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
-            <div className="relative min-w-[200px] flex-1 sm:max-w-xs">
-              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input
-                placeholder="Search activity…"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                className="h-9 border-border/80 pl-9"
-              />
-            </div>
-            <Button variant="outline" size="sm" className="gap-1.5" type="button">
-              <Filter className="h-4 w-4" />
-              Filters
+    <div className="admin-page">
+      <PageHeader
+        label={role}
+        title={greeting}
+        description="What changed across the site lately, and what's coming up next."
+        actions={
+          <>
+            <Button variant="outline" asChild>
+              <Link href="/admin/news/article/new">New article</Link>
             </Button>
-            <Button
-              size="sm"
-              className="gap-1.5 font-medium text-white shadow-sm"
-              style={{ backgroundColor: DSI_BLUE }}
-              asChild
-            >
-              <Link href="/admin/users">
-                <UserPlus className="h-4 w-4" />
-                Add user
+            <Button asChild>
+              <Link href="/admin/workshops?new=1">
+                <Plus /> Add workshop
               </Link>
             </Button>
-          </div>
-        </div>
+          </>
+        }
+      />
 
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="border-border/60 hover:bg-transparent">
-                <TableHead className="w-10 pl-6 sm:pl-8" />
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Activity
-                </TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Source
-                </TableHead>
-                <TableHead className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-                  Time
-                </TableHead>
-                <TableHead className="w-12 pr-6 text-right sm:pr-8" />
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filtered.length === 0 ? (
-                <TableRow>
-                  <TableCell
-                    colSpan={5}
-                    className="py-12 text-center text-sm text-muted-foreground"
-                  >
-                    No activity matches your search.
-                  </TableCell>
-                </TableRow>
-              ) : (
-                filtered.map((row) => (
-                  <TableRow
-                    key={row.id}
-                    className="border-border/50 hover:bg-muted/40"
-                  >
-                    <TableCell className="pl-6 sm:pl-8">
-                      <Checkbox
-                        checked={!!selected[row.id]}
-                        onCheckedChange={(v) =>
-                          setSelected((s) => ({
-                            ...s,
-                            [row.id]: v === true,
-                          }))
-                        }
-                        aria-label={`Select ${row.id}`}
-                      />
-                    </TableCell>
-                    <TableCell className="max-w-md">
-                      <p className="text-sm font-medium leading-snug text-foreground">
-                        {row.description}
-                      </p>
-                    </TableCell>
-                    <TableCell>
-                      <Badge
-                        variant={badgeVariantForTable(row.table_name)}
-                        className="font-normal capitalize"
-                      >
-                        {row.table_name.replace(/_/g, " ")}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap text-sm text-muted-foreground">
-                      {new Date(row.created_at).toLocaleString(undefined, {
-                        dateStyle: "medium",
-                        timeStyle: "short",
-                      })}
-                    </TableCell>
-                    <TableCell className="pr-6 text-right sm:pr-8">
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            className="h-8 w-8 text-muted-foreground"
-                            aria-label="Row actions"
-                          >
-                            <MoreVertical className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem disabled>
-                            View details
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    </TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-
-        <div className="flex items-center justify-between border-t border-border/60 px-6 py-3 sm:px-8">
-          <p className="text-xs text-muted-foreground">
-            Showing {filtered.length} of {activities.length} events
-          </p>
-          <div className="flex items-center gap-1">
-            <Button variant="outline" size="sm" className="h-8 min-w-8 p-0" disabled>
-              1
-            </Button>
-          </div>
-        </div>
+      <div className="admin-stats -mt-7">
+        <Stat value={stats.upcoming} label="Upcoming workshops" href="/admin/workshops" />
+        <Stat value={stats.drafts} label={stats.drafts === 1 ? "Draft to review" : "Drafts to review"} href="/admin/news?status=draft" />
+        <Stat value={stats.openForms} label={stats.openForms === 1 ? "Open form" : "Open forms"} href="/admin/forms" />
+        <Stat value={stats.thisWeek} label="Changes this week" href="#activity" />
       </div>
 
-      <div className="overflow-hidden rounded-xl border border-border/80 bg-background shadow-sm">
-        <div className="flex flex-col gap-1 border-b border-border/60 px-6 py-5 sm:px-8">
-          <div className="flex items-center gap-2">
-            <LayoutGrid className="h-5 w-5 text-muted-foreground" />
-            <h2 className="text-lg font-semibold tracking-tight">
-              Upcoming workshops
-            </h2>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Next sessions on the calendar — click a card to open details.
-          </p>
-        </div>
-        <div className="p-6 sm:p-8">
-          {upcoming.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              No upcoming workshops scheduled.
-            </p>
+      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <BarChart history={history} />
+        <Breakdown history={history} />
+      </div>
+
+      <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,1fr)_320px]">
+        <Panel
+          title="Recent activity"
+          meta={filtered.length}
+          actions={
+            <>
+              <div className="relative w-full sm:w-48">
+                <Search className="pointer-events-none absolute left-2.5 top-1/2 size-3.5 -translate-y-1/2 text-muted-foreground" />
+                <Input placeholder="Filter" value={query} onChange={(e) => setQuery(e.target.value)} className="h-8 pl-8" />
+              </div>
+              {!query && filtered.length > 7 && (
+                <Button variant="ghost" size="sm" onClick={() => setAll((v) => !v)}>
+                  {all ? "Show less" : "Show all"}
+                </Button>
+              )}
+            </>
+          }
+        >
+          <div id="activity" className="scroll-mt-20" />
+          {shown.length === 0 ? (
+            <Empty title={query ? "No matches" : "Nothing yet"}>
+              {query ? "Try a different search." : "Edits to workshops, news, users and the symposium show up here."}
+            </Empty>
           ) : (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {upcoming.map((w) => (
-                <WorkshopCardItem key={w.id} workshop={w} />
-              ))}
-            </div>
+            <ol className="admin-rows">
+              {shown.map((row) => {
+                const section = sectionOf(row.table_name);
+                const rest = row.description.startsWith(row.actor) ? row.description.slice(row.actor.length) : ` ${row.description}`;
+                return (
+                  <li key={row.id} className="admin-item items-baseline">
+                    <time
+                      dateTime={row.created_at}
+                      title={new Date(row.created_at).toLocaleString("en-US", { dateStyle: "medium", timeStyle: "short", timeZone: TZ })}
+                      className="w-24 shrink-0 text-xs text-muted-foreground"
+                      suppressHydrationWarning
+                    >
+                      {ago(row.created_at)}
+                    </time>
+                    <p className="min-w-0 flex-1 text-sm text-muted-foreground">
+                      <span className="font-medium text-foreground">{row.actor}</span>
+                      {rest}
+                    </p>
+                    <span className="admin-tag hidden shrink-0 sm:inline">
+                      {section?.label ?? row.table_name.replace(/_/g, " ")}
+                      {VERB[row.action] ? ` · ${VERB[row.action]}` : ""}
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
           )}
-        </div>
+        </Panel>
+
+        <Panel
+          title="Coming up"
+          actions={
+            <Link href="/admin/workshops" className="text-[13px] font-medium text-[var(--a-blue)] underline-offset-4 hover:underline">
+              All workshops
+            </Link>
+          }
+        >
+          {workshops.length === 0 ? (
+            <Empty title="No workshops scheduled">Add one so it shows on the public calendar.</Empty>
+          ) : (
+            <ul className="admin-rows">
+              {workshops.map((w, i) => {
+                const d = new Date(w.datetime);
+                const part = (o: Intl.DateTimeFormatOptions) => d.toLocaleString("en-US", { timeZone: TZ, ...o });
+                const body = (
+                  <>
+                    <span className={`admin-date${i === 0 ? " is-next" : ""}`}>
+                      <span>{part({ month: "short" })}</span>
+                      <strong>{part({ day: "numeric" })}</strong>
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="line-clamp-2 block text-sm font-medium leading-snug text-foreground">{w.title}</span>
+                      <span className="admin-mono mt-1 block truncate text-xs text-muted-foreground">
+                        {part({ weekday: "short", hour: "numeric", minute: "2-digit" })} · {w.location}
+                      </span>
+                    </span>
+                    {w.link && <ArrowUpRight className="size-4 shrink-0 text-muted-foreground" />}
+                  </>
+                );
+                return (
+                  <li key={w.id}>
+                    {w.link ? (
+                      <a href={w.link} target="_blank" rel="noopener noreferrer" className="admin-item">
+                        {body}
+                      </a>
+                    ) : (
+                      <div className="admin-item">{body}</div>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </Panel>
       </div>
     </div>
   );

@@ -59,6 +59,13 @@ function buildActivityDescription(
       description += ` news article ${title}`;
       break;
     }
+    case "workshops":
+    case "projects": {
+      const row = (activity.new_data ?? activity.old_data) as { title?: string } | null;
+      const kind = activity.table_name === "workshops" ? "workshop" : "project";
+      description += row?.title ? ` ${kind} ${row.title}` : ` a ${kind}`;
+      break;
+    }
     default:
       description += ` on ${activity.table_name}`;
   }
@@ -92,20 +99,38 @@ export default async function Page() {
     .order("created_at", { ascending: false })
     .limit(25);
 
-  const { data: workshops } = await supabase
-    .from("workshops")
-    .select("*")
-    .order("datetime", { ascending: true })
-    .limit(12);
+  const now = new Date();
+  const since = new Date(now.getTime() - 8 * 7 * 86400000).toISOString();
+  const [{ data: workshops }, { count: upcoming }, { count: drafts }, { count: openForms }, { data: history }] = await Promise.all([
+    supabase
+      .from("workshops")
+      .select("*")
+      .gte("datetime", new Date(now.getTime() - 3 * 3600 * 1000).toISOString())
+      .order("datetime", { ascending: true })
+      .limit(5),
+    supabase.from("workshops").select("id", { count: "exact", head: true }).gte("datetime", now.toISOString()),
+    supabase.from("news").select("id", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("forms").select("id", { count: "exact", head: true }).eq("status", "open"),
+    supabase
+      .schema("admin")
+      .from("activity_log")
+      .select("created_at, table_name")
+      .gte("created_at", since)
+      .limit(5000),
+  ]);
 
   const rows: ActivityRow[] = (activities ?? []).map((activity) => ({
     id: activity.id,
+    actor: activity.people
+      ? `${activity.people.first_name} ${activity.people.last_name}`
+      : "A user",
     description: buildActivityDescription(activity as Activity),
     created_at:
       typeof activity.created_at === "string"
         ? activity.created_at
         : new Date(activity.created_at).toISOString(),
     table_name: activity.table_name,
+    action: activity.action_type,
   }));
 
   const workshopCards: WorkshopCard[] = (workshops ?? []).map((w) => ({
@@ -117,18 +142,31 @@ export default async function Page() {
         ? w.datetime
         : new Date(w.datetime).toISOString(),
     location: w.location,
-    cover: w.cover,
     link: w.link,
   }));
 
-  const roleLabel = `${data.role} · Data Science and Informatics`;
+  const hour = Number(
+    now.toLocaleString("en-US", { hour: "numeric", hourCycle: "h23", timeZone: "America/New_York" }),
+  );
+  const greeting = hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening";
+  const weekAgo = now.getTime() - 7 * 86400000;
 
   return (
     <DashboardView
-      firstName={data.first_name ?? "there"}
-      roleLabel={roleLabel}
+      greeting={`${greeting}, ${data.first_name ?? "there"}.`}
+      role={data.role}
       activities={rows}
+      history={(history ?? []).map((h) => ({
+        at: typeof h.created_at === "string" ? h.created_at : new Date(h.created_at).toISOString(),
+        table: h.table_name,
+      }))}
       workshops={workshopCards}
+      stats={{
+        upcoming: upcoming ?? workshopCards.length,
+        drafts: drafts ?? 0,
+        openForms: openForms ?? 0,
+        thisWeek: rows.filter((r) => new Date(r.created_at).getTime() > weekAgo).length,
+      }}
     />
   );
 }
