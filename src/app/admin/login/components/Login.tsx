@@ -21,8 +21,6 @@ import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { AlertCircle, CheckCircle2 } from "lucide-react";
 
-const DSI_BLUE = "#0021A5";
-const DSI_NAVY = "#0a1628";
 
 type Inputs = {
   email: string;
@@ -108,7 +106,7 @@ export default function Login() {
           alt="UF Data Science Initiative"
           width={140}
           height={56}
-          className="h-auto w-[140px] object-contain"
+          className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
           priority
         />
       </div>
@@ -123,8 +121,7 @@ export default function Login() {
           </Alert>
         ) : null}
         <h1
-          className="mb-0 text-3xl font-bold tracking-tight sm:text-[2rem]"
-          style={{ color: DSI_NAVY }}
+          className="admin-title"
         >
           Welcome back
         </h1>
@@ -167,7 +164,7 @@ export default function Login() {
                       aria-invalid={fieldState.invalid}
                       placeholder="name@ufl.edu"
                       autoComplete="email"
-                      className="h-11 border-border/80 bg-background"
+                      className="h-10"
                     />
                     {fieldState.invalid ? (
                       <FieldError errors={[fieldState.error]} />
@@ -190,7 +187,7 @@ export default function Login() {
                       aria-invalid={fieldState.invalid}
                       placeholder="Enter your password"
                       autoComplete="current-password"
-                      className="h-11 border-border/80 bg-background"
+                      className="h-10"
                     />
                     {fieldState.invalid ? (
                       <FieldError errors={[fieldState.error]} />
@@ -211,7 +208,6 @@ export default function Login() {
                         onCheckedChange={(v) =>
                           field.onChange(v === true)
                         }
-                        className="border-[#0021A5]/40 data-[state=checked]:border-[#0021A5] data-[state=checked]:bg-[#0021A5]"
                       />
                       <Label
                         htmlFor="login-remember"
@@ -225,8 +221,7 @@ export default function Login() {
                 <div className="flex flex-wrap items-center gap-x-4 gap-y-1 sm:justify-end">
                   <Link
                     href="/admin/login/forgot-password"
-                    className="text-sm font-medium hover:underline"
-                    style={{ color: DSI_BLUE }}
+                    className="text-sm font-medium underline-offset-4 hover:underline"
                   >
                     Forgot password?
                   </Link>
@@ -242,8 +237,7 @@ export default function Login() {
               <Button
                 type="submit"
                 size="lg"
-                className="h-11 w-full border-0 font-semibold text-white shadow-md transition hover:bg-[#001a8c]"
-                style={{ backgroundColor: DSI_BLUE }}
+                className="h-10 w-full"
                 disabled={submitted}
               >
                 {submitted ? (
@@ -260,7 +254,7 @@ export default function Login() {
             <div className="space-y-6">
               <div className="relative">
                 <Separator />
-                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-3 text-xs font-medium uppercase tracking-wide text-muted-foreground">
+                <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-background px-3 text-xs text-muted-foreground">
                   DSI admin
                 </span>
               </div>
@@ -276,7 +270,7 @@ export default function Login() {
           <div className="flex flex-col items-center justify-center gap-4 py-14">
             <Spinner
               className="size-8"
-              style={{ color: DSI_BLUE }}
+              style={{ color: "var(--a-blue)" }}
             />
             <p className="text-center text-sm text-muted-foreground">
               Verifying your sign-in link…

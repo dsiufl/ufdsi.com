@@ -1,39 +1,54 @@
-/**
- * Right panel — soft mesh gradient (Caleo-style) with UF DSI branding.
- */
+/** Right panel: a quiet preview of the dashboard instead of a slogan. */
+const Bar = ({ w, tone = "bg-white/15" }: { w: string; tone?: string }) => (
+  <span className={`block h-2 rounded-full ${tone}`} style={{ width: w }} />
+);
+
 export function LoginHero() {
   return (
-    <div className="relative flex min-h-[42vh] flex-1 items-center justify-center overflow-hidden px-8 py-16 sm:px-12 lg:min-h-screen lg:px-16">
-      {/* Base wash */}
-      <div
-        className="absolute inset-0 bg-gradient-to-br from-slate-50 via-[#eef2ff] to-slate-100"
-        aria-hidden
-      />
-      {/* Mesh orbs — soft indigo / sky / warm accent like modern SaaS templates */}
-      <div
-        className="pointer-events-none absolute -left-[18%] -top-[12%] h-[min(70vw,28rem)] w-[min(70vw,28rem)] rounded-full bg-[radial-gradient(circle_at_30%_30%,rgba(0,33,165,0.14),transparent_68%)] blur-2xl"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute -right-[12%] top-[15%] h-[min(65vw,26rem)] w-[min(65vw,26rem)] rounded-full bg-[radial-gradient(circle_at_70%_40%,rgba(99,102,241,0.16),transparent_65%)] blur-3xl"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute bottom-[-8%] left-[20%] h-[min(55vw,22rem)] w-[min(55vw,22rem)] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(14,165,233,0.12),transparent_70%)] blur-2xl"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none absolute bottom-[25%] right-[10%] h-[min(45vw,18rem)] w-[min(45vw,18rem)] rounded-full bg-[radial-gradient(circle_at_50%_50%,rgba(240,101,47,0.08),transparent_72%)] blur-3xl"
-        aria-hidden
-      />
-      {/* Subtle top shine */}
-      <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/50 to-transparent"
-        aria-hidden
-      />
+    <div className="relative flex min-h-[42vh] flex-1 flex-col justify-between overflow-hidden bg-[#141a33] px-8 py-12 text-[#f4efeb] sm:px-12 lg:min-h-screen lg:px-16 lg:py-16" aria-hidden>
+      <p className="relative text-xs font-semibold uppercase tracking-[0.14em] text-[#9db4f5]">UF DSI · Admin</p>
 
-      <p className="relative z-10 max-w-xl text-center text-[1.65rem] font-semibold leading-snug tracking-tight text-slate-800 sm:text-3xl lg:text-[2.35rem] lg:leading-tight">
-        UF Data Science and Informatics
+      <div className="relative -mr-24 mt-10 hidden rounded-[4px] border border-white/15 bg-white/[0.03] p-5 sm:block lg:-mr-40">
+        <div className="grid grid-cols-4 gap-3">
+          {["Upcoming workshops", "News drafts", "Open forms", "Changes this week"].map((label, i) => (
+            <div key={label} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+              <p className="font-mono text-2xl tracking-[-0.04em]">{[4, 2, 1, 12][i]}</p>
+              <p className="mt-1 truncate text-[11px] text-white/50">{label}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-3 grid grid-cols-[1fr_0.8fr] gap-3">
+          <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+            <Bar w="35%" tone="bg-white/30" />
+            {["70%", "55%", "80%", "45%"].map((w) => (
+              <div key={w} className="flex items-center gap-3">
+                <span className="size-6 shrink-0 rounded-full bg-white/10" />
+                <span className="flex-1 space-y-1.5">
+                  <Bar w={w} />
+                  <Bar w="25%" tone="bg-white/[0.07]" />
+                </span>
+              </div>
+            ))}
+          </div>
+          <div className="space-y-3 rounded-xl border border-white/10 bg-white/[0.03] p-4">
+            <Bar w="40%" tone="bg-white/30" />
+            {[0, 1, 2].map((i) => (
+              <div key={i} className="flex items-center gap-3">
+                <span className={`flex h-9 w-8 shrink-0 flex-col items-center justify-center rounded-md text-[10px] font-semibold ${i === 0 ? "bg-[#cf3f12]" : "bg-white/10"}`}>
+                  {[25, 1, 8][i]}
+                </span>
+                <span className="flex-1 space-y-1.5">
+                  <Bar w={["85%", "70%", "75%"][i]} />
+                  <Bar w="45%" tone="bg-white/[0.07]" />
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <p className="relative mt-10 max-w-sm text-sm leading-relaxed text-white/55">
+        Workshops, news, projects, the symposium and event forms for ufdsi.com.
       </p>
     </div>
   );

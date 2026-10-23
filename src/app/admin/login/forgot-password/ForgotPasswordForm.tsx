@@ -17,8 +17,6 @@ import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { CheckCircle2 } from "lucide-react";
 
-const DSI_BLUE = "#0021A5";
-const DSI_NAVY = "#0a1628";
 
 type Inputs = { email: string };
 
@@ -58,7 +56,7 @@ export function ForgotPasswordForm() {
             alt="UF Data Science Initiative"
             width={140}
             height={56}
-            className="h-auto w-[140px] object-contain"
+            className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
             priority
           />
         </div>
@@ -88,15 +86,14 @@ export function ForgotPasswordForm() {
           alt="UF Data Science Initiative"
           width={140}
           height={56}
-          className="h-auto w-[140px] object-contain"
+          className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
           priority
         />
       </div>
 
       <div className="space-y-2">
         <h1
-          className="mb-0 text-3xl font-bold tracking-tight sm:text-[2rem]"
-          style={{ color: DSI_NAVY }}
+          className="admin-title"
         >
           Reset your password
         </h1>
@@ -151,8 +148,7 @@ export function ForgotPasswordForm() {
           <Button
             type="submit"
             size="lg"
-            className="h-11 w-full border-0 font-semibold text-white shadow-md hover:bg-[#001a8c]"
-            style={{ backgroundColor: DSI_BLUE }}
+            className="h-11 w-full border-0 font-semibold text-white"
             disabled={submitted}
           >
             {submitted ? (
@@ -172,7 +168,7 @@ export function ForgotPasswordForm() {
         <Link
           href="/admin/login"
           className="font-medium hover:underline"
-          style={{ color: DSI_BLUE }}
+          style={{ color: "var(--a-blue)" }}
         >
           Sign in
         </Link>
