@@ -59,9 +59,12 @@ export default function Users({ data }: { data: Profile[] }) {
 
   const pending = list.filter((u) => !u.account_setup).length;
 
+  // set-up accounts get a password reset link, everyone else a fresh invite
   const invite = async (user: Profile) => {
-    const res = await post("/api/users/email", { access_token: token, user });
-    alert?.setAlert(res.ok ? "info" : "error", res.ok ? `Invite sent to ${user.email}.` : "Couldn't send the invite.");
+    const reset = !!user.account_setup;
+    const res = await post("/api/users/email", { access_token: token, user, type: reset ? "reset" : "invite" });
+    const what = reset ? "Password reset link" : "Invite";
+    alert?.setAlert(res.ok ? "info" : "error", res.ok ? `${what} sent to ${user.email}.` : `Couldn't send the ${what.toLowerCase()}.`);
   };
 
   const remove = async () => {
@@ -90,7 +93,9 @@ export default function Users({ data }: { data: Profile[] }) {
             data={{} as Profile}
             onSubmit={async (d: Profile) => {
               const res = await post("/api/users/create", { access_token: token, user: d });
-              if (!res.ok) return alert?.setAlert("error", "Couldn't create the user.");
+              if (res.status === 502) alert?.setAlert("error", `Added ${d.email}, but the invite email didn't send. Try "Send invite email" from their row.`);
+              else if (!res.ok) return alert?.setAlert("error", "Couldn't create the user.");
+              else alert?.setAlert("info", `Invite sent to ${d.email}.`);
               setAdding(false);
               router.refresh();
             }}
@@ -180,7 +185,7 @@ export default function Users({ data }: { data: Profile[] }) {
                             <Pencil className="mr-2 size-4" /> Edit
                           </DropdownMenuItem>
                           <DropdownMenuItem onClick={() => invite(u)}>
-                            <Mail className="mr-2 size-4" /> Send invite email
+                            <Mail className="mr-2 size-4" /> {u.account_setup ? "Send password reset" : "Send invite email"}
                           </DropdownMenuItem>
                           {u.id !== me?.id && (
                             <>

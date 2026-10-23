@@ -44,15 +44,8 @@ export async function POST(req: NextRequest) {
     }
     
     await supabase.schema('admin').from('people').insert({...user, id: newUser?.id});
-    const res = await sendEmail(user, access_token);
-
-    if (res && res.status >= 400) {
-        console.log("Error sending email:", await res.text());
-    }
-    if (!res) {
-        return new Response('Error sending email', { status: 500 });
-    }
-
+    const res = await sendEmail(user, access_token, undefined, req.nextUrl.origin);
+    if (res.status >= 400) return new Response('User created, but the invite email failed', { status: 502 });
     return new Response('User created', { status: 200 });
 
 }
