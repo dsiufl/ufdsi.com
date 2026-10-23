@@ -151,6 +151,9 @@ export default function Editor({ article, canPublish }: { article: Article; canP
               ) : (
                 <p className="text-sm text-muted-foreground">Saved as a draft until a President, Technology or Marketing Coordinator publishes it.</p>
               )}
+              {article.submitted_by_email && (
+                <p className="text-xs text-muted-foreground">Sent in through the Google Form by {article.submitted_by_email}.</p>
+              )}
               <div className="flex flex-col gap-2">
                 <Label>Category</Label>
                 <Select value={form.category} onValueChange={(v) => set("category", v)}>

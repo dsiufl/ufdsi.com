@@ -88,6 +88,8 @@ export default async function page({ searchParams }: { searchParams: Promise<{ s
                 {shown.map((item) => {
                   const editable = canPublish || (isDraft(item) && item.author === user?.id);
                   const author = item.author ? names.get(item.author) : undefined;
+                  // form submissions have no author, just the email they came from
+                  const byline = author ? `By ${author}` : item.submitted_by_email ? `From the form · ${item.submitted_by_email}` : undefined;
                   return (
                     <tr key={item.id}>
                       <td className="max-w-[28rem]">
@@ -98,10 +100,10 @@ export default async function page({ searchParams }: { searchParams: Promise<{ s
                         ) : (
                           <span className="admin-table__title">{item.title}</span>
                         )}
-                        {(author || item.featured) && (
+                        {(byline || item.featured) && (
                           <p className="admin-table__sub">
-                            {author && `By ${author}`}
-                            {author && item.featured && " · "}
+                            {byline}
+                            {byline && item.featured && " · "}
                             {item.featured && "Featured"}
                           </p>
                         )}
