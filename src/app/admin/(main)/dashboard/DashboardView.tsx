@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowUpRight, Plus, Search } from "lucide-react";
+import { ArrowUpRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { NewMenu } from "../components/CreateButton";
 import { Empty, PageHeader, Panel } from "../components/PageHeader";
 
 export type ActivityRow = {
@@ -258,16 +259,7 @@ export function DashboardView({
         title={greeting}
         description="What changed across the site lately, and what's coming up next."
         actions={
-          <>
-            <Button variant="outline" asChild>
-              <Link href="/admin/news/article/new">New article</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/admin/workshops?new=1">
-                <Plus /> Add workshop
-              </Link>
-            </Button>
-          </>
+<NewMenu />
         }
       />
 
