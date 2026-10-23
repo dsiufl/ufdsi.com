@@ -63,7 +63,7 @@ export default async function Home() {
   const cookieStore = await cookies();
   const supabase = await createClient(cookieStore);
   // A failed query still renders the page; the grid shows its empty state.
-  const { data: workshops } = await supabase.from("workshops").select("*");
+  const { data: workshops } = await supabase.from("workshops").select("*").eq("status", "published");
   const semester = buildSemester(workshops ?? []);
 
   return (
