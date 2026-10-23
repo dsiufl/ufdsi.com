@@ -12,7 +12,7 @@ export function LoginPageShell({ children }: { children: ReactNode }) {
         <div className="flex flex-1 flex-col justify-center px-6 py-10 sm:px-10 lg:min-h-screen lg:px-14 xl:px-20">
           {children}
         </div>
-        <div className="flex min-h-0 flex-1 flex-col lg:max-w-[52%] xl:max-w-[50%]">
+        <div className="hidden min-h-0 flex-1 flex-col lg:flex lg:max-w-[52%] xl:max-w-[50%]">
           <LoginHero />
         </div>
       </div>
