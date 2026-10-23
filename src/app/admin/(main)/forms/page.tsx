@@ -43,8 +43,6 @@ export default async function FormsPage() {
     }
 
     return (
-        <div className="container pt-20">
-            <FormsManager forms={forms ?? []} counts={counts} />
-        </div>
+        <FormsManager forms={forms ?? []} counts={counts} />
     );
 }

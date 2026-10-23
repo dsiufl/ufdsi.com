@@ -236,7 +236,7 @@ export default function ImportDialog({
                             <Button
                                 disabled={!hasCoreFields}
                                 onClick={() => setStep('preview')}
-                                className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                                className=""
                             >
                                 Preview
                                 <ArrowRight className="h-4 w-4 ml-2" />
@@ -321,7 +321,7 @@ export default function ImportDialog({
                             </Button>
                             <Button
                                 onClick={handleImport}
-                                className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                                className=""
                             >
                                 Import {csvRows.length - totalErrors} Rows
                             </Button>
@@ -370,7 +370,7 @@ export default function ImportDialog({
                                     onOpenChange(false);
                                     onComplete();
                                 }}
-                                className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                                className=""
                             >
                                 Done
                             </Button>

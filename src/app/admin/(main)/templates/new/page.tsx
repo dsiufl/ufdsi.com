@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, FileText, Layers } from 'lucide-react';
+import { FileText, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -63,15 +63,7 @@ export default function NewTemplatePage() {
     }
 
     return (
-        <div className="container pt-20 max-w-xl">
-            <button
-                onClick={() => router.push('/admin/templates')}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-                style={{ background: 'none', padding: 0, fontWeight: 'normal' }}
-            >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Back to Templates
-            </button>
+        <div className="admin-page max-w-xl">
 
             <Card>
                 <CardHeader>
@@ -118,7 +110,7 @@ export default function NewTemplatePage() {
                     {error && <p className="text-red-500 text-sm">{error}</p>}
 
                     <Button
-                        className="w-full bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                        className="w-full"
                         onClick={handleCreate}
                         disabled={creating}
                     >

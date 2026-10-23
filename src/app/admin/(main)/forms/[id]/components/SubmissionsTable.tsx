@@ -2,7 +2,6 @@
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -57,10 +56,10 @@ function FileLink({ formId, path, name, token }: { formId: string; path: string;
 }
 
 const statusConfig: Record<SubmissionStatus, { label: string; className: string }> = {
-    confirmed: { label: 'Confirmed', className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-    pending: { label: 'Pending', className: 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400' },
-    waitlist: { label: 'Waitlist', className: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400' },
-    cancelled: { label: 'Cancelled', className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
+    confirmed: { label: 'Confirmed', className: 'admin-pill admin-pill--ok' },
+    pending: { label: 'Pending', className: 'admin-pill admin-pill--warn' },
+    waitlist: { label: 'Waitlist', className: 'admin-pill admin-pill--info' },
+    cancelled: { label: 'Cancelled', className: 'admin-pill admin-pill--plain' },
 };
 
 export default function SubmissionsTable({
@@ -157,7 +156,7 @@ export default function SubmissionsTable({
                         variant={filter === f ? 'default' : 'outline'}
                         size="sm"
                         onClick={() => setFilter(f)}
-                        className={filter === f ? 'bg-[#FF5722] hover:bg-[#F4511E] text-white' : ''}
+                        className={filter === f ? '' : ''}
                     >
                         {f === 'all' ? 'All' : statusConfig[f].label} ({f === 'all' ? submissions.length : submissions.filter(s => s.status === f).length})
                     </Button>
@@ -240,9 +239,7 @@ export default function SubmissionsTable({
                                     {formatDate(sub.submitted_at)}
                                 </TableCell>
                                 <TableCell>
-                                    <Badge variant="secondary" className={statusConfig[sub.status].className}>
-                                        {statusConfig[sub.status].label}
-                                    </Badge>
+                                    <span className={statusConfig[sub.status].className}>{statusConfig[sub.status].label}</span>
                                 </TableCell>
                                 <TableCell>
                                     <DropdownMenu>
@@ -309,9 +306,7 @@ export default function SubmissionsTable({
                             <div>
                                 <Label className="text-muted-foreground">Status</Label>
                                 <div className="mt-1">
-                                    <Badge variant="secondary" className={statusConfig[viewSub.status].className}>
-                                        {statusConfig[viewSub.status].label}
-                                    </Badge>
+                                    <span className={statusConfig[viewSub.status].className}>{statusConfig[viewSub.status].label}</span>
                                     {viewSub.waitlist_position && (
                                         <span className="ml-2 text-sm text-muted-foreground">#{viewSub.waitlist_position}</span>
                                     )}

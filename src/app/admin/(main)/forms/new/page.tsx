@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, FileText, Bus, CalendarCheck } from 'lucide-react';
+import { FileText, Bus, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formTemplates } from '@/lib/form-templates';
@@ -99,15 +99,7 @@ export default function TemplatePicker() {
     }, {});
 
     return (
-        <div className="container pt-20">
-            <button
-                onClick={() => router.push('/admin/forms')}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-                style={{ background: 'none', padding: 0, fontWeight: 'normal' }}
-            >
-                <ArrowLeft className="h-3.5 w-3.5" />
-                Back to Forms
-            </button>
+        <div className="admin-page">
             <h1 className="text-2xl font-semibold mb-1">Choose a Template</h1>
             <p className="text-sm text-muted-foreground mb-8">
                 Start with a template or build from scratch
@@ -133,7 +125,7 @@ export default function TemplatePicker() {
                 Object.entries(grouped).map(([category, categoryTemplates]) => (
                     <div key={category} className="mb-8">
                         {Object.keys(grouped).length > 1 && (
-                            <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-4">
+                            <h2 className="text-sm font-medium text-muted-foreground mb-4">
                                 {category}
                             </h2>
                         )}
@@ -143,12 +135,12 @@ export default function TemplatePicker() {
                                 return (
                                     <Card
                                         key={template.id}
-                                        className={`cursor-pointer transition-all hover:border-[#FF5722] hover:shadow-md ${creating ? 'pointer-events-none opacity-60' : ''}`}
+                                        className={`cursor-pointer transition-all hover:border-[hsl(var(--brand))] hover:shadow-md ${creating ? 'pointer-events-none opacity-60' : ''}`}
                                         onClick={() => handleSelect(template)}
                                     >
                                         <CardHeader>
-                                            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-[#FF5722]/10">
-                                                <Icon className="h-6 w-6 text-[#FF5722]" />
+                                            <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-lg bg-[hsl(var(--brand)/0.1)]">
+                                                <Icon className="h-6 w-6 text-[hsl(var(--brand))]" />
                                             </div>
                                             <CardTitle className="text-lg">{template.name}</CardTitle>
                                             <CardDescription className="mt-2">{template.description}</CardDescription>

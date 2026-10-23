@@ -106,7 +106,7 @@ export default function FormSettingsPanel({
                     {saved && <p className="text-green-600 text-sm">Settings saved.</p>}
                 </div>
                 <Button
-                    className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                    className=""
                     onClick={handleSave}
                     disabled={saving || !isDirty}
                 >

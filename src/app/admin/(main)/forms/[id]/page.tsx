@@ -31,7 +31,7 @@ export default async function FormDetailPage({ params }: { params: Promise<{ id:
     if (error || !form) notFound();
 
     return (
-        <div className="container pt-20">
+        <div className="admin-page">
             <FormDetail form={form as EventForm} />
         </div>
     );

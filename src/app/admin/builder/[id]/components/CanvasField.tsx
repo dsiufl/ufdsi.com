@@ -54,7 +54,7 @@ export default function CanvasField({
             onClick={onSelect}
             className={cn(
                 'group relative cursor-pointer rounded-lg border-2 p-4 transition-all',
-                isSelected ? 'border-[#FF5722] bg-[#FF5722]/5' : 'border-border bg-card hover:border-[#FF5722]/50',
+                isSelected ? 'border-[hsl(var(--brand))] bg-[hsl(var(--brand)/0.05)]' : 'border-border bg-card hover:border-[hsl(var(--brand)/0.5)]',
                 isDragging && 'opacity-50',
                 field.width === 'half' ? 'col-span-1' : 'col-span-2'
             )}

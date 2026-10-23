@@ -2,12 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { ArrowLeft, Edit, Copy, ExternalLink, Layers } from 'lucide-react';
+import { Edit, Copy, ExternalLink, Layers } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
 import { EventForm, FormSubmission, FormStatus } from '@/types/db';
 import { createUserClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
@@ -27,9 +26,9 @@ import SubmissionsTable from './SubmissionsTable';
 import FormSettingsPanel from './FormSettingsPanel';
 
 const statusConfig: Record<FormStatus, { label: string; className: string }> = {
-    draft: { label: 'Draft', className: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300' },
-    open: { label: 'Open', className: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' },
-    closed: { label: 'Closed', className: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400' },
+    draft: { label: 'Draft', className: 'admin-pill' },
+    open: { label: 'Open', className: 'admin-pill admin-pill--ok' },
+    closed: { label: 'Closed', className: 'admin-pill admin-pill--plain' },
 };
 
 export default function FormDetail({ form: initial }: { form: EventForm }) {
@@ -82,21 +81,11 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
             <Tabs value={tab} onValueChange={setTab}>
                 {/* Header */}
                 <div className="mb-6">
-                    <button
-                        onClick={() => router.push('/admin/forms')}
-                        className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors"
-                        style={{ background: 'none', padding: 0, fontWeight: 'normal' }}
-                    >
-                        <ArrowLeft className="h-3.5 w-3.5" />
-                        Back to Forms
-                    </button>
                     <div className="flex items-start justify-between">
                         <div>
                             <div className="flex items-center gap-3">
-                                <h1 className="text-2xl font-semibold">{form.title}</h1>
-                                <Badge variant="secondary" className={statusConfig[form.status].className}>
-                                    {statusConfig[form.status].label}
-                                </Badge>
+                                <h1 className="admin-title">{form.title}</h1>
+                                <span className={statusConfig[form.status].className}>{statusConfig[form.status].label}</span>
                             </div>
                             {form.description && (
                                 <p className="text-sm text-muted-foreground mt-1">{form.description}</p>
@@ -297,7 +286,7 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                     <DialogFooter>
                         <Button variant="outline" onClick={() => setShowSaveTemplate(false)}>Cancel</Button>
                         <Button
-                            className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                            className=""
                             disabled={savingTemplate || !templateName.trim()}
                             onClick={async () => {
                                 if (!token) return;

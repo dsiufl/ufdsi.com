@@ -28,8 +28,6 @@ export default async function TemplatesPage() {
         .order('name');
 
     return (
-        <div className="container pt-20 pb-10">
-            <TemplatesManager templates={templates ?? []} />
-        </div>
+        <TemplatesManager templates={templates ?? []} />
     );
 }

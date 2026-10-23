@@ -1,3 +1,4 @@
+import "@/styles/admin.css";
 import { cookies } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 import { createClient as createSupabaseClient } from '@supabase/supabase-js';
@@ -30,5 +31,9 @@ export default async function BuilderPage({ params }: { params: Promise<{ id: st
 
     if (error || !form) notFound();
 
-    return <FormBuilder form={form as EventForm} />;
+    return (
+        <div className="admin-root min-h-svh bg-background">
+            <FormBuilder form={form as EventForm} />
+        </div>
+    );
 }

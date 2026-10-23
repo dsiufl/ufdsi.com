@@ -164,7 +164,7 @@ function FormBuilderContent({ form }: { form: EventForm }) {
                     </Button>
                     <Button
                         size="sm"
-                        className="gap-2 bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                        className="gap-2"
                         onClick={() => save(fields, formTitle)}
                     >
                         <Save className="h-4 w-4" />
