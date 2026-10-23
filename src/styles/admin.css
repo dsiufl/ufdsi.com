@@ -1,0 +1,494 @@
+/* Admin theme, built from the public site's system (site.css): warm paper,
+   ink, signal orange and UF blue. Light only.
+   Rules: 4px radius at most, hairlines instead of shadows, rows instead of
+   nested cards, mono for numbers and dates.
+   Set on :root while an admin page is open so portals pick it up too. */
+
+:root:has(.admin-root) {
+  --background: 34 38% 96.5%;
+  --foreground: 24 22% 11%;
+  --card: 36 50% 99%;
+  --card-foreground: 24 22% 11%;
+  --popover: 36 50% 99%;
+  --popover-foreground: 24 22% 11%;
+  --secondary: 32 27% 92%;
+  --secondary-foreground: 24 22% 11%;
+  --muted: 32 27% 92.5%;
+  --muted-foreground: 26 7% 42%;
+  --accent: 32 27% 92%;
+  --accent-foreground: 24 22% 11%;
+  --destructive: 4 72% 42%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 30 12% 85%;
+  --input: 28 9% 74%;
+  --ring: 228 100% 32%;
+  --radius: 4px;
+  --brand: 14 84% 44%;
+  --brand-foreground: 0 0% 100%;
+
+  --sidebar-background: 32 30% 93.5%;
+  --sidebar-foreground: 24 9% 30%;
+  --sidebar-primary: 24 22% 11%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 32 24% 89%;
+  --sidebar-accent-foreground: 24 22% 11%;
+  --sidebar-border: 30 12% 85%;
+  --sidebar-ring: 228 100% 32%;
+
+  --a-ink: hsl(24 22% 11%);
+  --a-ink-2: hsl(24 9% 33%);
+  --a-ink-3: hsl(26 7% 45%);
+  --a-line: hsl(24 22% 11% / 0.13);
+  --a-line-hi: hsl(24 22% 11% / 0.28);
+  --a-line-soft: hsl(24 22% 11% / 0.08);
+  --a-blue: #0021a5;
+  --a-signal: #cf3f12;
+  --a-ok: hsl(150 55% 28%);
+  --a-warn: hsl(28 90% 40%);
+  --a-mono: ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  background: hsl(var(--background));
+}
+
+/* index.css sizes bare headings and paragraphs for the old marketing pages
+   (portals included). Undo that here. :where keeps it at one element so utilities still win. */
+:where(:root:has(.admin-root)) h1,
+:where(:root:has(.admin-root)) h2,
+:where(:root:has(.admin-root)) h3,
+:where(:root:has(.admin-root)) h4 {
+  display: block;
+  margin: 0;
+  font-size: inherit;
+  letter-spacing: -0.01em;
+}
+:where(:root:has(.admin-root)) h1 { font-size: 1.5rem; font-weight: 600; }
+:where(:root:has(.admin-root)) h2 { font-size: 1.125rem; font-weight: 600; }
+:where(:root:has(.admin-root)) h3 { font-size: 1rem; font-weight: 600; }
+:where(:root:has(.admin-root)) p {
+  margin: 0;
+  font-size: inherit;
+  line-height: 1.5;
+}
+
+/* Shape: nothing rounder than 4px, no soft shadows. Switches and avatars excepted. */
+:root:has(.admin-root) :is(.rounded-xl, .rounded-2xl, .rounded-3xl) {
+  border-radius: 4px;
+}
+:root:has(.admin-root) .rounded-full:not([role="switch"], [role="switch"] *, .admin-avatar, .is-round) {
+  border-radius: 2px;
+}
+:root:has(.admin-root) :is(.shadow-sm, .shadow, .shadow-xs) {
+  box-shadow: none;
+}
+:root:has(.admin-root) :is(.shadow-md, .shadow-lg, .shadow-xl) {
+  box-shadow: 0 8px 24px -12px hsl(24 22% 11% / 0.25);
+}
+
+.admin-root {
+  /* --font-mono comes from next/font on this element */
+  --a-mono: var(--font-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color: hsl(var(--foreground));
+  font-feature-settings: "cv11", "ss01";
+}
+
+:where(.admin-mono, .admin-root time) {
+  font-family: var(--a-mono);
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- primitives ---------- */
+
+.admin-page {
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.admin-label {
+  font-size: 11px;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+}
+
+.admin-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--a-line-hi);
+}
+.admin-head__text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+:where(.admin-root) .admin-title {
+  font-size: clamp(28px, 3vw, 36px);
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.admin-lede {
+  max-width: 62ch;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--a-ink-2);
+}
+.admin-head__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Panels: a plain sheet with a hairline, no shadow. */
+.admin-panel {
+  background: hsl(var(--card));
+  border: 1px solid var(--a-line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.admin-panel__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 52px;
+  padding: 10px 20px;
+  border-bottom: 1px solid var(--a-line-soft);
+}
+:where(.admin-root) .admin-panel__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--a-ink);
+}
+.admin-panel__title svg {
+  display: none;
+}
+.admin-panel__meta {
+  font-family: var(--a-mono);
+  font-size: 12px;
+  color: var(--a-ink-3);
+}
+.admin-panel__head + * {
+  margin-top: 16px;
+}
+.admin-panel__head + :is(.admin-rows, :has(> .admin-table)) {
+  margin-top: 0;
+}
+
+/* Tables: ruled ledger, tracked header. */
+.admin-table {
+  width: 100%;
+  font-size: 14px;
+  border-collapse: collapse;
+}
+.admin-table th {
+  height: 38px;
+  padding: 0 14px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+  border-bottom: 1px solid var(--a-line);
+  white-space: nowrap;
+}
+.admin-table td {
+  padding: 12px 14px;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--a-line-soft);
+}
+.admin-table tr:last-child td {
+  border-bottom: 0;
+}
+.admin-table th:first-child,
+.admin-table td:first-child {
+  padding-left: 20px;
+}
+.admin-table th:last-child,
+.admin-table td:last-child {
+  padding-right: 16px;
+}
+.admin-table tbody tr:hover td {
+  background: hsl(var(--muted) / 0.45);
+}
+.admin-table .is-num {
+  font-family: var(--a-mono);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.admin-table__title {
+  font-weight: 500;
+  color: hsl(var(--foreground));
+}
+.admin-table__sub {
+  margin-top: 2px;
+  font-size: 13px;
+  color: var(--a-ink-3);
+}
+
+/* Status: a square marker and plain text. No pill. */
+.admin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--a-ink-2);
+}
+.admin-pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  background: var(--a-ink-3);
+}
+.admin-pill--plain::before {
+  display: none;
+}
+.admin-pill--ok::before { background: var(--a-ok); }
+.admin-pill--warn::before { background: var(--a-warn); }
+.admin-pill--info::before { background: var(--a-blue); }
+.admin-pill--plain:is(.admin-pill--ok, .admin-pill--warn, .admin-pill--info) {
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+.admin-pill--plain.admin-pill--ok { color: var(--a-ok); }
+.admin-pill--plain.admin-pill--warn { color: var(--a-warn); }
+.admin-pill--plain.admin-pill--info { color: var(--a-blue); }
+
+/* Tabs: text with an underline, like the site's nav. */
+.admin-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 18px;
+}
+.admin-tabs a,
+.admin-tabs button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--a-ink-3);
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s, border-color 0.15s;
+}
+.admin-tabs a:hover,
+.admin-tabs button:hover {
+  color: var(--a-ink);
+}
+.admin-tabs [aria-current="page"],
+.admin-tabs [aria-pressed="true"] {
+  color: var(--a-ink);
+  border-bottom-color: var(--a-signal);
+}
+.admin-tabs .admin-count {
+  font-family: var(--a-mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.75;
+}
+
+.admin-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 48px 24px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--a-ink-3);
+}
+:where(.admin-root) .admin-empty strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--a-ink);
+}
+
+/* Date stub, a small version of the public workshop ticket. */
+.admin-date {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 54px;
+  border: 1px solid var(--a-line);
+  border-radius: 3px;
+  background: hsl(var(--background));
+  color: var(--a-ink);
+  line-height: 1;
+}
+.admin-date span {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+}
+.admin-date strong {
+  margin-top: 4px;
+  font-family: var(--a-mono);
+  font-size: 20px;
+  font-weight: 500;
+  letter-spacing: -0.04em;
+}
+.admin-date.is-next {
+  background: var(--a-signal);
+  border-color: var(--a-signal);
+  color: #fff;
+}
+.admin-date.is-next span {
+  color: rgb(255 255 255 / 0.85);
+}
+
+/* Stats: one ruled strip, no icons. */
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-bottom: 1px solid var(--a-line);
+}
+.admin-stat {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 16px 20px 18px;
+  border-left: 1px solid var(--a-line);
+}
+.admin-stat:nth-child(odd) {
+  border-left: 0;
+  padding-left: 0;
+}
+.admin-stat:nth-child(n + 3) {
+  border-top: 1px solid var(--a-line);
+}
+@media (min-width: 992px) {
+  .admin-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .admin-stat:nth-child(n) { border-left: 1px solid var(--a-line); padding-left: 20px; border-top: 0; }
+  .admin-stat:first-child { border-left: 0; padding-left: 0; }
+}
+a.admin-stat:hover .admin-stat__value {
+  color: var(--a-signal);
+}
+.admin-stat__label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+}
+.admin-stat__value {
+  font-family: var(--a-mono);
+  font-size: 40px;
+  line-height: 1;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: var(--a-ink);
+  transition: color 0.15s;
+}
+
+/* Ruled list rows. */
+.admin-rows > * + * {
+  border-top: 1px solid var(--a-line-soft);
+}
+.admin-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 20px;
+  transition: background-color 0.15s;
+}
+a.admin-item:hover {
+  background: hsl(var(--muted) / 0.45);
+}
+
+.admin-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+}
+
+.admin-avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: hsl(var(--muted));
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--a-ink-2);
+}
+
+.admin-root table th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--a-ink-3);
+}
+
+/* :where so utilities like `hidden` still win */
+:where(.admin-kbd) {
+  display: inline-flex;
+  align-items: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  justify-content: center;
+  border-radius: 2px;
+  border: 1px solid var(--a-line);
+  background: hsl(var(--background));
+  font-family: var(--a-mono);
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--a-ink-3);
+}
+.admin-kbd--on-primary {
+  border-color: rgb(255 255 255 / 0.35);
+  background: transparent;
+  color: rgb(255 255 255 / 0.85);
+}
+
+/* Row menus show on hover or focus. Always visible on touch. */
+@media (hover: hover) {
+  .admin-row-actions {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  :is(tr, li):hover .admin-row-actions,
+  :is(tr, li):focus-within .admin-row-actions,
+  .admin-row-actions[data-state="open"] {
+    opacity: 1;
+  }
+}

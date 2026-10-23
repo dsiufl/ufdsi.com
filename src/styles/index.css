@@ -48,6 +48,8 @@
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
+    --brand: 14 100% 57%;
+    --brand-foreground: 0 0% 100%;
     /* Admin sidebar: light gray panel + slightly darker 1px edge via border token */
     --sidebar-background: 220 14% 96%;
     --sidebar-foreground: 240 5.3% 26.1%;
