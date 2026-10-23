@@ -1,278 +1,132 @@
 "use client";
 
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import Link from "next/link";
-import Image from "next/image";
-import { useForm, Controller, type SubmitHandler } from "react-hook-form";
+import { Spinner } from "@/components/ui/spinner";
 import { createUserClient } from "@/lib/supabase/client";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Spinner } from "@/components/ui/spinner";
+import { AuthCard, Notice, authLink } from "../components/AuthCard";
+import { PasswordFields, usePasswordForm } from "../components/PasswordFields";
 
+/**
+ * Gets a session from whatever the reset email gave us (a session from /admin/login/link,
+ * ?token_hash=, ?code=, or the old #access_token hash), then asks for a new password.
+ */
+async function startSession() {
+  const supabase = createUserClient();
+  const url = new URL(window.location.href);
+  const hash = new URLSearchParams(url.hash.slice(1));
+  const clean = () => window.history.replaceState(null, "", "/admin/login/reset-password");
 
-type Inputs = {
-  password: string;
-  confirm: string;
+  if (hash.get("error_description")) {
+    clean();
+    throw new Error(hash.get("error_code") === "otp_expired" ? "expired" : hash.get("error_description")!);
+  }
+  const tokenHash = url.searchParams.get("token_hash");
+  const code = url.searchParams.get("code");
+  const access_token = hash.get("access_token");
+  const refresh_token = hash.get("refresh_token");
+
+  if (tokenHash) {
+    const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: "recovery" });
+    clean();
+    if (error) throw new Error("expired");
+  } else if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    clean();
+    // PKCE codes only work in the browser that asked for the email
+    if (error) throw new Error("other-device");
+  } else if (access_token && refresh_token) {
+    const { error } = await supabase.auth.setSession({ access_token, refresh_token });
+    clean();
+    if (error) throw new Error("expired");
+  }
+  const { data } = await supabase.auth.getUser();
+  if (!data.user) throw new Error("missing");
+  return data.user.email ?? null;
+}
+
+const PROBLEMS: Record<string, string> = {
+  expired: "This reset link has expired or was already used. Links work once and last an hour.",
+  "other-device": "This link was opened in a different browser than the one that asked for it. Request a new link and open it here.",
+  missing: "Open the link from your reset email to choose a new password.",
 };
 
 export function ResetPasswordForm() {
-  const supabase = createUserClient();
   const router = useRouter();
-  const form = useForm<Inputs>();
-  const [phase, setPhase] = useState<"loading" | "ready" | "error">("loading");
-  const [initError, setInitError] = useState<string | null>(null);
-  const [submitting, setSubmitting] = useState(false);
+  const form = usePasswordForm();
+  const [phase, setPhase] = useState<"loading" | "ready" | "error" | "done">("loading");
+  const [email, setEmail] = useState<string | null>(null);
+  const [problem, setProblem] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const url = new URL(window.location.href);
-        const code = url.searchParams.get("code");
-        if (code) {
-          const { error: exchangeError } =
-            await supabase.auth.exchangeCodeForSession(code);
-          if (exchangeError) throw exchangeError;
-          window.history.replaceState(null, "", "/admin/login/reset-password");
-          setPhase("ready");
-          return;
-        }
-
-        const hash = window.location.hash.substring(1);
-        if (!hash) {
-          setInitError(
-            "This link is missing or has expired. Please request a new password reset.",
-          );
-          setPhase("error");
-          return;
-        }
-
-        const params = new URLSearchParams(hash);
-        const access_token = params.get("access_token");
-        const refresh_token = params.get("refresh_token");
-        const type = params.get("type");
-
-        if (
-          type !== "recovery" ||
-          !access_token ||
-          !refresh_token
-        ) {
-          setInitError(
-            "This reset link is invalid or has expired. Please request a new one.",
-          );
-          setPhase("error");
-          return;
-        }
-
-        const { error: sessionError } = await supabase.auth.setSession({
-          access_token,
-          refresh_token,
-        });
-        if (sessionError) throw sessionError;
-
-        window.history.replaceState(null, "", "/admin/login/reset-password");
+    startSession()
+      .then((e) => {
+        setEmail(e);
         setPhase("ready");
-      } catch (e: unknown) {
-        setInitError(
-          e instanceof Error
-            ? e.message
-            : "Could not verify your reset link. Try again.",
-        );
+      })
+      .catch((e: Error) => {
+        setProblem(PROBLEMS[e.message] ?? e.message);
         setPhase("error");
-      }
-    };
-
-    void init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount for URL tokens
+      });
   }, []);
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ password }) => {
-    setSubmitting(true);
+  const save = form.handleSubmit(async ({ password }) => {
     setFormError(null);
-    const { error } = await supabase.auth.updateUser({ password });
-    setSubmitting(false);
+    const { error } = await createUserClient().auth.updateUser({ password });
     if (error) {
-      setFormError(error.message);
-      return;
+      return setFormError(error.code === "same_password" ? "That's your current password. Pick a new one." : error.message);
     }
-    router.push("/admin/login?reset=success");
-  };
+    setPhase("done");
+  });
 
   if (phase === "loading") {
     return (
-      <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4 py-16">
-        <Image
-          src="/images/logo/hd-transparent-dsi-logo.png"
-          alt=""
-          width={140}
-          height={56}
-          className="h-auto w-[140px] object-contain opacity-90"
-          priority
-        />
-        <Spinner className="size-8" style={{ color: "var(--a-blue)" }} />
-        <p className="text-center text-sm text-muted-foreground">
-          Verifying your reset link…
-        </p>
-      </div>
+      <AuthCard step="Password reset" title="Checking your link…">
+        <Spinner className="size-6 text-muted-foreground" />
+      </AuthCard>
     );
   }
 
   if (phase === "error") {
     return (
-      <div className="mx-auto w-full max-w-md">
-        <div className="mb-10">
-          <Image
-            src="/images/logo/hd-transparent-dsi-logo.png"
-            alt="UF Data Science Initiative"
-            width={140}
-            height={56}
-            className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
-            priority
-          />
+      <AuthCard step="Password reset" title="This link didn't work" footer={<Link href="/admin/login" className={authLink}>Back to sign in</Link>}>
+        <div className="flex flex-col gap-6">
+          <Notice tone="error">{problem}</Notice>
+          <Button asChild className="h-10 w-full">
+            <Link href="/admin/login/forgot-password">Send a new reset link</Link>
+          </Button>
         </div>
-        <Alert variant="destructive">
-          <AlertDescription>{initError}</AlertDescription>
-        </Alert>
-        <Button className="mt-8 w-full" variant="outline" asChild>
-          <Link href="/admin/login/forgot-password">Request a new link</Link>
+      </AuthCard>
+    );
+  }
+
+  if (phase === "done") {
+    return (
+      <AuthCard step="Password reset" title="Password updated" description="You're signed in. Use the new password next time.">
+        <Button className="h-10 w-full" onClick={() => router.replace("/admin/dashboard")}>
+          Go to the dashboard
         </Button>
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          <Link
-            href="/admin/login"
-            className="font-medium hover:underline"
-            style={{ color: "var(--a-blue)" }}
-          >
-            Back to sign in
-          </Link>
-        </p>
-      </div>
+      </AuthCard>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-md">
-      <div className="mb-10">
-        <Image
-          src="/images/logo/hd-transparent-dsi-logo.png"
-          alt="UF Data Science Initiative"
-          width={140}
-          height={56}
-          className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
-          priority
-        />
-      </div>
-
-      <div className="space-y-2">
-        <h1
-          className="admin-title"
-        >
-          Choose a new password
-        </h1>
-        <p className="mb-0 text-base text-muted-foreground">
-          Use at least 8 characters. After saving, sign in with your new password.
-        </p>
-      </div>
-
-      {formError ? (
-        <div className="mt-6">
-          <Alert variant="destructive">
-            <AlertDescription>{formError}</AlertDescription>
-          </Alert>
-        </div>
-      ) : null}
-
-      <form
-        className="mt-8 space-y-6"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FieldGroup className="gap-5">
-          <Controller
-            name="password"
-            control={form.control}
-            defaultValue=""
-            rules={{
-              required: "Password is required",
-              minLength: { value: 8, message: "Use at least 8 characters" },
-            }}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="reset-password">New password</FieldLabel>
-                <Input
-                  {...field}
-                  id="reset-password"
-                  type="password"
-                  autoComplete="new-password"
-                  className="h-11 border-border/80 bg-background"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid ? (
-                  <FieldError errors={[fieldState.error]} />
-                ) : null}
-              </Field>
-            )}
-          />
-          <Controller
-            name="confirm"
-            control={form.control}
-            defaultValue=""
-            rules={{
-              required: "Confirm your password",
-              validate: (value) =>
-                value === form.getValues("password") ||
-                "Passwords do not match",
-            }}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="reset-confirm">Confirm password</FieldLabel>
-                <Input
-                  {...field}
-                  id="reset-confirm"
-                  type="password"
-                  autoComplete="new-password"
-                  className="h-11 border-border/80 bg-background"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid ? (
-                  <FieldError errors={[fieldState.error]} />
-                ) : null}
-              </Field>
-            )}
-          />
-          <Button
-            type="submit"
-            size="lg"
-            className="h-11 w-full border-0 font-semibold text-white"
-            disabled={submitting}
-          >
-            {submitting ? (
-              <>
-                <Spinner className="text-white" />
-                Updating password…
-              </>
-            ) : (
-              "Save new password"
-            )}
-          </Button>
-        </FieldGroup>
+    <AuthCard
+      step="Password reset"
+      title="Choose a new password"
+      description={email ? <>For <span className="font-medium text-foreground">{email}</span>.</> : undefined}
+      footer={<Link href="/admin/login" className={authLink}>Cancel</Link>}
+    >
+      {formError && <div className="mb-6"><Notice tone="error">{formError}</Notice></div>}
+      <form className="flex flex-col gap-5" onSubmit={save} noValidate>
+        <PasswordFields form={form} email={email} />
+        <Button type="submit" className="h-10 w-full" disabled={form.formState.isSubmitting}>
+          {form.formState.isSubmitting ? <><Spinner /> Saving…</> : "Save password"}
+        </Button>
       </form>
-
-      <p className="mt-8 text-center text-sm text-muted-foreground">
-        <Link
-          href="/admin/login"
-          className="font-medium hover:underline"
-          style={{ color: "var(--a-blue)" }}
-        >
-          Cancel and return to sign in
-        </Link>
-      </p>
-    </div>
+    </AuthCard>
   );
 }

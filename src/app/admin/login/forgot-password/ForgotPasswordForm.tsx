@@ -1,178 +1,102 @@
 "use client";
 
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field";
+import { Field, FieldError, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import Link from "next/link";
-import Image from "next/image";
-import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { createUserClient } from "@/lib/supabase/client";
-import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
-import { CheckCircle2 } from "lucide-react";
-
+import Link from "next/link";
+import { useEffect, useState } from "react";
+import { useForm, type SubmitHandler } from "react-hook-form";
+import { AuthCard, Notice, authLink } from "../components/AuthCard";
 
 type Inputs = { email: string };
+const WAIT = 60;
 
 export function ForgotPasswordForm() {
-  const supabase = createUserClient();
-  const form = useForm<Inputs>();
-  const [submitted, setSubmitted] = useState(false);
+  const form = useForm<Inputs>({ defaultValues: { email: "" } });
+  const [sentTo, setSentTo] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [done, setDone] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const [busy, setBusy] = useState(false);
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ email }) => {
-    setSubmitted(true);
+  useEffect(() => {
+    if (!cooldown) return;
+    const t = setTimeout(() => setCooldown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [cooldown]);
+
+  const send: SubmitHandler<Inputs> = async ({ email }) => {
     setError(null);
-    const redirectTo = `${window.location.origin}/admin/login/reset-password`;
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email.trim(),
-      { redirectTo },
-    );
-    setSubmitted(false);
-    // Always show the same success UI — do not reveal whether the email is registered
-    // (Supabase typically returns success for unknown emails too; avoid surfacing raw errors that could leak info)
-    if (resetError) {
-      setError(
-        "We couldn’t send an email right now. Please try again in a few minutes.",
-      );
-      return;
+    setBusy(true);
+    const res = await fetch("/api/auth/forgot", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email.trim() }),
+    }).catch(() => null);
+    setBusy(false);
+    if (!res?.ok) {
+      return setError(res?.status === 429 ? "Too many requests. Wait a minute and try again." : "We couldn't send the email right now. Try again in a minute.");
     }
-    setDone(true);
+    setSentTo(email.trim());
+    setCooldown(WAIT);
   };
 
-  if (done) {
+  if (sentTo) {
     return (
-      <div className="mx-auto w-full max-w-md">
-        <div className="mb-10">
-          <Image
-            src="/images/logo/hd-transparent-dsi-logo.png"
-            alt="UF Data Science Initiative"
-            width={140}
-            height={56}
-            className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
-            priority
-          />
+      <AuthCard
+        step="Password reset"
+        title="Check your email"
+        description={<>If <span className="font-medium text-foreground">{sentTo}</span> has an admin account, a reset link is on its way. It expires in an hour.</>}
+        footer={<Link href="/admin/login" className={authLink}>Back to sign in</Link>}
+      >
+        <ul className="mb-6 list-none space-y-2 p-0 text-sm text-muted-foreground">
+          <li>Not there after a few minutes? Check spam or junk.</li>
+          <li>Use the newest email if you asked more than once. Older links stop working.</li>
+        </ul>
+        {error && <div className="mb-4"><Notice tone="error">{error}</Notice></div>}
+        <div className="flex flex-wrap gap-2">
+          <Button variant="outline" disabled={cooldown > 0 || busy} onClick={() => send({ email: sentTo })}>
+            {busy ? <Spinner /> : null}
+            {cooldown > 0 ? `Resend in ${cooldown}s` : "Resend email"}
+          </Button>
+          <Button variant="ghost" onClick={() => { setSentTo(null); setError(null); }}>
+            Use a different email
+          </Button>
         </div>
-        <Alert className="border-green-200 bg-green-50 text-green-900 dark:border-green-900 dark:bg-green-950/40 dark:text-green-100">
-          <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
-          <AlertDescription className="text-sm leading-relaxed">
-            Check your email for a link to reset your password. It can take a few
-            minutes; check your spam folder if you don’t see it.
-          </AlertDescription>
-        </Alert>
-        <Button
-          className="mt-8 w-full"
-          variant="outline"
-          asChild
-        >
-          <Link href="/admin/login">Back to sign in</Link>
-        </Button>
-      </div>
+      </AuthCard>
     );
   }
 
   return (
-    <div className="mx-auto w-full max-w-md">
-      <div className="mb-10">
-        <Image
-          src="/images/logo/hd-transparent-dsi-logo.png"
-          alt="UF Data Science Initiative"
-          width={140}
-          height={56}
-          className="h-auto w-[110px] object-contain dark:brightness-0 dark:invert"
-          priority
-        />
-      </div>
-
-      <div className="space-y-2">
-        <h1
-          className="admin-title"
-        >
-          Reset your password
-        </h1>
-        <p className="mb-0 text-base text-muted-foreground">
-          Enter the email address for your account. We&apos;ll email you a link to
-          set a new password.
-        </p>
-      </div>
-
-      {error ? (
-        <div className="mt-6">
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        </div>
-      ) : null}
-
-      <form
-        className="mt-8 space-y-6"
-        onSubmit={form.handleSubmit(onSubmit)}
-      >
-        <FieldGroup className="gap-5">
-          <Controller
-            name="email"
-            control={form.control}
-            defaultValue=""
-            rules={{
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                message: "Enter a valid email address",
-              },
-            }}
-            render={({ field, fieldState }) => (
-              <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="forgot-email">Email</FieldLabel>
-                <Input
-                  {...field}
-                  id="forgot-email"
-                  type="email"
-                  autoComplete="email"
-                  placeholder="you@example.com"
-                  className="h-11 border-border/80 bg-background"
-                  aria-invalid={fieldState.invalid}
-                />
-                {fieldState.invalid ? (
-                  <FieldError errors={[fieldState.error]} />
-                ) : null}
-              </Field>
-            )}
+    <AuthCard
+      step="Password reset"
+      title="Forgot your password?"
+      description="Enter the email you use for the admin and we'll send you a link to choose a new one."
+      footer={<>Remembered it? <Link href="/admin/login" className={authLink}>Sign in</Link></>}
+    >
+      {error && <div className="mb-6"><Notice tone="error">{error}</Notice></div>}
+      <form className="flex flex-col gap-5" onSubmit={form.handleSubmit(send)} noValidate>
+        <Field data-invalid={!!form.formState.errors.email}>
+          <FieldLabel htmlFor="forgot-email">Email</FieldLabel>
+          <Input
+            id="forgot-email"
+            type="email"
+            autoComplete="email"
+            autoFocus
+            placeholder="name@ufl.edu"
+            className="h-10"
+            aria-invalid={!!form.formState.errors.email}
+            {...form.register("email", {
+              required: "Enter your email",
+              pattern: { value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/, message: "That doesn't look like an email address" },
+            })}
           />
-          <Button
-            type="submit"
-            size="lg"
-            className="h-11 w-full border-0 font-semibold text-white"
-            disabled={submitted}
-          >
-            {submitted ? (
-              <>
-                <Spinner className="text-white" />
-                Sending link…
-              </>
-            ) : (
-              "Send reset link"
-            )}
-          </Button>
-        </FieldGroup>
+          {form.formState.errors.email && <FieldError errors={[form.formState.errors.email]} />}
+        </Field>
+        <Button type="submit" className="h-10 w-full" disabled={busy}>
+          {busy ? <><Spinner /> Sending…</> : "Send reset link"}
+        </Button>
       </form>
-
-      <p className="mt-8 text-center text-sm text-muted-foreground">
-        Remember your password?{" "}
-        <Link
-          href="/admin/login"
-          className="font-medium hover:underline"
-          style={{ color: "var(--a-blue)" }}
-        >
-          Sign in
-        </Link>
-      </p>
-    </div>
+    </AuthCard>
   );
 }
