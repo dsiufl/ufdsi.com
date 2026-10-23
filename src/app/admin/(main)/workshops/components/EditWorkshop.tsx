@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
+import { Switch } from "@/components/ui/switch";
 const toLocalInput = (value: Date | string) => {
     const d = new Date(value);
     if (isNaN(d.getTime())) return "";
@@ -14,7 +15,7 @@ const toLocalInput = (value: Date | string) => {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
 
-export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, submit: (workshop: Workshop) => Promise<void>}) {
+export default function EditWorkshop({workshop, submit, canPublish}: {workshop?: Workshop, submit: (workshop: Workshop) => Promise<void>, canPublish: boolean}) {
     const form = useForm<Workshop>({
         defaultValues: workshop
     });
@@ -173,6 +174,27 @@ export default function EditWorkshop({workshop, submit}: {workshop?: Workshop, s
                         </Field>
                     )}
                 />
+                {canPublish ? (
+                    <Controller
+                        name="status"
+                        control={form.control}
+                        defaultValue={workshop.status ?? "published"}
+                        render={({field}) => (
+                            <label className="flex items-center justify-between gap-3">
+                                <span>
+                                    <span className="block text-sm font-medium">Published</span>
+                                    <span className="block text-xs text-muted-foreground">Off keeps it as a draft.</span>
+                                </span>
+                                <Switch checked={field.value === "published"} onCheckedChange={(v) => field.onChange(v ? "published" : "draft")} />
+                            </label>
+                        )}
+                    />
+                ) : (
+                    <p className="text-sm text-muted-foreground">Saved as a draft until a President, Technology or Workshop Coordinator publishes it.</p>
+                )}
+                {workshop.submitted_by_email && (
+                    <p className="text-xs text-muted-foreground">Sent in through the Google Form by {workshop.submitted_by_email}.</p>
+                )}
                 <Field aria-invalid={form.formState.isSubmitting} className="aria-[invalid=true]:text-red-500">
                     <Button type="submit" className="w-full" disabled={loading}>{loading ? <Spinner /> : "Save workshop"}</Button>
                 </Field>

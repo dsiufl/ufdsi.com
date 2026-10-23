@@ -37,6 +37,8 @@ export interface Article {
     featured: boolean;
     status?: 'draft' | 'published';
     author?: string | null;
+    source_response_id?: string | null;
+    submitted_by_email?: string | null;
 }
 
 export interface Workshop {
@@ -49,6 +51,10 @@ export interface Workshop {
   cover: string;
   link?: string;
   description?: string;
+  status?: 'draft' | 'published';
+  author?: string | null;
+  source_response_id?: string | null;
+  submitted_by_email?: string | null;
 }
 
 export interface Speaker {
