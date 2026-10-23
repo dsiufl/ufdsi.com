@@ -25,7 +25,7 @@ export default function EditUser({data, onSubmit, admin}: {data: Profile, onSubm
     return (
         <form className="flex flex-col w-full" onSubmit={form.handleSubmit(submit)}>
             {data && <p className="dark:text-gray-400 text-sm">Verify and correct the information below before continuing.</p>}
-            <FieldGroup>
+            <FieldGroup className="gap-5">
                 <Controller
                     name="pictureURL"
                     defaultValue={data.pictureURL ?? ""}
@@ -34,7 +34,7 @@ export default function EditUser({data, onSubmit, admin}: {data: Profile, onSubm
                     render={({field, fieldState}) => {
                         return (
                         <Field data-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">
+                            <FieldLabel>
                                 Headshot
                             </FieldLabel>
                             <div className="w-full flex justify-center">

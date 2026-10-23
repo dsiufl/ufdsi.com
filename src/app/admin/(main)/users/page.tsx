@@ -26,10 +26,5 @@ export default async function Page() {
         console.log(error);
         throw new Error('Error fetching users');
     }
-    return (
-        <div className="pt-[10%] relative top-0 left-0 flex flex-col items-center w-full h-screen">
-            <h1>Manage users</h1>
-            <Users data={data} />
-        </div>
-    );
+    return <Users data={data} />;
 }

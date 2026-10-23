@@ -1,203 +1,205 @@
-'use client';
-import Loading from "@/components/Loading/Loading";
+"use client";
+
 import Overlay from "@/components/Overlay/Overlay";
 import { Button } from "@/components/ui/button";
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
-import { Table, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { createUserClient } from "@/lib/supabase/client";
-import { AdminInfo, Profile } from "@/types/db";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { Profile } from "@/types/db";
 import { User } from "@supabase/supabase-js";
-import { Edit, EllipsisIcon, PlusIcon } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Mail, MoreHorizontal, Pencil, Search, Trash2 } from "lucide-react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import EditUser from "../../components/EditUser";
-import { supabase } from "@/lib/main";
+import { AlertContext } from "@/app/AlertProvider";
+import { Empty, PageHeader, Panel } from "../../components/PageHeader";
+import { ConfirmDialog } from "../../components/ConfirmDialog";
+import { CreateButton } from "../../components/CreateButton";
 
+const post = (url: string, body: unknown) =>
+  fetch(url, { method: "POST", body: JSON.stringify(body), headers: { "Content-Type": "application/json" } });
 
-function UserOverlay({user, token, onClose}: {user: Profile, token: string | undefined, onClose: () => void}) {
-    
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Edit User: ${user.first_name} ${user.last_name}`}>
-            <div>
-                <EditUser admin={true} data={user} onSubmit={async (data: Profile) => {
-                    console.log("submitted", data);
-                    console.log("token:", token)
-                    console.log(user.id)
-                    return fetch('/api/users/edit', {
-                        method: 'POST',
-                        body: JSON.stringify({access_token: token, user: {...data, id: user.id}}),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((res) => {
-                        if (res.status === 200) {
-                            console.log("user edited");
-                            onClose();
-                        }
-                    });
-                    
-                }} />
-            </div>
+export default function Users({ data }: { data: Profile[] }) {
+  const [list, setList] = useState<Profile[]>(data);
+  const [editing, setEditing] = useState<Profile | undefined>();
+  const [deleting, setDeleting] = useState<Profile | undefined>();
+  const params = useSearchParams();
+  const [adding, setAdding] = useState(params.get("new") === "1");
+  const openAdd = useCallback(() => setAdding(true), []);
+  const [token, setToken] = useState<string>();
+  const [me, setMe] = useState<User>();
+  const [query, setQuery] = useState("");
+  const supabase = createUserClient();
+  const router = useRouter();
+  const alert = useContext(AlertContext);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        setToken(data.session.access_token);
+        setMe(data.session.user);
+      }
+    });
+  }, []);
+
+  useEffect(() => setList(data), [data]);
+
+  const shown = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const sorted = [...list].sort((a, b) => `${a.first_name} ${a.last_name}`.localeCompare(`${b.first_name} ${b.last_name}`));
+    if (!q) return sorted;
+    return sorted.filter((u) => [u.first_name, u.last_name, u.email, u.role].join(" ").toLowerCase().includes(q));
+  }, [list, query]);
+
+  const pending = list.filter((u) => !u.account_setup).length;
+
+  const invite = async (user: Profile) => {
+    const res = await post("/api/users/email", { access_token: token, user });
+    alert?.setAlert(res.ok ? "info" : "error", res.ok ? `Invite sent to ${user.email}.` : "Couldn't send the invite.");
+  };
+
+  const remove = async () => {
+    if (!deleting) return;
+    const res = await post("/api/users/delete", { access_token: token, user_id: deleting.id });
+    if (!res.ok) return alert?.setAlert("error", "Couldn't delete the user.");
+    setList((l) => l.filter((u) => u.id !== deleting.id));
+    setDeleting(undefined);
+  };
+
+  return (
+    <div className="admin-page">
+      <PageHeader
+        label="Team"
+        title="Users"
+        description="Board members who can sign in to the admin. Their role decides which sections they see."
+        actions={
+          <CreateButton label="Add user" onClick={openAdd} />
+        }
+      />
+
+      {adding && (
+        <Overlay close={() => setAdding(false)} title="Add user">
+          <EditUser
+            admin
+            data={{} as Profile}
+            onSubmit={async (d: Profile) => {
+              const res = await post("/api/users/create", { access_token: token, user: d });
+              if (!res.ok) return alert?.setAlert("error", "Couldn't create the user.");
+              setAdding(false);
+              router.refresh();
+            }}
+          />
         </Overlay>
-    )
-}
-
-function DeleteOverlay({user, token, onClose}: {user: Profile, token: string | undefined, onClose: (user?: Profile) => void}) {
-    const [ loading, setLoading ] = useState<boolean>(false);
-    const [ error, setError ] = useState<string | undefined>(undefined);
-    
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Delete User: ${user.first_name} ${user.last_name}`}>
-            {loading?<Loading message="Deleting user..." />:<div>
-                { error && <p className="!text-red-500">{error}</p> }
-                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                <div className="flex flex-row gap-4 mt-4">
-                    <Button variant="destructive" onClick={() => {
-                        setLoading(true);
-                        setError(undefined);
-                        
-                        fetch('/api/users/delete', {
-                            method: 'POST',
-                            body: JSON.stringify({access_token: token, user_id: user.id}),
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }).then((res) => {
-                            setLoading(false);
-                            if (res.status !== 200) {
-                                setError("Failed to delete user.");
-                                return;
-                            }
-                            console.log("user deleted");
-                            onClose(user);
-                            
-                        });
-                    }}>Delete</Button>
-                    
-                    <Button variant="secondary" onClick={() => onClose()}>Cancel</Button>
-                </div>
-            </div>}
+      )}
+      {editing && (
+        <Overlay close={() => setEditing(undefined)} title={`Edit ${editing.first_name} ${editing.last_name}`}>
+          <EditUser
+            admin
+            data={editing}
+            onSubmit={async (d: Profile) => {
+              const res = await post("/api/users/edit", { access_token: token, user: { ...d, id: editing.id } });
+              if (!res.ok) return alert?.setAlert("error", "Couldn't save the user.");
+              setList((l) => l.map((u) => (u.id === editing.id ? { ...u, ...d } : u)));
+              setEditing(undefined);
+            }}
+          />
         </Overlay>
-    )
-}
+      )}
+      <ConfirmDialog
+        open={!!deleting}
+        title={`Delete ${deleting?.first_name ?? ""} ${deleting?.last_name ?? ""}?`}
+        onConfirm={remove}
+        onClose={() => setDeleting(undefined)}
+      >
+        They lose access to the admin right away. This can&apos;t be undone.
+      </ConfirmDialog>
 
-function AddUserOverlay({onClose, token}: {onClose: (user?: Profile) => void, token: string | undefined}) {
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Add User`}>
-            <div>
-                <EditUser admin={true} data={{} as Profile} onSubmit={async (data: Profile) => {
-                    return fetch('/api/users/create', {
-                        method: 'POST',
-                        body: JSON.stringify({access_token: token, user: data}),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((res) => {
-                        if (res.status === 200) {
-                            console.log("user created");
-                            onClose();
-                        }
-                    });
-                }} />
-            </div>
-        </Overlay>
-    )
-}
-
-export default function Users({data}: {data: Profile[]}) {
-    const [ overlay, setOverlay ] = useState<Profile | undefined>(undefined); 
-    const [ deleteOverlay, setDeleteOverlay ] = useState<Profile | undefined>(undefined);
-    const [ addUserOverlay, setAddUserOverlay ] = useState<boolean>(false);
-    const [ token, setToken ] = useState<string | undefined>(undefined);
-    const [ currentUser, setCurrentUser ] = useState<User | undefined>(undefined);
-    const [ newData, setNewData ] = useState<Profile[]>(data);
-    const supabase = createUserClient();
-    useEffect(() => {
-        supabase.auth.getSession().then((result) => {
-            if (result.data.session) {
-                setToken(result.data.session.access_token);
-                setCurrentUser(result.data.session.user);
-            }
-        })
-    }, [])
-    
-    return (
-        <div className="flex w-full h-full flex-col items-center bg-gray-100 dark:bg-[#000000]/30 px-10">
-            <Button className="mt-2" onClick={() => setAddUserOverlay(true)}>
-                <PlusIcon />Add User
-            </Button>
-            {addUserOverlay && <AddUserOverlay onClose={() => setAddUserOverlay(false)} token={token} />}
-            {overlay && 
-                <UserOverlay token={token} user={overlay} onClose={(user?) => {
-                    setOverlay(undefined);
-                    if (user) {
-                        const updated = newData.map((u) => u.id === user.id ? user : u);
-                        setNewData(updated);
-                    }
-                }} />
-            }
-            {
-                deleteOverlay && 
-                <DeleteOverlay user={deleteOverlay} token={token} onClose={async (user?: Profile) => {
-                    if (user) {
-                        const filtered = newData.filter((u) => u.id !== user.id);
-                        setNewData(filtered);
-                    }
-                    setDeleteOverlay(undefined);
-                }} />
-            }
-            <Table className="w-full text-center bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
-                <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
-                    <TableRow>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>Last Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Role</TableCell>
-                        <TableCell></TableCell>
-                    </TableRow>
-                    {newData.map((user) => (
-                        <TableRow key={user.id}>
-                            <TableCell>{user.first_name}</TableCell>
-                            <TableCell>{user.last_name}</TableCell>
-                            <TableCell>{user.email}</TableCell>
-                            <TableCell>{user.role}</TableCell>
-                            <TableCell>
-                                <DropdownMenu modal={false}>
-                                    <DropdownMenuTrigger asChild>
-                                        <EllipsisIcon className="cursor-pointer"/>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem className="">
-                                            <Button variant="ghost" className="w-full text-left dark:!text-white !text-black bg-transparent hover:!border-0 hover:!-translate-y-0" onClick={() => setOverlay(user)}>Edit user</Button>
-                                        </DropdownMenuItem>
-                                        <DropdownMenuItem className="">
-                                            <Button variant="ghost" className="w-full text-left dark:!text-white !text-black bg-transparent hover:!border-0 hover:!-translate-y-0" onClick={() => {
-                                                fetch('/api/users/email', {
-                                                    method: 'POST',
-                                                    body: JSON.stringify({access_token: token, user}),
-                                                })
-                                            }}>Send invite email</Button>
-                                        </DropdownMenuItem>
-                                        {
-                                            user.id !== currentUser?.id &&
-                                            <DropdownMenuItem>
-                                                <Button variant="ghost" className="w-full dark:!text-white !text-black text-left bg-transparent hover:!border-0 hover:!-translate-y-0 hover:bg-red-500/30" onClick={() => setDeleteOverlay(user)}>Delete user</Button>
-                                            </DropdownMenuItem>
-                                        }
-                                        
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableHeader>
-            </Table>
-        </div>
-    )
+      <Panel
+        title="Everyone"
+        meta={pending ? `${list.length} · ${pending} not set up yet` : list.length}
+        actions={
+          <div className="relative w-full sm:w-60">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input placeholder="Search by name or role" value={query} onChange={(e) => setQuery(e.target.value)} className="h-9 bg-background pl-9" />
+          </div>
+        }
+      >
+        {shown.length === 0 ? (
+          <Empty title="No one matches">Try a different search.</Empty>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Account</th>
+                  <th aria-label="Actions" />
+                </tr>
+              </thead>
+              <tbody>
+                {shown.map((u) => (
+                  <tr key={u.id}>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <span className="is-round flex size-9 shrink-0 items-center justify-center rounded-full bg-muted text-xs font-semibold text-muted-foreground">
+                          {`${u.first_name?.[0] ?? ""}${u.last_name?.[0] ?? ""}`.toUpperCase()}
+                        </span>
+                        <div className="min-w-0">
+                          <p className="admin-table__title truncate">
+                            {u.first_name} {u.last_name}
+                            {u.id === me?.id && <span className="ml-2 text-xs font-normal text-muted-foreground">You</span>}
+                          </p>
+                          <p className="admin-table__sub truncate">{u.email}</p>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="whitespace-nowrap text-muted-foreground">{u.role}</td>
+                    <td>
+                      {u.account_setup ? (
+                        <span className="admin-pill admin-pill--ok">Active</span>
+                      ) : (
+                        <span className="admin-pill admin-pill--warn">Invite pending</span>
+                      )}
+                    </td>
+                    <td className="w-12 text-right">
+                      <DropdownMenu modal={false}>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon" className="admin-row-actions h-8 w-8 text-muted-foreground" aria-label={`Options for ${u.first_name}`}>
+                            <MoreHorizontal />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => setEditing(u)}>
+                            <Pencil className="mr-2 size-4" /> Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => invite(u)}>
+                            <Mail className="mr-2 size-4" /> Send invite email
+                          </DropdownMenuItem>
+                          {u.id !== me?.id && (
+                            <>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleting(u)}>
+                                <Trash2 className="mr-2 size-4" /> Delete
+                              </DropdownMenuItem>
+                            </>
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Panel>
+    </div>
+  );
 }
