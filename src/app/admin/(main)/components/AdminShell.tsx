@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/sidebar";
 import { AdminTopBar } from "./AdminTopBar";
 import { CommandMenu, useCommands } from "./CommandMenu";
+import { AdminPagesContext } from "./CreateButton";
 import { ChevronRight } from "lucide-react";
 import { useEffect, useMemo } from "react";
 import { useTheme } from "next-themes";
@@ -122,13 +123,15 @@ export function AdminShell({
   const pages = useMemo(() => navItems.map((i) => ({ ...i, icon: iconForHref(i.href) })), [navItems]);
   const commands = useCommands(pages);
   const trail = crumbs(pathname, navItems);
+  const hrefs = useMemo(() => navItems.map((i) => i.href), [navItems]);
   const { setTheme } = useTheme();
   // The admin is light only.
   useEffect(() => setTheme("light"), [setTheme]);
 
   return (
+    <AdminPagesContext.Provider value={hrefs}>
     <SidebarProvider defaultOpen className={`admin-root ${mono.variable}`}>
-      <Sidebar collapsible="offcanvas" className="border-r border-sidebar-border">
+      <Sidebar collapsible="offcanvas" className="fixed border-r border-sidebar-border">
         <SidebarHeader className="px-4 pb-2 pt-5">
           <div className="flex items-center justify-between px-1">
             <SidebarLogo />
@@ -150,7 +153,7 @@ export function AdminShell({
                         <SidebarMenuButton
                           asChild
                           isActive={navItemIsActive(pathname, item.href)}
-                          className="group/nav relative h-9 rounded-none px-3 text-[14px] hover:bg-transparent hover:text-foreground data-[active=true]:bg-transparent data-[active=true]:font-medium data-[active=true]:text-foreground data-[active=true]:before:absolute data-[active=true]:before:inset-y-1.5 data-[active=true]:before:left-0 data-[active=true]:before:w-[2px] data-[active=true]:before:bg-[var(--a-signal)]"
+                          className="group/nav relative h-9 rounded-none px-3 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-ring/40 text-[14px] hover:bg-transparent hover:text-foreground data-[active=true]:bg-transparent data-[active=true]:font-medium data-[active=true]:text-foreground data-[active=true]:before:absolute data-[active=true]:before:inset-y-1.5 data-[active=true]:before:left-0 data-[active=true]:before:w-[2px] data-[active=true]:before:bg-[var(--a-signal)]"
                         >
                           <Link href={item.href}>
                             <Icon className="size-4 shrink-0 opacity-70 group-data-[active=true]/nav:opacity-100" />
@@ -206,5 +209,6 @@ export function AdminShell({
         </div>
       </SidebarInset>
     </SidebarProvider>
+    </AdminPagesContext.Provider>
   );
 }
