@@ -1,53 +1,129 @@
-import { Table, TableBody, TableCell, TableHeader, TableRow } from "@/components/ui/table";
 import { createClient } from "@/lib/supabase/server";
 import { Article } from "@/types/db";
 import { cookies } from "next/headers";
 import NewsOptions from "./components/NewsOptions";
 import Link from "next/link";
-import { PlusIcon } from "lucide-react";
 import { canPublishNews } from "@/lib/news";
-export default async function page() {
-    const cookieStore = await cookies();
-    const supabase = await createClient(cookieStore);
-    
-    const { data: { user } } = await supabase.auth.getUser();
-    const { data: profile } = await supabase.schema("admin").from("people").select("role").eq("id", user?.id).single();
-    const canPublish = canPublishNews(profile?.role);
+import { Empty, PageHeader, Panel } from "../components/PageHeader";
+import { CreateButton } from "../components/CreateButton";
 
-    const { data: news, error }: { data: Article[]; error: any } = await supabase.from("news").select("*").order('created_at', { ascending: false });
-    console.log(error)
-    return (
-        <div className="w-full pt-[10%] flex flex-col text-center items-center justify-center">
-            <h2>DSI News</h2>
-            <Link href="/admin/news/article/new" className="button flex gap-1"><PlusIcon /> New Article</Link>
-            {!canPublish && <p className="text-sm text-gray-500">Your posts are saved as drafts until a President, Technology or Marketing Coordinator publishes them.</p>}
-            <div className="h-screen w-full pt-5 mt-5 px-10 bg-gray-200 dark:bg-[#000000]/70 flex items-start">
-                <Table className="w-full bg-sky-50 dark:bg-gray-800 max-h-[40rem]">
-                    <TableHeader>
-                        <TableRow>
-                            <TableCell>Title</TableCell>
-                            <TableCell>Date</TableCell>
-                            <TableCell>Category</TableCell>
-                            <TableCell>Status</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody className="text-left">
-                            {news.map((item) => (
-                                <TableRow className="text-left" key={item.id}>
-                                    <TableCell className="w-fit">{item.title}</TableCell>
-                                    <TableCell>{new Date(item.created_at).toLocaleDateString()}</TableCell>
-                                    <TableCell>{item.category}</TableCell>
-                                    <TableCell>{item.status === "draft" ? "Draft" : "Published"}</TableCell>
-                                    <TableCell>
-                                        {(canPublish || (item.status === "draft" && item.author === user?.id)) && <NewsOptions article={item} />}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
-                    </Table>
-            </div>
-        </div>
-    )
+type Status = "all" | "draft" | "published";
 
+const fmt = (d: Date | string) =>
+  new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "America/New_York" });
+
+export default async function page({ searchParams }: { searchParams: Promise<{ status?: string }> }) {
+  const params = await searchParams;
+  const status: Status = params.status === "draft" || params.status === "published" ? params.status : "all";
+  const cookieStore = await cookies();
+  const supabase = await createClient(cookieStore);
+
+  const { data: { user } } = await supabase.auth.getUser();
+  const { data: profile } = await supabase.schema("admin").from("people").select("role").eq("id", user?.id).single();
+  const canPublish = canPublishNews(profile?.role);
+
+  const [{ data: news }, { data: people }] = await Promise.all([
+    supabase.from("news").select("*").order("created_at", { ascending: false }),
+    supabase.schema("admin").from("people").select("id, first_name, last_name"),
+  ]);
+  const all = (news ?? []) as Article[];
+  const names = new Map((people ?? []).map((p) => [p.id, `${p.first_name} ${p.last_name}`]));
+  const isDraft = (a: Article) => a.status === "draft";
+  const shown = all.filter((a) => status === "all" || (status === "draft" ? isDraft(a) : !isDraft(a)));
+  const drafts = all.filter(isDraft).length;
+
+  const tabs: { id: Status; label: string; count: number }[] = [
+    { id: "all", label: "All", count: all.length },
+    { id: "draft", label: "Drafts", count: drafts },
+    { id: "published", label: "Published", count: all.length - drafts },
+  ];
+
+  return (
+    <div className="admin-page">
+      <PageHeader
+        label="Content"
+        title="News"
+        description={
+          canPublish
+            ? "Articles on the public news page. Drafts from members wait here until you publish them."
+            : "Your posts are saved as drafts until a President, Technology or Marketing Coordinator publishes them."
+        }
+        actions={
+          <CreateButton label="New article" href="/admin/news/article/new" />
+        }
+      />
+
+      <Panel
+        title={
+          <nav className="admin-tabs" aria-label="Filter by status">
+            {tabs.map((t) => (
+              <Link
+                key={t.id}
+                href={t.id === "all" ? "/admin/news" : `/admin/news?status=${t.id}`}
+                aria-current={t.id === status ? "page" : undefined}
+              >
+                {t.label} <span className="admin-count">{t.count}</span>
+              </Link>
+            ))}
+          </nav>
+        }
+      >
+        {shown.length === 0 ? (
+          <Empty title={status === "draft" ? "No drafts waiting" : "No articles yet"}>
+            {status === "draft" ? "Everything submitted has been published." : "Write the first one with New article."}
+          </Empty>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Article</th>
+                  <th>Category</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th aria-label="Actions" />
+                </tr>
+              </thead>
+              <tbody>
+                {shown.map((item) => {
+                  const editable = canPublish || (isDraft(item) && item.author === user?.id);
+                  const author = item.author ? names.get(item.author) : undefined;
+                  return (
+                    <tr key={item.id}>
+                      <td className="max-w-[28rem]">
+                        {editable ? (
+                          <Link href={`/admin/news/article/${item.id}`} className="admin-table__title hover:underline">
+                            {item.title}
+                          </Link>
+                        ) : (
+                          <span className="admin-table__title">{item.title}</span>
+                        )}
+                        {(author || item.featured) && (
+                          <p className="admin-table__sub">
+                            {author && `By ${author}`}
+                            {author && item.featured && " · "}
+                            {item.featured && "Featured"}
+                          </p>
+                        )}
+                      </td>
+                      <td className="text-muted-foreground">{item.category || "—"}</td>
+                      <td>
+                        {isDraft(item) ? (
+                          <span className="admin-pill admin-pill--warn">Draft</span>
+                        ) : (
+                          <span className="admin-pill admin-pill--ok">Published</span>
+                        )}
+                      </td>
+                      <td className="is-num whitespace-nowrap text-muted-foreground">{fmt(item.created_at)}</td>
+                      <td className="w-12 text-right">{editable && <NewsOptions article={item} />}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Panel>
+    </div>
+  );
 }

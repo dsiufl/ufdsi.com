@@ -138,30 +138,30 @@ export default function MDEditor({ value, onChange }) {
   ];
 
   return (
-    <div className="w-full h-full flex flex-col border border-black rounded-xl shadow-xl overflow-clip">
-        <div className="flex h-fit p-2 w-full bg-gray-700/20 gap-2">
+    <div className="flex w-full flex-col overflow-hidden rounded-lg border">
+        <div className="flex h-fit w-full gap-1 border-b bg-muted/60 p-1.5">
             {
                 iconFuncs.map((item, index) => (
                     <Tooltip key={index}>
                         <TooltipTrigger asChild>
-                            <Button variant="outline" size="icon" className="text-black dark:text-white !p-1" onClick={item.func}>
+                            <Button type="button" variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground" onClick={item.func} aria-label={item.name}>
                                 {item.icon}
                             </Button>
                         </TooltipTrigger>
-                        <TooltipContent className="bg-gray-200 dark:bg-gray-700 dark:text-white">
+                        <TooltipContent>
                             {item.name}
                         </TooltipContent>
                     </Tooltip>
                 ))
             }
         </div>
-        <div className="h-full w-full flex justify-between gap-4">
+        <div className="grid min-h-[28rem] w-full md:grid-cols-2">
             <Textarea
                 ref={textareaRef}
                 value={value}
                 onChange={onChange}
                 onKeyDown={onKeyDown}
-                className="w-1/2 shadow-xl"
+                className="min-h-[28rem] resize-y rounded-none border-0 font-mono text-[13px] leading-relaxed shadow-none focus-visible:ring-0 md:border-r"
                 onPaste={async (e) => {
                     console.log("Pasted content:", e.clipboardData);
                     const items = e.clipboardData.items;
@@ -187,8 +187,8 @@ export default function MDEditor({ value, onChange }) {
                             
                 }}
             />
-        <div className="w-[50%] h-full">
-            <p>Preview</p>
+        <div className="hidden min-w-0 overflow-auto bg-background p-4 md:block">
+            <p className="admin-label mb-3">Preview</p>
             <MarkdownWrapper>
                 {value}
             </MarkdownWrapper>

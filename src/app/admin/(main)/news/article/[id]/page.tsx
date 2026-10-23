@@ -27,15 +27,12 @@ export default async function Page({
             console.error("Error fetching article:", error);
             if (error.code == "PGRST116") {
                 notFound();
-            } else return <div className="pt-[10%]">Error loading article</div>;
+            } else return <div className="admin-page"><p className="text-muted-foreground">Couldn&apos;t load that article.</p></div>;
         }
         article = data;
     }
     return (
-        <div className="pt-[10%] flex flex-col items-center">
-            
-            <Editor article={article} canPublish={canPublish} />
-        </div>
+        <Editor article={article} canPublish={canPublish} />
     )
         
 

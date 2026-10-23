@@ -1,238 +1,227 @@
-'use client';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+"use client";
+
 import { Article } from "@/types/db";
-import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import Image from "next/image";
 import MDEditor from "./MDEditor";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useMemo, useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { SupabaseContext } from "@/app/SupabaseProvider";
+import { AlertContext } from "@/app/AlertProvider";
 import { Spinner } from "@/components/ui/spinner";
-import { ArrowDownIcon, Calendar as CalendarIcon} from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+import { ImageUp, Link2 } from "lucide-react";
 import { useRouter } from "next/navigation";
-import Overlay from "@/components/Overlay/Overlay";
-export default function Editor({article, canPublish}: {article: Article, canPublish: boolean}) {
-    const [content, setContent] = useState<string>(article.content || "## Article content");
-    const [title, setTitle] = useState<string>(article.title || "New article");
-    const [pendingTitle, setPendingTitle] = useState<string>(article.title || "New article");
-    const [newDate, setNewDate] = useState<Date>(article.created_at ? new Date(article.created_at) : new Date());
-    const [titleClicked, setTitleClicked] = useState<boolean>(false);
-    const [category, setCategory] = useState<string>(article.category || "Articles");
-    const [ descriptionClicked, setDescriptionClicked ] = useState<boolean>(false);
-    const [ description, setDescription ] = useState<string>(article.summary);
-    const [ pendingDescription, setPendingDescription ] = useState<string>(article.summary);
-    const [ changed, setChanged ] = useState<boolean>(false);
-    const [ loading, setLoading ] = useState<boolean>(false);
-    const [ cover, setCover ] = useState<string>(article.cover || "");
-    const [ tempURL, setTempURL ] = useState<string>(cover);
-    const [ status, setStatus ] = useState<"draft" | "published">(article.status ?? (canPublish ? "published" : "draft"));
-    const [ URLWindow, setURLWindow ] = useState<boolean>(false);
+import { PageHeader, Panel } from "../../../../components/PageHeader";
 
-    const router = useRouter();
-    const supabaseCtx = useContext(SupabaseContext);
-    const ref = useRef<HTMLInputElement>(null);
+const CATEGORIES = [
+  { value: "Articles", label: "Article" },
+  { value: "Competition", label: "Competition" },
+  { value: "Workshop", label: "Workshop article" },
+];
 
-    useEffect(() => {
-        if (
-            content !== article.content 
-            || title !== article.title 
-            || (!article.created_at || newDate.toISOString() !== new Date(article.created_at).toISOString())
-            || category !== article.category
-            || description !== article.summary
-            || status !== (article.status ?? (canPublish ? "published" : "draft"))
-        ) {
-            setChanged(true);
-        } else {
-            setChanged(false);
+const toDateInput = (d: Date) => {
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
+
+export default function Editor({ article, canPublish }: { article: Article; canPublish: boolean }) {
+  const initial = useMemo(
+    () => ({
+      title: article.title || "",
+      summary: article.summary || "",
+      content: article.content || "",
+      category: article.category || "Articles",
+      cover: article.cover || "",
+      date: article.created_at ? toDateInput(new Date(article.created_at)) : toDateInput(new Date()),
+      status: (article.status ?? (canPublish ? "published" : "draft")) as "draft" | "published",
+    }),
+    [article, canPublish],
+  );
+  const [saved, setSaved] = useState(initial);
+  const [form, setForm] = useState(initial);
+  const [saving, setSaving] = useState(false);
+  const [urlMode, setUrlMode] = useState(false);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+  const supabase = useContext(SupabaseContext);
+  const alert = useContext(AlertContext);
+
+  const set = <K extends keyof typeof form>(key: K, value: (typeof form)[K]) => setForm((f) => ({ ...f, [key]: value }));
+  const changed = JSON.stringify(form) !== JSON.stringify(saved);
+  const isNew = !article.id;
+
+  const save = async () => {
+    if (!supabase) return;
+    if (!form.title.trim()) return alert?.setAlert("error", "Give the article a title first.");
+    setSaving(true);
+    let cover = form.cover;
+    if (cover.startsWith("blob:")) {
+      const blob = await fetch(cover).then((r) => r.blob());
+      const path = `news/cover-${Date.now()}.${blob.type.split("/")[1] || "png"}`;
+      const { error } = await supabase.storage.from("images").upload(path, blob, { contentType: blob.type });
+      if (error) {
+        setSaving(false);
+        return alert?.setAlert("error", `Couldn't upload the cover: ${error.message}`);
+      }
+      cover = supabase.storage.from("images").getPublicUrl(path).data.publicUrl;
+    }
+    const row = {
+      title: form.title.trim(),
+      content: form.content,
+      category: form.category,
+      created_at: new Date(`${form.date}T12:00:00`).toISOString(),
+      summary: form.summary,
+      cover,
+      status: canPublish ? form.status : "draft",
+    };
+    const { data, error } = isNew
+      ? await supabase.from("news").insert(row).select().single()
+      : await supabase.from("news").update(row).eq("id", article.id);
+    setSaving(false);
+    if (error) return alert?.setAlert("error", `Couldn't save: ${error.message}`);
+    if (isNew && data?.id) {
+      router.push(`/admin/news/article/${data.id}`);
+      return;
+    }
+    const next = { ...form, cover };
+    setForm(next);
+    setSaved(next);
+    alert?.setAlert("info", "Saved.");
+  };
+
+  return (
+    <div className="admin-page">
+      <PageHeader
+        label={isNew ? "New article" : form.status === "draft" ? "Draft" : "Published"}
+        title={form.title || "Untitled article"}
+        actions={
+          <>
+            {changed && !isNew && (
+              <Button variant="outline" onClick={() => setForm(saved)} disabled={saving}>
+                Discard changes
+              </Button>
+            )}
+            <Button onClick={save} disabled={saving || (!changed && !isNew)}>
+              {saving ? <Spinner /> : isNew ? "Create article" : changed ? "Save changes" : "Saved"}
+            </Button>
+          </>
         }
-    }, [content, article.content, title, article.title, newDate, article.created_at, category, article.category, description, article.summary, status, article.status, canPublish]);
-    return (
-        <>
-        {
-            URLWindow &&
-                <Overlay title="Set Image URL" close={() => {setURLWindow(false)}}>
-                <div className="flex flex-col gap-4">
-                    <Input value={cover} onChange={(e) => setTempURL(e.currentTarget.value)} onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-                        if (e.key == "Enter") {
-                            setCover(tempURL);
-                            setURLWindow(false);
-                        }
-                    }} />
-                    <Button onClick={() => {
-                        setCover(tempURL)
-                        setURLWindow(false);
-                    }}>Set URL</Button>
-                </div>
-            </Overlay>
-        }
-        <div className="px-10 flex items-center flex-col mb-2">
-            <div className="flex justify-center items-center mb-2">
-                <p className="!mb-0">{article.id ? "Editing" : "Creating new"}</p>
-                {canPublish ? (
-                    <Button variant="outline" className="ml-4 !text-black dark:!text-white" onClick={() => setStatus(status === "published" ? "draft" : "published")}>
-                        {status === "published" ? "Published · move to drafts" : "Draft · publish"}
-                    </Button>
-                ) : (
-                    <span className="ml-4 text-sm text-gray-500">Saved as a draft until an editor publishes it</span>
-                )}
-                <DropdownMenu modal={false}>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className="ml-4 !text-black dark:!text-white">
-                            {category === "Articles" ? "Article" : category } <ArrowDownIcon />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuItem className="hover:cursor-pointer hover:bg-amber-50 hover:dark:bg-gray-700/30" onClick={() => setCategory("Articles")}>Article</DropdownMenuItem>
-                        <DropdownMenuItem className="hover:cursor-pointer hover:bg-amber-50 hover:dark:bg-gray-700/30" onClick={() => setCategory("Competition")}>Competition</DropdownMenuItem>
-                        <DropdownMenuItem className="hover:cursor-pointer hover:bg-amber-50 hover:dark:bg-gray-700/30" onClick={() => setCategory("Workshop")}>Workshop Article</DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+      />
+
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_300px]">
+        <div className="flex min-w-0 flex-col gap-6">
+          <Panel>
+            <div className="flex flex-col gap-5 p-5">
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="news-title">Title</Label>
+                <Input id="news-title" value={form.title} onChange={(e) => set("title", e.target.value)} placeholder="DSI wins best overall at SwampHacks" className="h-11 text-base" />
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="news-summary">Summary</Label>
+                <Textarea id="news-summary" rows={2} value={form.summary} onChange={(e) => set("summary", e.target.value)} placeholder="One or two sentences for the news list and link previews." />
+              </div>
             </div>
-            
-            {
-                !titleClicked ?
-                <h1 onClick={() => setTitleClicked(true)} className="text-4xl font-bold cursor-pointer hover:underline">{title}</h1>
-                :
-                <Input value={pendingTitle} onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        setTitleClicked(false);
-                        setTitle((e.target as HTMLInputElement).value);
-                    } else if (e.key === "Escape") {
-                        setTitleClicked(false);
-                        setPendingTitle(title);
-                    }
-                }} onChange={(e) => setPendingTitle((e.target as HTMLInputElement).value)} className="text-4xl font-bold" autoFocus onBlur={() => setTitleClicked(false)} />
-            }
-            
-            <DropdownMenu>
-                <DropdownMenuTrigger>
-                    <Image
-                        src={cover|| "/images/logo/hd-transparent-dsi-logo.png"}
-                        alt={article.title}
-                        width={400}
-                        height={267}
-                        className="rounded-xl"
-                        unoptimized
-                    />
-                    <Input ref={ref} type="file" accept="image/*" className="hidden" onChange={async (e) => {
-                        const file = (e.target as HTMLInputElement).files?.[0];
-                        if (!file || !supabaseCtx) return;
-                        setCover(URL.createObjectURL(file));
-                    }} />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => ref.current?.click()} className="hover:cursor-pointer hover:bg-amber-50 hover:dark:bg-gray-700/30" >Upload image</DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => {
-                        setURLWindow(true)
-                        console.log("help?")
-                    }} className="hover:cursor-pointer hover:bg-amber-50 hover:dark:bg-gray-700/30" >Set image URL</DropdownMenuItem>
-                </DropdownMenuContent>
-            </DropdownMenu>
-
-                <DropdownMenu modal={true}>
-                    <DropdownMenuTrigger asChild>
-                        <div className="hover:cursor-pointer hover:underline flex gap-1">
-                            <CalendarIcon />
-                            <p>
-                                {newDate.toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: '2-digit',
-                                })}
-                            </p>
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <Calendar
-                            mode="single"
-                            defaultMonth={newDate}
-                            className="!text-black"
-                            selected={newDate}
-                            
-                            onSelect={(e) => e ? setNewDate(e) : null}
-                        />
-                        
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            {!descriptionClicked ?
-                <p onClick={() => setDescriptionClicked(true)} className="text-gray-600 dark:text-gray-400 mt-2 cursor-pointer hover:underline">{description || "Article description"}</p>
-                :
-                <Input value={pendingDescription} onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                        setDescriptionClicked(false);
-                        setDescription((e.target as HTMLInputElement).value);
-                    } else if (e.key === "Escape") {
-                        setDescriptionClicked(false);
-                        setPendingDescription(article.summary);
-                        setDescription(article.summary || "Article description");
-                    }
-                }} onChange={(e) => setPendingDescription((e.target as HTMLInputElement).value)} className="text-gray-600 dark:text-gray-400 mt-2" autoFocus onBlur={() => setDescriptionClicked(false)} />
-            }
-            
-        </div>
-        <div className="bg-gray-200 dark:bg-gray-700 rounded-md p-4 w-[100%] min-h-[50vh]">
-            <MDEditor
-                value={content}
+          </Panel>
+          <Panel title="Body" meta="Markdown">
+            <div className="px-5 pb-5">
+              <MDEditor
+                value={form.content}
                 onChange={(value) => {
-                    value.target && setContent(value.target.value);
+                  if (value?.target) set("content", value.target.value);
                 }}
-            />
-        </div>
-        {
-            changed && 
-            <div className="fade-in flex w-full fixed bottom-0 gap-4 items-center justify-center py-4">
-                <Button onClick={async () => {
-                    setLoading(true);
-                    const data = {
-                        title,
-                        content,
-                        category,
-                        created_at: newDate.toISOString(),
-                        summary: description,
-                        cover,
-                        status: canPublish ? status : "draft",
-                    }
-                    if (cover && cover.startsWith("blob:")) {
-                        const blob = await fetch(cover).then((res) => res.blob());
-                        const { data: uploadData, error: uploadError } = await supabaseCtx?.storage.from("images").upload(`news/cover-${Date.now()}.png`, blob);
-                        if (uploadError) {
-                            console.error("Error uploading image:", uploadError);
-                            return;
-                        }
-                    }
-                    const { data: newRow, error }: { data?: Article, error: any} = article.id ? await supabaseCtx?.from('news').update(data).eq('id', article.id) : await supabaseCtx?.from('news').insert(data).select().single();
-                    if (error) {
-                        console.error("Error updating article:", error);
-                    }
-                    if (newRow && newRow.id && !article.id) {
-                        console.log("New article created with ID:", newRow.id);
-                        router.push("/admin/news/article/" + newRow.id);
-                        return;
-                    }
-
-                    setLoading(false);
-                    article.title = title;
-                    article.content = content;
-                    article.category = category;
-                }} disabled={loading}>
-                    {loading ? <Spinner /> : "Save"}
-                </Button>
-                {
-                    article.id && <Button onClick={() => {
-                    setCover(article.cover);
-                    setTitle(article.title);
-                    setContent(article.content);
-                    setNewDate(new Date(article.created_at));
-                    setCategory(article.category);
-                    setDescription(article.summary);
-                    setPendingDescription(article.summary);
-                    setStatus(article.status ?? (canPublish ? "published" : "draft"));
-                }}>Revert</Button>
-                }
+              />
             </div>
-        }
-        </>
-    )
+          </Panel>
+        </div>
+
+        <div className="flex flex-col gap-6 lg:sticky lg:top-20">
+          <Panel title="Publishing">
+            <div className="flex flex-col gap-5 px-5 pb-5">
+              {canPublish ? (
+                <label className="flex items-center justify-between gap-3">
+                  <span>
+                    <span className="block text-sm font-medium">Published</span>
+                    <span className="block text-xs text-muted-foreground">Off keeps it as a draft.</span>
+                  </span>
+                  <Switch checked={form.status === "published"} onCheckedChange={(v) => set("status", v ? "published" : "draft")} />
+                </label>
+              ) : (
+                <p className="text-sm text-muted-foreground">Saved as a draft until a President, Technology or Marketing Coordinator publishes it.</p>
+              )}
+              <div className="flex flex-col gap-2">
+                <Label>Category</Label>
+                <Select value={form.category} onValueChange={(v) => set("category", v)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {[...CATEGORIES, ...(CATEGORIES.some((c) => c.value === form.category) ? [] : [{ value: form.category, label: form.category }])].map((c) => (
+                      <SelectItem key={c.value} value={c.value}>
+                        {c.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="news-date">Date</Label>
+                <Input id="news-date" type="date" value={form.date} onChange={(e) => e.target.value && set("date", e.target.value)} />
+              </div>
+            </div>
+          </Panel>
+
+          <Panel title="Cover">
+            <div className="flex flex-col gap-3 px-5 pb-5">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-lg border bg-muted">
+                {form.cover ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={form.cover} alt="" className="size-full object-cover" />
+                ) : (
+                  <span className="absolute inset-0 flex items-center justify-center text-sm text-muted-foreground">No cover</span>
+                )}
+              </div>
+              <input
+                ref={fileRef}
+                type="file"
+                accept="image/*"
+                className="sr-only"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) set("cover", URL.createObjectURL(f));
+                }}
+              />
+              <div className="flex gap-2">
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => fileRef.current?.click()}>
+                  <ImageUp /> Upload
+                </Button>
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => setUrlMode((m) => !m)}>
+                  <Link2 /> Use a URL
+                </Button>
+              </div>
+              {urlMode && (
+                <Input
+                  autoFocus
+                  placeholder="https://"
+                  defaultValue={form.cover.startsWith("blob:") ? "" : form.cover}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      set("cover", e.currentTarget.value.trim());
+                      setUrlMode(false);
+                    }
+                  }}
+                  onBlur={(e) => {
+                    if (e.currentTarget.value.trim()) set("cover", e.currentTarget.value.trim());
+                    setUrlMode(false);
+                  }}
+                />
+              )}
+            </div>
+          </Panel>
+        </div>
+      </div>
+    </div>
+  );
 }
