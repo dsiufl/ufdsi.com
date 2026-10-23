@@ -1,170 +1,215 @@
-'use client';
+"use client";
+
 import { Workshop } from "@/types/db";
-import { useState } from "react";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { EllipsisIcon, PlusIcon } from "lucide-react";
+import { useCallback, useContext, useMemo, useState } from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ExternalLink, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Overlay from "@/components/Overlay/Overlay";
 import EditWorkshop from "./EditWorkshop";
 import { createUserClient } from "@/lib/supabase/client";
-import { Spinner } from "@/components/ui/spinner";
+import { AlertContext } from "@/app/AlertProvider";
+import { Empty, PageHeader, Panel } from "../../components/PageHeader";
+import { ConfirmDialog } from "../../components/ConfirmDialog";
+import { CreateButton } from "../../components/CreateButton";
 
-export default function Editor({workshops}: {workshops: Workshop[]}) {
-    const [workshopList, setWorkshopList] = useState<Workshop[]>(workshops);
-    const [selectedWorkshop, setSelectedWorkshop] = useState<Workshop | null>(null);
-    const [newWorkshop, setNewWorkshop] = useState<boolean>(false);
-    const [editWorkshop, setEditWorkshop] = useState<Workshop | undefined>(undefined);
-    const [deleteWorkshop, setDeleteWorkshop] = useState<Workshop | undefined>(undefined);
-    const supabase = createUserClient();
-    const NewWorkshopOverlay = () => {
-        return (
-            <Overlay close={() => setNewWorkshop(false)} title="Add New Workshop">
-                <div>
-                    <EditWorkshop submit={async (data: Workshop) => {
-                        if (data.cover && data.cover.includes("blob")) {
-                            const blob = await fetch(data.cover).then(r => r.blob());
-                            const { data: result, error } = await supabase.storage.from('images')
-                            .upload(`workshops/${data.title.replace(/\s+/g, '_').toLowerCase()}.jpg`, blob, {
-                                upsert: true,
-                                contentType: blob.type
-                            });
-                            if (error) {
-                                console.error("Error uploading image:", error);
-                                return;
-                            } else {
-                                const { data: urlData } = supabase.storage.from('images')
-                                .getPublicUrl(`workshops/${data.title.replace(/\s+/g, '_').toLowerCase()}.jpg`);
-                                data.cover = urlData.publicUrl;
-                            }
-                        }
-                        await supabase.from('workshops').insert(data).then(async (res) => {
-                            if (res.error) {
-                                console.error("Error adding workshop:", res.error);
-                            } else {
-                                console.log("Workshop added:", data);
-                                setWorkshopList([...workshopList, data]);
-                                setNewWorkshop(false);
-                            }
-                        });
-                    }} />
-                </div>
-            </Overlay>
-        );
+const TZ = "America/New_York";
+const part = (d: Date | string, o: Intl.DateTimeFormatOptions) =>
+  new Date(d).toLocaleString("en-US", { timeZone: TZ, ...o });
+
+export default function Editor({ workshops }: { workshops: Workshop[] }) {
+  const [list, setList] = useState<Workshop[]>(workshops);
+  const params = useSearchParams();
+  const [adding, setAdding] = useState(params.get("new") === "1");
+  const [editing, setEditing] = useState<Workshop | undefined>();
+  const [deleting, setDeleting] = useState<Workshop | undefined>();
+  const supabase = createUserClient();
+  const alert = useContext(AlertContext);
+
+  const { upcoming, past } = useMemo(() => {
+    const now = Date.now();
+    const sorted = [...list].filter(Boolean).sort((a, b) => +new Date(a.datetime) - +new Date(b.datetime));
+    return {
+      upcoming: sorted.filter((w) => +new Date(w.datetime) >= now),
+      past: sorted.filter((w) => +new Date(w.datetime) < now).reverse(),
+    };
+  }, [list]);
+
+  const openAdd = useCallback(() => setAdding(true), []);
+
+  const uploadCover = async (data: Workshop) => {
+    if (!data.cover?.includes("blob")) return true;
+    const path = `workshops/${data.title.replace(/\s+/g, "_").toLowerCase()}.jpg`;
+    const blob = await fetch(data.cover).then((r) => r.blob());
+    const { error } = await supabase.storage.from("images").upload(path, blob, { upsert: true, contentType: blob.type });
+    if (error) {
+      alert?.setAlert("error", `Couldn't upload the cover: ${error.message}`);
+      return false;
     }
-    const EditWorkshopOverlay = () => {
-        return (
-            <>
-            
-            <Overlay close={() => setEditWorkshop(undefined)} title="Edit Workshop">
-                <div>
-                    
-                    <EditWorkshop workshop={editWorkshop!} submit={async (data: Workshop) => {
-                        if (data.cover && data.cover.includes("blob")) {
-                            const blob = await fetch(data.cover).then(r => r.blob());
-                            const { data: result, error } = await supabase.storage.from('images')
-                            .upload(`workshops/${data.title.replace(/\s+/g, '_').toLowerCase()}.jpg`, blob, {
-                                upsert: true,
-                                contentType: blob.type
-                            });
-                            if (error) {
-                                console.error("Error uploading image:", error);
-                                return;
-                            } else {
-                                const { data: urlData } = supabase.storage.from('images')
-                                .getPublicUrl(`workshops/${data.title.replace(/\s+/g, '_').toLowerCase()}.jpg`);
-                                data.cover = urlData.publicUrl;
-                            }
-                        }
-                        await supabase.from('workshops').update(data).eq('id', data.id).then(async (res) => {
-                            if (res.error) {
-                                console.error("Error updating workshop:", res.error);
-                            } else {
-                                console.log("Workshop updated:", data);
-                                setWorkshopList(workshopList.map(w => w.id === data.id ? data : w));
-                                setEditWorkshop(undefined);
-                            }
-                        });
-                    }} />
-                </div>
-            </Overlay>
-            </>
-        )
-    }
-    const DeleteWorkshopOverlay = () => {
-        const [ loading, setLoading ] = useState(false);
-        return (
-            <Overlay close={() => setDeleteWorkshop(undefined)} title="Delete Workshop">
-                <div className="flex flex-col items-center gap-4">
-                    <p>Are you sure you want to delete the workshop {deleteWorkshop?.title}?</p>
-                    <div className="flex gap-4">
-                        <Button variant="destructive" onClick={async () => {
-                            setLoading(true);
-                            await supabase.from('workshops').delete().eq('id', deleteWorkshop?.id).then(res => {
-                                if (res.error) {
-                                    console.error("Error deleting workshop:", res.error);
-                                } else {
-                                    console.log("Workshop deleted:", deleteWorkshop);
-                                    setWorkshopList(workshopList.filter(w => w.id !== deleteWorkshop?.id));
-                                    setDeleteWorkshop(undefined);
-                                }
-                            });
-                            setLoading(false);
-                        }}>{loading ? <Spinner /> : "Delete"}</Button>
-                        <Button onClick={() => setDeleteWorkshop(undefined)}>Cancel</Button>
-                    </div>
-                </div>  
-            </Overlay>
-        )
-    }
-    return (
-        <div className="w-full flex flex-col items-center">
-            <Button onClick={() => {
-                setNewWorkshop(true)
-            }}><PlusIcon /> Add workshop</Button>
-            {newWorkshop && <NewWorkshopOverlay />}
-            {editWorkshop && <EditWorkshopOverlay />}
-            <Table className="w-full bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
-                    <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
-                        <TableRow className="text-left max-w-fit">
-                            <TableCell className="w-fit">Title</TableCell>
-                            <TableCell>Speaker</TableCell>
-                            <TableCell>Time</TableCell>
-                            <TableCell>Location</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody className="text-left">
-                        {workshopList.filter(s => s).map(workshop => (
-                            <TableRow className="text-left" key={workshop.id}>
-                                <TableCell className="w-fit">{workshop.title}</TableCell>
-                                <TableCell>{workshop.speaker}</TableCell>
-                                <TableCell>{new Date(workshop.datetime).toLocaleString()}</TableCell>
-                                <TableCell>{workshop.location}</TableCell>
-                                <TableCell>
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <EllipsisIcon className="cursor-pointer" />
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent>
-                                            <DropdownMenuItem onClick={() => {
-                                                setEditWorkshop(workshop)
-                                            }}>
-                                                Edit
-                                            </DropdownMenuItem>
-                                            <DropdownMenuItem onClick={() => {
-                                                setEditWorkshop(workshop)
-                                            }}>
-                                                Delete
-                                            </DropdownMenuItem>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-        </div>
-    )
+    data.cover = supabase.storage.from("images").getPublicUrl(path).data.publicUrl;
+    return true;
+  };
+
+  const create = async (data: Workshop) => {
+    if (!(await uploadCover(data))) return;
+    const { data: row, error } = await supabase.from("workshops").insert(data).select().single();
+    if (error) return alert?.setAlert("error", `Couldn't add the workshop: ${error.message}`);
+    setList((l) => [...l, row ?? data]);
+    setAdding(false);
+  };
+
+  const update = async (data: Workshop) => {
+    if (!(await uploadCover(data))) return;
+    const { error } = await supabase.from("workshops").update(data).eq("id", data.id);
+    if (error) return alert?.setAlert("error", `Couldn't save the workshop: ${error.message}`);
+    setList((l) => l.map((w) => (w.id === data.id ? data : w)));
+    setEditing(undefined);
+  };
+
+  const remove = async () => {
+    if (!deleting) return;
+    const { error } = await supabase.from("workshops").delete().eq("id", deleting.id);
+    if (error) return alert?.setAlert("error", `Couldn't delete the workshop: ${error.message}`);
+    setList((l) => l.filter((w) => w.id !== deleting.id));
+    setDeleting(undefined);
+  };
+
+  const Menu = ({ w }: { w: Workshop }) => (
+    <DropdownMenu modal={false}>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="admin-row-actions h-8 w-8 text-muted-foreground" aria-label={`Options for ${w.title}`}>
+          <MoreHorizontal />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setEditing(w)}>
+          <Pencil className="mr-2 size-4" /> Edit
+        </DropdownMenuItem>
+        {w.link && (
+          <DropdownMenuItem onClick={() => window.open(w.link, "_blank", "noopener,noreferrer")}>
+            <ExternalLink className="mr-2 size-4" /> Open link
+          </DropdownMenuItem>
+        )}
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => setDeleting(w)}>
+          <Trash2 className="mr-2 size-4" /> Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+
+  return (
+    <div className="admin-page">
+      <PageHeader
+        label="Content"
+        title="Workshops"
+        description="Everything here shows on the public workshops page and the dashboard. Add the notebook link once it's posted."
+        actions={
+          <CreateButton label="Add workshop" onClick={openAdd} />
+        }
+      />
+
+      {adding && (
+        <Overlay close={() => setAdding(false)} title="Add workshop">
+          <EditWorkshop submit={create} />
+        </Overlay>
+      )}
+      {editing && (
+        <Overlay close={() => setEditing(undefined)} title="Edit workshop">
+          <EditWorkshop workshop={editing} submit={update} />
+        </Overlay>
+      )}
+      <ConfirmDialog
+        open={!!deleting}
+        title={`Delete "${deleting?.title ?? ""}"?`}
+        onConfirm={remove}
+        onClose={() => setDeleting(undefined)}
+      >
+        It disappears from the public workshops page right away.
+      </ConfirmDialog>
+
+      <Panel title="Coming up" meta={upcoming.length}>
+        {upcoming.length === 0 ? (
+          <Empty title="Nothing scheduled">Add the next workshop so it shows on the site.</Empty>
+        ) : (
+          <ul className="px-2 pb-2">
+            {upcoming.map((w, i) => (
+              <li key={w.id} className="flex items-center gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-muted/50">
+                <span className={`admin-date${i === 0 ? " is-next" : ""}`}>
+                  <span>{part(w.datetime, { month: "short" })}</span>
+                  <strong>{part(w.datetime, { day: "numeric" })}</strong>
+                </span>
+                <button className="min-w-0 flex-1 text-left" onClick={() => setEditing(w)}>
+                  {i === 0 && <span className="mb-0.5 block text-xs font-medium text-[var(--a-signal)]">Next up</span>}
+                  <span className="block truncate font-medium text-foreground">{w.title}</span>
+                  <span className="mt-0.5 block truncate text-sm text-muted-foreground">
+                    {part(w.datetime, { weekday: "long", hour: "numeric", minute: "2-digit" })} · {w.location || "Location TBA"} · {w.speaker}
+                  </span>
+                </button>
+                <span className="hidden sm:block">
+                  {w.link ? <span className="admin-pill admin-pill--ok">Link posted</span> : <span className="admin-pill">No link yet</span>}
+                </span>
+                <Menu w={w} />
+              </li>
+            ))}
+          </ul>
+        )}
+      </Panel>
+
+      <Panel title="Past" meta={past.length}>
+        {past.length === 0 ? (
+          <Empty title="No past workshops" />
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="admin-table">
+              <thead>
+                <tr>
+                  <th>Workshop</th>
+                  <th>Date</th>
+                  <th>Location</th>
+                  <th>Link</th>
+                  <th aria-label="Actions" />
+                </tr>
+              </thead>
+              <tbody>
+                {past.map((w) => (
+                  <tr key={w.id}>
+                    <td className="max-w-[26rem]">
+                      <button className="admin-table__title text-left hover:underline" onClick={() => setEditing(w)}>
+                        {w.title}
+                      </button>
+                      <p className="admin-table__sub">{w.speaker}</p>
+                    </td>
+                    <td className="is-num whitespace-nowrap text-muted-foreground">
+                      {part(w.datetime, { month: "short", day: "numeric", year: "numeric" })}
+                    </td>
+                    <td className="text-muted-foreground">{w.location || "—"}</td>
+                    <td>
+                      {w.link ? (
+                        <a href={w.link} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-[var(--a-blue)] hover:underline">
+                          Open
+                        </a>
+                      ) : (
+                        <span className="text-sm text-muted-foreground">Missing</span>
+                      )}
+                    </td>
+                    <td className="w-12 text-right">
+                      <Menu w={w} />
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
+      </Panel>
+    </div>
+  );
 }
