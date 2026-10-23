@@ -15,12 +15,10 @@ export default async function Page({
     const { year } = await params;
     const cookieStore = await cookies()
     const supabase = await createClient(cookieStore);
-    const {data: symposium}: {data: Symposium} = await supabase.from("symposiums").select().eq("id", year).single();
+    const {data: symposium}: {data: Symposium | null} = await supabase.from("symposiums").select().eq("id", year).maybeSingle();
+    if (!symposium) notFound();
     const {data: speakers} = await supabase.from("speakers").select().eq("symposium", symposium.year);
-    if (!symposium || !speakers) {
-        notFound();
-        return;
-    }
+    if (!speakers) notFound();
     return (
         <Editor speakers={speakers} symposium={symposium} />
     )

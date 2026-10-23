@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import { getAdminProfile } from "@/lib/supabase/admin";
 import type { Activity, AdminInfo, Speaker, Symposium } from "@/types/db";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -80,16 +81,10 @@ export default async function Page() {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const req: { data: AdminInfo | null } = await supabase
-    .schema("admin")
-    .from("people")
-    .select()
-    .eq("id", user?.id)
-    .single();
-  const data = req.data;
+  const data = await getAdminProfile<AdminInfo>(user?.id);
 
   if (!data || !data.account_setup) {
-    redirect("/admin/setup");
+    redirect("/admin/welcome");
   }
 
   const { data: activities } = await supabase

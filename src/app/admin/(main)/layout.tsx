@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { AdminShell, type AdminNavItem } from "./components/AdminShell";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import { getAdminProfile } from "@/lib/supabase/admin";
 import { cookies } from "next/headers";
 import { AdminInfo } from "@/types/db";
 
@@ -14,13 +15,8 @@ export default async function Layout({ children }: { children: ReactNode }) {
   if (!user) {
     redirect("/admin/login");
   }
-  const req: { data: AdminInfo | null } = await supabase
-    .schema("admin")
-    .from("people")
-    .select()
-    .eq("id", user?.id)
-    .single();
-  const data = req.data;
+  const data = await getAdminProfile<AdminInfo>(user.id);
+  if (!data?.account_setup) redirect("/admin/welcome");
   const actions = await supabase
     .schema("admin")
     .from("actions")
