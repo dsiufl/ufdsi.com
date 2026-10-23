@@ -25,7 +25,7 @@ export default function EditProject({project, submit}: {project?: Project, submi
    
     return (
         <form onSubmit={form.handleSubmit(onSubmit)}>
-            <FieldGroup>
+            <FieldGroup className="gap-5">
                 
                 <Controller
                     name="title"
@@ -34,7 +34,7 @@ export default function EditProject({project, submit}: {project?: Project, submi
                     defaultValue={project.title ?? ""}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
-                            <FieldLabel className="text-md">Title</FieldLabel>
+                            <FieldLabel>Title</FieldLabel>
                             <Input {...field} placeholder="Title of Project"/>
                             {fieldState.invalid && (
                                 <FieldError>
@@ -51,7 +51,7 @@ export default function EditProject({project, submit}: {project?: Project, submi
                     defaultValue={project.lead ?? ""}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
-                            <FieldLabel className="text-md">Project Lead</FieldLabel>
+                            <FieldLabel>Project Lead</FieldLabel>
                             <Input {...field} placeholder="Project Lead"/>
                             {fieldState.invalid && (
                                 <FieldError>
@@ -69,7 +69,7 @@ export default function EditProject({project, submit}: {project?: Project, submi
                     defaultValue={project.description ?? " "}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid}>
-                            <FieldLabel className="text-md">Description</FieldLabel>
+                            <FieldLabel>Description</FieldLabel>
                             <Textarea {...field} placeholder="Description"/>
                             {fieldState.invalid && (
                                 <FieldError>
@@ -86,7 +86,7 @@ export default function EditProject({project, submit}: {project?: Project, submi
                     defaultValue={project.link ?? ""}
                     render={({field, fieldState}) => (
                         <Field aria-invalid={fieldState.invalid} className="aria-[invalid=true]:text-red-500">
-                            <FieldLabel className="text-md">Project Link</FieldLabel>
+                            <FieldLabel>Project Link</FieldLabel>
                             <Input {...field} placeholder="Description"/>
                         </Field>
                     )}
