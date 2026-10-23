@@ -53,6 +53,7 @@ export default async function Layout({ children }: { children: ReactNode }) {
           ? {
               firstName: data.first_name ?? "User",
               lastName: data.last_name ?? "",
+              role: data.role,
             }
           : undefined
       }
