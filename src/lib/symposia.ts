@@ -93,8 +93,7 @@ export const symposia: Record<number, SymposiumConfig> = {
   },
   2027: {
     year: 2027,
-    // TODO: set once the room is booked (REITZ if it is the Reitz Union again).
-    venue: null,
+    venue: REITZ,
     // TODO: add the registration link when registration opens.
     registerUrl: undefined,
     // Create these two forms in Admin → Forms with exactly these slugs and set
