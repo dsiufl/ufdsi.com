@@ -105,7 +105,7 @@ export default async function SymposiumPage({ params }: Params) {
               {stage === "announced" && " The lineup is being built now."}
             </p>
             <div className="site-hero__actions">
-              {stage === "lineup" && config.registerUrl && (
+              {(stage === "lineup" || stage === "announced") && config.registerUrl && (
                 <a
                   href={config.registerUrl}
                   target="_blank"
@@ -118,19 +118,34 @@ export default async function SymposiumPage({ params }: Params) {
                   </span>
                 </a>
               )}
-              {(stage === "announced" || stage === "tba") && (
-                <>
-                  <a href={speakHref} className="site-btn site-btn--primary">
-                    Propose a talk{" "}
-                    <span className="site-arrow" aria-hidden="true">
-                      →
-                    </span>
-                  </a>
-                  <a href="#sponsor" className="site-btn site-btn--ghost">
-                    Sponsor {year}
-                  </a>
-                </>
+              {stage === "lineup" && config.posterUrl && (
+                <a
+                  href={config.posterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="site-btn site-btn--ghost"
+                >
+                  Apply to present a poster
+                </a>
               )}
+              {(stage === "announced" || stage === "tba") &&
+                (config.registerUrl ? (
+                  <a href="#speak" className="site-btn site-btn--ghost">
+                    Speak, present or sponsor
+                  </a>
+                ) : (
+                  <>
+                    <a href={speakHref} className="site-btn site-btn--primary">
+                      Propose a talk{" "}
+                      <span className="site-arrow" aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                    <a href="#sponsor" className="site-btn site-btn--ghost">
+                      Sponsor {year}
+                    </a>
+                  </>
+                ))}
               {stage === "archive" && year !== CURRENT_SYMPOSIUM_YEAR && (
                 <Link
                   href={symposiumHref()}
@@ -171,13 +186,15 @@ export default async function SymposiumPage({ params }: Params) {
                   )}
                 </dd>
               </div>
-              {(upcoming || (date && hasTime(date))) && (
+              {(upcoming || (date && hasTime(date)) || config.doorsOpen) && (
                 <div>
                   <dt>Time</dt>
                   <dd>
                     {date && hasTime(date)
                       ? `Doors open ${formatTime(date)}`
-                      : "To be announced"}
+                      : config.doorsOpen
+                        ? `Doors open ${config.doorsOpen}`
+                        : "To be announced"}
                   </dd>
                 </div>
               )}
@@ -247,6 +264,12 @@ export default async function SymposiumPage({ params }: Params) {
                     <dd>{previous.sessions}</dd>
                   </div>
                 )}
+                {symposia[previous.year]?.attendees && (
+                  <div>
+                    <dt>In-person attendees</dt>
+                    <dd>{symposia[previous.year].attendees}</dd>
+                  </div>
+                )}
                 {previousSponsors.length > 0 && (
                   <div>
                     <dt>Sponsors</dt>
@@ -288,6 +311,16 @@ export default async function SymposiumPage({ params }: Params) {
                       →
                     </span>
                   </a>
+                  {config.posterUrl && (
+                    <a
+                      href={config.posterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="site-btn site-btn--ghost"
+                    >
+                      Apply to present a poster
+                    </a>
+                  )}
                 </div>
               </div>
             </Reveal>
