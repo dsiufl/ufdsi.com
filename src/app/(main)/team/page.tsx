@@ -24,6 +24,7 @@ const execOrder: RegExp[] = [
   /workshop/i,
   /networking/i,
   /project/i,
+  /hackathon/i,
   /research/i,
 ];
 const execRank = (role: string) => {

@@ -13,7 +13,7 @@ import { ArrowDownIcon, Calendar as CalendarIcon} from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { useRouter } from "next/navigation";
 import Overlay from "@/components/Overlay/Overlay";
-export default function Editor({article}: {article: Article}) {
+export default function Editor({article, canPublish}: {article: Article, canPublish: boolean}) {
     const [content, setContent] = useState<string>(article.content || "## Article content");
     const [title, setTitle] = useState<string>(article.title || "New article");
     const [pendingTitle, setPendingTitle] = useState<string>(article.title || "New article");
@@ -27,6 +27,7 @@ export default function Editor({article}: {article: Article}) {
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ cover, setCover ] = useState<string>(article.cover || "");
     const [ tempURL, setTempURL ] = useState<string>(cover);
+    const [ status, setStatus ] = useState<"draft" | "published">(article.status ?? (canPublish ? "published" : "draft"));
     const [ URLWindow, setURLWindow ] = useState<boolean>(false);
 
     const router = useRouter();
@@ -40,12 +41,13 @@ export default function Editor({article}: {article: Article}) {
             || (!article.created_at || newDate.toISOString() !== new Date(article.created_at).toISOString())
             || category !== article.category
             || description !== article.summary
+            || status !== (article.status ?? (canPublish ? "published" : "draft"))
         ) {
             setChanged(true);
         } else {
             setChanged(false);
         }
-    }, [content, article.content, title, article.title, newDate, article.created_at, category, article.category, description, article.summary]);
+    }, [content, article.content, title, article.title, newDate, article.created_at, category, article.category, description, article.summary, status, article.status, canPublish]);
     return (
         <>
         {
@@ -68,6 +70,13 @@ export default function Editor({article}: {article: Article}) {
         <div className="px-10 flex items-center flex-col mb-2">
             <div className="flex justify-center items-center mb-2">
                 <p className="!mb-0">{article.id ? "Editing" : "Creating new"}</p>
+                {canPublish ? (
+                    <Button variant="outline" className="ml-4 !text-black dark:!text-white" onClick={() => setStatus(status === "published" ? "draft" : "published")}>
+                        {status === "published" ? "Published · move to drafts" : "Draft · publish"}
+                    </Button>
+                ) : (
+                    <span className="ml-4 text-sm text-gray-500">Saved as a draft until an editor publishes it</span>
+                )}
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="ml-4 !text-black dark:!text-white">
@@ -183,6 +192,7 @@ export default function Editor({article}: {article: Article}) {
                         created_at: newDate.toISOString(),
                         summary: description,
                         cover,
+                        status: canPublish ? status : "draft",
                     }
                     if (cover && cover.startsWith("blob:")) {
                         const blob = await fetch(cover).then((res) => res.blob());
@@ -218,6 +228,7 @@ export default function Editor({article}: {article: Article}) {
                     setCategory(article.category);
                     setDescription(article.summary);
                     setPendingDescription(article.summary);
+                    setStatus(article.status ?? (canPublish ? "published" : "draft"));
                 }}>Revert</Button>
                 }
             </div>
