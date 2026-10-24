@@ -118,7 +118,7 @@ export default async function SymposiumPage({ params }: Params) {
                   </span>
                 </a>
               )}
-              {upcoming && config.posterUrl && (
+              {stage === "lineup" && config.posterUrl && (
                 <a
                   href={config.posterUrl}
                   target="_blank"
@@ -128,19 +128,24 @@ export default async function SymposiumPage({ params }: Params) {
                   Apply to present a poster
                 </a>
               )}
-              {(stage === "announced" || stage === "tba") && (
-                <>
-                  <a href={speakHref} className="site-btn site-btn--primary">
-                    Propose a talk{" "}
-                    <span className="site-arrow" aria-hidden="true">
-                      →
-                    </span>
+              {(stage === "announced" || stage === "tba") &&
+                (config.registerUrl ? (
+                  <a href="#speak" className="site-btn site-btn--ghost">
+                    Speak, present or sponsor
                   </a>
-                  <a href="#sponsor" className="site-btn site-btn--ghost">
-                    Sponsor {year}
-                  </a>
-                </>
-              )}
+                ) : (
+                  <>
+                    <a href={speakHref} className="site-btn site-btn--primary">
+                      Propose a talk{" "}
+                      <span className="site-arrow" aria-hidden="true">
+                        →
+                      </span>
+                    </a>
+                    <a href="#sponsor" className="site-btn site-btn--ghost">
+                      Sponsor {year}
+                    </a>
+                  </>
+                ))}
               {stage === "archive" && year !== CURRENT_SYMPOSIUM_YEAR && (
                 <Link
                   href={symposiumHref()}
@@ -306,6 +311,16 @@ export default async function SymposiumPage({ params }: Params) {
                       →
                     </span>
                   </a>
+                  {config.posterUrl && (
+                    <a
+                      href={config.posterUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="site-btn site-btn--ghost"
+                    >
+                      Apply to present a poster
+                    </a>
+                  )}
                 </div>
               </div>
             </Reveal>
