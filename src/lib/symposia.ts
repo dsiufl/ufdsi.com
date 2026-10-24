@@ -34,6 +34,8 @@ export interface SymposiumConfig {
   // null until the room is booked; the page shows "Venue to be announced".
   venue: Venue | null;
   registerUrl?: string;
+  // Shown as "Doors open ..." when the saved date has no time of day.
+  doorsOpen?: string;
   // Application form for student research posters.
   posterUrl?: string;
   // Slugs of forms built in the admin form builder. The page links to them
@@ -96,6 +98,7 @@ export const symposia: Record<number, SymposiumConfig> = {
   2027: {
     year: 2027,
     venue: REITZ,
+    doorsOpen: "9 AM",
     registerUrl: "https://luma.com/8goy8nad",
     posterUrl: "https://docs.google.com/forms/d/e/1FAIpQLSf6hAqxQ1fodok8T4wNa-D7fnhis79WDxwaOsemDHLthqeI6g/viewform",
     // Create these two forms in Admin → Forms with exactly these slugs and set

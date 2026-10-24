@@ -181,13 +181,15 @@ export default async function SymposiumPage({ params }: Params) {
                   )}
                 </dd>
               </div>
-              {(upcoming || (date && hasTime(date))) && (
+              {(upcoming || (date && hasTime(date)) || config.doorsOpen) && (
                 <div>
                   <dt>Time</dt>
                   <dd>
                     {date && hasTime(date)
                       ? `Doors open ${formatTime(date)}`
-                      : "To be announced"}
+                      : config.doorsOpen
+                        ? `Doors open ${config.doorsOpen}`
+                        : "To be announced"}
                   </dd>
                 </div>
               )}
