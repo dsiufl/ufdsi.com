@@ -94,8 +94,7 @@ export const symposia: Record<number, SymposiumConfig> = {
   2027: {
     year: 2027,
     venue: REITZ,
-    // TODO: add the registration link when registration opens.
-    registerUrl: undefined,
+    registerUrl: "https://luma.com/8goy8nad",
     // Create these two forms in Admin → Forms with exactly these slugs and set
     // them to Open; the page picks them up within five minutes.
     speakerFormSlug: "symposium-2027-speakers",

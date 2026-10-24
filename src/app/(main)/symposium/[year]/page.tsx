@@ -105,7 +105,7 @@ export default async function SymposiumPage({ params }: Params) {
               {stage === "announced" && " The lineup is being built now."}
             </p>
             <div className="site-hero__actions">
-              {stage === "lineup" && config.registerUrl && (
+              {(stage === "lineup" || stage === "announced") && config.registerUrl && (
                 <a
                   href={config.registerUrl}
                   target="_blank"
