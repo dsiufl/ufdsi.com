@@ -34,6 +34,8 @@ export interface SymposiumConfig {
   // null until the room is booked; the page shows "Venue to be announced".
   venue: Venue | null;
   registerUrl?: string;
+  // Application form for student research posters.
+  posterUrl?: string;
   // Slugs of forms built in the admin form builder. The page links to them
   // once they are open, and falls back to email until then.
   speakerFormSlug?: string;
@@ -95,6 +97,7 @@ export const symposia: Record<number, SymposiumConfig> = {
     year: 2027,
     venue: REITZ,
     registerUrl: "https://luma.com/8goy8nad",
+    posterUrl: "https://docs.google.com/forms/d/e/1FAIpQLSf6hAqxQ1fodok8T4wNa-D7fnhis79WDxwaOsemDHLthqeI6g/viewform",
     // Create these two forms in Admin → Forms with exactly these slugs and set
     // them to Open; the page picks them up within five minutes.
     speakerFormSlug: "symposium-2027-speakers",

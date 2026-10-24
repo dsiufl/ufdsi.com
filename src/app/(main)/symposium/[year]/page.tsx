@@ -118,6 +118,16 @@ export default async function SymposiumPage({ params }: Params) {
                   </span>
                 </a>
               )}
+              {upcoming && config.posterUrl && (
+                <a
+                  href={config.posterUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="site-btn site-btn--ghost"
+                >
+                  Apply to present a poster
+                </a>
+              )}
               {(stage === "announced" || stage === "tba") && (
                 <>
                   <a href={speakHref} className="site-btn site-btn--primary">
