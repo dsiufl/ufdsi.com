@@ -259,6 +259,12 @@ export default async function SymposiumPage({ params }: Params) {
                     <dd>{previous.sessions}</dd>
                   </div>
                 )}
+                {symposia[previous.year]?.attendees && (
+                  <div>
+                    <dt>In-person attendees</dt>
+                    <dd>{symposia[previous.year].attendees}</dd>
+                  </div>
+                )}
                 {previousSponsors.length > 0 && (
                   <div>
                     <dt>Sponsors</dt>

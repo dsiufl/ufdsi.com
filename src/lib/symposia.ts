@@ -34,6 +34,8 @@ export interface SymposiumConfig {
   // null until the room is booked; the page shows "Venue to be announced".
   venue: Venue | null;
   registerUrl?: string;
+  // In-person attendance, shown in the next year's "in numbers" section.
+  attendees?: string;
   // Shown as "Doors open ..." when the saved date has no time of day.
   doorsOpen?: string;
   // Application form for student research posters.
@@ -79,6 +81,7 @@ export const symposia: Record<number, SymposiumConfig> = {
   2026: {
     year: 2026,
     venue: REITZ,
+    attendees: "100+",
     registerUrl: "https://docs.google.com/forms/d/e/1FAIpQLSeeLjQPm-lw_HWNLitDZzMpdg96bh48pw6cmYsdWsz_a5TyTg/viewform",
     sponsors: [
       { name: "NVIDIA", logo: "/images/symposium-26/sponsors/nvidia.png", bg: "#ffffff" },
