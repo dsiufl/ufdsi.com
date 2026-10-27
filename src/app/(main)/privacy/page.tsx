@@ -1,19 +1,29 @@
 import { Metadata } from "next";
 import Link from "next/link";
+import { PRIVACY_CONTACT_EMAIL, PRIVACY_EFFECTIVE_DATE } from "@/lib/privacy";
 
 export const metadata: Metadata = {
   title: "Privacy Policy | UF DSI",
   description: "What information UF Data Science and Informatics collects, why, and what you can do about it.",
 };
 
-const CONTACT_EMAIL = "dsiufl@gmail.com";
-const EFFECTIVE_DATE = "October 27, 2026";
+const CONTACT_EMAIL = PRIVACY_CONTACT_EMAIL;
 
 const services = [
   {
     name: "Supabase",
     href: "https://supabase.com/privacy",
-    use: "Stores form submissions, uploaded files and site content, and signs officers in.",
+    use: "Stores form submissions, uploaded files and site content.",
+  },
+  {
+    name: "Clerk",
+    href: "https://clerk.com/legal/privacy",
+    use: "Handles officer sign-in; it does not receive form submissions.",
+  },
+  {
+    name: "Vercel",
+    href: "https://vercel.com/legal/privacy-policy",
+    use: "Hosts the website.",
   },
   {
     name: "Brevo",
@@ -46,12 +56,20 @@ export default function PrivacyPage() {
             the University of Florida. This page explains what we collect on ufdsi.com, why we collect it and
             what you can ask us to do with it.
           </p>
-          <p className="site-body">Effective {EFFECTIVE_DATE}.</p>
+          <p className="site-body">Effective {PRIVACY_EFFECTIVE_DATE}.</p>
+          <p className="site-body">
+            DSI is a student organization, not an office of the University of Florida, and this is not a
+            UF policy. See the{" "}
+            <a href="https://privacy.ufl.edu/internet-privacy/" target="_blank" rel="noopener noreferrer">
+              UF Internet Privacy Policy
+            </a>{" "}
+            for how the university handles your information.
+          </p>
 
           <h2 className="site-h3">Browsing the site</h2>
           <p className="site-body">
             You can read ufdsi.com without an account. We do not run analytics, advertising or tracking
-            scripts, and we do not set cookies for visitors. Our hosting provider keeps standard server logs,
+            scripts. Officer sign-in uses authentication cookies. Our hosting provider keeps standard server logs,
             such as IP addresses and the pages requested, to operate and secure the site.
           </p>
 
@@ -65,6 +83,9 @@ export default function PrivacyPage() {
           <p className="site-body">
             While you fill out a form, your browser saves a draft of your answers in its local storage so you
             do not lose your progress. The draft stays on your device and is cleared when you submit.
+          </p>
+          <p className="site-body">
+            Each submission records when you agreed to this policy and the version you agreed to.
           </p>
           <p className="site-body">
             We use this information to run the event: confirming your spot, managing the waitlist, emailing
@@ -113,8 +134,8 @@ export default function PrivacyPage() {
 
           <h2 className="site-h3">How long we keep it</h2>
           <p className="site-body">
-            We keep form submissions for as long as we need them to run the event and keep basic attendance
-            records for the organization. You can ask us to delete yours sooner.
+            We delete form submissions and uploaded files at the end of each academic year, by May 31.
+            You can ask us to delete yours sooner.
           </p>
 
           <h2 className="site-h3">Security</h2>
