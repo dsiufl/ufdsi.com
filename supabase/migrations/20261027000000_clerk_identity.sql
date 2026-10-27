@@ -6,39 +6,80 @@
 -- bridge. Role-gated actions stay enforced by Postgres -- via RLS, or via a
 -- SECURITY DEFINER function for the one case a plain RLS policy can't safely
 -- express -- never by application code alone.
+--
+-- Ordering note: every policy below that is dropped IS recreated later in
+-- this same file (same name where the old one is just getting its predicate
+-- rewritten, a new name where the predicate also changes to "any officer").
+-- Nothing here is a net removal. The drops have to happen before the
+-- `alter column ... type` statements purely because Postgres refuses to
+-- retype a column that any RLS policy anywhere still references -- even a
+-- policy on a completely different table (e.g. public.news' policy
+-- referencing admin.people.id blocks retyping admin.people.id until that
+-- policy is dropped).
 
--- 1. admin.people: drop the auth.users FK, retype id to text.
+-- 1. Drop every existing policy that references admin.people.id (on
+--    admin.people itself and on other tables), so the column retypes below
+--    don't hit Postgres' "policy depends on column" guard. Each is
+--    recreated further down.
+drop policy "people_select_own" on admin.people;
+drop policy "admin_people_update_own" on admin.people;
+drop policy "Any officer can read the actions of their role" on admin.actions;
+drop policy "Any " on public.workshops;
+drop policy "Permissions for correct users" on public.news;
+drop policy "Restrict editing projects to President, Internal Vice President" on public.projects;
+drop policy "Enable insert for authenticated users only" on public.speakers;
+drop policy "Enable update for authenticated users only" on public.speakers;
+drop policy "Enable delete for authenticated users only" on public.speakers;
+drop policy "Enable insert for authenticated users only" on public.symposiums;
+drop policy "Enable update for authenticated users only" on public.symposiums;
+
+-- Same guard applies to foreign keys, not just policies: Postgres won't
+-- retype a column another table's FK still references. Drop it here,
+-- recreate it after the retype (see the note down there for a behavior
+-- change made at the same time: ON DELETE SET NULL).
+alter table admin.activity_log drop constraint activity_log_user_id_fkey;
+
+-- 2. admin.people: drop the auth.users FK, retype id to text.
 alter table admin.people drop constraint people_id_fkey;
 alter table admin.people alter column id drop default;
 alter table admin.people alter column id type text using id::text;
 
--- 2. forms.created_by / form_templates.created_by: same retype, drop FK to auth.users.
+-- 3. forms.created_by / form_templates.created_by: same retype, drop FK to auth.users.
 alter table public.forms drop constraint forms_created_by_fkey;
 alter table public.forms alter column created_by type text using created_by::text;
 
 alter table public.form_templates drop constraint form_templates_created_by_fkey;
 alter table public.form_templates alter column created_by type text using created_by::text;
 
--- 3. admin.activity_log.user_id and record_id: retype to text. record_id is
+-- 4. admin.activity_log.user_id and record_id: retype to text. record_id is
 --    shared across triggers on people/speakers/symposiums/workshops/news --
 --    only people.id changed type, but the column has to accommodate all of
 --    them, so it becomes text (uuid values still store fine as text).
 alter table admin.activity_log alter column user_id type text using user_id::text;
 alter table admin.activity_log alter column record_id type text using record_id::text;
 
--- 4. Rewrite auth.uid() -> the Clerk JWT's `sub` claim.
-drop policy "people_select_own" on admin.people;
+-- Recreate activity_log_user_id_fkey, now text-to-text. Deliberate change
+-- here: the original had no ON DELETE behavior (default NO ACTION), which
+-- would block deleting ANY officer who has even one activity_log entry --
+-- i.e. almost everyone, including via the people_delete_privileged policy
+-- and admin.update_person() this migration adds. ON DELETE SET NULL keeps
+-- the historical log row instead of blocking the delete or cascading it
+-- away.
+alter table admin.activity_log
+    add constraint activity_log_user_id_fkey
+    foreign key (user_id) references admin.people(id) on delete set null;
+
+-- 5. Recreate admin.people's own-row policies and admin.actions' role-read
+--    policy, rewritten from auth.uid() to the Clerk JWT's `sub` claim.
 create policy people_select_own on admin.people
     for select to authenticated
     using ((select auth.jwt() ->> 'sub') = id);
 
-drop policy "admin_people_update_own" on admin.people;
 create policy admin_people_update_own on admin.people
     for update to authenticated
     using ((select auth.jwt() ->> 'sub') = id)
     with check ((select auth.jwt() ->> 'sub') = id);
 
-drop policy "Any officer can read the actions of their role" on admin.actions;
 create policy "Any officer can read the actions of their role" on admin.actions
     for select
     using (exists (
@@ -46,7 +87,7 @@ create policy "Any officer can read the actions of their role" on admin.actions
         where p.id = (select auth.jwt() ->> 'sub') and p.role = any (actions.role)
     ));
 
--- 5. "Any eboard member" helper. A Clerk session being `authenticated` only
+-- 6. "Any eboard member" helper. A Clerk session being `authenticated` only
 --    means someone has a Clerk account for this application -- Clerk's own
 --    sign-up restriction is a dashboard-level toggle this codebase doesn't
 --    control, and was never the thing gating account creation the way
@@ -72,28 +113,25 @@ $$;
 revoke all on function admin.is_officer() from public;
 grant execute on function admin.is_officer() to authenticated;
 
--- 6. Loosen news/projects/workshops writes to "any eboard member", matching
---    speakers/symposiums' existing openness. Explicit product decision, not
---    a side effect of the identity swap.
-drop policy "Any " on public.workshops;
+-- 7. Recreate news/projects/workshops writes as "any eboard member",
+--    matching speakers/symposiums' existing openness. Explicit product
+--    decision, not a side effect of the identity swap.
 create policy workshops_write_any_officer on public.workshops
     for all to authenticated
     using (admin.is_officer())
     with check (admin.is_officer());
 
-drop policy "Permissions for correct users" on public.news;
 create policy news_write_any_officer on public.news
     for all to authenticated
     using (admin.is_officer())
     with check (admin.is_officer());
 
-drop policy "Restrict editing projects to President, Internal Vice President" on public.projects;
 create policy projects_write_any_officer on public.projects
     for all to authenticated
     using (admin.is_officer())
     with check (admin.is_officer());
 
--- 7. form_templates / form_submissions had zero policies (deny-all except
+-- 8. form_templates / form_submissions had zero policies (deny-all except
 --    service_role) -- these were only ever "is a logged-in officer", never
 --    role-restricted, so open them the same way the forms table already is.
 --    form_submissions holds attendee PII, so this one is officer-gated, not
@@ -108,57 +146,52 @@ create policy form_submissions_any_officer on public.form_submissions
     using (admin.is_officer())
     with check (admin.is_officer());
 
--- 8. Pre-existing gap, not introduced by this migration, but fixed here
---    since the cause is identical: speakers/symposiums have had blanket
---    `using (true)` write policies since the original baseline migration,
---    meaning any authenticated account (Supabase or, now, Clerk) could
---    already write to them. "ANY member should be able to edit" (per
---    product direction) means any admin.people row, not literally anyone
---    with an account -- tightening these to match the other any-officer
---    tables above rather than leaving this one table inconsistently open.
-drop policy "Enable insert for authenticated users only" on public.speakers;
+-- 9. Recreate speakers/symposiums write policies, tightened to "any
+--    officer" instead of their previous blanket `using (true)` (a
+--    pre-existing gap from the original baseline migration, not introduced
+--    here, but fixed in the same pass since the cause and fix are
+--    identical). "ANY member should be able to edit" (per product
+--    direction) means any admin.people row, not literally anyone with a
+--    Clerk account.
 create policy speakers_insert_any_officer on public.speakers
     for insert to authenticated
     with check (admin.is_officer());
 
-drop policy "Enable update for authenticated users only" on public.speakers;
 create policy speakers_update_any_officer on public.speakers
     for update to authenticated
     using (admin.is_officer())
     with check (admin.is_officer());
 
-drop policy "Enable delete for authenticated users only" on public.speakers;
 create policy speakers_delete_any_officer on public.speakers
     for delete to authenticated
     using (admin.is_officer());
 
-drop policy "Enable insert for authenticated users only" on public.symposiums;
 create policy symposiums_insert_any_officer on public.symposiums
     for insert to authenticated
     with check (admin.is_officer());
 
-drop policy "Enable update for authenticated users only" on public.symposiums;
 create policy symposiums_update_any_officer on public.symposiums
     for update to authenticated
     using (admin.is_officer())
     with check (admin.is_officer());
 
--- 9. Privileged admin.people operations (President / Technology Coordinator).
+-- 10. Privileged admin.people operations (President / Technology Coordinator).
 --
---    SELECT and DELETE are safe as plain RLS policies -- there is no
---    competing "self" policy for either that a privileged predicate could be
---    OR'd past. UPDATE is NOT safe as a plain policy: admin_people_update_own
---    (above) already lets any authenticated user update their OWN row, and
---    Postgres combines multiple permissive policies for the same command
---    with OR -- so if the column grant below ever included role/email/
---    publish (needed for privileged edits), a non-privileged user's own-row
---    update would also satisfy admin_people_update_own's WITH CHECK and
---    could smuggle a role change through, regardless of which policy "meant"
---    to allow it. Privileged full-row edits instead go through
---    admin.update_person(), a SECURITY DEFINER function that checks the
---    caller's own role before writing. The self-service column grant from
---    the restrict_people_access migration (displayName/pictureURL/
---    first_name/last_name/account_setup only) is untouched.
+--     SELECT and DELETE are safe as plain RLS policies -- there is no
+--     competing "self" policy for either that a privileged predicate could
+--     be OR'd past. UPDATE is NOT safe as a plain policy:
+--     admin_people_update_own (above) already lets any authenticated user
+--     update their OWN row, and Postgres combines multiple permissive
+--     policies for the same command with OR -- so if the column grant below
+--     ever included role/email/publish (needed for privileged edits), a
+--     non-privileged user's own-row update would also satisfy
+--     admin_people_update_own's WITH CHECK and could smuggle a role change
+--     through, regardless of which policy "meant" to allow it. Privileged
+--     full-row edits instead go through admin.update_person(), a SECURITY
+--     DEFINER function that checks the caller's own role before writing.
+--     The self-service column grant from the restrict_people_access
+--     migration (displayName/pictureURL/first_name/last_name/account_setup
+--     only) is untouched.
 
 create policy people_select_all_privileged on admin.people
     for select to authenticated
@@ -243,7 +276,7 @@ $$;
 revoke all on function admin.update_person(text, text, text, boolean, text, text, text, text) from public;
 grant execute on function admin.update_person(text, text, text, boolean, text, text, text, text) to authenticated;
 
--- 10. admin.log_activity(): auth.uid() -> Clerk JWT `sub` (user_id/record_id
+-- 11. admin.log_activity(): auth.uid() -> Clerk JWT `sub` (user_id/record_id
 --     are text now, no cast needed).
 create or replace function admin.log_activity() returns trigger
     language plpgsql security definer
@@ -264,12 +297,12 @@ create or replace function admin.log_activity() returns trigger
   return null;
 end;$$;
 
--- 11. Leave the auth.* schema / auth.users rows in place -- just stop using
+-- 12. Leave the auth.* schema / auth.users rows in place -- just stop using
 --     them from app code. supabase/config.toml's third-party Clerk
 --     integration gets flipped on separately once a real Clerk domain
 --     exists.
 
--- 12. form-uploads Storage bucket: /api/forms/[id]/file now signs download
+-- 13. form-uploads Storage bucket: /api/forms/[id]/file now signs download
 --     URLs through the Clerk-bridged client (not service_role), which needs
 --     an RLS policy on storage.objects to succeed. Officer-submission
 --     uploads themselves go through signed upload tokens (minted via

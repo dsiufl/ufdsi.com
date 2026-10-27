@@ -1,18 +1,31 @@
 'use client';
-import Loading from "@/components/Loading/Loading";
 import Overlay from "@/components/Overlay/Overlay";
 import { Button } from "@/components/ui/button";
-import { DropdownMenuContent } from "@/components/ui/dropdown-menu";
-import { Table, TableCell, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog";
 import { Profile } from "@/types/db";
-import { DropdownMenu, DropdownMenuItem, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { useUser } from "@clerk/nextjs";
-import { EllipsisIcon, PlusIcon } from "lucide-react";
+import { Edit, MoreVertical, Plus, Trash2, Users as UsersIcon } from "lucide-react";
 import { useState } from "react";
 import EditUser from "../../components/EditUser";
+import { AddUserDialog } from "./AddUserDialog";
 
 
-function UserOverlay({user, onClose}: {user: Profile, onClose: () => void}) {
+function UserOverlay({user, onClose}: {user: Profile, onClose: (updated?: Profile) => void}) {
 
     return (
         <Overlay close={() => {
@@ -28,7 +41,7 @@ function UserOverlay({user, onClose}: {user: Profile, onClose: () => void}) {
                         }
                     }).then((res) => {
                         if (res.status === 200) {
-                            onClose();
+                            onClose({ ...user, ...data });
                         }
                     });
                 }} />
@@ -37,134 +50,177 @@ function UserOverlay({user, onClose}: {user: Profile, onClose: () => void}) {
     )
 }
 
-function DeleteOverlay({user, onClose}: {user: Profile, onClose: (user?: Profile) => void}) {
-    const [ loading, setLoading ] = useState<boolean>(false);
-    const [ error, setError ] = useState<string | undefined>(undefined);
-
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Delete User: ${user.first_name} ${user.last_name}`}>
-            {loading?<Loading message="Deleting user..." />:<div>
-                { error && <p className="!text-red-500">{error}</p> }
-                <p>Are you sure you want to delete this user? This action cannot be undone.</p>
-                <div className="flex flex-row gap-4 mt-4">
-                    <Button variant="destructive" onClick={() => {
-                        setLoading(true);
-                        setError(undefined);
-
-                        fetch('/api/users/delete', {
-                            method: 'POST',
-                            body: JSON.stringify({ user_id: user.id }),
-                            headers: {
-                                'Content-Type': 'application/json'
-                            }
-                        }).then((res) => {
-                            setLoading(false);
-                            if (res.status !== 200) {
-                                setError("Failed to delete user.");
-                                return;
-                            }
-                            onClose(user);
-                        });
-                    }}>Delete</Button>
-
-                    <Button variant="secondary" onClick={() => onClose()}>Cancel</Button>
-                </div>
-            </div>}
-        </Overlay>
-    )
-}
-
-function AddUserOverlay({onClose}: {onClose: (user?: Profile) => void}) {
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Add User`}>
-            <div>
-                <EditUser admin={true} data={{} as Profile} onSubmit={async (data: Profile) => {
-                    return fetch('/api/users/create', {
-                        method: 'POST',
-                        body: JSON.stringify({ user: data }),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((res) => {
-                        if (res.status === 200) {
-                            onClose();
-                        }
-                    });
-                }} />
-            </div>
-        </Overlay>
-    )
+function initials(user: Profile) {
+    return `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`.toUpperCase() || "?";
 }
 
 export default function Users({data}: {data: Profile[]}) {
     const [ overlay, setOverlay ] = useState<Profile | undefined>(undefined);
-    const [ deleteOverlay, setDeleteOverlay ] = useState<Profile | undefined>(undefined);
+    const [ deleteTarget, setDeleteTarget ] = useState<Profile | undefined>(undefined);
+    const [ deleting, setDeleting ] = useState(false);
     const [ addUserOverlay, setAddUserOverlay ] = useState<boolean>(false);
     const [ newData, setNewData ] = useState<Profile[]>(data);
     const { user: currentUser } = useUser();
 
+    async function handleDelete() {
+        if (!deleteTarget) return;
+        setDeleting(true);
+
+        const res = await fetch('/api/users/delete', {
+            method: 'POST',
+            body: JSON.stringify({ user_id: deleteTarget.id }),
+            headers: { 'Content-Type': 'application/json' },
+        });
+
+        if (res.ok) {
+            setNewData((prev) => prev.filter((u) => u.id !== deleteTarget.id));
+        }
+        setDeleting(false);
+        setDeleteTarget(undefined);
+    }
+
     return (
-        <div className="flex w-full h-full flex-col items-center bg-gray-100 dark:bg-[#000000]/30 px-10">
-            <Button className="mt-2" onClick={() => setAddUserOverlay(true)}>
-                <PlusIcon />Add User
-            </Button>
-            {addUserOverlay && <AddUserOverlay onClose={() => setAddUserOverlay(false)} />}
+        <div>
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-2xl font-semibold">Manage users</h1>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Invite and manage officer accounts
+                    </p>
+                </div>
+                <Button
+                    className="gap-2 bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                    onClick={() => setAddUserOverlay(true)}
+                >
+                    <Plus className="h-4 w-4" />
+                    Add User
+                </Button>
+            </div>
+
+            <AddUserDialog
+                open={addUserOverlay}
+                onOpenChange={setAddUserOverlay}
+                onCreated={(user) => setNewData((prev) => [...prev, user])}
+            />
             {overlay &&
-                <UserOverlay user={overlay} onClose={() => {
+                <UserOverlay user={overlay} onClose={(updated) => {
+                    if (updated) {
+                        setNewData((prev) => prev.map((u) => u.id === updated.id ? updated : u));
+                    }
                     setOverlay(undefined);
                 }} />
             }
-            {
-                deleteOverlay &&
-                <DeleteOverlay user={deleteOverlay} onClose={async (user?: Profile) => {
-                    if (user) {
-                        const filtered = newData.filter((u) => u.id !== user.id);
-                        setNewData(filtered);
-                    }
-                    setDeleteOverlay(undefined);
-                }} />
-            }
-            <Table className="w-full text-center bg-sky-50 dark:bg-gray-700 max-h-[40rem]">
-                <TableHeader className="!sticky top-0 bg-sky-100 dark:bg-black">
-                    <TableRow>
-                        <TableCell>First Name</TableCell>
-                        <TableCell>Last Name</TableCell>
-                        <TableCell>Email</TableCell>
-                        <TableCell>Role</TableCell>
-                        <TableCell></TableCell>
-                    </TableRow>
-                    {newData.map((user) => (
-                        <TableRow key={user.id}>
-                            <TableCell>{user.first_name}</TableCell>
-                            <TableCell>{user.last_name}</TableCell>
-                            <TableCell>{user.email}</TableCell>
-                            <TableCell>{user.role}</TableCell>
-                            <TableCell>
-                                <DropdownMenu modal={false}>
-                                    <DropdownMenuTrigger asChild>
-                                        <EllipsisIcon className="cursor-pointer"/>
-                                    </DropdownMenuTrigger>
-                                    <DropdownMenuContent>
-                                        <DropdownMenuItem className="">
-                                            <Button variant="ghost" className="w-full text-left dark:!text-white !text-black bg-transparent hover:!border-0 hover:!-translate-y-0" onClick={() => setOverlay(user)}>Edit user</Button>
-                                        </DropdownMenuItem>
-                                        {
-                                            user.id !== currentUser?.id &&
-                                            <DropdownMenuItem>
-                                                <Button variant="ghost" className="w-full dark:!text-white !text-black text-left bg-transparent hover:!border-0 hover:!-translate-y-0 hover:bg-red-500/30" onClick={() => setDeleteOverlay(user)}>Delete user</Button>
-                                            </DropdownMenuItem>
-                                        }
-                                    </DropdownMenuContent>
-                                </DropdownMenu>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableHeader>
-            </Table>
+
+            {newData.length === 0 ? (
+                <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border bg-card py-16">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-muted">
+                        <UsersIcon className="h-8 w-8 text-muted-foreground" />
+                    </div>
+                    <h3 className="mt-4 text-lg font-medium">No users yet</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                        Get started by inviting your first officer
+                    </p>
+                    <Button
+                        className="mt-6 gap-2 bg-[#FF5722] hover:bg-[#F4511E] text-white"
+                        onClick={() => setAddUserOverlay(true)}
+                    >
+                        <Plus className="h-4 w-4" />
+                        Add User
+                    </Button>
+                </div>
+            ) : (
+                <div className="rounded-lg border border-border bg-card">
+                    <Table>
+                        <TableHeader>
+                            <TableRow>
+                                <TableHead>User</TableHead>
+                                <TableHead>Role</TableHead>
+                                <TableHead>Visibility</TableHead>
+                                <TableHead className="w-12"></TableHead>
+                            </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                            {newData.map((user) => (
+                                <TableRow
+                                    key={user.id}
+                                    className="cursor-pointer hover:bg-accent"
+                                    onClick={() => setOverlay(user)}
+                                >
+                                    <TableCell>
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-xs font-medium text-muted-foreground">
+                                                {initials(user)}
+                                            </div>
+                                            <div>
+                                                <div className="font-medium">{user.first_name} {user.last_name}</div>
+                                                <div className="text-sm text-muted-foreground">{user.email}</div>
+                                            </div>
+                                        </div>
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground">
+                                        {user.role}
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant="secondary"
+                                            className={user.publish
+                                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                                : "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300"}
+                                        >
+                                            {user.publish ? "Public" : "Hidden"}
+                                        </Badge>
+                                    </TableCell>
+                                    <TableCell onClick={e => e.stopPropagation()}>
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                                                    <MoreVertical className="h-4 w-4" />
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem onClick={() => setOverlay(user)}>
+                                                    <Edit className="mr-2 h-4 w-4" />
+                                                    Edit user
+                                                </DropdownMenuItem>
+                                                {user.id !== currentUser?.id && (
+                                                    <DropdownMenuItem
+                                                        className="text-destructive"
+                                                        onSelect={() => setTimeout(() => setDeleteTarget(user), 0)}
+                                                    >
+                                                        <Trash2 className="mr-2 h-4 w-4" />
+                                                        Delete user
+                                                    </DropdownMenuItem>
+                                                )}
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                </div>
+            )}
+
+            <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(undefined)}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Delete User</DialogTitle>
+                        <DialogDescription>
+                            Are you sure you want to delete {deleteTarget?.first_name} {deleteTarget?.last_name}? This action cannot be undone.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <Button variant="outline" onClick={() => setDeleteTarget(undefined)}>Cancel</Button>
+                        <Button
+                            variant="destructive"
+                            onClick={handleDelete}
+                            disabled={deleting}
+                        >
+                            {deleting ? 'Deleting...' : 'Delete'}
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
     )
 }

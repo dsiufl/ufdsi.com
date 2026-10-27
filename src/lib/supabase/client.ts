@@ -19,6 +19,12 @@ export function useSupabaseClient() {
   return useMemo(() => createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY!,
-    { accessToken: async () => getToken() }
+    {
+      // supabase-js calls accessToken eagerly at construction time (to set
+      // up Realtime auth), which happens during this "use client"
+      // component's SSR pass too -- Clerk's getToken() throws there since
+      // there's no browser yet. Skip calling it outside the browser.
+      accessToken: () => (typeof window === 'undefined' ? Promise.resolve(null) : getToken()),
+    }
   ), [getToken])
 }

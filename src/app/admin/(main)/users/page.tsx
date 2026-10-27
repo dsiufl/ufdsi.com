@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { redirect } from "next/navigation";
 import Users from "./components/Users";
 import { auth } from "@clerk/nextjs/server";
@@ -25,8 +27,7 @@ export default async function Page() {
     }
 
     return (
-        <div className="pt-[10%] relative top-0 left-0 flex flex-col items-center w-full h-screen">
-            <h1>Manage users</h1>
+        <div className="container pt-20">
             <Users data={data ?? []} />
         </div>
     );

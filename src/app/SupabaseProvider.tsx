@@ -18,7 +18,14 @@ class Supabase extends SupabaseClient {
         super(
             process.env.NEXT_PUBLIC_SUPABASE_URL || "",
             process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY || "",
-            { accessToken: () => getToken() }
+            {
+                // supabase-js calls accessToken eagerly at construction time
+                // (to set up Realtime auth), which happens during this
+                // "use client" component's SSR pass too -- Clerk's
+                // getToken() throws there since there's no browser yet.
+                // Skip calling it outside the browser.
+                accessToken: () => (typeof window === "undefined" ? Promise.resolve(null) : getToken()),
+            }
         );
     }
     async upload(path: string, file: Blob, options?: { upsert?: boolean, contentType?: string }) {

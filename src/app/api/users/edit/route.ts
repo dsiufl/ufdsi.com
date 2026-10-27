@@ -14,22 +14,48 @@ export async function POST(req: NextRequest) {
     }
 
     const supabase = await createClerkBridgedServerClient();
-    const { data, error } = await supabase
+
+    // Privileged full-row edits (role/email/publish) go through
+    // admin.update_person() -- a SECURITY DEFINER function, not a plain RLS
+    // policy. A plain policy here would let a non-privileged user's own-row
+    // update (admin_people_update_own) smuggle a role change through, since
+    // Postgres ORs permissive policies together. Fetch the current row
+    // first so fields the edit form doesn't collect (e.g. displayName)
+    // aren't nulled out by the update.
+    const { data: current, error: fetchError } = await supabase
         .schema('admin')
         .from('people')
-        .update(user)
+        .select()
         .eq('id', user.id)
-        .select();
+        .single();
+
+    if (fetchError || !current) {
+        return new Response('User not found', { status: 404 });
+    }
+
+    const { data, error } = await supabase
+        .schema('admin')
+        .rpc('update_person', {
+            target_id: user.id,
+            new_role: user.role ?? current.role,
+            new_email: user.email ?? current.email,
+            new_publish: user.publish ?? current.publish,
+            new_first_name: user.first_name ?? current.first_name,
+            new_last_name: user.last_name ?? current.last_name,
+            new_display_name: user.displayName ?? current.displayName,
+            new_picture_url: user.pictureURL ?? current.pictureURL,
+        });
 
     if (error) {
+        if (error.code === '42501') {
+            return new Response('Forbidden', { status: 403 });
+        }
+        if (error.code === 'P0002') {
+            return new Response('User not found', { status: 404 });
+        }
         console.log("update error", error);
         return new Response('Error updating user', { status: 500 });
     }
-    // RLS (people_update_privileged) silently filters rows the caller isn't
-    // allowed to touch — zero rows affected means "forbidden", not "not found".
-    if (!data || data.length === 0) {
-        return new Response('Forbidden', { status: 403 });
-    }
 
-    return new Response('User edited', { status: 200 });
+    return new Response(JSON.stringify(data), { status: 200 });
 }

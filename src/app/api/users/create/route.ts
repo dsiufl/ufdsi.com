@@ -20,10 +20,12 @@ export async function POST(req: NextRequest) {
     // the real Clerk id once their user.created event arrives.
     const pendingId = `pending:${randomUUID()}`;
 
-    const { error: insertError } = await supabase
+    const { data: inserted, error: insertError } = await supabase
         .schema('admin')
         .from('people')
-        .insert({ ...user, id: pendingId, account_setup: false });
+        .insert({ ...user, id: pendingId, account_setup: false })
+        .select()
+        .single();
 
     if (insertError) {
         // RLS (people_insert_privileged) rejects this for non-President/Tech-Coord callers.
@@ -35,7 +37,7 @@ export async function POST(req: NextRequest) {
         const client = await clerkClient();
         await client.invitations.createInvitation({
             emailAddress: user.email,
-            redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/admin/login`,
+            redirectUrl: `${process.env.NEXT_PUBLIC_APP_URL ?? ''}/admin/accept-invite`,
         });
     } catch (err) {
         console.log("Error creating Clerk invitation:", err);
@@ -43,5 +45,5 @@ export async function POST(req: NextRequest) {
         return new Response('Error sending invite', { status: 500 });
     }
 
-    return new Response('User created', { status: 200 });
+    return new Response(JSON.stringify(inserted), { status: 200 });
 }

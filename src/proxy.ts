@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
 
 const isAdminRoute = createRouteMatcher(["/admin(.*)"])
-const isAdminLoginRoute = createRouteMatcher(["/admin/login(.*)"])
+const isAdminLoginRoute = createRouteMatcher(["/admin/login(.*)", "/admin/accept-invite(.*)"])
 
 export const proxy = clerkMiddleware(async (auth, request) => {
   const { userId } = await auth()
