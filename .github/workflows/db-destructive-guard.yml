@@ -49,8 +49,10 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const approver = process.env.APPROVER;
-            if (!approver) {
+            // MIGRATION_APPROVER may be a comma-separated list of logins; any one suffices.
+            const approvers = (process.env.APPROVER || "")
+              .split(",").map((a) => a.trim().toLowerCase()).filter(Boolean);
+            if (approvers.length === 0) {
               core.setFailed("Destructive SQL found and no MIGRATION_APPROVER variable is set. " +
                 "Set repo variable MIGRATION_APPROVER to require a named approver.");
               return;
@@ -65,13 +67,13 @@ jobs:
             for (const r of reviews) {
               if (r.user?.login) latest.set(r.user.login.toLowerCase(), r.state);
             }
-            const state = latest.get(approver.toLowerCase());
-            if (state === "APPROVED") {
-              core.info(`Approved by ${approver}. Destructive migration allowed.`);
+            const approvedBy = approvers.find((a) => latest.get(a) === "APPROVED");
+            if (approvedBy) {
+              core.info(`Approved by ${approvedBy}. Destructive migration allowed.`);
             } else {
               core.setFailed(
                 `This PR adds destructive SQL to supabase/migrations/** and requires an ` +
-                `APPROVED review from ${approver} (current: ${state || "no review"}).`
+                `APPROVED review from one of: ${approvers.join(", ")}.`
               );
             }
         env:

@@ -1,103 +1,81 @@
-import { createClient } from "@/lib/supabase/server";
+import ClosingCTA from "@/components/site/ClosingCTA";
+import { createPublicClient } from "@/lib/supabase/public";
 import { Article } from "@/types/db";
-import { cookies } from "next/headers";
-import Image from "next/image";
-import { notFound } from "next/navigation";
-import Head from "next/head";
-import Markdown from 'react-markdown'
 import { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+import { notFound } from "next/navigation";
+import Markdown from "react-markdown";
 
+export const revalidate = 300;
 
-export const generateMetadata = async ({
-    params,
-}: {
-    params: { id: string };
-}): Promise<Metadata> => {
-    const { id } = await params;
-    const supabase = await createClient(await cookies());
-    const { data, error }: { data: Article | null, error: any } = await supabase
-        .from('news')
-        .select('title, summary')
-        .eq('id', id)
-        .single();
+type Params = { params: Promise<{ id: string }> };
 
-    if (error || !data) {
-        console.error('Error fetching article metadata:', error);
-        return {
-            title: 'Newsletter',
-            description: 'Newsletter page',
-        };
-    }
-    return {
-        title: data.title || 'Newsletter',
-        description: data.summary || 'Newsletter page',
-    };
-};
-
-function CustomLink({ href, children }: { href: string; children: React.ReactNode }) {
-    const isExternal = href.startsWith('http');
-    if (isExternal) {
-        return (<Link href={href} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
-            {children}
-        </Link>);
-    }
-    return (<Link href={href} className="text-blue-500 hover:underline">
-        {children}
-    </Link>);
+// Invalid ids (PGRST116 no row, 22P02 not a uuid) are a 404, anything else is an error.
+async function getArticle(id: string) {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase.from("news").select("*").eq("id", id).maybeSingle();
+  if (error && error.code !== "22P02") throw new Error(`News ${id}: ${error.message}`);
+  return data as Article | null;
 }
 
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const article = await getArticle((await params).id);
+  if (!article) return { title: "News | UF DSI" };
+  return {
+    title: `${article.title} | UF DSI`,
+    description: article.summary?.replace(/\\n/g, " ").slice(0, 160) || undefined,
+    openGraph: article.cover ? { images: [article.cover] } : undefined,
+  };
+}
 
-export default async function Page({
-    params
-}: {
-    params: Promise<{id: string}>
-}) {
+function ArticleLink({ href, children }: { href?: string; children?: React.ReactNode }) {
+  if (!href) return <>{children}</>;
+  return href.startsWith("http") ? (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  ) : (
+    <Link href={href}>{children}</Link>
+  );
+}
 
-    const { id } = await params;
-    const supabase = await createClient(await cookies());
-    const { data, error }: {data: Article | null, error: any} = await supabase.from("news").select("*").eq("id", id).single();
-    if (error) {
-        console.log(error);
-        error.code == "PGRST116" || error.code == '22P02' ? notFound() : null;
-        console.error("Error fetching newsletter:", error);
-        return <div className="pt-[10%]">Error loading newsletter</div>;
-    }
+export default async function ArticlePage({ params }: Params) {
+  const article = await getArticle((await params).id);
+  if (!article) notFound();
 
-    return (
-        <>
-        <Head>
-            <link rel="preload" as="image" href={data?.cover || "/images/logo/hd-transparent-dsi-logo.png"}></link>
-        </Head>
-        <div className="flex relative h-[70vh] w-full shadow-lg">
-            <Image
-                src={data?.cover || "/images/logo/hd-transparent-dsi-logo.png"}
-                alt={data?.title || "Newsletter Image"}
-                width={800}
-                height={400}
-                className="object-cover w-full shadow-md"
-            
-            />
-            <div className="absolute bottom-0 w-full flex flex-col items-center dark:bg-black/70 bg-white/70 py-4 px-5">
-                <h1 className="text-2xl lg:text-3xl font-bold mt-5">{data?.title}</h1>
-                <p className="text-gray-600 dark:text-gray-400 mt-2">{new Date(data?.created_at || "").toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric',
-                })} | {data?.category || 'Uncategorized'}</p>
-            </div>
+  // Some stories were saved with literal "\n" sequences instead of line breaks.
+  const body = (article.content || "").replace(/\\n/g, "\n");
+
+  return (
+    <main>
+      <article className="site-article">
+        <div className="site-wrap">
+          <div className="site-article__inner">
+            <Link href="/newsletter" className="site-crumb">
+              <span aria-hidden="true">←</span> All news
+            </Link>
+            <p className="site-label">
+              {new Date(article.created_at).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric", timeZone: "America/New_York" })}
+              {article.category && ` · ${article.category}`}
+            </p>
+            <h1 className="site-h1">{article.title}</h1>
+            {article.cover && (
+              <figure className="site-plate">
+                <div className="site-plate__frame">
+                  <Image src={article.cover} alt="" fill sizes="(min-width: 800px) 720px, 100vw" priority />
+                </div>
+              </figure>
+            )}
+            {body.trim() && (
+              <div className="site-prose">
+                <Markdown components={{ a: ArticleLink }}>{body}</Markdown>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="flex flex-col items-center w-full px-32 pt-5">
-            <Markdown
-                components={{
-                    a: CustomLink,
-                }}
-            >
-                {data?.content || ""}
-            </Markdown>
-        </div>
-        </>
-    )
-    
-
+      </article>
+      <ClosingCTA />
+    </main>
+  );
 }
