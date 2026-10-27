@@ -1,5 +1,4 @@
 'use client';
-import Overlay from "@/components/Overlay/Overlay";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -21,34 +20,9 @@ import { Profile } from "@/types/db";
 import { useUser } from "@clerk/nextjs";
 import { Edit, MoreVertical, Plus, Trash2, Users as UsersIcon } from "lucide-react";
 import { useState } from "react";
-import EditUser from "../../components/EditUser";
 import { AddUserDialog } from "./AddUserDialog";
+import { EditUserDialog } from "./EditUserDialog";
 
-
-function UserOverlay({user, onClose}: {user: Profile, onClose: (updated?: Profile) => void}) {
-
-    return (
-        <Overlay close={() => {
-            onClose();
-        }} title={`Edit User: ${user.first_name} ${user.last_name}`}>
-            <div>
-                <EditUser admin={true} data={user} onSubmit={async (data: Profile) => {
-                    return fetch('/api/users/edit', {
-                        method: 'POST',
-                        body: JSON.stringify({ user: {...data, id: user.id} }),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    }).then((res) => {
-                        if (res.status === 200) {
-                            onClose({ ...user, ...data });
-                        }
-                    });
-                }} />
-            </div>
-        </Overlay>
-    )
-}
 
 function initials(user: Profile) {
     return `${user.first_name?.[0] ?? ""}${user.last_name?.[0] ?? ""}`.toUpperCase() || "?";
@@ -103,11 +77,10 @@ export default function Users({data}: {data: Profile[]}) {
                 onCreated={(user) => setNewData((prev) => [...prev, user])}
             />
             {overlay &&
-                <UserOverlay user={overlay} onClose={(updated) => {
-                    if (updated) {
-                        setNewData((prev) => prev.map((u) => u.id === updated.id ? updated : u));
-                    }
-                    setOverlay(undefined);
+                <EditUserDialog key={overlay.id} user={overlay} onOpenChange={(open) => {
+                    if (!open) setOverlay(undefined);
+                }} onUpdated={(updated) => {
+                    setNewData((prev) => prev.map((u) => u.id === updated.id ? updated : u));
                 }} />
             }
 
@@ -189,7 +162,7 @@ export default function Users({data}: {data: Profile[]}) {
                                                 </Button>
                                             </DropdownMenuTrigger>
                                             <DropdownMenuContent align="end">
-                                                <DropdownMenuItem onClick={() => setOverlay(user)}>
+                                                <DropdownMenuItem onSelect={() => setTimeout(() => setOverlay(user), 0)}>
                                                     <Edit className="mr-2 h-4 w-4" />
                                                     Edit user
                                                 </DropdownMenuItem>

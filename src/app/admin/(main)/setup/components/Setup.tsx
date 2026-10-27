@@ -16,39 +16,44 @@ function SetupOverlay({data, exit}: {data: Profile, exit: () => void}) {
     const supabase = useSupabaseClient();
     const alertCtx = useContext(AlertContext)
     const submit = async (sub: Profile) => {
-        if (sub.pictureURL !== data.pictureURL) {
-            // Upload new picture to storage
-            const blob = await fetch(sub.pictureURL).then(r => r.blob());
-            const { error } = await supabase.storage.from('images')
-            .upload(`team/${data.id}.jpg`, blob, {
-                upsert: true,
-                contentType: blob.type
+        try {
+            if (sub.pictureURL !== data.pictureURL) {
+                // Upload new picture to storage
+                const blob = await fetch(sub.pictureURL).then(r => r.blob());
+                const { error } = await supabase.storage.from('images')
+                .upload(`team/${data.id}.jpg`, blob, {
+                    upsert: true,
+                    contentType: blob.type
+                });
+                if (error) {
+                    alertCtx.setAlert("error", "Error uploading image: " + error.message);
+                    console.error("Error uploading image:", error);
+                    return;
+                } else {
+                    const { data: urlData } = supabase.storage.from('images')
+                    .getPublicUrl(`team/${data.id}.jpg`);
+                    sub.pictureURL = urlData.publicUrl;
+                }
+            }
+            const res = await fetch('/api/auth/firsttimesetup', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    data: {...sub}
+                })
             });
-            if (error) {
-                alertCtx.setAlert("error", "Error uploading image: " + error.message);
-                console.error("Error uploading image:", error);
+            if (!res.ok) {
+                const message = (await res.text()).trim();
+                alertCtx.setAlert("error", message || "Unable to complete setup. Please try again.");
                 return;
-            } else {
-                const { data: urlData } = supabase.storage.from('images')
-                .getPublicUrl(`team/${data.id}.jpg`);
-                sub.pictureURL = urlData.publicUrl;
             }
-        }
-        return fetch('/api/auth/firsttimesetup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                data: {...sub}
-            })
-        }).then((res) => {
-            if (res.ok) {
-                router.push('/admin/dashboard');
-            }
-        }).catch((err) => {
+            router.push('/admin/dashboard');
+        } catch (err) {
+            alertCtx.setAlert("error", "Unable to complete setup. Please check your connection and try again.");
             console.error("Error during setup:", err);
-        });
+        }
 
     }
 

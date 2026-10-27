@@ -64,6 +64,8 @@ export function AddUserDialog({ open, onOpenChange, onCreated }: {
             onCreated(created);
             form.reset();
             onOpenChange(false);
+        } catch {
+            setError("Could not send the invite. Please check your connection and try again.");
         } finally {
             setSubmitting(false);
         }
@@ -80,7 +82,7 @@ export function AddUserDialog({ open, onOpenChange, onCreated }: {
                 </DialogHeader>
                 <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
                     {error && (
-                        <p className="text-sm text-destructive">{error}</p>
+                        <p role="alert" className="text-sm text-destructive">{error}</p>
                     )}
                     <div className="grid grid-cols-2 gap-4">
                         <Controller
