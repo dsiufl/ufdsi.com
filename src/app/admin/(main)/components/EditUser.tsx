@@ -13,6 +13,7 @@ import { useState } from "react";
 import { DropdownMenu, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { InputGroup } from "@/components/ui/input-group";
+import { RoleCombobox } from "@/components/RoleCombobox";
 export default function EditUser({data, onSubmit, admin}: {data: Profile, onSubmit: (data: Profile) => void, admin?: boolean}) {
     const form = useForm<Profile>();
     const [ loading, setLoading ] = useState<boolean>(false);
@@ -122,7 +123,7 @@ export default function EditUser({data, onSubmit, admin}: {data: Profile, onSubm
                         defaultValue={data.role}
                         disabled={admin ? false : true}
                         render={({field}) => (
-                            <Input {...field} placeholder="Assigned role" />
+                            <RoleCombobox value={field.value} onChange={field.onChange} disabled={field.disabled} />
                         )}
                     />
                 </Field>

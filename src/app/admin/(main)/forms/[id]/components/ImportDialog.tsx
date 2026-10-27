@@ -35,14 +35,12 @@ export default function ImportDialog({
     onOpenChange,
     formId,
     formFields,
-    token,
     onComplete,
 }: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     formId: string;
     formFields: FormField[];
-    token: string | undefined;
     onComplete: () => void;
 }) {
     const [step, setStep] = useState<Step>('upload');
@@ -107,7 +105,6 @@ export default function ImportDialog({
     const totalErrors = csvRows.reduce((acc, row) => acc + (validateRow(row, mapping).length > 0 ? 1 : 0), 0);
 
     async function handleImport() {
-        if (!token) return;
         setStep('importing');
         setImportProgress(10);
 
@@ -122,7 +119,6 @@ export default function ImportDialog({
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    access_token: token,
                     rows: mapped,
                     skip_duplicates: skipDuplicates,
                     default_status: defaultStatus,

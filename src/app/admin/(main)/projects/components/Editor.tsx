@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { EllipsisIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Overlay from "@/components/Overlay/Overlay";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import { Spinner } from "@/components/ui/spinner";
 import { Project } from "@/types/db";
 import EditProject from "./EditProject";
@@ -19,7 +19,7 @@ export default function Editor({projects}: {projects: Project[]}) {
     const [newProject, setNewProject] = useState<boolean>(false);
     const [editProject, setEditProject] = useState<Project | undefined>(undefined);
     const [deleteProject, setDeleteProject] = useState<Project | undefined>(undefined);
-    const supabase = createUserClient();
+    const supabase = useSupabaseClient();
     const alertCtx = useContext(AlertContext)
     const NewProjectOverlay = () => {
         return (
