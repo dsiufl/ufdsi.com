@@ -134,6 +134,7 @@ export default function Users({data}: {data: Profile[]}) {
                         <TableHeader>
                             <TableRow>
                                 <TableHead>User</TableHead>
+                                <TableHead>Status</TableHead>
                                 <TableHead>Role</TableHead>
                                 <TableHead>Visibility</TableHead>
                                 <TableHead className="w-12"></TableHead>
@@ -156,6 +157,16 @@ export default function Users({data}: {data: Profile[]}) {
                                                 <div className="text-sm text-muted-foreground">{user.email}</div>
                                             </div>
                                         </div>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Badge
+                                            variant="secondary"
+                                            className={user.account_setup
+                                                ? "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400"
+                                                : "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400"}
+                                        >
+                                            {user.account_setup ? "Active" : "Invited"}
+                                        </Badge>
                                     </TableCell>
                                     <TableCell className="text-muted-foreground">
                                         {user.role}
