@@ -1,8 +1,9 @@
 'use client';
 
-import { useState, type JSX } from 'react';
+import { useRef, useState, type JSX } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Check, Save, Calendar, Clock, Loader2, Paperclip, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -13,6 +14,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { cn } from '@/lib/utils';
+import { createUserClient } from '@/lib/supabase/client';
 import { EventForm, FormField } from '@/types/db';
 
 function loadDraft(slug: string): Record<string, unknown> {
@@ -73,13 +75,11 @@ function FileUploadField({
         setError(null);
         setUploading(true);
         try {
-            const body = new FormData();
-            body.append('file', file);
-            body.append('fieldId', field.id);
-
+            // Get a signed upload URL, then upload straight to Supabase Storage
             const res = await fetch(`/api/forms/${formId}/upload`, {
                 method: 'POST',
-                body,
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ fieldId: field.id, name: file.name, type: file.type, size: file.size }),
             });
 
             if (!res.ok) {
@@ -88,7 +88,17 @@ function FileUploadField({
                 return;
             }
 
-            const { path, name } = await res.json();
+            const { path, token, name } = await res.json();
+            const { error: uploadError } = await createUserClient()
+                .storage.from('form-uploads')
+                .uploadToSignedUrl(path, token, file, { contentType: file.type });
+
+            if (uploadError) {
+                setError('Upload failed. Please try again.');
+                setUploading(false);
+                return;
+            }
+
             onChange(field.id, { path, name });
         } catch {
             setError('Upload failed. Please try again.');
@@ -461,6 +471,10 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
     const [submitting, setSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | null>(null);
     const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+    const [consent, setConsent] = useState(false);
+    const [honeypot, setHoneypot] = useState('');
+    // State updates are async, so a fast double-tap can get past `submitting`
+    const submitLock = useRef(false);
 
     // Split fields by page breaks
     const fields = form.fields ?? [];
@@ -541,7 +555,14 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
     }
 
     async function handleSubmit() {
-        if (!validatePage(currentFields)) return;
+        if (submitLock.current) return;
+        const pageValid = validatePage(currentFields);
+        if (!consent) {
+            setValidationErrors(prev => ({ ...prev, __consent: 'You must agree to the Privacy Policy' }));
+            return;
+        }
+        if (!pageValid) return;
+        submitLock.current = true;
         setSubmitting(true);
         setSubmitError(null);
 
@@ -586,14 +607,23 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
                     last_name: lastName,
                     email,
                     phone,
-                    ...data,
+                    consent,
+                    website: honeypot,
+                    data,
                 }),
             });
 
             if (!res.ok) {
                 const msg = await res.text();
+                if (res.status === 409 && msg.includes('already submitted')) {
+                    // Most often a retry after a flaky connection — they're registered
+                    clearDraft(slug);
+                    router.push(`/forms/${slug}/success?status=duplicate`);
+                    return;
+                }
                 setSubmitError(msg);
                 setSubmitting(false);
+                submitLock.current = false;
                 return;
             }
 
@@ -603,6 +633,7 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
         } catch {
             setSubmitError('Something went wrong. Please try again.');
             setSubmitting(false);
+            submitLock.current = false;
         }
     }
 
@@ -743,6 +774,49 @@ export default function DynamicForm({ form, slug }: { form: EventForm; slug: str
                                     );
                                 })}
                             </div>
+
+                            {/* Honeypot: hidden from people, filled by naive bots */}
+                            <input
+                                type="text"
+                                name="website"
+                                tabIndex={-1}
+                                autoComplete="off"
+                                aria-hidden="true"
+                                value={honeypot}
+                                onChange={(e) => setHoneypot(e.target.value)}
+                                className="absolute -left-[9999px] h-0 w-0 opacity-0"
+                            />
+
+                            {currentStep === totalSteps - 1 && (
+                                <div className="mt-6">
+                                    <div className="flex items-start space-x-2">
+                                        <Checkbox
+                                            id="privacy-consent"
+                                            checked={consent}
+                                            onCheckedChange={(checked) => {
+                                                setConsent(checked === true);
+                                                setValidationErrors(prev => {
+                                                    const copy = { ...prev };
+                                                    delete copy.__consent;
+                                                    return copy;
+                                                });
+                                            }}
+                                            className="mt-1"
+                                        />
+                                        <Label htmlFor="privacy-consent" className="font-normal cursor-pointer leading-relaxed">
+                                            I agree to the{' '}
+                                            <Link href="/privacy" target="_blank" className="text-[#FF5722] underline">
+                                                UF DSI Privacy Policy
+                                            </Link>{' '}
+                                            and consent to UF DSI storing the information I submit.
+                                            <span className="ml-1 text-[#FF5722]">*</span>
+                                        </Label>
+                                    </div>
+                                    {validationErrors.__consent && (
+                                        <p className="text-xs text-red-500 mt-1">{validationErrors.__consent}</p>
+                                    )}
+                                </div>
+                            )}
 
                             {submitError && (
                                 <p className="mt-4 text-sm text-red-500 bg-red-50 border border-red-200 rounded-lg px-4 py-2">

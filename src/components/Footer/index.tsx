@@ -137,6 +137,15 @@ const Footer = () => {
 
           <div className="h-px w-full bg-gradient-to-r from-transparent via-[#D2D8E183] to-transparent dark:via-[#959CB183]"></div>
 
+          <div className="py-6 text-center">
+            <Link
+              href="/privacy"
+              className="text-sm text-body-color hover:text-primary dark:text-body-color-dark dark:hover:text-primary transition-colors duration-300"
+            >
+              Privacy Policy
+            </Link>
+          </div>
+
         </div>
         <div className="absolute right-0 top-14 z-[-1]">
           <svg

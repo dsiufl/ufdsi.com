@@ -28,27 +28,13 @@ export default async function FormPage({ params }: { params: Promise<{ slug: str
     }
 
     // Check capacity — only redirect when both confirmed and waitlist are at capacity
-    // (the submit API handles putting users on the waitlist when confirmed >= capacity)
+    // (the submit API handles putting users on the waitlist when confirmed >= capacity).
+    // form_submissions isn't readable by anon, so this goes through a
+    // security-definer function that only returns two booleans.
     if (form.capacity !== null) {
-        const { count: confirmedCount } = await supabase
-            .from('form_submissions')
-            .select('*', { count: 'exact', head: true })
-            .eq('form_id', form.id)
-            .eq('status', 'confirmed');
-
-        if ((confirmedCount ?? 0) < form.capacity) {
-            // Still have confirmed spots — allow access
-        } else {
-            const { count: waitlistCount } = await supabase
-                .from('form_submissions')
-                .select('*', { count: 'exact', head: true })
-                .eq('form_id', form.id)
-                .eq('status', 'waitlist');
-
-            // Only show closed when waitlist also reaches capacity (no more room at all)
-            if ((waitlistCount ?? 0) >= form.capacity) {
-                redirect(`/forms/${slug}/closed?reason=capacity`);
-            }
+        const { data: availability } = await supabase.rpc('form_availability', { p_form_id: form.id });
+        if (availability?.[0]?.waitlist_full) {
+            redirect(`/forms/${slug}/closed?reason=capacity`);
         }
     }
 
