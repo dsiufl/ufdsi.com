@@ -52,11 +52,12 @@ export function AddUserDialog({ open, onOpenChange, onCreated }: {
                 body: JSON.stringify({ user: { ...data, publish: true } }),
             });
             if (!res.ok) {
-                setError(
-                    res.status === 403
-                        ? "You don't have permission to invite users."
-                        : "Could not send the invite. Please try again."
-                );
+                if (res.status === 403) {
+                    setError("You don't have permission to invite users.");
+                } else {
+                    const text = await res.text();
+                    setError(text || "Could not send the invite. Please try again.");
+                }
                 return;
             }
             const created: Profile = await res.json();

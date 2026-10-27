@@ -42,7 +42,15 @@ export async function POST(req: NextRequest) {
     } catch (err) {
         console.log("Error creating Clerk invitation:", err);
         await supabase.schema('admin').from('people').delete().eq('id', pendingId);
-        return new Response('Error sending invite', { status: 500 });
+        // Surface Clerk's actual reason (e.g. "already pending invitations
+        // for this email") instead of a generic message -- this is the only
+        // place that reason is available; the DB insert was already rolled
+        // back so there's nothing else to go on.
+        const message = err instanceof Error && 'errors' in err && Array.isArray((err as { errors: unknown }).errors)
+            ? (err as { errors: { message?: string; longMessage?: string }[] }).errors[0]?.longMessage
+                ?? (err as { errors: { message?: string }[] }).errors[0]?.message
+            : undefined;
+        return new Response(message ?? 'Error sending invite', { status: 500 });
     }
 
     return new Response(JSON.stringify(inserted), { status: 200 });
