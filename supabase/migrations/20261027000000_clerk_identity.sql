@@ -206,3 +206,13 @@ end;$$;
 --     them from app code. supabase/config.toml's third-party Clerk
 --     integration gets flipped on separately once a real Clerk domain
 --     exists.
+
+-- 11. form-uploads Storage bucket: /api/forms/[id]/file now signs download
+--     URLs through the Clerk-bridged client (not service_role), which needs
+--     an RLS policy on storage.objects to succeed. Officer-submission
+--     uploads themselves go through signed upload tokens (minted via
+--     service_role, consumed directly by the browser), so no INSERT policy
+--     for anon is needed here -- SELECT for any authenticated officer only.
+create policy form_uploads_select_officers on storage.objects
+    for select to authenticated
+    using (bucket_id = 'form-uploads');
