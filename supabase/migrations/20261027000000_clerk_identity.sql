@@ -46,42 +46,104 @@ create policy "Any officer can read the actions of their role" on admin.actions
         where p.id = (select auth.jwt() ->> 'sub') and p.role = any (actions.role)
     ));
 
--- 5. Loosen news/projects/workshops writes to "any eboard member", matching
+-- 5. "Any eboard member" helper. A Clerk session being `authenticated` only
+--    means someone has a Clerk account for this application -- Clerk's own
+--    sign-up restriction is a dashboard-level toggle this codebase doesn't
+--    control, and was never the thing gating account creation the way
+--    Supabase Auth was (every account used to be minted by our own
+--    President/Tech-Coord-gated /api/users/create). So "any eboard member"
+--    below means "has a row in admin.people", not "holds any Clerk session"
+--    -- caught in review before this shipped: a bare `using (true)` on
+--    form_submissions/form-uploads would have let ANY Clerk account read
+--    attendee PII (names, emails, phone, uploaded files) directly via
+--    PostgREST with the publishable key, bypassing the admin UI entirely.
+--    Safe without SECURITY DEFINER: the EXISTS below only ever checks the
+--    caller's OWN row, which people_select_own already permits.
+create or replace function admin.is_officer() returns boolean
+    language sql stable
+    set search_path = admin, public
+as $$
+    select exists (
+        select 1 from admin.people p
+        where p.id = (select auth.jwt() ->> 'sub')
+    );
+$$;
+
+revoke all on function admin.is_officer() from public;
+grant execute on function admin.is_officer() to authenticated;
+
+-- 6. Loosen news/projects/workshops writes to "any eboard member", matching
 --    speakers/symposiums' existing openness. Explicit product decision, not
 --    a side effect of the identity swap.
 drop policy "Any " on public.workshops;
 create policy workshops_write_any_officer on public.workshops
     for all to authenticated
-    using (true)
-    with check (true);
+    using (admin.is_officer())
+    with check (admin.is_officer());
 
 drop policy "Permissions for correct users" on public.news;
 create policy news_write_any_officer on public.news
     for all to authenticated
-    using (true)
-    with check (true);
+    using (admin.is_officer())
+    with check (admin.is_officer());
 
 drop policy "Restrict editing projects to President, Internal Vice President" on public.projects;
 create policy projects_write_any_officer on public.projects
     for all to authenticated
-    using (true)
-    with check (true);
+    using (admin.is_officer())
+    with check (admin.is_officer());
 
--- 6. form_templates / form_submissions had zero policies (deny-all except
+-- 7. form_templates / form_submissions had zero policies (deny-all except
 --    service_role) -- these were only ever "is a logged-in officer", never
---    role-restricted, so open them the same way the forms/symposiums/speakers
---    tables already are.
+--    role-restricted, so open them the same way the forms table already is.
+--    form_submissions holds attendee PII, so this one is officer-gated, not
+--    a bare `using (true)` -- see the comment on admin.is_officer() above.
 create policy form_templates_any_officer on public.form_templates
     for all to authenticated
-    using (true)
-    with check (true);
+    using (admin.is_officer())
+    with check (admin.is_officer());
 
 create policy form_submissions_any_officer on public.form_submissions
     for all to authenticated
-    using (true)
-    with check (true);
+    using (admin.is_officer())
+    with check (admin.is_officer());
 
--- 7. Privileged admin.people operations (President / Technology Coordinator).
+-- 8. Pre-existing gap, not introduced by this migration, but fixed here
+--    since the cause is identical: speakers/symposiums have had blanket
+--    `using (true)` write policies since the original baseline migration,
+--    meaning any authenticated account (Supabase or, now, Clerk) could
+--    already write to them. "ANY member should be able to edit" (per
+--    product direction) means any admin.people row, not literally anyone
+--    with an account -- tightening these to match the other any-officer
+--    tables above rather than leaving this one table inconsistently open.
+drop policy "Enable insert for authenticated users only" on public.speakers;
+create policy speakers_insert_any_officer on public.speakers
+    for insert to authenticated
+    with check (admin.is_officer());
+
+drop policy "Enable update for authenticated users only" on public.speakers;
+create policy speakers_update_any_officer on public.speakers
+    for update to authenticated
+    using (admin.is_officer())
+    with check (admin.is_officer());
+
+drop policy "Enable delete for authenticated users only" on public.speakers;
+create policy speakers_delete_any_officer on public.speakers
+    for delete to authenticated
+    using (admin.is_officer());
+
+drop policy "Enable insert for authenticated users only" on public.symposiums;
+create policy symposiums_insert_any_officer on public.symposiums
+    for insert to authenticated
+    with check (admin.is_officer());
+
+drop policy "Enable update for authenticated users only" on public.symposiums;
+create policy symposiums_update_any_officer on public.symposiums
+    for update to authenticated
+    using (admin.is_officer())
+    with check (admin.is_officer());
+
+-- 9. Privileged admin.people operations (President / Technology Coordinator).
 --
 --    SELECT and DELETE are safe as plain RLS policies -- there is no
 --    competing "self" policy for either that a privileged predicate could be
@@ -181,8 +243,8 @@ $$;
 revoke all on function admin.update_person(text, text, text, boolean, text, text, text, text) from public;
 grant execute on function admin.update_person(text, text, text, boolean, text, text, text, text) to authenticated;
 
--- 8. admin.log_activity(): auth.uid() -> Clerk JWT `sub` (user_id/record_id
---    are text now, no cast needed).
+-- 10. admin.log_activity(): auth.uid() -> Clerk JWT `sub` (user_id/record_id
+--     are text now, no cast needed).
 create or replace function admin.log_activity() returns trigger
     language plpgsql security definer
     as $$begin
@@ -202,17 +264,18 @@ create or replace function admin.log_activity() returns trigger
   return null;
 end;$$;
 
--- 10. Leave the auth.* schema / auth.users rows in place -- just stop using
+-- 11. Leave the auth.* schema / auth.users rows in place -- just stop using
 --     them from app code. supabase/config.toml's third-party Clerk
 --     integration gets flipped on separately once a real Clerk domain
 --     exists.
 
--- 11. form-uploads Storage bucket: /api/forms/[id]/file now signs download
+-- 12. form-uploads Storage bucket: /api/forms/[id]/file now signs download
 --     URLs through the Clerk-bridged client (not service_role), which needs
 --     an RLS policy on storage.objects to succeed. Officer-submission
 --     uploads themselves go through signed upload tokens (minted via
 --     service_role, consumed directly by the browser), so no INSERT policy
---     for anon is needed here -- SELECT for any authenticated officer only.
+--     for anon is needed here. Uploaded files can include resumes/PII, so
+--     this is officer-gated via admin.is_officer(), not a bare `using(true)`.
 create policy form_uploads_select_officers on storage.objects
     for select to authenticated
-    using (bucket_id = 'form-uploads');
+    using (bucket_id = 'form-uploads' and admin.is_officer());
