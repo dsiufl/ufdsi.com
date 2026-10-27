@@ -1,6 +1,6 @@
-import { createClient } from "@/lib/supabase/server";
+import { createClerkBridgedServerClient } from "@/lib/supabase/server";
 import type { Activity, AdminInfo, Speaker, Symposium } from "@/types/db";
-import { cookies } from "next/headers";
+import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 import { DashboardView, type ActivityRow, type WorkshopCard } from "./DashboardView";
 
@@ -67,17 +67,14 @@ function buildActivityDescription(
 }
 
 export default async function Page() {
-  const cookieStore = await cookies();
-  const supabase = await createClient(cookieStore);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { userId } = await auth();
+  const supabase = await createClerkBridgedServerClient();
 
   const req: { data: AdminInfo | null } = await supabase
     .schema("admin")
     .from("people")
     .select()
-    .eq("id", user?.id)
+    .eq("id", userId)
     .single();
   const data = req.data;
 

@@ -12,152 +12,71 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import Image from "next/image";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSignIn } from "@clerk/nextjs/legacy";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 
 const DSI_BLUE = "#0021A5";
 const DSI_NAVY = "#0a1628";
 
 type Inputs = {
+  email: string;
+  code: string;
   password: string;
   confirm: string;
 };
 
 export function ResetPasswordForm() {
-  const supabase = createUserClient();
+  const { isLoaded, signIn, setActive } = useSignIn();
   const router = useRouter();
   const form = useForm<Inputs>();
-  const [phase, setPhase] = useState<"loading" | "ready" | "error">("loading");
-  const [initError, setInitError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const url = new URL(window.location.href);
-        const code = url.searchParams.get("code");
-        if (code) {
-          const { error: exchangeError } =
-            await supabase.auth.exchangeCodeForSession(code);
-          if (exchangeError) throw exchangeError;
-          window.history.replaceState(null, "", "/admin/login/reset-password");
-          setPhase("ready");
-          return;
-        }
-
-        const hash = window.location.hash.substring(1);
-        if (!hash) {
-          setInitError(
-            "This link is missing or has expired. Please request a new password reset.",
-          );
-          setPhase("error");
-          return;
-        }
-
-        const params = new URLSearchParams(hash);
-        const access_token = params.get("access_token");
-        const refresh_token = params.get("refresh_token");
-        const type = params.get("type");
-
-        if (
-          type !== "recovery" ||
-          !access_token ||
-          !refresh_token
-        ) {
-          setInitError(
-            "This reset link is invalid or has expired. Please request a new one.",
-          );
-          setPhase("error");
-          return;
-        }
-
-        const { error: sessionError } = await supabase.auth.setSession({
-          access_token,
-          refresh_token,
-        });
-        if (sessionError) throw sessionError;
-
-        window.history.replaceState(null, "", "/admin/login/reset-password");
-        setPhase("ready");
-      } catch (e: unknown) {
-        setInitError(
-          e instanceof Error
-            ? e.message
-            : "Could not verify your reset link. Try again.",
-        );
-        setPhase("error");
-      }
-    };
-
-    void init();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- run once on mount for URL tokens
-  }, []);
-
-  const onSubmit: SubmitHandler<Inputs> = async ({ password }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ email, code, password }) => {
+    if (!isLoaded) return;
     setSubmitting(true);
     setFormError(null);
-    const { error } = await supabase.auth.updateUser({ password });
-    setSubmitting(false);
-    if (error) {
-      setFormError(error.message);
-      return;
+    try {
+      // Resume the in-progress reset attempt if one exists on this signIn
+      // resource (started from the forgot-password step); otherwise start one
+      // now so this page also works as a standalone entry point.
+      if (signIn.status !== "needs_first_factor") {
+        await signIn.create({
+          strategy: "reset_password_email_code",
+          identifier: email.trim(),
+        });
+        setFormError(
+          "We just sent you a new code — enter it below along with your new password.",
+        );
+        setSubmitting(false);
+        return;
+      }
+
+      const result = await signIn.attemptFirstFactor({
+        strategy: "reset_password_email_code",
+        code: code.trim(),
+        password,
+      });
+
+      if (result.status === "complete") {
+        await setActive({ session: result.createdSessionId });
+        router.push("/admin/login?reset=success");
+        return;
+      }
+
+      setFormError("That code didn't work. Please check it and try again.");
+    } catch (e: unknown) {
+      setFormError(
+        e instanceof Error
+          ? e.message
+          : "Could not reset your password. Try requesting a new code.",
+      );
+    } finally {
+      setSubmitting(false);
     }
-    router.push("/admin/login?reset=success");
   };
-
-  if (phase === "loading") {
-    return (
-      <div className="mx-auto flex w-full max-w-md flex-col items-center gap-4 py-16">
-        <Image
-          src="/images/logo/hd-transparent-dsi-logo.png"
-          alt=""
-          width={140}
-          height={56}
-          className="h-auto w-[140px] object-contain opacity-90"
-          priority
-        />
-        <Spinner className="size-8" style={{ color: DSI_BLUE }} />
-        <p className="text-center text-sm text-muted-foreground">
-          Verifying your reset link…
-        </p>
-      </div>
-    );
-  }
-
-  if (phase === "error") {
-    return (
-      <div className="mx-auto w-full max-w-md">
-        <div className="mb-10">
-          <Image
-            src="/images/logo/hd-transparent-dsi-logo.png"
-            alt="UF Data Science Initiative"
-            width={140}
-            height={56}
-            className="h-auto w-[140px] object-contain"
-            priority
-          />
-        </div>
-        <Alert variant="destructive">
-          <AlertDescription>{initError}</AlertDescription>
-        </Alert>
-        <Button className="mt-8 w-full" variant="outline" asChild>
-          <Link href="/admin/login/forgot-password">Request a new link</Link>
-        </Button>
-        <p className="mt-6 text-center text-sm text-muted-foreground">
-          <Link
-            href="/admin/login"
-            className="font-medium hover:underline"
-            style={{ color: DSI_BLUE }}
-          >
-            Back to sign in
-          </Link>
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="mx-auto w-full max-w-md">
@@ -180,7 +99,8 @@ export function ResetPasswordForm() {
           Choose a new password
         </h1>
         <p className="mb-0 text-base text-muted-foreground">
-          Use at least 8 characters. After saving, sign in with your new password.
+          Enter the code we emailed you along with a new password. Didn&apos;t
+          request a code yet? Enter your email below and we&apos;ll send one.
         </p>
       </div>
 
@@ -197,6 +117,50 @@ export function ResetPasswordForm() {
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <FieldGroup className="gap-5">
+          <Controller
+            name="email"
+            control={form.control}
+            defaultValue=""
+            rules={{ required: "Email is required" }}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="reset-email">Email</FieldLabel>
+                <Input
+                  {...field}
+                  id="reset-email"
+                  type="email"
+                  autoComplete="email"
+                  className="h-11 border-border/80 bg-background"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid ? (
+                  <FieldError errors={[fieldState.error]} />
+                ) : null}
+              </Field>
+            )}
+          />
+          <Controller
+            name="code"
+            control={form.control}
+            defaultValue=""
+            rules={{ required: "Enter the code from your email" }}
+            render={({ field, fieldState }) => (
+              <Field data-invalid={fieldState.invalid}>
+                <FieldLabel htmlFor="reset-code">Reset code</FieldLabel>
+                <Input
+                  {...field}
+                  id="reset-code"
+                  inputMode="numeric"
+                  autoComplete="one-time-code"
+                  className="h-11 border-border/80 bg-background"
+                  aria-invalid={fieldState.invalid}
+                />
+                {fieldState.invalid ? (
+                  <FieldError errors={[fieldState.error]} />
+                ) : null}
+              </Field>
+            )}
+          />
           <Controller
             name="password"
             control={form.control}
@@ -234,7 +198,9 @@ export function ResetPasswordForm() {
             }}
             render={({ field, fieldState }) => (
               <Field data-invalid={fieldState.invalid}>
-                <FieldLabel htmlFor="reset-confirm">Confirm password</FieldLabel>
+                <FieldLabel htmlFor="reset-confirm">
+                  Confirm password
+                </FieldLabel>
                 <Input
                   {...field}
                   id="reset-confirm"
@@ -254,7 +220,7 @@ export function ResetPasswordForm() {
             size="lg"
             className="h-11 w-full border-0 font-semibold text-white shadow-md hover:bg-[#001a8c]"
             style={{ backgroundColor: DSI_BLUE }}
-            disabled={submitting}
+            disabled={submitting || !isLoaded}
           >
             {submitting ? (
               <>

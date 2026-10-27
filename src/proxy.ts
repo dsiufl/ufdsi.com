@@ -1,12 +1,27 @@
-import { type NextRequest } from "next/server"
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+import { NextResponse } from "next/server"
 
-import { updateSession } from "@/lib/supabase/proxy"
+const isAdminRoute = createRouteMatcher(["/admin(.*)"])
+const isAdminLoginRoute = createRouteMatcher(["/admin/login(.*)"])
 
-export async function proxy(request: NextRequest) {
+export const proxy = clerkMiddleware(async (auth, request) => {
+  const { userId } = await auth()
+  const pathname = request.nextUrl.pathname
 
-  return await updateSession(request)
+  if (!userId && isAdminRoute(request) && !isAdminLoginRoute(request)) {
+    const url = request.nextUrl.clone()
+    url.pathname = "/admin/login"
+    return NextResponse.redirect(url)
+  }
 
-}
+  if (userId && (pathname === "/admin" || pathname === "/admin/login")) {
+    const url = request.nextUrl.clone()
+    url.pathname = "/admin/dashboard"
+    return NextResponse.redirect(url)
+  }
+
+  return NextResponse.next()
+})
 
 export const config = {
 

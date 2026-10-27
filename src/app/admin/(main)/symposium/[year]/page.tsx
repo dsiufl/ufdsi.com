@@ -1,6 +1,5 @@
 
 
-import { createUserClient } from "@/lib/supabase/client";
 import { createClient } from "@/lib/supabase/server";
 import { cookies } from "next/headers";
 import Editor from "./components/Editor";

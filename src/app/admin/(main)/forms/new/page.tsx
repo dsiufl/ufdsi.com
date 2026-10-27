@@ -5,7 +5,6 @@ import { ArrowLeft, FileText, Bus, CalendarCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { formTemplates } from '@/lib/form-templates';
-import { createUserClient } from '@/lib/supabase/client';
 import { useState, useEffect } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { FormTemplateDB } from '@/types/db';
@@ -25,22 +24,11 @@ export default function TemplatePicker() {
     const [loadingTemplates, setLoadingTemplates] = useState(true);
 
     useEffect(() => {
-        const supabase = createUserClient();
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            if (!session) {
-                // Fall back to static templates
-                setTemplates(null);
-                setLoadingTemplates(false);
-                return;
-            }
-            fetch('/api/templates', {
-                headers: { Authorization: `Bearer ${session.access_token}` },
-            })
-                .then(r => r.ok ? r.json() : Promise.reject())
-                .then(data => setTemplates(data))
-                .catch(() => setTemplates(null))
-                .finally(() => setLoadingTemplates(false));
-        });
+        fetch('/api/templates')
+            .then(r => r.ok ? r.json() : Promise.reject())
+            .then(data => setTemplates(data))
+            .catch(() => setTemplates(null))
+            .finally(() => setLoadingTemplates(false));
     }, []);
 
     // Fall back to static templates if DB fetch fails or returns empty
@@ -57,20 +45,12 @@ export default function TemplatePicker() {
     async function handleSelect(template: FormTemplateDB) {
         setCreating(true);
         setError(null);
-        const supabase = createUserClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            setError('You must be logged in to create a form.');
-            setCreating(false);
-            return;
-        }
 
         try {
             const res = await fetch('/api/forms/create', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    access_token: session.access_token,
                     title: template.name === 'Blank Form' ? 'Untitled Form' : template.name,
                     fields: template.fields ?? [],
                     slug: `form-${Date.now().toString(36)}`,

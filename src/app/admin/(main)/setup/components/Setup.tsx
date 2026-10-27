@@ -2,30 +2,24 @@
 
 import Overlay from "@/components/Overlay/Overlay";
 import { Button } from "@/components/ui/button";
-
-import { Spinner } from "@/components/ui/spinner";
-import { supabase } from "@/lib/main";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import { Profile } from "@/types/db";
-import { Info } from "lucide-react";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useContext, useState } from "react";
-import { Controller, useForm } from "react-hook-form";
 import EditUser from "../../components/EditUser";
 import { AlertContext } from "@/app/AlertProvider";
 
 
-function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: () => void}) {    const router = useRouter();
-    
-    const supabase = createUserClient();
+function SetupOverlay({data, exit}: {data: Profile, exit: () => void}) {
+    const router = useRouter();
+
+    const supabase = useSupabaseClient();
     const alertCtx = useContext(AlertContext)
     const submit = async (sub: Profile) => {
         if (sub.pictureURL !== data.pictureURL) {
             // Upload new picture to storage
             const blob = await fetch(sub.pictureURL).then(r => r.blob());
-            console.log(blob);
-            const { data: result, error } = await supabase.storage.from('images')
+            const { error } = await supabase.storage.from('images')
             .upload(`team/${data.id}.jpg`, blob, {
                 upsert: true,
                 contentType: blob.type
@@ -46,8 +40,7 @@ function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: 
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                data: {...sub},
-                token: token
+                data: {...sub}
             })
         }).then((res) => {
             if (res.ok) {
@@ -60,7 +53,7 @@ function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: 
     }
 
     return (
-        <Overlay 
+        <Overlay
             close={() => {
                 exit();
             }}
@@ -72,13 +65,13 @@ function SetupOverlay({data, token, exit}: {data: Profile, token: string, exit: 
         </Overlay>
     )
 }
-export default function Setup({data, token}: {data: Profile, token: string}) {
+export default function Setup({data}: {data: Profile}) {
     const [overlay, setOverlay] = useState<boolean>(false);
     return (
         <>
-            {overlay && <SetupOverlay exit={() => setOverlay(false)} data={data} token={token} />}
+            {overlay && <SetupOverlay exit={() => setOverlay(false)} data={data} />}
             <Button onClick={() => setOverlay(true)}>Start setup</Button>
-        
+
         </>
     )
 }

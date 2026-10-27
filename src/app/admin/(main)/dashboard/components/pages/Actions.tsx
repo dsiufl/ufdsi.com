@@ -1,16 +1,15 @@
 'use client';
 import { Button } from "@/components/ui/button";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import { Action, AdminInfo } from "@/types/db";
-import { User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Actions({data, className}: {data?: AdminInfo, className?: string}) {
     const [actions, setActions] = useState<Action[] | undefined>(undefined);
     const [size, setSize] = useState<{width: number, height: number}>({width:0, height:0})
-    const supabase = createUserClient();
+    const supabase = useSupabaseClient();
     const router = useRouter()
     
     useEffect(() => {

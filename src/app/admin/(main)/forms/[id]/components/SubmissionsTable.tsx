@@ -24,16 +24,13 @@ import { FormSubmission, FormField, SubmissionStatus } from '@/types/db';
 import Loading from '@/components/Loading/Loading';
 import ImportDialog from './ImportDialog';
 
-function FileLink({ formId, path, name, token }: { formId: string; path: string; name: string; token: string | undefined }) {
+function FileLink({ formId, path, name }: { formId: string; path: string; name: string }) {
     const [loading, setLoading] = useState(false);
 
     async function handleClick() {
-        if (!token) return;
         setLoading(true);
         try {
-            const res = await fetch(`/api/forms/${formId}/file?path=${encodeURIComponent(path)}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            });
+            const res = await fetch(`/api/forms/${formId}/file?path=${encodeURIComponent(path)}`);
             if (res.ok) {
                 const { url } = await res.json();
                 window.open(url, '_blank');
@@ -69,7 +66,6 @@ export default function SubmissionsTable({
     formFields,
     submissions,
     loading,
-    token,
     onUpdate,
     onRefresh,
 }: {
@@ -78,7 +74,6 @@ export default function SubmissionsTable({
     formFields: FormField[];
     submissions: FormSubmission[];
     loading: boolean;
-    token: string | undefined;
     onUpdate: (updated: FormSubmission) => void;
     onRefresh: () => void;
 }) {
@@ -91,12 +86,11 @@ export default function SubmissionsTable({
     const visible = filter === 'all' ? submissions : submissions.filter(s => s.status === filter);
 
     async function updateStatus(subId: string, status: SubmissionStatus) {
-        if (!token) return;
         setUpdating(subId);
         const res = await fetch(`/api/forms/${formId}/submissions/${subId}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ access_token: token, status }),
+            body: JSON.stringify({ status }),
         });
         if (res.ok) {
             const updated = await res.json();
@@ -116,10 +110,7 @@ export default function SubmissionsTable({
     }
 
     function exportCSV() {
-        if (!token) return;
-        fetch(`/api/forms/${formId}/export`, {
-            headers: { Authorization: `Bearer ${token}` },
-        })
+        fetch(`/api/forms/${formId}/export`)
             .then(r => {
                 if (!r.ok) throw new Error('Export failed');
                 return r.blob();
@@ -328,7 +319,6 @@ export default function SubmissionsTable({
                                                     formId={formId}
                                                     path={(v as { path: string }).path}
                                                     name={(v as { name: string }).name}
-                                                    token={token}
                                                 />
                                             ) : (
                                                 <p className="mt-1">{Array.isArray(v) ? v.join(', ') : String(v ?? '—')}</p>
@@ -347,7 +337,6 @@ export default function SubmissionsTable({
                 onOpenChange={setShowImport}
                 formId={formId}
                 formFields={formFields}
-                token={token}
                 onComplete={onRefresh}
             />
         </div>

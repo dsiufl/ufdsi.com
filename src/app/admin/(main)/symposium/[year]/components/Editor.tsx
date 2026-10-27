@@ -12,7 +12,7 @@ import EditSpeakerOverlay from "./EditSpeakerOverlay";
 import { Calendar, DeleteIcon, EllipsisIcon, PlusIcon } from "lucide-react";
 import { Calendar as CalendarElement } from "@/components/ui/calendar";
 import { Spinner } from "@/components/ui/spinner";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import NewSpeakerOverlay from "./NewSpeakerOverlay";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { Input } from "@/components/ui/input";
@@ -79,7 +79,7 @@ export default function Editor({symposium, speakers}: {
     const [newSpeakerOverlay, setNewSpeakerOverlay] = useState<boolean>(false);
     const [saveState, setSaveState] = useState<"unsaved" | "saving" | "saved">("unsaved");
     const [agenda, setAgenda] = useState<AgendaItem[]>(symposium.agenda ?? []);
-    const supabase = createUserClient();
+    const supabase = useSupabaseClient();
     useEffect(() => {
         if (!symposium.agenda) {
             symposium.agenda = [];

@@ -1,23 +1,12 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import validateToken from '@/lib/supabase/validate';
+import { auth } from '@clerk/nextjs/server';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 
-function adminClient() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
+export async function GET() {
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
 
-export async function GET(req: NextRequest) {
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-    if (!token) return new Response('Unauthorized', { status: 401 });
-
-    const { error } = await validateToken(token);
-    if (error) return new Response('Unauthorized', { status: 401 });
-
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
     const { data, error: fetchError } = await supabase
         .from('form_templates')
         .select('*')
@@ -29,16 +18,15 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-    const body = await req.json();
-    const { access_token, ...template } = body;
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
 
-    const { user, error } = await validateToken(access_token);
-    if (error || !user) return new Response('Unauthorized', { status: 401 });
+    const template = await req.json();
 
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
     const { data, error: insertError } = await supabase
         .from('form_templates')
-        .insert({ ...template, created_by: user.id })
+        .insert({ ...template, created_by: userId })
         .select()
         .single();
 

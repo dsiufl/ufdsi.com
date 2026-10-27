@@ -1,14 +1,6 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import validateToken from '@/lib/supabase/validate';
-
-function adminClient() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
+import { auth } from '@clerk/nextjs/server';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 
 interface ImportRow {
     first_name: string;
@@ -23,18 +15,17 @@ export async function POST(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id: formId } = await params;
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
+
     const body = await req.json();
-    const { access_token, rows, skip_duplicates, default_status } = body as {
-        access_token: string;
+    const { rows, skip_duplicates, default_status } = body as {
         rows: ImportRow[];
         skip_duplicates: boolean;
         default_status: 'confirmed' | 'pending';
     };
 
-    const { error } = await validateToken(access_token);
-    if (error) return new Response('Unauthorized', { status: 401 });
-
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
 
     // Verify form exists
     const { data: form } = await supabase.from('forms').select('id').eq('id', formId).single();
@@ -93,7 +84,7 @@ export async function POST(
         // Insert in batches of 100
         for (let i = 0; i < toInsert.length; i += 100) {
             const batch = toInsert.slice(i, i + 100);
-            const { error: insertError, count } = await supabase
+            const { error: insertError } = await supabase
                 .from('form_submissions')
                 .insert(batch);
 

@@ -21,7 +21,6 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import { FormTemplateDB } from '@/types/db';
-import { createUserClient } from '@/lib/supabase/client';
 
 function formatDate(dateString?: string | null) {
     if (!dateString) return '—';
@@ -41,14 +40,10 @@ export default function TemplatesManager({ templates: initial }: { templates: Fo
     async function handleDelete() {
         if (!deleteTarget) return;
         setDeleting(true);
-        const supabase = createUserClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) return;
 
         const res = await fetch(`/api/templates/${deleteTarget.id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ access_token: session.access_token }),
         });
 
         if (res.ok) {
@@ -59,15 +54,10 @@ export default function TemplatesManager({ templates: initial }: { templates: Fo
     }
 
     async function handleDuplicate(template: FormTemplateDB) {
-        const supabase = createUserClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) return;
-
         const res = await fetch('/api/templates', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                access_token: session.access_token,
                 name: `${template.name} (Copy)`,
                 description: template.description,
                 icon: template.icon,

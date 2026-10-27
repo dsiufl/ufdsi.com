@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { createUserClient } from "@/lib/supabase/client";
+import { useClerk } from "@clerk/nextjs";
 import { LogOut, Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -22,15 +22,14 @@ export function AdminTopBar({
   lastName: string;
 }) {
   const router = useRouter();
-  const supabase = createUserClient();
+  const { signOut: clerkSignOut } = useClerk();
   const [loading, setLoading] = useState(false);
   const initials = `${firstName?.[0] ?? ""}${lastName?.[0] ?? ""}`.toUpperCase() || "?";
 
   const signOut = async () => {
     setLoading(true);
-    await supabase.auth.signOut();
+    await clerkSignOut({ redirectUrl: "/admin/login" });
     setLoading(false);
-    router.push("/admin/login");
   };
 
   return (

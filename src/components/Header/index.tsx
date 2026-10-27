@@ -1,21 +1,19 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect, usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { RefObject, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import menuData from "./menuData";
-import { createClient } from "@supabase/supabase-js";
 import { Button } from "../ui/button";
-import { createUserClient } from "@/lib/supabase/client";
+import { useClerk } from "@clerk/nextjs";
 import { MoonIcon, SunIcon } from "lucide-react";
 
 const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [sticky, setSticky] = useState(false);
-  const router = useRouter();
-  const supabase = createUserClient();
+  const { signOut } = useClerk();
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
@@ -100,8 +98,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                         ) : menuItem.title === 'Sign out' ? (
                             <Button
                             onClick={() => {
-                              supabase.auth.signOut();
-                              redirect('/admin/login');
+                              signOut({ redirectUrl: '/admin/login' });
                             }}
                             className={`flex text-base font-medium ${
                                     usePathName === menuItem.path
@@ -235,8 +232,7 @@ const Header = ({ref}: {ref?: RefObject<HTMLDivElement>}) => {
                 ) : menuItem.title == 'Sign out' ? 
                   <Button
                     onClick={() => {
-                      supabase.auth.signOut();
-                      router.push('/admin/login');
+                      signOut({ redirectUrl: '/admin/login' });
                     }}
                     className={`flex text-base font-medium ${
                             usePathName === menuItem.path

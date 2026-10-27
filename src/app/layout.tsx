@@ -4,6 +4,7 @@ import "@/styles/modal-video.css";
 import "@/styles/index.css";
 
 import { Inter } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Providers } from "./providers";
 
 import ScrollToTop from "@/components/ScrollToTop";
@@ -16,18 +17,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html suppressHydrationWarning lang="en">
-      {/*
-        <head /> will contain the components returned by the nearest parent
-        head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
-      */}
-      <head />
+    <ClerkProvider>
+      <html suppressHydrationWarning lang="en">
+        {/*
+          <head /> will contain the components returned by the nearest parent
+          head.js. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
+        */}
+        <head />
 
-      <body className={`bg-gray-50 dark:bg-gray-900 ${inter.className}`}>
-        <Providers>
-          {children}
-        </Providers>
-      </body>
-    </html>
+        <body className={`bg-gray-50 dark:bg-gray-900 ${inter.className}`}>
+          <Providers>
+            {children}
+          </Providers>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

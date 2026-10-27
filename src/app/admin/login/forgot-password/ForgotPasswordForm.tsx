@@ -12,7 +12,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import Link from "next/link";
 import Image from "next/image";
 import { useForm, Controller, type SubmitHandler } from "react-hook-form";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSignIn } from "@clerk/nextjs/legacy";
 import { useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { CheckCircle2 } from "lucide-react";
@@ -23,30 +23,26 @@ const DSI_NAVY = "#0a1628";
 type Inputs = { email: string };
 
 export function ForgotPasswordForm() {
-  const supabase = createUserClient();
+  const { isLoaded, signIn } = useSignIn();
   const form = useForm<Inputs>();
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [done, setDone] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email }) => {
+    if (!isLoaded) return;
     setSubmitted(true);
-    setError(null);
-    const redirectTo = `${window.location.origin}/admin/login/reset-password`;
-    const { error: resetError } = await supabase.auth.resetPasswordForEmail(
-      email.trim(),
-      { redirectTo },
-    );
-    setSubmitted(false);
-    // Always show the same success UI — do not reveal whether the email is registered
-    // (Supabase typically returns success for unknown emails too; avoid surfacing raw errors that could leak info)
-    if (resetError) {
-      setError(
-        "We couldn’t send an email right now. Please try again in a few minutes.",
-      );
-      return;
+    try {
+      await signIn.create({
+        strategy: "reset_password_email_code",
+        identifier: email.trim(),
+      });
+    } catch {
+      // Always show the same success UI regardless of outcome — do not
+      // reveal whether the email is registered.
+    } finally {
+      setSubmitted(false);
+      setDone(true);
     }
-    setDone(true);
   };
 
   if (done) {
@@ -65,17 +61,23 @@ export function ForgotPasswordForm() {
         <Alert className="border-green-200 bg-green-50 text-green-900 dark:border-green-900 dark:bg-green-950/40 dark:text-green-100">
           <CheckCircle2 className="h-4 w-4 text-green-600 dark:text-green-400" />
           <AlertDescription className="text-sm leading-relaxed">
-            Check your email for a link to reset your password. It can take a few
-            minutes; check your spam folder if you don’t see it.
+            Check your email for a 6-digit code to reset your password. It
+            can take a few minutes; check your spam folder if you don&apos;t
+            see it.
           </AlertDescription>
         </Alert>
-        <Button
-          className="mt-8 w-full"
-          variant="outline"
-          asChild
-        >
-          <Link href="/admin/login">Back to sign in</Link>
+        <Button className="mt-8 w-full" asChild>
+          <Link href="/admin/login/reset-password">Enter code</Link>
         </Button>
+        <p className="mt-6 text-center text-sm text-muted-foreground">
+          <Link
+            href="/admin/login"
+            className="font-medium hover:underline"
+            style={{ color: DSI_BLUE }}
+          >
+            Back to sign in
+          </Link>
+        </p>
       </div>
     );
   }
@@ -101,18 +103,10 @@ export function ForgotPasswordForm() {
           Reset your password
         </h1>
         <p className="mb-0 text-base text-muted-foreground">
-          Enter the email address for your account. We&apos;ll email you a link to
-          set a new password.
+          Enter the email address for your account. We&apos;ll email you a
+          code to set a new password.
         </p>
       </div>
-
-      {error ? (
-        <div className="mt-6">
-          <Alert variant="destructive">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        </div>
-      ) : null}
 
       <form
         className="mt-8 space-y-6"
@@ -153,15 +147,15 @@ export function ForgotPasswordForm() {
             size="lg"
             className="h-11 w-full border-0 font-semibold text-white shadow-md hover:bg-[#001a8c]"
             style={{ backgroundColor: DSI_BLUE }}
-            disabled={submitted}
+            disabled={submitted || !isLoaded}
           >
             {submitted ? (
               <>
                 <Spinner className="text-white" />
-                Sending link…
+                Sending code…
               </>
             ) : (
-              "Send reset link"
+              "Send reset code"
             )}
           </Button>
         </FieldGroup>
