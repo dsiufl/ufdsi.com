@@ -1,14 +1,6 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import validateToken from '@/lib/supabase/validate';
-
-function adminClient() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
+import { auth } from '@clerk/nextjs/server';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 
 interface ImportRow {
     first_name: string;
@@ -23,18 +15,17 @@ export async function POST(
     { params }: { params: Promise<{ id: string }> }
 ) {
     const { id: formId } = await params;
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
+
     const body = await req.json();
-    const { access_token, rows, skip_duplicates, default_status } = body as {
-        access_token: string;
+    const { rows, skip_duplicates, default_status } = body as {
         rows: ImportRow[];
         skip_duplicates: boolean;
         default_status: 'confirmed' | 'pending';
     };
 
-    const { error } = await validateToken(access_token);
-    if (error) return new Response('Unauthorized', { status: 401 });
-
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
 
     // Verify form exists
     const { data: form } = await supabase.from('forms').select('id').eq('id', formId).single();
@@ -52,17 +43,25 @@ export async function POST(
         status: string;
     }> = [];
 
-    // Check for existing emails if skip_duplicates
+    // form_submissions has a partial unique index on (form_id, lower(email))
+    // WHERE status <> 'cancelled' -- a duplicate against an existing
+    // non-cancelled row, or a duplicate within this same file, fails that
+    // row at the DB level regardless of skip_duplicates. Treat both the
+    // same way: skip_duplicates=true silently skips them, false reports
+    // them as errors -- neither path attempts an insert the DB would reject.
     let existingEmails = new Set<string>();
-    if (skip_duplicates && rows.length > 0) {
+    if (rows.length > 0) {
         const emails = rows.map(r => r.email.toLowerCase().trim()).filter(Boolean);
         const { data: existing } = await supabase
             .from('form_submissions')
             .select('email')
             .eq('form_id', formId)
+            .neq('status', 'cancelled')
             .in('email', emails);
         existingEmails = new Set((existing ?? []).map(e => e.email));
     }
+
+    const seenInFile = new Set<string>();
 
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
@@ -72,10 +71,16 @@ export async function POST(
         }
 
         const email = row.email.toLowerCase().trim();
-        if (skip_duplicates && existingEmails.has(email)) {
-            skipped++;
+        const isDuplicate = existingEmails.has(email) || seenInFile.has(email);
+        if (isDuplicate) {
+            if (skip_duplicates) {
+                skipped++;
+            } else {
+                errors.push({ row: i + 1, message: `Duplicate email (${email}) -- already registered or repeated in this file` });
+            }
             continue;
         }
+        seenInFile.add(email);
 
         toInsert.push({
             form_id: formId,
@@ -90,17 +95,29 @@ export async function POST(
 
     let imported = 0;
     if (toInsert.length > 0) {
-        // Insert in batches of 100
+        // Insert in batches of 100; fall back to per-row insert on a batch
+        // failure so one bad row (e.g. a race against a concurrent
+        // submission) doesn't sink the other 99 with a single vague error.
         for (let i = 0; i < toInsert.length; i += 100) {
             const batch = toInsert.slice(i, i + 100);
-            const { error: insertError, count } = await supabase
+            const { error: insertError } = await supabase
                 .from('form_submissions')
                 .insert(batch);
 
-            if (insertError) {
-                errors.push({ row: i + 1, message: insertError.message });
-            } else {
+            if (!insertError) {
                 imported += batch.length;
+                continue;
+            }
+
+            for (let j = 0; j < batch.length; j++) {
+                const { error: rowError } = await supabase
+                    .from('form_submissions')
+                    .insert(batch[j]);
+                if (rowError) {
+                    errors.push({ row: i + j + 1, message: rowError.message });
+                } else {
+                    imported++;
+                }
             }
         }
     }

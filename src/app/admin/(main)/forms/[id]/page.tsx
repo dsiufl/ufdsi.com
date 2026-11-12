@@ -1,28 +1,16 @@
-import { cookies } from 'next/headers';
-import { createClient } from '@/lib/supabase/server';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { auth } from '@clerk/nextjs/server';
 import { notFound, redirect } from 'next/navigation';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 import FormDetail from './components/FormDetail';
 import { EventForm } from '@/types/db';
 
-function createAdminClient() {
-    return createSupabaseClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
-
 export default async function FormDetailPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const cookieStore = await cookies();
-    const supabase = await createClient(cookieStore);
+    const { userId } = await auth();
+    if (!userId) redirect('/admin/login');
 
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) redirect('/admin/login');
-
-    const adminSupabase = createAdminClient();
-    const { data: form, error } = await adminSupabase
+    const supabase = await createClerkBridgedServerClient();
+    const { data: form, error } = await supabase
         .from('forms')
         .select('*')
         .eq('id', id)

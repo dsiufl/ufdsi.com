@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { DndProvider, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { createUserClient } from '@/lib/supabase/client';
 import {
     ArrowLeft,
     Eye,
@@ -31,20 +30,11 @@ function FormBuilderContent({ form }: { form: EventForm }) {
     const [fields, setFields] = useState<FormField[]>(form.fields ?? []);
     const [selectedFieldId, setSelectedFieldId] = useState<string | null>(null);
     const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'idle' | 'error'>('saved');
-    const [token, setToken] = useState<string | undefined>();
     const saveTimeout = useRef<NodeJS.Timeout | null>(null);
-
-    useEffect(() => {
-        const supabase = createUserClient();
-        supabase.auth.getSession().then(res => {
-            if (res.data.session) setToken(res.data.session.access_token);
-        });
-    }, []);
 
     const selectedField = fields.find((f) => f.id === selectedFieldId);
 
     const save = useCallback(async (newFields: FormField[], newTitle?: string) => {
-        if (!token) return;
         setAutoSaveStatus('saving');
         if (saveTimeout.current) clearTimeout(saveTimeout.current);
         saveTimeout.current = setTimeout(async () => {
@@ -53,7 +43,6 @@ function FormBuilderContent({ form }: { form: EventForm }) {
                     method: 'PATCH',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        access_token: token,
                         fields: newFields,
                         ...(newTitle !== undefined && { title: newTitle }),
                     }),
@@ -64,7 +53,7 @@ function FormBuilderContent({ form }: { form: EventForm }) {
                 setAutoSaveStatus('error');
             }
         }, 800);
-    }, [form.id, token]);
+    }, [form.id]);
 
     const [, drop] = useDrop(() => ({
         accept: 'field',

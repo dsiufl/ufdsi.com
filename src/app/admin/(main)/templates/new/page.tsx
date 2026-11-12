@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { createUserClient } from '@/lib/supabase/client';
 
 export default function NewTemplatePage() {
     const router = useRouter();
@@ -27,20 +26,11 @@ export default function NewTemplatePage() {
         setCreating(true);
         setError(null);
 
-        const supabase = createUserClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) {
-            setError('You must be logged in.');
-            setCreating(false);
-            return;
-        }
-
         try {
             const res = await fetch('/api/templates', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    access_token: session.access_token,
                     name: name.trim(),
                     description: description.trim() || null,
                     category,

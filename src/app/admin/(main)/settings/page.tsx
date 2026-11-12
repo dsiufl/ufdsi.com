@@ -1,15 +1,13 @@
-import { cookies } from "next/headers";
-import { createClient } from "@/lib/supabase/server";
-import { UserResponse } from "@supabase/supabase-js";
+import { auth } from "@clerk/nextjs/server";
+import { createClerkBridgedServerClient } from "@/lib/supabase/server";
 import { AdminInfo } from "@/types/db";
 import Settings from "./Settings";
 import { redirect } from "next/navigation";
 export default async function page() {
-        const cookieStore = await cookies();
-        const supabase = await createClient(cookieStore);
-        const { data: { user } }: UserResponse = await supabase.auth.getUser();
+        const { userId } = await auth();
+        const supabase = await createClerkBridgedServerClient();
 
-        const req: {data: AdminInfo} = await supabase.schema("admin").from('people').select().eq('id', user?.id).single()
+        const req: {data: AdminInfo} = await supabase.schema("admin").from('people').select().eq('id', userId).single()
         const data = req.data;
         if (!data || !data.account_setup) {
             console.log('redirecting to setup');

@@ -14,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/newsletter",
     "/sponsors",
     "/contact",
+    "/privacy",
     ...Object.keys(symposia).map((year) => symposiumHref(Number(year))),
   ];
 

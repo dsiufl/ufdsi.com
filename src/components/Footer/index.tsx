@@ -60,7 +60,7 @@ const Footer = () => {
         </div>
 
         <div className="site-footer__base">
-          <span>© {new Date().getFullYear()} UF Data Science and Informatics</span>
+          <span>© {new Date().getFullYear()} UF Data Science and Informatics · <Link href="/privacy">Privacy</Link></span>
           <span>Across from Marston Science Library, on the side of the CSE Building</span>
         </div>
       </div>

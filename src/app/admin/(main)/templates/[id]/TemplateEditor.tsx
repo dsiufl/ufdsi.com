@@ -1,35 +1,24 @@
 'use client';
 
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { ArrowLeft, Save, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
 import { FormTemplateDB, FormField } from '@/types/db';
-import { createUserClient } from '@/lib/supabase/client';
 import BuilderCanvas from '@/app/admin/builder/[id]/components/BuilderCanvas';
 
 export default function TemplateEditor({ template }: { template: FormTemplateDB }) {
     const router = useRouter();
-    const tokenRef = useRef<string | undefined>(undefined);
     const [autoSaveStatus, setAutoSaveStatus] = useState<'saved' | 'saving' | 'idle' | 'error'>('saved');
 
-    useEffect(() => {
-        const supabase = createUserClient();
-        supabase.auth.getSession().then(res => {
-            if (res.data.session) tokenRef.current = res.data.session.access_token;
-        });
-    }, []);
-
     const handleSave = useCallback(async (fields: FormField[], title: string): Promise<boolean> => {
-        if (!tokenRef.current) return false;
         try {
             const res = await fetch(`/api/templates/${template.id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    access_token: tokenRef.current,
                     fields,
                     name: title,
                 }),

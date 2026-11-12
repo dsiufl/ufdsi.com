@@ -1,35 +1,23 @@
 export const dynamic = 'force-dynamic';
 
-import { cookies } from 'next/headers';
-import { createClient } from '@/lib/supabase/server';
-import { createClient as createSupabaseClient } from '@supabase/supabase-js';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 import FormsManager from './components/FormsManager';
 import { EventForm } from '@/types/db';
 
-function createAdminClient() {
-    return createSupabaseClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
-
 export default async function FormsPage() {
-    const cookieStore = await cookies();
-    const supabase = await createClient(cookieStore);
-    const adminSupabase = createAdminClient();
+    const supabase = await createClerkBridgedServerClient();
 
-    const { data: forms } = await adminSupabase
+    const { data: forms } = await supabase
         .from('forms')
         .select('*')
         .order('created_at', { ascending: false });
 
-    // Fetch submission counts per form using admin client (bypasses RLS on form_submissions)
+    // Fetch submission counts per form
     const formIds = (forms ?? []).map((f: EventForm) => f.id);
     const counts: Record<string, { total: number; confirmed: number; waitlist: number }> = {};
 
     if (formIds.length > 0) {
-        const { data: submissions } = await adminSupabase
+        const { data: submissions } = await supabase
             .from('form_submissions')
             .select('form_id, status')
             .in('form_id', formIds);

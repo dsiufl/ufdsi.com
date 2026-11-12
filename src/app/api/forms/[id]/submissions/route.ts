@@ -1,22 +1,13 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import validateToken from '@/lib/supabase/validate';
-
-function adminClient() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
+import { auth } from '@clerk/nextjs/server';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const token = req.headers.get('Authorization')?.replace('Bearer ', '');
-    const { error } = await validateToken(token ?? '');
-    if (error) return new Response('Unauthorized', { status: 401 });
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
 
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
 
     const url = new URL(req.url);
     const limit = Math.min(parseInt(url.searchParams.get('limit') ?? '50'), 200);

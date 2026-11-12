@@ -4,17 +4,19 @@ import { Button } from "@/components/ui/button";
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Spinner } from "@/components/ui/spinner";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import { AdminInfo, Profile } from "@/types/db";
 import { InfoIcon } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useUser } from "@clerk/nextjs";
 
 export default function Settings({data, className}: {data?: AdminInfo, className?: string}) {
     const form = useForm();
     const passwdForm = useForm();
-    const supabase = createUserClient()
+    const supabase = useSupabaseClient();
+    const { user } = useUser();
     const [ passwordOverlay, setPasswordOverlay ] = useState<boolean>(false);
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ error, setError ] = useState<string | null>(null);
@@ -49,29 +51,19 @@ export default function Settings({data, className}: {data?: AdminInfo, className
         setLoading(false);  
     }
     const passwordSubmitHandler = async (values: any) => {
-        console.log(values);
         setLoading(true);
-        const { data: check , error: checkError } = await supabase.auth.signInWithPassword({
-            email: data?.email!,
-            password: values.current_password
-        });
-        if (checkError || !check.user) {
-            console.error("Current password is incorrect:", checkError);
-            setError("Current password is incorrect");
-            setLoading(false);
-            return;
-        }
-        const { data: result, error } = await supabase.auth.updateUser({
-            password: values.new_password
-        });
-        if (error) {
-            console.error("Error updating password:", error);
-            setError("Error updating password");
-            console.log("Password updated successfully:", result);
+        setError(null);
+        try {
+            await user?.updatePassword({
+                currentPassword: values.current_password,
+                newPassword: values.new_password,
+            });
             setPasswordOverlay(false);
+        } catch (err: any) {
+            console.error("Error updating password:", err);
+            setError(err?.errors?.[0]?.longMessage || err?.errors?.[0]?.message || "Error updating password");
         }
         setLoading(false);
-
     }
     return (
         <div className={` border-box relative w-full h-full flex flex-grow items-center justify-start gap-4 py-2 ${className}`}>

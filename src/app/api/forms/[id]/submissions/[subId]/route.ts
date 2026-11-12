@@ -1,27 +1,19 @@
 import { NextRequest } from 'next/server';
-import { createClient } from '@supabase/supabase-js';
-import validateToken from '@/lib/supabase/validate';
+import { auth } from '@clerk/nextjs/server';
+import { createClerkBridgedServerClient } from '@/lib/supabase/server';
 import { sendPromotedEmail, sendCancelledEmail } from '@/lib/brevo';
-
-function adminClient() {
-    return createClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.SUPABASE_ADMIN_KEY!,
-        { auth: { autoRefreshToken: false, persistSession: false } }
-    );
-}
 
 export async function PATCH(
     req: NextRequest,
     { params }: { params: Promise<{ id: string; subId: string }> }
 ) {
     const { id, subId } = await params;
-    const { access_token, status } = await req.json();
+    const { userId } = await auth();
+    if (!userId) return new Response('Unauthorized', { status: 401 });
 
-    const { error } = await validateToken(access_token);
-    if (error) return new Response('Unauthorized', { status: 401 });
+    const { status } = await req.json();
 
-    const supabase = adminClient();
+    const supabase = await createClerkBridgedServerClient();
 
     // Load current submission + form title for email, verifying it belongs to this form
     const { data: current } = await supabase

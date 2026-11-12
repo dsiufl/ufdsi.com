@@ -9,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { EventForm, FormSubmission, FormStatus } from '@/types/db';
-import { createUserClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import {
     Dialog,
@@ -35,7 +34,6 @@ const statusConfig: Record<FormStatus, { label: string; className: string }> = {
 export default function FormDetail({ form: initial }: { form: EventForm }) {
     const [form, setForm] = useState<EventForm>(initial);
     const [submissions, setSubmissions] = useState<FormSubmission[] | null>(null);
-    const [token, setToken] = useState<string | undefined>();
     const [loadingSubmissions, setLoadingSubmissions] = useState(false);
     const [tab, setTab] = useState('overview');
     const [showSaveTemplate, setShowSaveTemplate] = useState(false);
@@ -46,23 +44,14 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
     const router = useRouter();
 
     useEffect(() => {
-        const supabase = createUserClient();
-        supabase.auth.getSession().then(res => {
-            if (res.data.session) setToken(res.data.session.access_token);
-        });
-    }, []);
-
-    useEffect(() => {
-        if (submissions === null && token) {
+        if (submissions === null) {
             setLoadingSubmissions(true);
-            fetch(`/api/forms/${form.id}/submissions`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
+            fetch(`/api/forms/${form.id}/submissions`)
                 .then(r => r.json())
                 .then(res => setSubmissions(res.data ?? res))
                 .finally(() => setLoadingSubmissions(false));
         }
-    }, [token, form.id, submissions]);
+    }, [form.id, submissions]);
 
     const stats = {
         confirmed: submissions?.filter(s => s.status === 'confirmed').length ?? 0,
@@ -205,12 +194,11 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                                     form.status === 'closed' && 'border-green-200 text-green-700 hover:bg-green-50'
                                 )}
                                 onClick={async () => {
-                                    if (!token) return;
                                     const newStatus = form.status === 'open' ? 'closed' : 'open';
                                     const res = await fetch(`/api/forms/${form.id}`, {
                                         method: 'PATCH',
                                         headers: { 'Content-Type': 'application/json' },
-                                        body: JSON.stringify({ access_token: token, status: newStatus }),
+                                        body: JSON.stringify({ status: newStatus }),
                                     });
                                     if (res.ok) {
                                         const updated = await res.json();
@@ -233,7 +221,6 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                         formFields={form.fields}
                         submissions={submissions ?? []}
                         loading={loadingSubmissions}
-                        token={token}
                         onUpdate={(updated) => {
                             setSubmissions(prev =>
                                 (prev ?? []).map(s => (s.id === updated.id ? updated : s))
@@ -247,7 +234,6 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                 <TabsContent value="settings">
                     <FormSettingsPanel
                         form={form}
-                        token={token}
                         onSave={(updated) => setForm(updated)}
                     />
                 </TabsContent>
@@ -300,14 +286,12 @@ export default function FormDetail({ form: initial }: { form: EventForm }) {
                             className="bg-[#FF5722] hover:bg-[#F4511E] text-white"
                             disabled={savingTemplate || !templateName.trim()}
                             onClick={async () => {
-                                if (!token) return;
                                 setSavingTemplate(true);
                                 try {
                                     const res = await fetch('/api/templates', {
                                         method: 'POST',
                                         headers: { 'Content-Type': 'application/json' },
                                         body: JSON.stringify({
-                                            access_token: token,
                                             name: templateName.trim(),
                                             description: templateDesc.trim() || null,
                                             category: templateCategory,

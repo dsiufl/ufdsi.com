@@ -21,7 +21,6 @@ import {
     DialogFooter,
 } from '@/components/ui/dialog';
 import { EventForm, FormStatus } from '@/types/db';
-import { createUserClient } from '@/lib/supabase/client';
 
 const statusConfig: Record<FormStatus, { label: string; className: string }> = {
     draft: { label: 'Draft', className: 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300' },
@@ -49,14 +48,10 @@ export default function FormsManager({ forms: initial, counts }: { forms: EventF
     async function handleDelete() {
         if (!deleteTarget) return;
         setDeleting(true);
-        const supabase = createUserClient();
-        const { data: { session } } = await supabase.auth.getSession();
-        if (!session) { setDeleting(false); return; }
 
         const res = await fetch(`/api/forms/${deleteTarget.id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ access_token: session.access_token }),
         });
 
         if (res.ok) {

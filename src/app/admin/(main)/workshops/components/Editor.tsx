@@ -8,7 +8,7 @@ import { EllipsisIcon, PlusIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Overlay from "@/components/Overlay/Overlay";
 import EditWorkshop from "./EditWorkshop";
-import { createUserClient } from "@/lib/supabase/client";
+import { useSupabaseClient } from "@/lib/supabase/client";
 import { Spinner } from "@/components/ui/spinner";
 
 export default function Editor({workshops}: {workshops: Workshop[]}) {
@@ -17,7 +17,7 @@ export default function Editor({workshops}: {workshops: Workshop[]}) {
     const [newWorkshop, setNewWorkshop] = useState<boolean>(false);
     const [editWorkshop, setEditWorkshop] = useState<Workshop | undefined>(undefined);
     const [deleteWorkshop, setDeleteWorkshop] = useState<Workshop | undefined>(undefined);
-    const supabase = createUserClient();
+    const supabase = useSupabaseClient();
     const NewWorkshopOverlay = () => {
         return (
             <Overlay close={() => setNewWorkshop(false)} title="Add New Workshop">

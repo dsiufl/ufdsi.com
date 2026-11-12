@@ -13,11 +13,9 @@ import { EventForm } from '@/types/db';
 
 export default function FormSettingsPanel({
     form,
-    token,
     onSave,
 }: {
     form: EventForm;
-    token: string | undefined;
     onSave: (updated: EventForm) => void;
 }) {
     const router = useRouter();
@@ -52,7 +50,6 @@ export default function FormSettingsPanel({
     }, [isDirty]);
 
     async function handleSave() {
-        if (!token) return;
         setSaving(true);
         setError(null);
         setSaved(false);
@@ -61,7 +58,6 @@ export default function FormSettingsPanel({
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                access_token: token,
                 title,
                 description: description || null,
                 slug,
@@ -87,11 +83,9 @@ export default function FormSettingsPanel({
     }
 
     async function handleDelete() {
-        if (!token || !confirm('Are you sure you want to delete this form? This cannot be undone.')) return;
+        if (!confirm('Are you sure you want to delete this form? This cannot be undone.')) return;
         const res = await fetch(`/api/forms/${form.id}`, {
             method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ access_token: token }),
         });
         if (res.ok) {
             router.push('/admin/forms');

@@ -7,22 +7,21 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { createUserClient } from "@/lib/supabase/client";
+import { useClerk } from "@clerk/nextjs";
 import { Ellipsis } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 /** Compact account actions for the sidebar footer (profile is in the top bar). */
 export default function AuthFooter() {
-  const supabase = createUserClient();
-  const [loading, setLoading] = useState(false);
+  const { signOut } = useClerk();
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const handleSignOut = async () => {
     setLoading(true);
-    await supabase.auth.signOut();
+    await signOut({ redirectUrl: "/admin/login" });
     setLoading(false);
-    router.push("/admin/login");
   };
 
   return (

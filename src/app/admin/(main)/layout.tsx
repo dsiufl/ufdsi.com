@@ -1,24 +1,25 @@
 import type { ReactNode } from "react";
 import { AdminShell, type AdminNavItem } from "./components/AdminShell";
 import { redirect } from "next/navigation";
-import { createClient } from "@/lib/supabase/server";
-import { cookies } from "next/headers";
+import { createClerkBridgedServerClient } from "@/lib/supabase/server";
+import { auth } from "@clerk/nextjs/server";
 import { AdminInfo } from "@/types/db";
 
+// Every page under this layout needs a live Clerk session + DB lookup --
+// never statically prerender it at build time.
+export const dynamic = "force-dynamic";
+
 export default async function Layout({ children }: { children: ReactNode }) {
-  const cookieStore = await cookies();
-  const supabase = await createClient(cookieStore);
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-  if (!user) {
+  const { userId } = await auth();
+  if (!userId) {
     redirect("/admin/login");
   }
+  const supabase = await createClerkBridgedServerClient();
   const req: { data: AdminInfo | null } = await supabase
     .schema("admin")
     .from("people")
     .select()
-    .eq("id", user?.id)
+    .eq("id", userId)
     .single();
   const data = req.data;
   const actions = await supabase

@@ -22,6 +22,7 @@ export default async function SuccessPage({
         .single();
 
     const isWaitlist = status === 'waitlist';
+    const isDuplicate = status === 'duplicate';
     const position = pos ? parseInt(pos) : null;
 
     const formatDate = (dateString?: string | null) => {
@@ -54,10 +55,14 @@ export default async function SuccessPage({
                             </div>
                         </div>
                         <h1 className="text-3xl font-semibold text-gray-900">
-                            {isWaitlist ? "You're on the Waitlist" : 'Registration Confirmed'}
+                            {isDuplicate
+                                ? "You're Already Registered"
+                                : isWaitlist ? "You're on the Waitlist" : 'Registration Confirmed'}
                         </h1>
                         <p className="mt-3 text-lg text-gray-500">
-                            {isWaitlist
+                            {isDuplicate
+                                ? 'We already have a submission from this email, so there is nothing else to do. Check your inbox for your original confirmation.'
+                                : isWaitlist
                                 ? `You are currently #${position ?? '—'} on the waitlist. We'll notify you if a spot opens up.`
                                 : 'Your registration has been successfully submitted'}
                         </p>
