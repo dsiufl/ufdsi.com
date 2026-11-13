@@ -6,6 +6,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { useContext } from "react";
 import Editor from "./components/Editor";
+import { canPublishNews } from "@/lib/news";
 
 
 export default async function Page({
@@ -15,6 +16,9 @@ export default async function Page({
 }) {
     const supabaseCtx = await createClient(await cookies());
     const { id } = await params;
+    const { data: { user } } = await supabaseCtx.auth.getUser();
+    const { data: profile } = await supabaseCtx.schema("admin").from("people").select("role").eq("id", user?.id).single();
+    const canPublish = canPublishNews(profile?.role);
     let article = {} as Article;
     
     if (id !== "new") {
@@ -30,7 +34,7 @@ export default async function Page({
     return (
         <div className="pt-[10%] flex flex-col items-center">
             
-            <Editor article={article} />
+            <Editor article={article} canPublish={canPublish} />
         </div>
     )
         

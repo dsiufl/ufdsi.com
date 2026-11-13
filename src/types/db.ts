@@ -34,7 +34,9 @@ export interface Article {
     summary: string;
     category: string;
     cover: string;
-    featured: boolean
+    featured: boolean;
+    status?: 'draft' | 'published';
+    author?: string | null;
 }
 
 export interface Workshop {
