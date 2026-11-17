@@ -13,10 +13,15 @@
  * 4. Triggers (clock icon) → Add Trigger: onFormSubmit, From form, On form submit.
  *    Approve the permissions prompt.
  * 5. Submit a test response, then check Executions for errors and /admin for the draft.
+ *    A rejected submission fails the run, and Google emails the trigger's owner.
  *
  * The form needs a question named "Type" (Workshop or News) unless DEFAULT_TYPE is set.
  * Turn on Settings → Responses → Collect email addresses to fill in who submitted it.
  * Question titles are matched case-insensitively against FIELDS below; anything else is ignored.
+ * News "Category" choices must be Article, Competition or Workshop article.
+ * Workshops need a time: use one "Date and time" question, or a "Date" and a "Time" question.
+ * Turn on "Allow response editing" if you like: an edited response updates its draft until
+ * it's published.
  */
 
 var DEFAULT_URL = "https://ufdsi.com/api/webhooks/submissions";
@@ -31,6 +36,8 @@ var FIELDS = {
     "speaker(s)": "speaker",
     "date and time": "datetime",
     "date & time": "datetime",
+    "date": "date",
+    "time": "time",
     "description": "description",
     "link": "link",
     "notebook, slides or recording link": "link",
@@ -62,6 +69,11 @@ function onFormSubmit(e) {
   Object.keys(answers).forEach(function (title) {
     if (map[title]) fields[map[title]] = answers[title];
   });
+  // Date and Time questions answer "2026-11-05" and "18:00"; a Date and time question
+  // answers "2026-11-05 18:00", which the site reads as Eastern time.
+  if (!fields.datetime && fields.date && fields.time) fields.datetime = fields.date + " " + fields.time;
+  delete fields.date;
+  delete fields.time;
 
   var res = UrlFetchApp.fetch(props.getProperty("WEBHOOK_URL") || DEFAULT_URL, {
     method: "post",
@@ -76,8 +88,9 @@ function onFormSubmit(e) {
     muteHttpExceptions: true,
   });
 
+  // Throwing marks the run Failed in Executions and gets the owner a failure email.
   var code = res.getResponseCode();
   if (code < 200 || code >= 300) {
-    console.error("Webhook returned " + code + ": " + res.getContentText());
+    throw new Error("Webhook returned " + code + ": " + res.getContentText());
   }
 }
