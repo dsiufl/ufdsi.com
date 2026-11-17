@@ -26,7 +26,7 @@ export type WorkshopCard = {
   link: string | null;
 };
 
-type Stats = { upcoming: number; drafts: number; openForms: number; thisWeek: number };
+type Stats = { upcoming: number; drafts: number; draftsHref: string; openForms: number; thisWeek: number };
 type Point = { at: string; table: string };
 
 const TZ = "America/New_York";
@@ -265,7 +265,7 @@ export function DashboardView({
 
       <div className="admin-stats -mt-7">
         <Stat value={stats.upcoming} label="Upcoming workshops" href="/admin/workshops" />
-        <Stat value={stats.drafts} label={stats.drafts === 1 ? "Draft to review" : "Drafts to review"} href="/admin/news?status=draft" />
+        <Stat value={stats.drafts} label={stats.drafts === 1 ? "Draft to review" : "Drafts to review"} href={stats.draftsHref} />
         <Stat value={stats.openForms} label={stats.openForms === 1 ? "Open form" : "Open forms"} href="/admin/forms" />
         <Stat value={stats.thisWeek} label="Changes this week" href="#activity" />
       </div>
