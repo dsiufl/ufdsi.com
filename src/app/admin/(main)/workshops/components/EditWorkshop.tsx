@@ -15,7 +15,7 @@ const toLocalInput = (value: Date | string) => {
     return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
 
-export default function EditWorkshop({workshop, submit, canPublish}: {workshop?: Workshop, submit: (workshop: Workshop) => Promise<void>, canPublish: boolean}) {
+export default function EditWorkshop({workshop, submit, canPublish, submittedBy}: {workshop?: Workshop, submit: (workshop: Workshop) => Promise<void>, canPublish: boolean, submittedBy?: string}) {
     const form = useForm<Workshop>({
         defaultValues: workshop
     });
@@ -192,8 +192,8 @@ export default function EditWorkshop({workshop, submit, canPublish}: {workshop?:
                 ) : (
                     <p className="text-sm text-muted-foreground">Saved as a draft until a President, Technology or Workshop Coordinator publishes it.</p>
                 )}
-                {workshop.submitted_by_email && (
-                    <p className="text-xs text-muted-foreground">Sent in through the Google Form by {workshop.submitted_by_email}.</p>
+                {submittedBy !== undefined && (
+                    <p className="text-xs text-muted-foreground">Sent in through the Google Form{submittedBy && ` by ${submittedBy}`}.</p>
                 )}
                 <Field aria-invalid={form.formState.isSubmitting} className="aria-[invalid=true]:text-red-500">
                     <Button type="submit" className="w-full" disabled={loading}>{loading ? <Spinner /> : "Save workshop"}</Button>

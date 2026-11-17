@@ -29,11 +29,13 @@ export default function Editor({
   canPublish,
   userId,
   names,
+  senders,
 }: {
   workshops: Workshop[];
   canPublish: boolean;
   userId?: string;
   names: Record<string, string>;
+  senders: Record<string, string>;
 }) {
   const [list, setList] = useState<Workshop[]>(workshops);
   const params = useSearchParams();
@@ -54,10 +56,12 @@ export default function Editor({
 
   const openAdd = useCallback(() => setAdding(true), []);
   const isDraft = (w: Workshop) => w.status === "draft";
+  // the next one people can actually see; drafts don't count
+  const nextUp = upcoming.find((w) => !isDraft(w))?.id;
   const editable = (w: Workshop) => canPublish || (isDraft(w) && w.author === userId);
   // form submissions have no author, just the email they came from
   const byline = (w: Workshop) =>
-    w.author && names[w.author] ? `By ${names[w.author]}` : w.submitted_by_email ? `From the form · ${w.submitted_by_email}` : undefined;
+    w.author && names[w.author] ? `By ${names[w.author]}` : w.id in senders ? `From the form${senders[w.id] ? ` · ${senders[w.id]}` : ""}` : undefined;
   const withStatus = (data: Workshop): Workshop => ({ ...data, status: canPublish ? data.status ?? "published" : "draft" });
 
   const uploadCover = async (data: Workshop) => {
@@ -144,7 +148,7 @@ export default function Editor({
       )}
       {editing && (
         <Overlay close={() => setEditing(undefined)} title="Edit workshop">
-          <EditWorkshop workshop={editing} submit={update} canPublish={canPublish} />
+          <EditWorkshop workshop={editing} submit={update} canPublish={canPublish} submittedBy={senders[editing.id]} />
         </Overlay>
       )}
       <ConfirmDialog
@@ -161,14 +165,14 @@ export default function Editor({
           <Empty title="Nothing scheduled">Add the next workshop so it shows on the site.</Empty>
         ) : (
           <ul className="px-2 pb-2">
-            {upcoming.map((w, i) => (
+            {upcoming.map((w) => (
               <li key={w.id} className="flex items-center gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-muted/50">
-                <span className={`admin-date${i === 0 ? " is-next" : ""}`}>
+                <span className={`admin-date${w.id === nextUp ? " is-next" : ""}`}>
                   <span>{part(w.datetime, { month: "short" })}</span>
                   <strong>{part(w.datetime, { day: "numeric" })}</strong>
                 </span>
                 <button className="min-w-0 flex-1 text-left" onClick={() => editable(w) && setEditing(w)}>
-                  {i === 0 && <span className="mb-0.5 block text-xs font-medium text-[var(--a-signal)]">Next up</span>}
+                  {w.id === nextUp && <span className="mb-0.5 block text-xs font-medium text-[var(--a-signal)]">Next up</span>}
                   <span className="block truncate font-medium text-foreground">{w.title}</span>
                   <span className="mt-0.5 block truncate text-sm text-muted-foreground">
                     {part(w.datetime, { weekday: "long", hour: "numeric", minute: "2-digit" })} · {w.location || "Location TBA"} · {w.speaker}

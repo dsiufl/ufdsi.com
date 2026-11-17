@@ -20,6 +20,7 @@ export default async function Page({
     const { data: profile } = await supabaseCtx.schema("admin").from("people").select("role").eq("id", user?.id).single();
     const canPublish = canPublishNews(profile?.role);
     let article = {} as Article;
+    let submittedBy: string | undefined;
     
     if (id !== "new") {
         const {data, error} = await supabaseCtx.from("news").select().eq("id", id).single();
@@ -30,9 +31,12 @@ export default async function Page({
             } else return <div className="admin-page"><p className="text-muted-foreground">Couldn&apos;t load that article.</p></div>;
         }
         article = data;
+        // set when the article came in through the Google Form
+        const { data: source } = await supabaseCtx.schema("admin").from("draft_submissions").select("submitted_by_email").eq("news_id", id).maybeSingle();
+        if (source) submittedBy = source.submitted_by_email ?? "";
     }
     return (
-        <Editor article={article} canPublish={canPublish} />
+        <Editor article={article} canPublish={canPublish} submittedBy={submittedBy} />
     )
         
 

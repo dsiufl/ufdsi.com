@@ -37,8 +37,6 @@ export interface Article {
     featured: boolean;
     status?: 'draft' | 'published';
     author?: string | null;
-    source_response_id?: string | null;
-    submitted_by_email?: string | null;
 }
 
 export interface Workshop {
@@ -53,8 +51,6 @@ export interface Workshop {
   description?: string;
   status?: 'draft' | 'published';
   author?: string | null;
-  source_response_id?: string | null;
-  submitted_by_email?: string | null;
 }
 
 export interface Speaker {
@@ -109,6 +105,17 @@ export interface Activity {
     people: AdminInfo | null;
     old_data: object | null;
     new_data: object | null;
+}
+
+// admin.draft_submissions: which Google Form response a news or workshop draft came from.
+export interface DraftSubmission {
+    id: string;
+    created_at: string;
+    table_name: 'news' | 'workshops';
+    news_id: string | null;
+    workshop_id: string | null;
+    source_response_id: string;
+    submitted_by_email: string | null;
 }
 
 export interface Project {

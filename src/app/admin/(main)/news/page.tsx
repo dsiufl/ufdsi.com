@@ -22,12 +22,14 @@ export default async function page({ searchParams }: { searchParams: Promise<{ s
   const { data: profile } = await supabase.schema("admin").from("people").select("role").eq("id", user?.id).single();
   const canPublish = canPublishNews(profile?.role);
 
-  const [{ data: news }, { data: people }] = await Promise.all([
+  const [{ data: news }, { data: people }, { data: sources }] = await Promise.all([
     supabase.from("news").select("*").order("created_at", { ascending: false }),
     supabase.schema("admin").from("people").select("id, first_name, last_name"),
+    supabase.schema("admin").from("draft_submissions").select("news_id, submitted_by_email").not("news_id", "is", null),
   ]);
   const all = (news ?? []) as Article[];
   const names = new Map((people ?? []).map((p) => [p.id, `${p.first_name} ${p.last_name}`]));
+  const senders = new Map((sources ?? []).map((s) => [s.news_id, s.submitted_by_email]));
   const isDraft = (a: Article) => a.status === "draft";
   const shown = all.filter((a) => status === "all" || (status === "draft" ? isDraft(a) : !isDraft(a)));
   const drafts = all.filter(isDraft).length;
@@ -89,7 +91,7 @@ export default async function page({ searchParams }: { searchParams: Promise<{ s
                   const editable = canPublish || (isDraft(item) && item.author === user?.id);
                   const author = item.author ? names.get(item.author) : undefined;
                   // form submissions have no author, just the email they came from
-                  const byline = author ? `By ${author}` : item.submitted_by_email ? `From the form · ${item.submitted_by_email}` : undefined;
+                  const byline = author ? `By ${author}` : senders.has(item.id) ? `From the form${senders.get(item.id) ? ` · ${senders.get(item.id)}` : ""}` : undefined;
                   return (
                     <tr key={item.id}>
                       <td className="max-w-[28rem]">
