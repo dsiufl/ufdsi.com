@@ -27,7 +27,7 @@ const toDateInput = (d: Date) => {
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 };
 
-export default function Editor({ article, canPublish }: { article: Article; canPublish: boolean }) {
+export default function Editor({ article, canPublish, submittedBy }: { article: Article; canPublish: boolean; submittedBy?: string }) {
   const initial = useMemo(
     () => ({
       title: article.title || "",
@@ -150,6 +150,9 @@ export default function Editor({ article, canPublish }: { article: Article; canP
                 </label>
               ) : (
                 <p className="text-sm text-muted-foreground">Saved as a draft until a President, Technology or Marketing Coordinator publishes it.</p>
+              )}
+              {submittedBy !== undefined && (
+                <p className="text-xs text-muted-foreground">Sent in through the Google Form{submittedBy && ` by ${submittedBy}`}.</p>
               )}
               <div className="flex flex-col gap-2">
                 <Label>Category</Label>

@@ -96,15 +96,17 @@ export default async function Page() {
 
   const now = new Date();
   const since = new Date(now.getTime() - 8 * 7 * 86400000).toISOString();
-  const [{ data: workshops }, { count: upcoming }, { count: drafts }, { count: openForms }, { data: history }] = await Promise.all([
+  const [{ data: workshops }, { count: upcoming }, { count: drafts }, { count: workshopDrafts }, { count: openForms }, { data: history }] = await Promise.all([
     supabase
       .from("workshops")
       .select("*")
+      .eq("status", "published")
       .gte("datetime", new Date(now.getTime() - 3 * 3600 * 1000).toISOString())
       .order("datetime", { ascending: true })
       .limit(5),
-    supabase.from("workshops").select("id", { count: "exact", head: true }).gte("datetime", now.toISOString()),
+    supabase.from("workshops").select("id", { count: "exact", head: true }).eq("status", "published").gte("datetime", now.toISOString()),
     supabase.from("news").select("id", { count: "exact", head: true }).eq("status", "draft"),
+    supabase.from("workshops").select("id", { count: "exact", head: true }).eq("status", "draft"),
     supabase.from("forms").select("id", { count: "exact", head: true }).eq("status", "open"),
     supabase
       .schema("admin")
@@ -158,7 +160,9 @@ export default async function Page() {
       workshops={workshopCards}
       stats={{
         upcoming: upcoming ?? workshopCards.length,
-        drafts: drafts ?? 0,
+        drafts: (drafts ?? 0) + (workshopDrafts ?? 0),
+        // news has a drafts tab; when only workshops are waiting, go there instead
+        draftsHref: !drafts && workshopDrafts ? "/admin/workshops" : "/admin/news?status=draft",
         openForms: openForms ?? 0,
         thisWeek: rows.filter((r) => new Date(r.created_at).getTime() > weekAgo).length,
       }}

@@ -60,6 +60,7 @@ export default async function WorkshopsPage() {
   const { data, error } = await supabase
     .from("workshops")
     .select("*")
+    .eq("status", "published")
     .order("datetime", { ascending: false });
   if (error) throw new Error(`Workshops: ${error.message}`);
   const workshops = (data ?? []) as Workshop[];

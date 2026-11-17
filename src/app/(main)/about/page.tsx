@@ -45,6 +45,7 @@ const AboutPage = async () => {
     .from('news')
     .select('*')
     .eq('featured', true)
+    .eq('status', 'published')
     .order('created_at', { ascending: false });
   const featuredArticles: Article[] = data ?? [];
 

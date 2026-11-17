@@ -24,7 +24,19 @@ const TZ = "America/New_York";
 const part = (d: Date | string, o: Intl.DateTimeFormatOptions) =>
   new Date(d).toLocaleString("en-US", { timeZone: TZ, ...o });
 
-export default function Editor({ workshops }: { workshops: Workshop[] }) {
+export default function Editor({
+  workshops,
+  canPublish,
+  userId,
+  names,
+  senders,
+}: {
+  workshops: Workshop[];
+  canPublish: boolean;
+  userId?: string;
+  names: Record<string, string>;
+  senders: Record<string, string>;
+}) {
   const [list, setList] = useState<Workshop[]>(workshops);
   const params = useSearchParams();
   const [adding, setAdding] = useState(params.get("new") === "1");
@@ -43,6 +55,14 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
   }, [list]);
 
   const openAdd = useCallback(() => setAdding(true), []);
+  const isDraft = (w: Workshop) => w.status === "draft";
+  // the next one people can actually see; drafts don't count
+  const nextUp = upcoming.find((w) => !isDraft(w))?.id;
+  const editable = (w: Workshop) => canPublish || (isDraft(w) && w.author === userId);
+  // form submissions have no author, just the email they came from
+  const byline = (w: Workshop) =>
+    w.author && names[w.author] ? `By ${names[w.author]}` : w.id in senders ? `From the form${senders[w.id] ? ` · ${senders[w.id]}` : ""}` : undefined;
+  const withStatus = (data: Workshop): Workshop => ({ ...data, status: canPublish ? data.status ?? "published" : "draft" });
 
   const uploadCover = async (data: Workshop) => {
     if (!data.cover?.includes("blob")) return true;
@@ -59,17 +79,18 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
 
   const create = async (data: Workshop) => {
     if (!(await uploadCover(data))) return;
-    const { data: row, error } = await supabase.from("workshops").insert(data).select().single();
+    const { data: row, error } = await supabase.from("workshops").insert(withStatus(data)).select().single();
     if (error) return alert?.setAlert("error", `Couldn't add the workshop: ${error.message}`);
-    setList((l) => [...l, row ?? data]);
+    setList((l) => [...l, row ?? withStatus(data)]);
     setAdding(false);
   };
 
   const update = async (data: Workshop) => {
     if (!(await uploadCover(data))) return;
-    const { error } = await supabase.from("workshops").update(data).eq("id", data.id);
+    const row = withStatus(data);
+    const { error } = await supabase.from("workshops").update(row).eq("id", row.id);
     if (error) return alert?.setAlert("error", `Couldn't save the workshop: ${error.message}`);
-    setList((l) => l.map((w) => (w.id === data.id ? data : w)));
+    setList((l) => l.map((w) => (w.id === row.id ? row : w)));
     setEditing(undefined);
   };
 
@@ -81,7 +102,7 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
     setDeleting(undefined);
   };
 
-  const Menu = ({ w }: { w: Workshop }) => (
+  const Menu = ({ w }: { w: Workshop }) => !editable(w) ? null : (
     <DropdownMenu modal={false}>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="admin-row-actions h-8 w-8 text-muted-foreground" aria-label={`Options for ${w.title}`}>
@@ -110,7 +131,11 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
       <PageHeader
         label="Content"
         title="Workshops"
-        description="Everything here shows on the public workshops page and the dashboard. Add the notebook link once it's posted."
+        description={
+          canPublish
+            ? "Published workshops show on the public workshops page and the dashboard. Drafts from members and the Google Form wait here until you publish them."
+            : "Your workshops are saved as drafts until a President, Technology or Workshop Coordinator publishes them."
+        }
         actions={
           <CreateButton label="Add workshop" onClick={openAdd} />
         }
@@ -118,12 +143,12 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
 
       {adding && (
         <Overlay close={() => setAdding(false)} title="Add workshop">
-          <EditWorkshop submit={create} />
+          <EditWorkshop submit={create} canPublish={canPublish} />
         </Overlay>
       )}
       {editing && (
         <Overlay close={() => setEditing(undefined)} title="Edit workshop">
-          <EditWorkshop workshop={editing} submit={update} />
+          <EditWorkshop workshop={editing} submit={update} canPublish={canPublish} submittedBy={senders[editing.id]} />
         </Overlay>
       )}
       <ConfirmDialog
@@ -140,21 +165,22 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
           <Empty title="Nothing scheduled">Add the next workshop so it shows on the site.</Empty>
         ) : (
           <ul className="px-2 pb-2">
-            {upcoming.map((w, i) => (
+            {upcoming.map((w) => (
               <li key={w.id} className="flex items-center gap-4 rounded-lg px-3 py-3 transition-colors hover:bg-muted/50">
-                <span className={`admin-date${i === 0 ? " is-next" : ""}`}>
+                <span className={`admin-date${w.id === nextUp ? " is-next" : ""}`}>
                   <span>{part(w.datetime, { month: "short" })}</span>
                   <strong>{part(w.datetime, { day: "numeric" })}</strong>
                 </span>
-                <button className="min-w-0 flex-1 text-left" onClick={() => setEditing(w)}>
-                  {i === 0 && <span className="mb-0.5 block text-xs font-medium text-[var(--a-signal)]">Next up</span>}
+                <button className="min-w-0 flex-1 text-left" onClick={() => editable(w) && setEditing(w)}>
+                  {w.id === nextUp && <span className="mb-0.5 block text-xs font-medium text-[var(--a-signal)]">Next up</span>}
                   <span className="block truncate font-medium text-foreground">{w.title}</span>
                   <span className="mt-0.5 block truncate text-sm text-muted-foreground">
                     {part(w.datetime, { weekday: "long", hour: "numeric", minute: "2-digit" })} · {w.location || "Location TBA"} · {w.speaker}
                   </span>
+                  {byline(w) && <span className="mt-0.5 block truncate text-xs text-muted-foreground">{byline(w)}</span>}
                 </button>
                 <span className="hidden sm:block">
-                  {w.link ? <span className="admin-pill admin-pill--ok">Link posted</span> : <span className="admin-pill">No link yet</span>}
+                  {isDraft(w) ? <span className="admin-pill admin-pill--warn">Draft</span> : w.link ? <span className="admin-pill admin-pill--ok">Link posted</span> : <span className="admin-pill">No link yet</span>}
                 </span>
                 <Menu w={w} />
               </li>
@@ -175,6 +201,7 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
                   <th>Date</th>
                   <th>Location</th>
                   <th>Link</th>
+                  <th>Status</th>
                   <th aria-label="Actions" />
                 </tr>
               </thead>
@@ -182,10 +209,17 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
                 {past.map((w) => (
                   <tr key={w.id}>
                     <td className="max-w-[26rem]">
-                      <button className="admin-table__title text-left hover:underline" onClick={() => setEditing(w)}>
-                        {w.title}
-                      </button>
-                      <p className="admin-table__sub">{w.speaker}</p>
+                      {editable(w) ? (
+                        <button className="admin-table__title text-left hover:underline" onClick={() => setEditing(w)}>
+                          {w.title}
+                        </button>
+                      ) : (
+                        <span className="admin-table__title">{w.title}</span>
+                      )}
+                      <p className="admin-table__sub">
+                        {w.speaker}
+                        {byline(w) && ` · ${byline(w)}`}
+                      </p>
                     </td>
                     <td className="is-num whitespace-nowrap text-muted-foreground">
                       {part(w.datetime, { month: "short", day: "numeric", year: "numeric" })}
@@ -198,6 +232,13 @@ export default function Editor({ workshops }: { workshops: Workshop[] }) {
                         </a>
                       ) : (
                         <span className="text-sm text-muted-foreground">Missing</span>
+                      )}
+                    </td>
+                    <td>
+                      {isDraft(w) ? (
+                        <span className="admin-pill admin-pill--warn">Draft</span>
+                      ) : (
+                        <span className="admin-pill admin-pill--ok">Published</span>
                       )}
                     </td>
                     <td className="w-12 text-right">
